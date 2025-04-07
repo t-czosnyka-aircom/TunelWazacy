@@ -1,0 +1,1325 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="fbHPv3_Control" Id="{65ea1d77-0164-46a0-8247-61e0c8a2fc9b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbHPv3_Control IMPLEMENTS I_StationMachine	//Blok funkcyjny obslugujacy kompleksowao jedna maszyne 
+VAR_INPUT
+	bMarkingAsembled			: BOOL:= FALSE;
+	bELM						: BOOL;
+	sRecipesDir					: STRING:= 'C:\Recipes\HPv3\';
+END_VAR
+VAR PERSISTENT
+	stMachSettings				: stHPv3_Settings;
+	stTestData					: stHPv3_TestParams;	
+END_VAR
+VAR_OUTPUT
+	nError						: nHPv3_ErrorList;
+END_VAR
+VAR
+	stInOuts					: stHPv3_InOuts;		// In/out signals
+		
+	// Axis data	------------------------------------------------------------------------------------------------
+	fbAxisUp					: fbHP_Axis;
+	fbAxisDn					: fbHP_Axis;
+	fbHeatedPlate_Actuator		: fbActuatorV2;
+	
+	// Heaters/temperature control ---------------------------------------------------------------------------------
+	fbPlateTempFilter, fbStampTempFilter: FB_FilterEx;
+	rHeatedPlateTemperature_Mean, rHeatStampTemperature_Mean: REAL;
+	bHeatedPlate_HeatON: BOOL := TRUE;
+	fbHP_PID, fbHS_PID: PID;
+	fbHP_HeaterON,fbHS_HeaterON: fbBinaryFilter;		// Sterowanie załączeniem grzania
+	fbHP_TempStable,fbHS_TempStable: fbBinaryFilter;	// Temperature stable
+	fbPWM_HP, fbPWM_HS: fbPwmGenerator;
+	rHPHeaterPower, rHSHeaterPower: REAL;
+	bUpdateHPPidParams, bUpdateHSPidParams: BOOL;
+	iCheckHeaterStep: INT;
+	tHeaterCheckOffset: TIME;
+	fbTON_HeaterCheck: TON;
+	bExecHeaterCheck: BOOL;
+	fbTPFanTimer: TP;
+
+
+	// General variables	----------------------------------------------------------------------------------------
+	I_PimSystem			: I_PIM;
+	fbRecipes			: fbRecipeManager;
+	stTmpRecipeData		: stHPv3_TestParams;
+	bInit: BOOL:= TRUE;
+	fbTimeStats:fbTimeTable255;
+	nLastError: nHPv3_ErrorList;
+	fbRand: DRAND;
+	iWorkStep: INT;
+	bMakeStamp: BOOL;
+	fbTON_HS_MarkingTmr: TON;
+	bManualMode: BOOL;
+	fbTON_StepTimeout: TON;
+	bWorkCover_Riseup: BOOL;
+	fbTON_WorkCoverOpen: TON;
+	fbTON_LedBlink: TON;
+	fbTOF_PartOK: TOF;
+	fbTOF_WorkCoverClosed: TOF;
+	bServiceReset: BOOL;
+	bAxisUp_Error, bAxisDn_Error: BOOL;
+	udiAxisUp_ErrorID, udiAxisDn_ErrorID: UDINT;
+	udiAxisUp_McErrorID, udiAxisDn_McErrorID: UDINT;
+	bAxisUp_Busy, bAxisDn_Busy: BOOL;
+	bAxisUp_Homed, bAxisDn_Homed: BOOL;
+	
+	fbAxisRef	: REFERENCE TO fbHP_Axis;
+	iTestManMode: INT;
+	bTest_ChoseDn: BOOL;
+	bTest_Home: BOOL;
+	bTest_AxisReady: BOOL;
+	bTest_IsHomed: BOOL;
+	bTest_Enabled: BOOL;
+	bTest_InError: BOOL;
+	bTest_IsMoving: BOOL;
+	bTest_IsSafeToMoveHP: BOOL;
+	bTest_AxisBusy: BOOL;
+	bTest_AxisError: BOOL;
+	udiTest_AxisErrorId: UDINT;
+	THAN: INT;
+	bTest_ChangeState: BOOL;
+	bTest_ResetAxis: BOOL;
+	bTest_EnableAxis: BOOL;
+	bTest_GoToAbs: BOOL;
+	lrTest_TargetPos: LREAL;
+	bTest_GoToPresetPos: BOOL;
+	nTest_SetPos: nHP_Axis_PresetPositions;
+	bTest_ActPresetPos: nHP_Axis_PresetPositions;
+	bTest_ActPosition: LREAL;
+	bTest_ActForce: REAL;
+	bAxisUp_GoToEnded, bAxisDn_GoToEnded: BOOL;
+	bAxisUp_GoToSafeHPM, bAxisDn_GoToSafeHPM: BOOL;		// Move to position safe HP movement ended
+	bMeasureAxisDistance: BOOL;
+	bMeasureHPHeight: BOOL;
+	lrAxisDnContactPos_mm: LREAL;
+	lrMeasuredAxisDistance: LREAL;
+	lrMeasuredHPHeight: LREAL;
+	bHMI_CalibrationSaveResult, bHMI_CloseWithoutSaveResult : BOOL;
+	lrAxisUpContactPos_mm: LREAL;
+	bAxisUp_ResetEnded, bAxisDn_ResetEnded: BOOL;
+	fbTON_OperationTime: TON;
+	bAxisUp_WeldingEnded, bAxisUp_WeldingBusy, bAxisUp_WeldingError, bAxisUp_WaitForOpenHP, bAxisUp_WeldingPartHeatedUp: BOOL;
+	bAxisUp_WeldingMeltPerm, bAxisUp_WeldingConnPerm: BOOL;
+	bAxisDn_WeldingEnded, bAxisDn_WeldingBusy, bAxisDn_WeldingError, bAxisDn_WaitForOpenHP, bAxisDn_WeldingPartHeatedUp: BOOL;
+	bAxisDn_WeldingMeltPerm, bAxisDn_WeldingConnPerm: BOOL;
+	rAxisUp_AdjTime_ms, rAxisDn_AdjTime_ms : REAL;
+	
+	rDelayAdjAxisUp, rDelayAdjAxisDn: REAL;
+	fbTON_WorkStepTimeout: TON;
+	bAxisPartCalibtarion: BOOL;
+	rCycleTime_s: REAL;
+	lrOutPartSize: LREAL;
+	iMachineNumber: INT;
+	iHMI_ActFrame:INT:= 0;
+	iHMI_StepName: INT;
+	bHeatersError: BOOL;
+	fbWorkCoverLiftDelay: TON;
+	bResetButtonOld: BOOL;
+	fbTON_STO: TON;
+	iFanCyclesCtr: INT;
+	bWorkCoverOpened: BOOL;
+	bArm_Safety: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[	(* To do
+- Kontrola pozycjonowania osi
+- Alarmy
+ 
+*)
+
+IF bInit THEN
+	bInit := FALSE;
+	fbRand(Seed := TIME_TO_INT(TIME()));
+END_IF
+
+IF iWorkStep < 10	THEN	// Ready for new operation
+	iHMI_StepName:= 10;
+ELSIF iWorkStep >= 90 AND iWorkStep < 95 THEN		// Error
+	iHMI_StepName:= 17;
+ELSIF iWorkStep >= 95 AND iWorkStep < 100 THEN		// Reset in progress
+	iHMI_StepName:= 21;
+ELSIF iWorkStep = 10 THEN		// Ready for new operation
+	iHMI_StepName:= 12;
+ELSIF iWorkStep = 13 THEN		// Manual mode
+	iHMI_StepName:= 11;
+ELSIF iWorkStep >= 15 AND iWorkStep < 30 THEN		// New operation in progress
+	iHMI_StepName:= 32;
+ELSIF iWorkStep >= 30 AND iWorkStep < 35 THEN		// Part marking
+	iHMI_StepName:= 33;
+ELSIF iWorkStep > 40 THEN		// Return to base state
+	iHMI_StepName:= 34;
+ELSIF iWorkStep = 60 THEN		// Wait for calibration templates 
+	iHMI_StepName:= 35;
+ELSIF iWorkStep > 60 AND bMeasureAxisDistance AND iWorkStep < 75 THEN		// Axis distance measure in progress 
+	iHMI_StepName:= 14;
+ELSIF iWorkStep > 60 AND bMeasureHPHeight AND iWorkStep < 75 THEN		// Heated plate height measure in progress 
+	iHMI_StepName:= 15;
+ELSIF iWorkStep >= 59 AND bAxisPartCalibtarion AND iWorkStep < 75 THEN		// Reference weld (part calibration)
+	iHMI_StepName:= 13;
+ELSIF iWorkStep = 75 THEN		// Wait fopr remove settings template and save result
+	iHMI_StepName:= 36
+;
+END_IF
+ 
+A_BackgroundTasks();		// Tasks taking place in background
+A_ErrorsDetection();		// Errors detection
+
+fbAxisUp(
+	stTestParams:= stTestData.stAxisUp_Data, 
+	stSettings:= stMachSettings.stAxisUpSettings, 
+	bEmergencyStop:= stInOuts.bI_Sft_EStopRelay, 
+	bSTO_Signal:= stInOuts.bI_Sft_STO, 
+	rExternalForce_N:= fbAxisDn.ActualForce,
+	lrHeatPlateHeight_mm := stMachSettings.lrHeatedPlateHeight_mm,
+	lrMarkingPos_mm := stMachSettings.lrMarking_Pos_mm,
+	I_TimeTableRef := fbTimeStats,
+	sTTRowPreambule := 'Os gorna- ',
+	bELM_ChB := FALSE);
+ 
+fbAxisDn(
+	stTestParams:= stTestData.stAxisDn_Data, 
+	stSettings:= stMachSettings.stAxisDnSettings, 
+	bEmergencyStop:= stInOuts.bI_Sft_EStopRelay, 
+	bSTO_Signal:= stInOuts.bI_Sft_STO, 
+	rExternalForce_N:= fbAxisUp.ActualForce,
+	lrHeatPlateHeight_mm := stMachSettings.lrHeatedPlateHeight_mm,
+	lrMarkingPos_mm := stMachSettings.lrMarking_Pos_mm,
+	I_TimeTableRef := fbTimeStats,
+	sTTRowPreambule := 'Os dolna- ',
+	bELM_ChB := bELM);	
+
+fbTimeStats.rRowTime := TIME_TO_REAL(fbTON_OperationTime.ET)/1000;	
+//ACT_AxisTest();
+
+
+
+IF stInOuts.bI_EStopPressed_Front AND nError <> nHPv3_ErrorList.EStopPressed_FrontPanel AND iWorkStep < 90 THEN
+	mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.EStopPressed_FrontPanel);
+ELSIF stInOuts.bI_EStopPressed_Rear AND nError <> nHPv3_ErrorList.EStopPressed_RearPanel AND iWorkStep < 90 THEN
+	mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.EStopPressed_RearPanel);
+ELSIF NOT stInOuts.bI_Sft_EStopRelay AND nError <> nHPv3_ErrorList.SafetySystemNotArmed AND iWorkStep < 90 THEN
+	mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.SafetySystemNotArmed);
+END_IF
+
+// Axis error read
+IF (fbAxisUp.mReadError(udiErrorID => udiAxisUp_ErrorID, udiMcErrorID => udiAxisUp_McErrorID) OR fbAxisUp.IsErrorActive ) AND (iWorkStep < 90 OR iWorkStep > 95) THEN
+	mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := udiAxisUp_ErrorID);
+END_IF
+IF (fbAxisDn.mReadError(udiErrorID => udiAxisDn_ErrorID, udiMcErrorID => udiAxisDn_McErrorID) OR fbAxisDn.IsErrorActive) AND (iWorkStep < 90 OR iWorkStep > 95) THEN
+	IF udiAxisDn_ErrorID = nHP_Axis_ErrorList.LoadSellSensorError THEN
+		udiAxisDn_ErrorID := udiAxisDn_ErrorID +1;
+	ELSIF udiAxisDn_ErrorID >= 620 AND udiAxisDn_ErrorID < 650 THEN
+		udiAxisDn_ErrorID := udiAxisDn_ErrorID +30;
+	END_IF
+	mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := udiAxisDn_ErrorID);
+END_IF
+
+
+CASE iWorkStep OF
+	0:	// Inicjalizacja maszyny
+		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._0_Initialization);
+		stInOuts.bQ_HeatedPlateHeater_En := stInOuts.bQ_HeatStampHeater_ON := stInOuts.bQ_Sft_ErrAck := FALSE;
+		stInOuts.bQ_Sft_ManualWork := stInOuts.bQ_VentilationFan_En := stInOuts.bQ_WorkCoverLift := stInOuts.bQ_WorkCoverUnlock := FALSE;  
+		stInOuts.bQ_Sft_ErrAck := stInOuts.bQ_HeatStampPistonOpen:= FALSE;
+		stInOuts.bQ_Sft_Run := TRUE;
+		fbTON_StepTimeout(IN:= FALSE);
+		iHMI_StepName:= 10;
+		iWorkStep := 5;
+	
+	5:	// Określenie stanu napędów	i urządzeń. Jeśli potrzeba reset urządzenia.
+		// Stan podstawowy to otwarta osłona robocza, napędy na pozycjach załadunku,
+		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._0_Standby_NotReady);
+		iHMI_StepName:= 10;
+		IF IsInBaseState THEN						// Drives turned off 
+			IF stInOuts.bI_WorkCoverOpened THEN
+				iWorkStep := 10;
+			ELSE  
+				IF NOT fbAxisUp.Enabled AND NOT fbAxisDn.Enabled THEN
+					IF bWorkCoverOpened THEN
+						iWorkStep := 10;
+					ELSE
+						bWorkCover_Riseup := TRUE;
+					END_IF
+				ELSE
+					fbAxisUp.Enabled := FALSE;
+					fbAxisDn.Enabled := FALSE;
+				END_IF
+			END_IF
+		ELSE		  
+			mNewEvent(nEventClass:= nPIM_EventClasses.Alarm, nEvent := nHPv3_ErrorList.ResetRequiredCloseWorkCover);
+		END_IF
+	
+	10: // Waiting for new operation
+		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._2_ReadyForNewOperation);
+		//IF stInOuts.bI_CleanSwitchON THEN
+		iHMI_StepName:= 12;	
+		IF bManualMode THEN										// Tryb ręczny
+			iWorkStep := 13;
+		ELSIF bMeasureAxisDistance OR bMeasureHPHeight THEN		// Odległość napędów i grubość pyty
+			iWorkStep := 60;	
+		ELSIF stInOuts.bI_Sft_WorkCoverClosed AND_THEN stInOuts.bI_WorkCoverLocked AND NOT bWorkCover_Riseup THEN
+			fbTON_OperationTime(IN:= FALSE);
+			fbTON_WorkStepTimeout(IN:= FALSE);
+			IF NOT fbAxisUp.IsCalibrated OR NOT fbAxisDn.IsCalibrated THEN
+				fbAxisUp.IsCalibrated := FALSE;
+				fbAxisDn.IsCalibrated := FALSE;
+				iWorkStep := 59;
+			ELSIF NOT fbHP_TempStable.Q THEN
+				mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.WaitForHP_TempStabilization);
+			ELSIF I_PimSystem.mSetNewMachineState(nPIM_MachineStates._3_NewOperationStarted) THEN
+				iWorkStep := 15;	
+			ELSE
+				bWorkCover_Riseup := TRUE;			
+			END_IF	
+		END_IF
+		
+			
+	13:	// Manual control
+		iHMI_StepName:= 11;
+		IF bManualMode THEN
+			IF fbAxisUp.ManualMode THEN
+				fbAxisUp.mManualMove(bGoUp := stInOuts.bI_ManCtrl_GoDown_Up, bGoDown := stInOuts.bI_ManCtrl_GoUp_Up, bSlow := stInOuts.bI_ManCtrl_Slow, bFast := stInOuts.bI_ManCtrl_Fast);
+			ELSE
+				fbAxisUp.ManualMode := TRUE;
+			END_IF
+			IF fbAxisDn.ManualMode THEN
+				fbAxisDn.mManualMove(bGoUp := stInOuts.bI_ManCtrl_GoUp_Dn, bGoDown := stInOuts.bI_ManCtrl_GoDown_Dn, bSlow := stInOuts.bI_ManCtrl_Slow, bFast := stInOuts.bI_ManCtrl_Fast);
+			ELSE
+				fbAxisDn.ManualMode := TRUE;
+			END_IF
+		ELSE
+			fbAxisUp.ManualMode := FALSE;
+			fbAxisDn.ManualMode := FALSE;
+			fbAxisUp.Enabled := FALSE;
+			fbAxisDn.Enabled := FALSE;
+			IF NOT fbAxisUp.Enabled AND NOT fbAxisDn.Enabled THEN
+				iWorkStep := 5;
+			END_IF
+			stInOuts.bQ_HeatStampPistonOpen := FALSE;
+		END_IF
+	
+	15:	// Nowa operacja rozpoczęta - sprawdź czy parametry się zgadzają jedź napędami na odpowiednie pozycje
+		iHMI_StepName:= 32;
+		IF stInOuts.bI_WorkCoverLocked THEN
+			fbTON_OperationTime(IN:= FALSE);
+			fbTON_OperationTime(IN:= TRUE, PT:= T#2M);
+			fbTimeStats.mReset();
+			fbTimeStats.mPushRow(sText:= 'Oslona zamknieta, zgrzew rozpoczety',rTimeValue:= TIME_TO_REAL(fbTON_OperationTime.ET)/1000);
+	
+			// Time Synchronization
+			rDelayAdjAxisUp:= LIMIT(0.0, rAxisUp_AdjTime_ms,10) + 1000*stTestData.stAxisUp_Data.rHeatingUpTime_s;
+			rDelayAdjAxisDn := LIMIT(0.0, rAxisDn_AdjTime_ms, 10) + 1000*stTestData.stAxisDn_Data.rHeatingUpTime_s;
+			IF rDelayAdjAxisUp < rDelayAdjAxisDn THEN
+				rDelayAdjAxisUp := rDelayAdjAxisDn - rDelayAdjAxisUp;
+				rDelayAdjAxisDn := 0.0;
+			ELSE
+				rDelayAdjAxisDn := rDelayAdjAxisUp - rDelayAdjAxisDn;
+				rDelayAdjAxisUp := 0.0;
+			END_IF
+			iWorkStep := 16;
+		ELSE
+			mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.WorkCoverSafetyLockSettingError);
+		END_IF
+	
+	16:	// Drives Enable
+		iHMI_StepName:= 32;
+		fbTON_OperationTime();
+		IF fbTON_OperationTime.Q THEN		// Timeout
+			mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.WeldingTimeout);
+		ELSIF (NOT fbAxisUp.Enabled OR NOT fbAxisDn.Enabled) AND fbTON_STO.Q THEN
+			fbAxisUp.Enabled := TRUE;
+			fbAxisDn.Enabled := TRUE;
+		ELSIF fbAxisUp.IsReady AND fbAxisDn.IsReady THEN
+			I_PimSystem.mSetNewMachineState(nPIM_MachineStates._4_OperationInProgress);
+			bAxisUP_WeldingEnded := bAxisDn_WeldingEnded := FALSE;
+			iWorkStep := 20;
+		END_IF		
+		
+	20:	// Sart zgrzewania - wyjazd/powrót płyty grzejnej
+		iHMI_StepName:= 32;
+		fbTON_OperationTime(IN:= TRUE);
+		IF NOT bAxisUP_WeldingEnded THEN
+			bAxisUP_WeldingEnded S= fbAxisUp.mStartWelding(
+				bHP_WorkPos:= fbHeatedPlate_Actuator.Opened, 
+				bHP_HomePos:= fbHeatedPlate_Actuator.Closed, 
+				rAdjDelay_ms:= rDelayAdjAxisUp, 
+				bDepartureAfterHeatUp:= bAxisUp_WeldingPartHeatedUp AND bAxisDn_WeldingPartHeatedUp, 
+				bConnectPermission:= fbAxisDn.InSetPos_ConnPos AND stTestData.stAxisDn_Data.nConnectingMode = nHP_Axis_ConnectionModes.None, 
+				bBusy=> bAxisUp_WeldingBusy, 
+				bError=> bAxisUp_WeldingError, 
+				udiErrorId=> , 
+				bOpenHP=> bAxisUp_WaitForOpenHP,
+				rAdjTime_ms => rAxisUp_AdjTime_ms,
+				bPartHeatedUp=> bAxisUp_WeldingPartHeatedUp);
+		END_IF
+		
+		IF NOT bAxisDn_WeldingEnded THEN
+			bAxisDn_WeldingEnded S= fbAxisDn.mStartWelding(
+				bHP_WorkPos:= fbHeatedPlate_Actuator.Opened, 
+				bHP_HomePos:= fbHeatedPlate_Actuator.Closed, 
+				rAdjDelay_ms:= rDelayAdjAxisDn, 
+				bDepartureAfterHeatUp:= bAxisUp_WeldingPartHeatedUp AND bAxisDn_WeldingPartHeatedUp , 
+				bConnectPermission:= fbAxisUp.InSetPos_ConnPos AND stTestData.stAxisUp_Data.nConnectingMode = nHP_Axis_ConnectionModes.None, 
+				bBusy=> bAxisDn_WeldingBusy, 
+				bError=> bAxisDn_WeldingError, 
+				udiErrorId=> , 
+				bOpenHP=> bAxisDn_WaitForOpenHP,
+				rAdjTime_ms => rAxisDn_AdjTime_ms,
+				bPartHeatedUp=> bAxisDn_WeldingPartHeatedUp);
+		END_IF
+		
+		IF fbTON_OperationTime.Q THEN		// Timeout
+			mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.WeldingTimeout);
+		ELSIF NOT bAxisUP_WeldingEnded OR NOT bAxisDn_WeldingEnded THEN				// Weld in progress
+			IF fbAxisUp.IsSafeToMoveHP AND fbAxisDn.IsSafeToMoveHP THEN
+				IF bAxisUp_WaitForOpenHP AND bAxisDn_WaitForOpenHP AND NOT fbHeatedPlate_Actuator.Opened THEN
+					fbHeatedPlate_Actuator.mOpen();	
+				ELSIF NOT bAxisUp_WaitForOpenHP AND NOT bAxisDn_WaitForOpenHP AND NOT fbHeatedPlate_Actuator.Closed THEN
+					fbHeatedPlate_Actuator.mClose();	
+				END_IF
+			END_IF
+			// bAxisUp_WeldingPartHeatedUp AND bAxisDn_WeldingPartHeatedUp 
+		ELSE
+			// Sprawdzenie wysokości złożenia
+			lrOutPartSize := (stMachSettings.lrAxisDIstance_mm - fbAxisUp.ActualPosition - fbAxisDn.ActualPosition);
+			IF stTestData.bCheckOutPartDimmension_EN AND (ABS(lrOutPartSize- stTestData.lrOutPartDesiredDimm_mm)> stTestData.lrOutPartDimmTolerance_mm) THEN
+				GVL_Aircom.fbFormatString(sFormat := 'Czesc wyjsciowa poza tolerancja, wymiar %.2f[mm] (wzorzec %.2f[mm] ±%.2f)',
+						 arg1:= F_LREAL(lrOutPartSize),
+						 arg2:= F_LREAL(stTestData.lrOutPartDesiredDimm_mm),
+						 arg3:= F_LREAL(stTestData.lrOutPartDimmTolerance_mm)); 
+				fbTimeStats.mPushRow(sText:= GVL_Aircom.fbFormatString.sOut,rTimeValue:= TIME_TO_REAL(fbTON_OperationTime.ET)/1000);
+				IF lrOutPartSize > stTestData.lrOutPartDesiredDimm_mm THEN
+					mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.ExitPartOutOfTollerance_ToHigh);
+				ELSE
+					mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.ExitPartOutOfTollerance_ToLow);
+				END_IF
+			ELSE
+				GVL_Aircom.fbFormatString(sFormat := 'Wymiar czesci wyjsciowej- %.2f[mm]',
+						 arg1:= F_LREAL(lrOutPartSize)); 
+				fbTimeStats.mPushRow(sText:= GVL_Aircom.fbFormatString.sOut,rTimeValue:= TIME_TO_REAL(fbTON_OperationTime.ET)/1000);
+				iWorkStep := 25;
+			END_IF
+		END_IF
+		
+	25:	// zwolnienie górnego uchwytu oraz odjazd
+		iHMI_StepName:= 32;
+		fbTON_OperationTime(IN:= TRUE);
+		fbAxisUp.PartClamp := FALSE;
+		fbTON_WorkStepTimeout(IN:= TRUE,PT:=T#100MS);
+		IF fbTON_WorkStepTimeout.Q THEN
+			fbTON_WorkStepTimeout(IN:= FALSE);
+			bAxisUp_GoToEnded := bAxisDn_GoToEnded := FALSE;
+			iWorkStep := 26;
+		ELSIF fbTON_OperationTime.Q THEN
+			mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.WeldingTimeout);
+		END_IF
+		
+	26:	// Odjazd górnym napędem na pozycję do załadunku, dolnym na pozycję załadunku lub znakowania
+		iHMI_StepName:= 32;
+		fbTON_OperationTime(IN:= TRUE);
+		IF NOT bAxisUp_GoToEnded THEN
+			bAxisUp_GoToEnded S= fbAxisUp.mMoveFastToPresetPos(nSetPos := nHP_Axis_PresetPositions.PartLoad_Pos, bError => bAxisUp_Error);
+			bAxisUp_GoToEnded R= bAxisUp_Error;
+		END_IF
+		IF NOT bAxisDn_GoToEnded THEN
+			IF stMachSettings.bPartMarking_EN AND bMarkingAsembled THEN
+				bAxisDn_GoToEnded S= fbAxisDn.mMoveFastToPresetPos(nSetPos := nHP_Axis_PresetPositions.Marking_Pos, bError => bAxisDn_Error);
+			ELSE
+				bAxisDn_GoToEnded S= fbAxisDn.mMoveFastToPresetPos(nSetPos := nHP_Axis_PresetPositions.PartLoad_Pos, bError => bAxisDn_Error);
+			END_IF
+			bAxisDn_GoToEnded R= bAxisDn_Error;
+		END_IF	
+ 		IF bAxisUp_GoToEnded AND bAxisDn_GoToEnded THEN 
+			IF iFanCyclesCtr > 5 THEN
+				iFanCyclesCtr := 0;
+				fbTPFanTimer(IN:= stMachSettings.bVentilationFan_EN);
+			ELSE
+				iFanCyclesCtr := iFanCyclesCtr +1;
+			END_IF
+			I_PimSystem.mSetNewMachineState(nPIM_MachineStates._5_OperationEndedOK);
+			IF stMachSettings.bPartMarking_EN AND bMarkingAsembled THEN
+				bAxisUp_GoToEnded := bAxisDn_GoToEnded := FALSE; 
+				iWorkStep := 30;	
+			ELSE
+				fbAxisDn.PartClamp := FALSE;
+				iWorkStep := 40;	
+			END_IF
+		ELSIF fbTON_OperationTime.Q THEN
+			mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.WeldingTimeout);
+		END_IF
+		
+	30:	// Znakowanie
+		iHMI_StepName:= 33;
+		fbTON_OperationTime(IN:= TRUE);
+		IF fbAxisDn.InSetPos_MarkingPos THEN
+			IF stInOuts.bI_HeatStampPistonBasePos THEN
+				bMakeStamp := TRUE;
+				iWorkStep := 31;
+			ELSE
+				mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.MarkingTimeout);
+			END_IF;
+		ELSIF fbTON_OperationTime.Q THEN
+			mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.WeldingTimeout);
+		END_IF
+	
+	31:	// Znakowanie CDN
+		iHMI_StepName:= 33;
+		fbTON_OperationTime(IN:= TRUE);
+		fbTON_WorkStepTimeout(IN:= TRUE,PT:=T#1S+REAL_TO_TIME(1000*stMachSettings.rPartMarkingTime));
+		IF NOT bMakeStamp AND stInOuts.bI_HeatStampPistonBasePos THEN
+			bAxisDn_GoToEnded := FALSE;
+			iWorkStep := 32;
+		ELSIF fbTON_WorkStepTimeout.Q THEN
+			mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.MarkingTimeout);
+		ELSIF fbTON_OperationTime.Q THEN
+			mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.WeldingTimeout);
+		END_IF
+		
+	32:	// Jazda na pozycję załadunku
+		iHMI_StepName:= 33;
+		fbTON_OperationTime(IN:= TRUE);
+		IF NOT bAxisDn_GoToEnded THEN
+			bAxisDn_GoToEnded S= fbAxisDn.mMoveFastToPresetPos(nSetPos := nHP_Axis_PresetPositions.PartLoad_Pos, bError => bAxisDn_Error);
+			bAxisDn_GoToEnded R= bAxisDn_Error;
+		END_IF
+		IF bAxisDn_GoToEnded THEN
+			fbAxisDn.PartClamp := FALSE;
+			iWorkStep := 40;
+		ELSIF fbTON_OperationTime.Q THEN
+			mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.WeldingTimeout);
+		END_IF
+		
+	40:	// Wyłączenie napędów oraz podniesienie osłony
+		iHMI_StepName:= 34;
+		IF fbAxisUp.Enabled OR fbAxisDn.Enabled THEN
+			fbTON_OperationTime(IN:= TRUE);
+			fbAxisUp.Enabled := FALSE;
+			fbAxisDn.Enabled := FALSE;
+		ELSIF fbTON_OperationTime.Q THEN
+			mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.WeldingTimeout);
+		ELSIF stInOuts.bI_WorkCoverOpened THEN
+			rCycleTime_s := TIME_TO_REAL(fbTON_OperationTime.ET)/1000;
+			fbTimeStats.mPushRow(sText:= 'Cykl zgrzewania zakonczony',rTimeValue:= TIME_TO_REAL(fbTON_OperationTime.ET)/1000);
+			fbTOF_PartOK(IN:= TRUE);
+			iWorkStep := 5;
+		ELSE
+			IF I_PimSystem.mSetNewMachineState(nPIM_MachineStates._6_ReturningToBaseState) THEN
+				fbAxisUp.PartClamp:= FALSE;
+				fbAxisDn.PartClamp:= FALSE;
+				bWorkCover_Riseup S= NOT bWorkCoverOpened;				
+			END_IF
+		END_IF		
+	
+	59:	// Kalibracja pozycji bazowych (zgrzew referencyjny)
+		iHMI_StepName:= 13;
+		IF fbTON_STO.Q THEN
+			IF fbAxisUp.IsReady AND fbAxisDn.IsReady THEN
+				bAxisUp_GoToEnded := bAxisDn_GoToEnded := FALSE;
+				fbAxisUp.PartClamp := TRUE;
+				fbAxisDn.PartClamp := TRUE;
+				bAxisPartCalibtarion:= TRUE;
+				iWorkStep := 65;
+			ELSE
+				fbAxisUp.Enabled := TRUE;
+				fbAxisDn.Enabled := TRUE;
+			END_IF				
+		END_IF
+		
+	60: // Pomiar odległości napędów, grubości płyty - oczekiwanie na zamknięcie zacisków oraz osłony
+		iHMI_StepName:= 35;
+		IF stInOuts.bI_Sft_WorkCoverClosed THEN
+			IF fbAxisUp.PartClamp AND fbAxisDn.PartClamp THEN
+				IF fbAxisUp.IsReady AND fbAxisDn.IsReady THEN
+					bAxisPartCalibtarion := bAxisUp_GoToEnded := bAxisDn_GoToEnded := FALSE;
+					lrMeasuredAxisDistance:= lrMeasuredHPHeight:= 0.0;
+					IF bMeasureAxisDistance THEN
+						iWorkStep := 61;
+					ELSIF bMeasureHPHeight THEN
+						iWorkStep := 65;
+					ELSE
+						iWorkStep := 5;
+					END_IF	
+				ELSE
+					IF fbTON_STO.Q THEN
+						fbAxisUp.Enabled := TRUE;
+						fbAxisDn.Enabled := TRUE;
+					END_IF			
+				END_IF
+			ELSE
+				bWorkCover_Riseup := TRUE;
+			END_IF
+		ELSIF (NOT bMeasureAxisDistance AND NOT bMeasureHPHeight) OR bManualMode THEN
+			iWorkStep := 5;
+		END_IF
+		
+	61:	// Pomiar odległości napędów - jazda osią górną na pozycję bezpieczeną, osią dolną na pozycję MIN
+		iHMI_StepName:= 13;
+		IF NOT bAxisUp_GoToEnded THEN
+			bAxisUp_GoToEnded S= fbAxisUp.mMoveFastToPresetPos(nSetPos := nHP_Axis_PresetPositions.SafeHpMove_Pos);
+		END_IF
+		IF NOT bAxisDn_GoToEnded THEN
+			bAxisDn_GoToEnded S= fbAxisDn.mMoveFastToPresetPos(nSetPos := nHP_Axis_PresetPositions.MIN_Pos);
+		END_IF
+		IF fbAxisUp.IsSafeToMoveHP OR fbAxisDn.IsSafeToMoveHP THEN
+			fbHeatedPlate_Actuator.mClose();
+		END_IF
+		IF bAxisUp_GoToEnded AND bAxisDn_GoToEnded AND fbHeatedPlate_Actuator.Closed THEN
+			bAxisUp_GoToEnded := bAxisDn_GoToEnded := FALSE;
+			iWorkStep := 62;
+		END_IF
+		
+	62:	// Jedź osią górną na pozycję max
+		iHMI_StepName:= 13;
+		IF fbAxisUp.mMoveFastToPresetPos(nSetPos := nHP_Axis_PresetPositions.MAX_Pos) THEN
+			iWorkStep := 63;
+		END_IF
+		
+	63:	// Jedź osią dolną poszukując kontaktu
+		iHMI_StepName:= 13;
+		IF fbAxisDn.mCalibrateAxis(bPartCalib := FALSE, bError =>, lrContactPos =>lrAxisDnContactPos_mm ) THEN
+			lrMeasuredAxisDistance := (lrAxisDnContactPos_mm + stMachSettings.stAxisDnSettings.lrSettingTemplateHeight_mm) 
+												+ (fbAxisUp.ActualPosition + stMachSettings.stAxisUpSettings.lrSettingTemplateHeight_mm);
+			
+			IF bMeasureHPHeight THEN	// If there is need also to measure HP Height do it automatically
+				bAxisUp_GoToEnded := bAxisDn_GoToEnded := FALSE;
+				iWorkStep := 65;
+			ELSE
+				// Go to base pos
+				iWorkStep := 70;		
+			END_IF
+		END_IF
+		
+	65:	// HeatedPlate height measurement - Try to Heated Plate
+		iHMI_StepName:= 13;
+		IF fbAxisUp.ActualPosition < (stTestData.stAxisUp_Data.lrSafeHpMovementPos_mm- stMachSettings.stAxisUpSettings.lrSettingTemplateHeight_mm +1) AND
+					fbAxisDn.ActualPosition < (stTestData.stAxisDn_Data.lrSafeHpMovementPos_mm- stMachSettings.stAxisDnSettings.lrSettingTemplateHeight_mm +1) THEN
+			fbHeatedPlate_Actuator.mOpen();
+			IF fbHeatedPlate_Actuator.Opened THEN
+				iWorkStep := 67;	
+			END_IF
+		ELSE
+			IF fbHeatedPlate_Actuator.Opened THEN
+				iWorkStep := 67;
+			ELSE
+				bAxisUp_GoToEnded := bAxisDn_GoToEnded := FALSE;
+				iWorkStep := 66;
+			END_IF
+		END_IF	
+		
+	66:	// Move Axis to safe position and eject heated plate
+		iHMI_StepName:= 13;
+		IF NOT bAxisUp_GoToEnded THEN
+			bAxisUp_GoToEnded S= fbAxisUp.mMoveToAbsPos(lrSetPos := 
+					LIMIT(2, stTestData.stAxisUp_Data.lrSafeHpMovementPos_mm- stMachSettings.stAxisUpSettings.lrSettingTemplateHeight_mm, stTestData.stAxisUp_Data.lrSafeHpMovementPos_mm), bFastSpeed := TRUE);
+		END_IF
+		IF NOT bAxisDn_GoToEnded THEN
+			bAxisDn_GoToEnded S= fbAxisDn.mMoveToAbsPos(lrSetPos := 
+					LIMIT(2,stTestData.stAxisDn_Data.lrSafeHpMovementPos_mm- stMachSettings.stAxisDnSettings.lrSettingTemplateHeight_mm, stTestData.stAxisDn_Data.lrSafeHpMovementPos_mm), bFastSpeed := TRUE);
+		END_IF
+		IF bAxisUp_GoToEnded AND bAxisDn_GoToEnded AND fbAxisUp.IsSafeToMoveHP AND fbAxisDn.IsSafeToMoveHP THEN
+			fbHeatedPlate_Actuator.mOpen();
+			IF fbHeatedPlate_Actuator.Opened THEN
+				bAxisUp_GoToEnded := bAxisDn_GoToEnded := FALSE;
+				iWorkStep := 67;
+			END_IF
+		END_IF
+				
+	67:	// Jedź osiami poszukując kontaktu
+		iHMI_StepName:= 13;
+		IF NOT bAxisUp_GoToEnded THEN
+			bAxisUp_GoToEnded S= fbAxisUp.mCalibrateAxis(bPartCalib := bAxisPartCalibtarion, bError =>, lrContactPos =>lrAxisUpContactPos_mm );
+		END_IF
+		IF NOT bAxisDn_GoToEnded THEN
+			bAxisDn_GoToEnded S= fbAxisDn.mCalibrateAxis(bPartCalib := bAxisPartCalibtarion, bError =>, lrContactPos =>lrAxisDnContactPos_mm );
+		END_IF
+		IF bAxisUp_GoToEnded AND bAxisDn_GoToEnded THEN
+			IF NOT bAxisPartCalibtarion AND lrMeasuredAxisDistance > 1.0 THEN
+				lrMeasuredHPHeight := lrMeasuredAxisDistance- (lrAxisUpContactPos_mm + stMachSettings.stAxisUpSettings.lrSettingTemplateHeight_mm) 
+										- (lrAxisDnContactPos_mm + stMachSettings.stAxisDnSettings.lrSettingTemplateHeight_mm);	
+ 		
+			ELSIF NOT bAxisPartCalibtarion AND stMachSettings.lrAxisDIstance_mm > 1.0 THEN
+				lrMeasuredHPHeight := stMachSettings.lrAxisDIstance_mm- (lrAxisUpContactPos_mm + stMachSettings.stAxisUpSettings.lrSettingTemplateHeight_mm) 
+										- (lrAxisDnContactPos_mm + stMachSettings.stAxisDnSettings.lrSettingTemplateHeight_mm);	
+			END_IF
+			// Go to base pos
+			iWorkStep := 70;
+		END_IF
+
+	70:	// Return to base position (load positions)
+		iHMI_StepName:= 13;
+		bAxisUp_GoToEnded := bAxisDn_GoToEnded := FALSE;
+		IF fbHeatedPlate_Actuator.Closed THEN		// Pyta schowana - jedź na pozycję załadunku
+			iWorkStep := 73;
+		ELSE	
+			iWorkStep := 71;
+		END_IF
+		
+	71:	// Go to safe HP movement pos
+		iHMI_StepName:= 13;
+		IF NOT bAxisUp_GoToEnded THEN
+			bAxisUp_GoToEnded S=  fbAxisUp.mMoveFastToPresetPos(nSetPos := nHP_Axis_PresetPositions.SafeHpMove_Pos);
+		END_IF
+		IF NOT bAxisDn_GoToEnded THEN
+			bAxisDn_GoToEnded S=  fbAxisDn.mMoveFastToPresetPos(nSetPos := nHP_Axis_PresetPositions.SafeHpMove_Pos);
+		END_IF
+		IF bAxisUp_GoToEnded AND bAxisDn_GoToEnded THEN
+			bAxisUp_GoToEnded := bAxisDn_GoToEnded := FALSE;
+			iWorkStep := 72;
+		END_IF
+	
+	72:	// Heated Plate to base position
+		iHMI_StepName:= 13;
+		IF fbHeatedPlate_Actuator.Closed THEN
+			bAxisUp_GoToEnded := bAxisDn_GoToEnded := FALSE;
+			iWorkStep := 73;
+		ELSIF fbAxisUp.IsSafeToMoveHP AND fbAxisDn.IsSafeToMoveHP THEN
+			fbHeatedPlate_Actuator.mClose();
+		END_IF
+	
+	73:	// Go Axis to part load positions
+		iHMI_StepName:= 13;
+		IF NOT bAxisUp_GoToEnded THEN
+			bAxisUp_GoToEnded S=  fbAxisUp.mMoveFastToPresetPos(nSetPos := nHP_Axis_PresetPositions.PartLoad_Pos);
+		END_IF
+		IF NOT bAxisDn_GoToEnded THEN
+			bAxisDn_GoToEnded S=  fbAxisDn.mMoveFastToPresetPos(nSetPos := nHP_Axis_PresetPositions.PartLoad_Pos);
+		END_IF
+		IF bAxisUp_GoToEnded AND bAxisDn_GoToEnded THEN
+			bAxisUp_GoToEnded := bAxisDn_GoToEnded := FALSE;
+			iWorkStep := 74;
+		END_IF
+	
+	74:	// Disable axis and open workcover
+		iHMI_StepName:= 13;
+		fbAxisUp.Enabled := FALSE;
+		fbAxisDn.Enabled := FALSE;
+		IF NOT fbAxisUp.Enabled AND NOT fbAxisDn.Enabled THEN
+			fbAxisUp.PartClamp R= bAxisPartCalibtarion;
+			fbAxisDn.PartClamp R= bAxisPartCalibtarion;
+			bWorkCover_Riseup := TRUE;
+			IF bWorkCoverOpened THEN
+				bWorkCover_Riseup := bHMI_CalibrationSaveResult := bHMI_CloseWithoutSaveResult := FALSE;
+				iWorkStep := 75;
+			END_IF
+		END_IF
+ 
+	75:	// TIme for remove calibration templates
+		iHMI_StepName:= 36;
+		IF bHMI_CalibrationSaveResult THEN
+			IF bMeasureAxisDistance THEN
+				stMachSettings.lrAxisDIstance_mm := lrMeasuredAxisDistance;
+			END_IF
+			IF bMeasureHPHeight THEN
+				stMachSettings.lrHeatedPlateHeight_mm := lrMeasuredHPHeight;
+			END_IF
+			bHMI_CalibrationSaveResult := bMeasureAxisDistance := bMeasureHPHeight := FALSE;
+			fbAxisUp.PartClamp := FALSE;
+			fbAxisDn.PartClamp := FALSE;
+			iWorkStep := 5;
+		ELSIF bHMI_CloseWithoutSaveResult THEN
+			bHMI_CloseWithoutSaveResult := bMeasureAxisDistance := bMeasureHPHeight := FALSE;
+			fbAxisUp.PartClamp := FALSE;
+			fbAxisDn.PartClamp := FALSE;
+			iWorkStep := 5;
+		ELSIF bAxisPartCalibtarion THEN
+			bAxisPartCalibtarion := FALSE;
+			fbAxisUp.PartClamp := FALSE;
+			fbAxisDn.PartClamp := FALSE;
+			iWorkStep := 5;
+		END_IF
+			
+	
+	90:	// Error occur - Go to safe position if you can
+		iHMI_StepName:= 17;
+		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._7_ErrorOccurr);
+		stInOuts.bQ_HeatStampPistonOpen := stInOuts.bQ_VentilationFan_En := stInOuts.bQ_WorkCoverLift := stInOuts.bQ_WorkCoverUnlock := FALSE;
+		fbAxisUp.mGoToSafeState();
+		fbAxisDn.mGoToSafeState();
+		IF NOT fbHeatedPlate_Actuator.Opened AND NOT fbHeatedPlate_Actuator.Closed THEN
+			fbHeatedPlate_Actuator.mStop();
+		END_IF
+		bArm_Safety := bServiceReset := FALSE;
+		bResetButtonOld := stInOuts.bI_ResetButton; 
+		iWorkStep := 91;
+		
+	91: // Wait for reset
+		iHMI_StepName:= 17;
+		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._8_WaitForReset);
+		bServiceReset S= stInOuts.bI_ResetButton AND NOT bResetButtonOld;
+		bResetButtonOld := stInOuts.bI_ResetButton;
+		IF I_PimSystem.mSetNewMachineState(nPIM_MachineStates._9_ResetInProgress) (*bServiceReset*) THEN
+			fbTON_StepTimeout(IN:= FALSE);
+			bAxisUp_Homed := bAxisDn_Homed := FALSE;
+			bAxisUp_GoToEnded := bAxisDn_GoToEnded := FALSE;
+			bAxisUp_GoToSafeHPM := bAxisDn_GoToSafeHPM := FALSE;
+			bAxisUp_ResetEnded := bAxisDn_ResetEnded := FALSE;
+			stInOuts.bQ_Sft_ErrAck := bServiceReset := FALSE;
+			IF bManualMode THEN
+				iWorkStep := 92;
+			ELSE
+				iWorkStep := 95;	
+			END_IF
+			
+		END_IF
+		 
+	92:	// Reset w trybie manualnym - Reset napędów jeśli potrzeba oraz podniesienie osłony
+		iHMI_StepName:= 17;
+		fbTON_StepTimeout(IN:= TRUE, PT:= T#2S);
+		bArm_Safety := fbTON_StepTimeout.ET < T#200MS;
+		IF NOT fbAxisUp.IsErrorActive AND NOT fbAxisDn.IsErrorActive AND stInOuts.bI_Sft_EStopRelay THEN
+			iWorkStep:= 100;
+		ELSIF fbTON_StepTimeout.Q THEN
+			mNewEvent(nEventClass:= nPIM_EventClasses.Alarm, nEvent := nHPv3_ErrorList.ReturnToBaseStateTimeout);
+		ELSE 
+			bAxisUp_ResetEnded S= fbAxisUp.mReset(bBusy => bAxisUp_Busy ,bError => bAxisUp_Error ,udiErrorId => udiAxisUp_ErrorID);
+(*			IF bAxisUp_ResetEnded AND bAxisUp_Error THEN
+				mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.ReturnToBaseStateTimeout);
+			END_IF	*)
+			bAxisDn_ResetEnded S= fbAxisDn.mReset(bBusy => bAxisDn_Busy ,bError => bAxisDn_Error ,udiErrorId => udiAxisDn_ErrorID);
+(*			IF bAxisDn_ResetEnded AND bAxisDn_Error THEN
+				mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.ReturnToBaseStateTimeout);
+			END_IF	*)
+		END_IF
+	
+	95:	// Reset procedure
+		iHMI_StepName:= 21;
+		IF IsInBaseState THEN		// If everything in base pos it is not required to close workcover
+			stInOuts.bQ_HeatStampPistonOpen := FALSE;
+			iWorkStep:= 100;
+		ELSIF stInOuts.bI_Sft_WorkCoverClosed AND stInOuts.bI_Sft_DoorClosed AND NOT stInOuts.bI_EStopPressed_Front AND NOT stInOuts.bI_EStopPressed_Rear THEN		// Work cover and service door closed, emergency button released - ready to move
+			fbTON_StepTimeout(IN:= TRUE, PT:= T#6S);
+			bArm_Safety := fbTON_StepTimeout.ET < T#200MS;
+			stInOuts.bQ_HeatStampPistonOpen := FALSE;	
+			IF NOT fbAxisUp.IsErrorActive AND NOT fbAxisDn.IsErrorActive THEN
+				fbAxisUp.Enabled := TRUE;
+				fbAxisDn.Enabled := TRUE;
+				bArm_Safety := FALSE;
+				iWorkStep:= 96;
+			ELSIF fbTON_StepTimeout.Q THEN
+				mNewEvent(nEventClass:= nPIM_EventClasses.Alarm, nEvent := nHPv3_ErrorList.ReturnToBaseStateTimeout);
+			ELSE 
+				bAxisUp_ResetEnded S= fbAxisUp.mReset(bBusy => bAxisUp_Busy ,bError => bAxisUp_Error ,udiErrorId => udiAxisUp_ErrorID);
+(*				IF bAxisUp_ResetEnded AND bAxisUp_Error THEN
+					mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.AxisUpResetError);
+				END_IF	*)
+				bAxisDn_ResetEnded S= fbAxisDn.mReset(bBusy => bAxisDn_Busy ,bError => bAxisDn_Error ,udiErrorId => udiAxisDn_ErrorID);
+(*				IF bAxisDn_ResetEnded AND bAxisDn_Error THEN
+					mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.AxisDnResetError);
+				END_IF	*)
+			END_IF
+		ELSIF stInOuts.bI_EStopPressed_Front THEN
+			mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.EStopPressed_FrontPanel);
+		ELSIF stInOuts.bI_EStopPressed_Rear THEN
+			mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.EStopPressed_RearPanel);
+		ELSIF NOT stInOuts.bI_Sft_FrontDoorClosed THEN
+			mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.ServiceDoorOpened_Front);
+		ELSIF NOT stInOuts.bI_Sft_RearDoorClosed THEN
+			mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList.ServiceDoorOpened_Rear);
+		ELSIF NOT stInOuts.bI_Sft_WorkCoverClosed THEN
+			mNewEvent(nEventClass:= nPIM_EventClasses.Alarm, nEvent := nHPv3_ErrorList.WorkCoverNotClosed);
+		ELSIF fbTON_StepTimeout.Q THEN
+			mNewEvent(nEventClass:= nPIM_EventClasses.Alarm, nEvent := nHPv3_ErrorList.ReturnToBaseStateTimeout);
+		END_IF
+		fbTON_StepTimeout(IN:= TRUE, PT:= T#6S);
+		
+	96:	// Wait for power on	
+		iHMI_StepName:= 21;
+		fbTON_StepTimeout(IN:= TRUE);
+		IF fbAxisUp.IsReady AND fbAxisDn.IsReady THEN
+			IF fbAxisUp.IsHomed AND fbAxisDn.IsHomed THEN
+				IF fbAxisUp.IsSafeToMoveHP AND fbAxisDn.IsSafeToMoveHP THEN
+					fbHeatedPlate_Actuator.mClose();
+				END_IF
+				iWorkStep := 98;	// Go to SafePosition and Hide Heated Plate 
+			ELSE
+				IF fbHeatedPlate_Actuator.Closed THEN
+					fbHeatedPlate_Actuator.mClose();
+				END_IF
+				iWorkStep := 97;	// Homing
+				fbTON_StepTimeout(IN:= TRUE, PT:= T#30S);
+			END_IF
+		ELSIF fbTON_StepTimeout.Q THEN
+			mNewEvent(nEventClass:= nPIM_EventClasses.Alarm, nEvent := nHPv3_ErrorList.ReturnToBaseStateTimeout);
+		END_IF
+			
+	97:	// Homing	
+		iHMI_StepName:= 21;
+		fbTON_StepTimeout(IN:= TRUE);
+		IF NOT bAxisUp_Homed THEN
+			bAxisUp_Homed S= fbAxisUp.mHomeAxis();
+		END_IF
+		IF NOT bAxisDn_Homed THEN
+			bAxisDn_Homed S= fbAxisDn.mHomeAxis();
+		END_IF
+		IF fbAxisUp.IsMoving AND fbAxisDn.IsMoving AND fbTON_StepTimeout.ET > T#3S AND NOT fbHeatedPlate_Actuator.Closed THEN		// Hide Heated plate when movement
+			fbHeatedPlate_Actuator.mClose();
+		END_IF
+ 		IF fbAxisUp.IsHomed AND fbAxisDn.IsHomed THEN
+			IF fbAxisUp.IsSafeToMoveHP AND fbAxisDn.IsSafeToMoveHP THEN
+				fbHeatedPlate_Actuator.mClose();
+			END_IF
+			iWorkStep := 98;	// Go to SafePosition
+		END_IF
+		IF fbTON_StepTimeout.Q THEN
+			mNewEvent(nEventClass:= nPIM_EventClasses.Alarm, nEvent := nHPv3_ErrorList.ReturnToBaseStateTimeout);
+		END_IF
+		
+	98:	// Hide HeatedPlate
+		iHMI_StepName:= 21;
+		fbTON_StepTimeout(IN:= TRUE);
+		IF fbTON_StepTimeout.Q THEN
+			mNewEvent(nEventClass:= nPIM_EventClasses.Alarm, nEvent := nHPv3_ErrorList.ReturnToBaseStateTimeout);
+		ELSIF fbHeatedPlate_Actuator.Closed THEN
+			IF fbAxisUp.InSetPos_PartLoad AND fbAxisDn.InSetPos_PartLoad THEN 
+				iWorkStep := 100;
+			ELSE		
+				iWorkStep := 99;
+			END_IF
+		ELSIF NOT fbHeatedPlate_Actuator.Closed AND fbAxisUp.IsSafeToMoveHP AND fbAxisDn.IsSafeToMoveHP THEN
+			fbHeatedPlate_Actuator.mClose();
+		ELSIF NOT fbAxisUp.IsSafeToMoveHP OR NOT fbAxisDn.IsSafeToMoveHP THEN
+			IF NOT bAxisUp_GoToSafeHPM THEN
+				IF stTestData.stAxisUp_Data.lrPartLoadPosition_mm < stTestData.stAxisUp_Data.lrSafeHpMovementPos_mm THEN
+					bAxisUp_GoToSafeHPM S= fbAxisUp.mMoveFastToPresetPos(nSetPos := nHP_Axis_PresetPositions.PartLoad_Pos, bError => bAxisUp_Error);
+				ELSE
+					bAxisUp_GoToSafeHPM S= fbAxisUp.mMoveFastToPresetPos(nSetPos := nHP_Axis_PresetPositions.SafeHpMove_Pos, bError => bAxisUp_Error);
+				END_IF
+				bAxisUp_GoToSafeHPM R= bAxisUp_Error;
+			END_IF
+			IF NOT bAxisDn_GoToSafeHPM THEN
+				IF stTestData.stAxisDn_Data.lrPartLoadPosition_mm < stTestData.stAxisDn_Data.lrSafeHpMovementPos_mm THEN
+					bAxisDn_GoToSafeHPM S= fbAxisDn.mMoveFastToPresetPos(nSetPos := nHP_Axis_PresetPositions.PartLoad_Pos, bError => bAxisDn_Error);
+				ELSE
+					bAxisDn_GoToSafeHPM S= fbAxisDn.mMoveFastToPresetPos(nSetPos := nHP_Axis_PresetPositions.SafeHpMove_Pos, bError => bAxisDn_Error);
+				END_IF
+				bAxisDn_GoToSafeHPM R= bAxisDn_Error;
+			END_IF
+		END_IF
+		
+	99: // Move to load position 
+		iHMI_StepName:= 21;
+		fbTON_StepTimeout(IN:= TRUE);
+		IF NOT bAxisUp_GoToEnded THEN
+			bAxisUp_GoToEnded S= fbAxisUp.mMoveFastToPresetPos(nSetPos := nHP_Axis_PresetPositions.PartLoad_Pos, bError => bAxisUp_Error);
+			bAxisUp_GoToEnded R= bAxisUp_Error;
+		END_IF
+		IF NOT bAxisDn_GoToEnded THEN
+			bAxisDn_GoToEnded S= fbAxisDn.mMoveFastToPresetPos(nSetPos := nHP_Axis_PresetPositions.PartLoad_Pos, bError => bAxisDn_Error);
+			bAxisDn_GoToEnded R= bAxisDn_Error;
+		END_IF	
+		IF fbAxisUp.IsSafeToMoveHP AND fbAxisDn.IsSafeToMoveHP AND NOT fbHeatedPlate_Actuator.Closed THEN
+			fbHeatedPlate_Actuator.mClose();
+		END_IF
+ 		IF fbAxisUp.InSetPos_PartLoad AND fbAxisDn.InSetPos_PartLoad AND bAxisUp_GoToEnded AND bAxisDn_GoToEnded THEN 
+			iWorkStep := 100;
+		ELSIF fbTON_StepTimeout.Q THEN
+			mNewEvent(nEventClass:= nPIM_EventClasses.Alarm, nEvent := nHPv3_ErrorList.ReturnToBaseStateTimeout);
+		END_IF
+		
+	100:	// WorkCover open
+		bArm_Safety := FALSE;
+		IF fbAxisUp.Enabled OR fbAxisDn.Enabled THEN
+			fbAxisUp.Enabled := FALSE;
+			fbAxisDn.Enabled := FALSE;
+		ELSE
+			stInOuts.bQ_Sft_ErrAck := FALSE;
+			fbAxisUp.PartClamp:= FALSE;
+			fbAxisDn.PartClamp:= FALSE;
+			bWorkCover_Riseup S= NOT bWorkCoverOpened;
+			IF bWorkCoverOpened THEN
+				nError := nHPv3_ErrorList.NoError;
+				IF bManualMode THEN
+					iWorkStep := 13;
+				ELSE
+					iWorkStep := 5;
+				END_IF
+			END_IF
+		END_IF
+END_CASE
+
+stInOuts.bQ_Sft_ErrAck := ( (stInOuts.bI_ResetButton OR bArm_Safety) AND NOT stInOuts.bI_Sft_EStopRelay);	// iWorkStep < 92);	
+stInOuts.bQ_Sft_ManualWork := iWorkStep = 13 OR bManualMode;
+A_LightTower();]]></ST>
+    </Implementation>
+    <Folder Name="Properties" Id="{7f112f74-16ba-4b8e-9a85-d829dfd4b3b2}" />
+    <Action Name="A_BackgroundTasks" Id="{34607de9-1cce-4190-8b8a-6ff1bbc70026}">
+      <Implementation>
+        <ST><![CDATA[// General signals
+fbTOF_WorkCoverClosed(IN:= stInOuts.bI_Sft_WorkCoverClosed, PT:= T#400MS);
+iMachineNumber := I_PimSystem.prMachNumber;
+fbTON_STO(IN:= stInOuts.bI_Sft_STO, PT:= T#10MS);
+
+// Temperature control (Heated plate, Heat stamp and its piston, veltilation)	-----------------------------------------------------------------------------------------
+fbPlateTempFilter(rIn := INT_TO_REAL(stInOuts.iI_HeatedPlateTemperature) * 0.1, tTimeConstant := T#2S, rOut => rHeatedPlateTemperature_Mean);
+fbStampTempFilter(rIn := INT_TO_REAL(stInOuts.iI_HeatStampTemperature)*0.1, tTimeConstant := T#250MS, rOut => rHeatStampTemperature_Mean);
+
+// Regulacja temperatury płyty grzejnej
+fbHP_HeaterON(IN:= bHeatedPlate_HeatON AND NOT stInOuts.bI_HeatedPlateTempMeasureError AND stInOuts.bI_Sft_EStopRelay, 
+					tON:= T#2S, tOFF := T#1S, bReset := NOT stInOuts.bI_Sft_EStopRelay);
+fbHP_PID(		// Regulacja temperatury grzałki płyty grzejnej
+	ACTUAL:= rHeatedPlateTemperature_Mean, 
+	SET_POINT:= stTestData.rHeatedPlateSetTemperature, 
+	KP:= 5.2,//4.2, 		//5.2,
+	TN:= 280,//220,		//280, 
+	TV:= 1.45,//0,			//1.45,
+	Y_MANUAL:= 20.0, 
+	Y_OFFSET:= 0.0, 
+	Y_MIN:= 00.0, 
+	Y_MAX:= 100.0, 
+	MANUAL:= NOT fbHP_HeaterON.Q, 
+	RESET:= bUpdateHPPidParams, 
+	Y=> rHPHeaterPower);
+bUpdateHPPidParams := FALSE;
+fbHP_TempStable(IN:= ABS(stTestData.rHeatedPlateSetTemperature-rHeatedPlateTemperature_Mean)< stTestData.rHeatedPlateAllowDeviation,
+						tON:= T#1M, tOFF:= T#10S);
+
+// SPrawdzenie poprawności pracy grzałki
+CASE iCheckHeaterStep OF
+	0:	// Initaialization
+		tHeaterCheckOffset:= LREAL_TO_TIME(fbRand.Num*600000)+T#30M;
+		fbTON_HeaterCheck(IN:= FALSE, PT:= tHeaterCheckOffset);
+		bHeatersError := FALSE;
+		iCheckHeaterStep := 5;
+		
+	5:	// Oczekiwanie na nowe sprawdzenie
+		fbTON_HeaterCheck(IN:= NOT stInOuts.bI_HeaterCurrentSensor AND fbHP_HeaterON.Q AND stMachSettings.bCheckHeatersDamage_EN , PT:= tHeaterCheckOffset);
+		bHeatersError R= stInOuts.bI_HeaterCurrentSensor;
+		IF fbTON_HeaterCheck.Q OR (bExecHeaterCheck AND fbHP_HeaterON.Q) THEN
+			fbTON_HeaterCheck(IN:= FALSE);
+			tHeaterCheckOffset := T#30M;
+			bHeatersError := bExecHeaterCheck := FALSE;
+			iCheckHeaterStep := 10;
+		END_IF
+		
+	10:	// Wymuszenie maksymalnej mocy przez zadany czas.	
+		fbTON_HeaterCheck(IN:= TRUE, PT:= T#15S);
+		rHPHeaterPower := 100;
+		IF stInOuts.bI_HeaterCurrentSensor OR fbTON_HeaterCheck.Q THEN	// Wszystko ok
+			IF NOT stInOuts.bI_HeaterCurrentSensor THEN
+				bHeatersError := TRUE;
+				mNewEvent(nEventClass:= nPIM_EventClasses.Alarm, nEvent := nHPv3_ErrorList.HeatedPlateHeaterDamaged);
+			END_IF
+			fbTON_HeaterCheck(IN:= FALSE);
+			iCheckHeaterStep := 5;
+		END_IF
+END_CASE
+fbPWM_HP(bEnable := stInOuts.bI_Sft_EStopRelay AND fbHP_HeaterON.Q, rCycleInS := 0.3, rDutyCyclePercent:= rHPHeaterPower, bOutput => stInOuts.bQ_HeatedPlateHeater_En);
+
+
+// Regulacja temperatury stempla znakującego
+IF bMarkingAsembled THEN
+	fbHS_HeaterON(IN := stMachSettings.bPartMarking_EN AND NOT stInOuts.bI_HeatStampTempMeasureError, tON:= T#5S, tOFF := T#2S, bReset := NOT stInOuts.bI_Sft_EStopRelay);
+
+	fbHS_PID(		// Regulacja temperatury grzałki stempla
+		ACTUAL:= rHeatStampTemperature_Mean, 
+		SET_POINT:= stTestData.rHeatedPlateSetTemperature, 
+		KP:= 5, 
+		TN:= 40, 
+		TV:= 0.0, 
+		Y_MANUAL:= 20.0, 
+		Y_OFFSET:= 0.0, 
+		Y_MIN:= 00.0, 
+		Y_MAX:= 90.0, 
+		MANUAL:= NOT fbHS_HeaterON.Q, 
+		RESET:= bUpdateHSPidParams, 
+		Y=> rHSHeaterPower);
+	bUpdateHSPidParams := FALSE;
+	fbHS_TempStable(IN:= ABS(stTestData.rHeatedPlateSetTemperature-rHeatStampTemperature_Mean)< 10.0, tON:= T#30S, tOFF:= T#10S);
+	
+	fbPWM_HS(bEnable := stInOuts.bI_Sft_EStopRelay AND fbHS_HeaterON.Q, rCycleInS := 0.5, rDutyCyclePercent:= rHSHeaterPower, bOutput => stInOuts.bQ_HeatStampHeater_ON);
+	
+	// Heat stamp piston control
+	IF bMakeStamp THEN
+		stInOuts.bQ_HeatStampPistonOpen S= stInOuts.bI_HeatStampPistonBasePos;
+		fbTON_HS_MarkingTmr(IN:= NOT stInOuts.bI_HeatStampPistonBasePos,PT:= REAL_TO_TIME(1000*stMachSettings.rPartMarkingTime));
+		IF fbTON_HS_MarkingTmr.Q OR NOT stInOuts.bI_Sft_EStopRelay THEN
+			bMakeStamp := FALSE;
+			stInOuts.bQ_HeatStampPistonOpen := FALSE;
+		END_IF
+	ELSE
+		stInOuts.bQ_HeatStampPistonOpen R= fbAxisDn.IsMoving;
+		fbTON_HS_MarkingTmr(IN:= FALSE);
+	END_IF
+END_IF
+
+(*****	Sterowanie wentylatorem	*****)
+stInOuts.bQ_VentilationFan_En := stInOuts.bI_Sft_EStopRelay AND fbHP_TempStable.Q AND fbTPFanTimer.Q;
+fbTPFanTimer(In:= FALSE, Pt:=T#10S);
+
+// Sterownaie położeniem płyty grzejnej
+fbHeatedPlate_Actuator(bControl_Rdy := stInOuts.bI_Sft_EStopRelay,
+		bInterlock_Open := NOT bManualMode AND (NOT fbAxisUp.IsSafeToMoveHP OR NOT fbAxisDn.IsSafeToMoveHP),
+		bInterlock_Close := FALSE,
+		bSusteinOutput := TRUE,
+		bAllowOvercrossingPos := FALSE);
+		
+// Kontrola uderzenia w płytę
+IF stMachSettings.stAxisUpSettings.bColisionDettection_EN OR stMachSettings.stAxisDnSettings.bColisionDettection_EN	THEN
+	IF fbHeatedPlate_Actuator.Moving AND_THEN NOT bManualMode AND (fbAxisUp.ActualForce > stMachSettings.stAxisUpSettings.rCollisionDetectForce_N OR 
+			fbAxisDn.ActualForce > stMachSettings.stAxisDnSettings.rCollisionDetectForce_N) THEN 
+		fbHeatedPlate_Actuator.mStop();
+		mNewEvent(nEventClass:= nPIM_EventClasses.Alarm, nEvent := nHPv3_ErrorList.HeatedPlateColisionWhenMove);
+	END_IF			
+END_IF
+
+// WorkCover control 
+bWorkCoverOpened S= stInOuts.bI_WorkCoverOpened;
+bWorkCoverOpened R= stInOuts.bI_WorkCoverLocked OR stInOuts.bI_Sft_WorkCoverClosed; 
+fbWorkCoverLiftDelay(IN:= NOT stInOuts.bI_WorkCoverLocked, PT:= T#100MS);
+IF bWorkCover_Riseup THEN
+	fbTON_WorkCoverOpen(IN:= TRUE, PT:=T#6S);
+	IF fbTON_WorkCoverOpen.Q THEN
+		bWorkCover_Riseup := stInOuts.bQ_WorkCoverUnlock := FALSE;
+		mNewEvent(nEventClass:= nPIM_EventClasses.Alarm, nEvent := nHPv3_ErrorList.WorkCoverOpenTimeout);
+	ELSIF bManualMode OR (NOT fbAxisUp.Enabled AND NOT fbAxisDn.Enabled) THEN
+		IF NOT stInOuts.bI_WorkCoverLocked THEN
+			stInOuts.bQ_WorkCoverLift S= fbWorkCoverLiftDelay.Q;
+			IF stInOuts.bI_WorkCoverOpened OR bWorkCoverOpened THEN
+				stInOuts.bQ_WorkCoverUnlock := stInOuts.bQ_WorkCoverLift := FALSE;
+				bWorkCover_Riseup := FALSE;
+			END_IF
+		ELSE
+			stInOuts.bQ_WorkCoverUnlock := TRUE;
+		END_IF
+	END_IF
+ELSE
+	fbTON_WorkCoverOpen(IN:= FALSE);
+END_IF
+
+
+// Recipes 
+fbRecipes(
+	sRecipesDirectory:= sRecipesDir, 
+	pPLC_Struct:= ADR(stTestData), 
+	uiPLC_StructSize:= SIZEOF(stTestData), 
+	pTMP_PLC_Struct:= ADR(stTmpRecipeData), 
+	bTextFormat:= FALSE);]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="A_ErrorsDetection" Id="{b5d40074-d6a4-4b30-a3ed-f966645e50a7}">
+      <Implementation>
+        <ST><![CDATA[// Front door opened
+IF NOT stInOuts.bI_Sft_FrontDoorClosed AND NOT bManualMode AND iWorkStep < 90 THEN
+	mNewEvent(nEventClass:= nPIM_EventClasses.Alarm, nEvent := nHPv3_ErrorList.ServiceDoorOpened_Front);
+END_IF
+
+// Rear dood opened
+IF NOT stInOuts.bI_Sft_RearDoorClosed AND NOT bManualMode AND iWorkStep < 90 THEN
+	mNewEvent(nEventClass:= nPIM_EventClasses.Alarm, nEvent := nHPv3_ErrorList.ServiceDoorOpened_Rear);
+END_IF
+
+// Heated Plate actuator colision when move -invalid SafeHpMoe_pos
+
+// Heat plate temperature error
+IF stInOuts.bI_HeatedPlateTempMeasureError AND iWorkStep < 90 THEN
+	mNewEvent(nEventClass:= nPIM_EventClasses.Alarm, nEvent := nHPv3_ErrorList.HeatedPlateTemperatureError);
+END_IF
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="A_LightTower" Id="{ca836b74-cabd-422b-8bad-dd3b54734122}">
+      <Implementation>
+        <ST><![CDATA[
+fbTON_LedBlink(IN:= NOT fbTON_LedBlink.Q); 
+fbTOF_PartOK(IN:= FALSE, PT:= T#3S);
+IF NOT stInOuts.bI_Sft_EStopRelay THEN			// Safety stop
+	fbTON_LedBlink.PT := T#500MS;
+	IF stInOuts.bI_EStopPressed_Front OR stInOuts.bI_EStopPressed_Rear THEN
+		stInOuts.bQ_ResetButtonLight := TRUE;
+	ELSE	
+		stInOuts.bQ_ResetButtonLight := stInOuts.bQ_ResetButtonLight XOR fbTON_LedBlink.Q;
+	END_IF
+	stInOuts.bQ_LedTower_Blue := TRUE;
+	stInOuts.bQ_LedTower_Green := stInOuts.bQ_LedTower_Red := stInOuts.bQ_LedTower_Yellow := FALSE;
+ELSIF iWorkStep >= 90 AND iWorkStep < 92 THEN		// Wait for reset
+	stInOuts.bQ_LedTower_Red := TRUE;
+	stInOuts.bQ_ResetButtonLight := stInOuts.bQ_LedTower_Green := stInOuts.bQ_LedTower_Blue := stInOuts.bQ_LedTower_Yellow := FALSE;
+ELSIF iWorkStep >= 92 AND iWorkStep <= 100 THEN		// Reset in progress
+	fbTON_LedBlink.PT := T#200MS;
+	stInOuts.bQ_ResetButtonLight := stInOuts.bQ_LedTower_Red := stInOuts.bQ_LedTower_Red XOR fbTON_LedBlink.Q;
+	stInOuts.bQ_LedTower_Green := stInOuts.bQ_LedTower_Blue := stInOuts.bQ_LedTower_Yellow := FALSE;
+ELSIF iWorkStep <= 10 AND fbTOF_PartOK.Q THEN		// Part ok signal
+	stInOuts.bQ_LedTower_Green := TRUE;
+	stInOuts.bQ_ResetButtonLight := stInOuts.bQ_LedTower_Blue := stInOuts.bQ_LedTower_Red := stInOuts.bQ_LedTower_Yellow := FALSE;
+ELSIF iWorkStep = 10 AND I_PimSystem.prWorkPermission THEN		// Wait for new operation
+	stInOuts.bQ_LedTower_Yellow := TRUE;
+	stInOuts.bQ_ResetButtonLight := stInOuts.bQ_LedTower_Blue := stInOuts.bQ_LedTower_Red := stInOuts.bQ_LedTower_Green := FALSE;
+ELSIF iWorkStep = 13 THEN		// Manual Mode
+	fbTON_LedBlink.PT := T#400MS;
+	stInOuts.bQ_LedTower_Yellow := stInOuts.bQ_LedTower_Yellow XOR fbTON_LedBlink.Q;
+	stInOuts.bQ_LedTower_Red := NOT stInOuts.bQ_LedTower_Yellow;
+	stInOuts.bQ_ResetButtonLight := stInOuts.bQ_LedTower_Green := stInOuts.bQ_LedTower_Blue := FALSE;
+ELSIF iWorkStep > 13 AND iWorkStep < 90 THEN		// Operation in progress
+	fbTON_LedBlink.PT := T#1S;
+	stInOuts.bQ_LedTower_Yellow := stInOuts.bQ_LedTower_Yellow XOR fbTON_LedBlink.Q;
+	stInOuts.bQ_ResetButtonLight := stInOuts.bQ_LedTower_Green := stInOuts.bQ_LedTower_Red := stInOuts.bQ_LedTower_Blue := FALSE;
+ELSE
+	stInOuts.bQ_ResetButtonLight := stInOuts.bQ_LedTower_Green := 
+		stInOuts.bQ_LedTower_Red := stInOuts.bQ_LedTower_Yellow := stInOuts.bQ_LedTower_Blue := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_AxisTest" Id="{3f55bfe9-f109-4ae3-b461-a77388bf92ae}">
+      <Implementation>
+        <ST><![CDATA[IF bTest_ChoseDn THEN
+	fbAxisRef REF= fbAxisDn;
+ELSE
+	fbAxisRef REF= fbAxisUp;
+END_IF
+
+CASE iTestManMode OF
+	0:	fbAxisRef.ManualMode := FALSE;
+	5:	fbAxisRef.ManualMode := TRUE;
+		IF fbAxisRef.ManualMode THEN iTestManMode := 10; END_IF
+	10: fbAxisRef.mManualMove(bGoUp := stInOuts.bI_ManCtrl_GoDown_Up, bGoDown := stInOuts.bI_ManCtrl_GoUp_Up, bSlow := stInOuts.bI_ManCtrl_Slow, bFast := stInOuts.bI_ManCtrl_Fast);		
+	15:	fbAxisRef.ManualMode := FALSE;
+		IF NOT fbAxisRef.ManualMode THEN iTestManMode := 0; END_IF
+END_CASE
+
+bTest_AxisReady:= fbAxisRef.IsReady;
+bTest_IsHomed:= fbAxisRef.IsHomed;
+bTest_Enabled:= fbAxisRef.Enabled;
+bTest_InError:= fbAxisRef.IsErrorActive;
+bTest_IsMoving:= fbAxisRef.IsMoving;
+bTest_IsSafeToMoveHP:= fbAxisRef.IsSafeToMoveHP;
+bTest_ActPresetPos:= fbAxisRef.ActualPresetPosition;
+bTest_ActForce:= fbAxisRef.ActualForce;
+bTest_ActPosition:= fbAxisRef.ActualPosition;
+
+IF bTest_ResetAxis THEN
+	bTest_ResetAxis R= fbAxisRef.mReset(bBusy => bTest_AxisBusy, bError => bTest_AxisError, udiErrorId => udiTest_AxisErrorId);
+END_IF
+
+IF bTest_Home THEN
+	bTest_Home R= fbAxisRef.mHomeAxis(bBusy => bTest_AxisBusy, bError => bTest_AxisError, udiErrorId => udiTest_AxisErrorId);
+END_IF
+
+IF bTest_ChangeState THEN
+	fbAxisRef.Enabled := bTest_EnableAxis;	
+	bTest_ChangeState := FALSE;
+END_IF
+
+IF bTest_GoToAbs THEN
+	bTest_GoToAbs R= fbAxisRef.mMoveToAbsPos(lrSetPos := lrTest_TargetPos, bFastSpeed := FALSE, bBusy => bTest_AxisBusy, bError => bTest_AxisError, udiErrorId => udiTest_AxisErrorId);
+END_IF
+
+IF bTest_GoToPresetPos THEN
+	bTest_GoToPresetPos R= fbAxisRef.mMoveFastToPresetPos(nSetPos := nTest_SetPos, bBusy => bTest_AxisBusy, bError => bTest_AxisError, udiErrorId => udiTest_AxisErrorId);
+END_IF]]></ST>
+      </Implementation>
+    </Action>
+    <Method Name="FB_init" Id="{98f1b621-4740-45aa-9345-8aca0f31a6c0}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	I_Pim		: I_PIM;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[I_PimSystem := I_Pim;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="IsInBaseState" Id="{0763b706-7a93-4f90-a0e6-96cc388f8e5d}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY IsInBaseState : BOOL]]></Declaration>
+      <Get Name="Get" Id="{4abd1491-ee82-4ccf-a873-42a5b4bafd25}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsInBaseState := 
+	stInOuts.bI_Sft_DoorClosed AND 											// Service door closed
+	(stInOuts.bI_HeatStampPistonBasePos OR NOT bMarkingAsembled) AND		// Marking piston in base psoition
+	fbHeatedPlate_Actuator.Closed AND										// Heated plate in base position
+	NOT fbAxisUp.PartClamp AND NOT fbAxisDn.PartClamp AND					// Part clamps released
+	fbAxisUp.InSetPos_PartLoad AND fbAxisDn.InSetPos_PartLoad AND 			// Axis in partload positions
+	NOT fbAxisUp.IsErrorActive AND NOT fbAxisDn.IsErrorActive AND			// Axis errors
+	NOT fbAxisUp.Enabled AND NOT fbAxisDn.Enabled AND						// Drives turned off 	
+	NOT stInOuts.bI_EStopPressed_Front AND
+	NOT stInOuts.bI_EStopPressed_Rear AND
+	NOT stInOuts.bI_Sft_WorkCoverClosed AND									
+	NOT stInOuts.bI_WorkCoverLocked;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="mGetParamsData" Id="{eee494b3-5dea-4193-b2c2-a865721f0623}">
+      <Declaration><![CDATA[(* Metoda TRUE kiedy dane wyjściowe są ok, jeśli nie FALSE (jeśli not bBusy i FALSE to błąd odczytu) *)
+METHOD mGetParamsData : BOOL
+VAR_INPUT
+	bTestParams:	BOOL;	// Jeśli TRUE metoda okresla czy ma dostęp do parametrów, jeśli tak zwraca TRUE, jeśli nie FALSE
+END_VAR
+VAR_OUTPUT
+	bBusy	: BOOL;										//	Maszyna odświeża dane
+	pMachineParametersStruct	: POINTER TO BYTE;		// 	Wskaźnik do parametrów pracy maszyny
+	uiMachineParametersSize		: UINT;						// 	Rozmiar struktury parametrów pracy maszyny [bajty]
+	wActualCRC16SumInMachine	: WORD;					//	Aktualna suma CRC16 obliczona z parametrów
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bTestParams THEN
+	mGetParamsData := FALSE;
+ELSE
+	pMachineParametersStruct := 0;
+	uiMachineParametersSize := 0;
+	bBusy := FALSE;
+	mGetParamsData := TRUE;	
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mNewEvent" Id="{3012d78d-0611-46ab-9f87-e02873bc87e9}">
+      <Declaration><![CDATA[METHOD INTERNAL mNewEvent : BOOL
+VAR_INPUT
+	nEventClass:nPIM_EventClasses;
+	nEvent: nHPv3_ErrorList;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[nError := nLastError:= nEvent;
+IF nEventClass = nPIM_EventClasses.AlarmAutoConfirm OR nEventClass = nPIM_EventClasses.Message THEN		// Alarm nieblokadowy
+	I_PimSystem.mSetNewMachineState(nPIM_MachineStates._0_Initialization);
+	iWorkStep := 95;
+ELSE
+	I_PimSystem.mSetNewMachineState(nPIM_MachineStates._7_ErrorOccurr);
+	I_PimSystem.mNewEvent(iEventId := UDINT_TO_INT(nEvent), nEventType := nEventClass, tMessageTime := T#0S);
+	iWorkStep := 90;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="fbHPv3_Control">
+      <LineId Id="3" Count="817" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="fbHPv3_Control.A_BackgroundTasks">
+      <LineId Id="2" Count="148" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="fbHPv3_Control.A_ErrorsDetection">
+      <LineId Id="2" Count="15" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="fbHPv3_Control.A_LightTower">
+      <LineId Id="2" Count="36" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="fbHPv3_Control.ACT_AxisTest">
+      <LineId Id="2" Count="43" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="fbHPv3_Control.FB_init">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="fbHPv3_Control.IsInBaseState.Get">
+      <LineId Id="3" Count="10" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="fbHPv3_Control.mGetParamsData">
+      <LineId Id="3" Count="6" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="fbHPv3_Control.mNewEvent">
+      <LineId Id="3" Count="7" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

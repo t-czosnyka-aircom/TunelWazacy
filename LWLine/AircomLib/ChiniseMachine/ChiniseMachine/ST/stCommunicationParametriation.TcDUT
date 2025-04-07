@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <DUT Name="stCommunicationParametriation" Id="{87910a9b-a578-460e-a2b0-f6890935fce3}">
+    <Declaration><![CDATA[TYPE stCommunicationParametriation :
+STRUCT
+	stPimData 				: stPimMachineData;
+	sIpAdress 				: STRING(15);
+	iPort					: UINT;
+	iUnitId					: BYTE;
+	iCommunicationCycleTime	: INT := 50;
+	bCommunicationActive	: BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

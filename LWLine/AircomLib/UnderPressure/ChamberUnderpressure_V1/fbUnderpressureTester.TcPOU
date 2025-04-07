@@ -1,0 +1,479 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="fbUnderpressureTester" Id="{4c50d7c5-a059-44b4-9413-c9be444dfb6c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbUnderpressureTester IMPLEMENTS I_StationMachine
+VAR_IN_OUT
+	stInOuts						: stUnderPressureTester;
+END_VAR
+VAR_INPUT
+	i_bAck							: BOOL;					//Reset z systemu
+	i_bEnable						: BOOL;					//Zezwolenie zew
+	i_nVaccumLevel					: REAL;					//Wartosc docelowa podcisnienia
+	i_tTestRelaxTime				: TIME;					//Czas po odpowietrzeniu
+	i_tTestTime						: TIME;					//Czas po osiagnieciu prozni
+END_VAR
+
+VAR_OUTPUT
+	o_bError						: BOOL;					//Zgloszenie bledu do systemu
+	o_bSaferyError					: BOOL;					//Brak gotowosci ukladu bezpieczenstwa komory
+	o_bReady						: BOOL;					//Komora gotowa do pracy
+	o_bBusy							: BOOL;					//Komora w cyklu
+	o_nVaccumAI						: REAL;					//Wartosc podcisnienia
+	o_sMessage						: STRING(80);			//Komunikat do systemu
+END_VAR
+
+
+VAR
+	//Moduls
+	
+	
+	//Process
+	bInit							: BOOL;					//Pierwszy cykl Programu
+	nStepNo							: INT;					//Numer kroku
+	bChamberIdleState				: BOOL;					//Komora odpowietrzona
+	bChamberVacuumAchieved			: BOOL;					//Komora z proznia
+	bLocAckPls						: F_TRIG;				//Zbocze opadajace sygnału otwarcia drzwi
+	
+	// Timers
+	tHz1							: TON;					
+	tHz1aux							: TON;
+	tTestTimerTON					: TON;
+	tTestRelaxTimerTON				: TON;
+	tTestTimeoutTON					: TON;
+                      		
+	//Input                 		
+	i_bSW_OnOff						: BOOL;					//Przelacznik ON/OFF
+	i_bStopButtonNC					: BOOL;					//Przycisk Stop (NC)
+	i_bPhaseControlRelay			: BOOL;					//Kontrola faz OK
+	i_bDoorSens						: BOOL;					//Czujnik drzwi
+	i_bSafetyOK						: BOOL;					//Uklad bezpieczenstwa OK
+	i_bVaccumOK						: BOOL;					//Sygnal DQ z czujnika podcisnienia
+	i_bSafetyDiag					: BOOL;					//Sygnal diagnostyczny z przekznika bezpieczenstwa
+                            		
+	//Output                		
+	o_bLEDBlue						: BOOL;					//Kolumna switlan LED 
+	o_bLEDGreen						: BOOL;					//Kolumna switlan LED 
+	o_bLEDYellow					: BOOL;					//Kolumna switlan LED 
+	o_bLEDRed						: BOOL;					//Kolumna switlan LED 
+	o_bLEDReset						: BOOL;					//Podswietlenie przycisku reset
+	o_bPumpRly						: BOOL;					//Stcznik silnika pompy
+	o_bLight						: BOOL;					//Oswietlenie komory
+	o_bEValve						: BOOL;					//Elektrozawor odpowietrzenia
+	o_bTimer						: BOOL;					//Licznik motogodzin
+	//PIM
+	I_PimSystem					: I_PIM;
+	fbVacuumMeasure				: fbAnalogMeasurement;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Clock();
+Init();
+HardwareComponents();
+Light();
+
+DataProcessing();
+ErrorProcessing();
+StatusUpdate();
+AutoCycle();
+]]></ST>
+    </Implementation>
+    <Action Name="AutoCycle" Id="{e5fe54b1-1972-46ba-8b06-92952b1da6c3}">
+      <Implementation>
+        <ST><![CDATA[
+
+CASE nStepNo OF
+	
+	1: //Init
+		//o_bEValve	:= FALSE;
+		//o_bPumpRly	:= FALSE;
+		o_sMessage	:= 'Idle';
+
+		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._2_ReadyForNewOperation);
+		IF o_bReady AND i_bDoorSens	AND bChamberIdleState  THEN
+			IF I_PimSystem.mSetNewMachineState(nPIM_MachineStates._3_NewOperationStarted) THEN
+				o_bBusy 	:= TRUE;
+				nStepNo 	:= 10;
+			END_IF
+		END_IF;
+
+
+	10: //Zalaczenie pompy; Zamkniecie zaworu; 
+		//Czekaj do osiagniecia zadanego podcisnienia
+		o_sMessage	:= 'Step 1';
+		o_bEValve	:= FALSE;
+		o_bPumpRly	:= TRUE;
+		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._4_OperationInProgress);
+		IF bChamberVacuumAchieved THEN
+			o_bPumpRly	:= FALSE;
+			nStepNo	:= 15;
+		END_IF
+
+
+	15: //Osiagnieto zadane podcisnienie
+		//Odczekaj zadany czas testu
+		//Otworz zawor
+		o_sMessage	:= 'Step 2';
+		IF tTestTimerTON.Q THEN
+			o_bEValve	:= TRUE;
+			o_bPumpRly	:= FALSE;
+			nStepNo	:= 20;
+		END_IF
+
+
+	20: //Czekaj na wyrownanie cisnienia w komorze
+		o_sMessage	:= 'Step 3';
+		IF bChamberIdleState THEN
+			nStepNo	:= 25;
+		END_IF
+
+
+	25: //Odczekaj zadany czas relaksaci produktu
+		//Zalaczenie pompy; Zamkniecie zaworu; 
+		o_sMessage	:= 'Step 4';
+		IF tTestRelaxTimerTON.Q THEN
+			o_bEValve	:= FALSE;
+			nStepNo:= 40;
+			(*o_bPumpRly	:= TRUE;
+			nStepNo:= 30;*)
+		END_IF
+
+
+	30: //Czekaj do osiagniecia zadanego podcisnienia
+		o_sMessage	:= 'Step 5';
+		IF bChamberVacuumAchieved THEN
+			o_bPumpRly	:= FALSE;
+			nStepNo	:= 35;
+		END_IF
+
+
+	35: //Odczekaj zadany czas testu
+		//Otworz zawor
+		o_sMessage	:= 'Step 6';
+		IF tTestTimerTON.Q THEN
+			o_bEValve	:= TRUE;
+			o_bPumpRly	:= FALSE;
+			nStepNo	:= 40;
+		END_IF
+
+
+	40: //Koniec testu;
+		//Czekaj na otwarcie komory
+		o_sMessage	:= 'Step 7';
+		IF bChamberIdleState AND NOT i_bDoorSens THEN
+			o_bBusy := FALSE;
+			I_PimSystem.mSetNewMachineState(nPIM_MachineStates._5_OperationEndedOK);
+			nStepNo	:= 1;
+		END_IF
+
+
+	100: //Error
+		o_bEValve	:= TRUE;
+		o_bPumpRly	:= FALSE;
+		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._8_WaitForReset);
+		nStepNo	:= 105;
+	105:
+		IF I_PimSystem.mSetNewMachineState(nPIM_MachineStates._9_ResetInProgress) AND i_bSafetyOK THEN
+			o_bError 		:= FALSE;
+			o_bEValve		:= FALSE;
+			o_bPumpRly		:= FALSE;
+			nStepNo			:= 110;
+		END_IF
+	110:
+		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._0_Standby_NotReady);
+		nStepNo			:= 1;
+
+END_CASE]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="Clock" Id="{8ad741ee-8ff6-471d-9ca5-cec05549f69f}">
+      <Implementation>
+        <ST><![CDATA[////////////////////////////////////////////////////////////////////
+//Clock
+//
+//Generator impulsow
+//GM
+
+//1Hz
+tHz1	(IN:= NOT tHz1aux.Q,PT:=T#500MS);
+tHz1aux	(IN:= tHz1.Q,PT:=T#500MS);
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="DataProcessing" Id="{3a025c09-8845-4a5f-994a-b46992b8402b}">
+      <Implementation>
+        <ST><![CDATA[////////////////////////////////////////////////////////////////////
+//DataProcessing
+//
+//Przygotowanie danych i sygnalow potrzebnych do dalszego uzycia
+//GM
+
+tTestRelaxTimerTON	(IN:= ((nStepNo = 25) OR (nStepNo = 25)), PT:= i_tTestRelaxTime);
+tTestTimerTON		(IN:= ((nStepNo = 15) OR (nStepNo = 35)), PT:= i_tTestTime);
+tTestTimeoutTON		(IN:= o_bBusy, PT:= T#60m);
+
+bLocAckPls			(CLK:= i_bDoorSens);
+
+
+
+o_bReady:= i_bEnable 
+			AND i_bPhaseControlRelay 
+			AND i_bSafetyOK 
+			AND i_bSW_OnOff;
+
+fbVacuumMeasure(rIn := INT_TO_REAL(stInOuts.i_aEL3702ChValue[0]),stMeasureScalingData := 
+					
+//
+//o_nVaccumAI := INT_TO_REAL();
+
+IF o_nVaccumAI <= 3500 THEN
+	bChamberIdleState 	:= TRUE;
+ELSE
+	bChamberIdleState	:= FALSE;
+END_IF
+
+IF o_nVaccumAI >= i_nVaccumLevel THEN
+	bChamberVacuumAchieved 	:= TRUE;
+ELSE
+	bChamberVacuumAchieved	:= FALSE;
+END_IF
+
+IF NOT i_bStopButtonNC THEN 
+	nStepNo := 1;
+END_IF]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ErrorProcessing" Id="{3c9712dd-652a-4fbb-8b82-7aea3a99e092}">
+      <Implementation>
+        <ST><![CDATA[////////////////////////////////////////////////////////////////////
+//ErrorProcessing
+//
+//Obsluga bledow
+//GM
+
+
+IF  tTestTimeoutTON.Q AND NOT o_bError THEN
+	mNewEvent(nEventClass:=nPIM_EventClasses.Error,nEvent:=nUnderPressureTestErrorCodes.TestTimeOut);
+	o_bBusy			:= FALSE;
+	o_bError 		:= TRUE;
+	nStepNo			:= 100;
+	o_sMessage		:= 'Test Timeout';
+END_IF
+
+IF NOT i_bSafetyOK  AND NOT o_bError THEN
+	mNewEvent(nEventClass:=nPIM_EventClasses.Error,nEvent:=nUnderPressureTestErrorCodes.SafetyError);
+	o_bBusy			:= FALSE;
+	o_bError 		:= TRUE;
+	nStepNo			:= 100;
+	o_sMessage		:= 'Safety Error';
+END_IF]]></ST>
+      </Implementation>
+    </Action>
+    <Method Name="FB_init" Id="{e65cabb3-3618-40b2-8e14-af6fc453c6ba}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains	: BOOL;
+	bInCopyCode 	: BOOL;
+	I_Pim			: I_PIM;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[I_PimSystem := I_Pim;]]></ST>
+      </Implementation>
+    </Method>
+    <Action Name="HardwareComponents" Id="{58741506-edd4-4941-9eee-95713322d988}">
+      <Implementation>
+        <ST><![CDATA[////////////////////////////////////////////////////////////////////
+//HardwareComponents
+//
+//Przepisanie zmiennych procesowych na zmienne linkowane z/na wej/wyj fizyczne
+//GM	
+
+
+	//EK1818 Input
+	i_bSW_OnOff				:= stInOuts.i_aEK1818InputBit[0];
+	i_bStopButtonNC			:= stInOuts.i_aEK1818InputBit[1];
+	i_bPhaseControlRelay	:= stInOuts.i_aEK1818InputBit[2];
+	i_bDoorSens				:= stInOuts.i_aEK1818InputBit[3];
+	i_bSafetyOK				:= stInOuts.i_aEK1818InputBit[4];
+	i_bVaccumOK				:= stInOuts.i_aEK1818InputBit[5];
+	i_bSafetyDiag			:= stInOuts.i_aEK1818InputBit[6];
+
+	//EK1818 Output
+	stInOuts.o_aEK1818OutputBit[0]	:= o_bTimer;
+	//o_aEK1818OutputBit[1];	//free
+	//o_aEK1818OutputBit[2];	//free
+	//o_aEK1818OutputBit[3];	//free
+
+	
+	//EL2008 Output
+	stInOuts.o_aEL2008OutputBit[0]	:= o_bLEDBlue; 
+	stInOuts.o_aEL2008OutputBit[1] 	:= o_bLEDGreen;
+	stInOuts.o_aEL2008OutputBit[2] 	:= o_bLEDYellow;
+	stInOuts.o_aEL2008OutputBit[3] 	:= o_bLEDRed;
+	stInOuts.o_aEL2008OutputBit[4] 	:= o_bLEDReset;
+	stInOuts.o_aEL2008OutputBit[5] 	:= o_bPumpRly;
+	stInOuts.o_aEL2008OutputBit[6] 	:= o_bLight;
+	stInOuts.o_aEL2008OutputBit[7] 	:= o_bEValve;
+
+
+	//EL3702 Analog Input
+	]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="Init" Id="{ff2d63e1-70d2-4dbf-ac6a-8e4435eaa6c4}">
+      <Implementation>
+        <ST><![CDATA[////////////////////////////////////////////////////////////////////
+//Init
+//
+//Pierwszy cykl programu po restarcie PLC
+//GM
+
+IF NOT bInit THEN
+	bInit 			:= TRUE;
+	o_bPumpRly 		:= FALSE;
+	o_bEValve		:= TRUE;
+	nStepNo			:= 1;
+	o_sMessage		:= 'Init Done';
+END_IF]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="Light" Id="{04ed1824-5aa9-4338-a47e-d87e2b072699}">
+      <Implementation>
+        <ST><![CDATA[o_bLEDBlue;
+
+o_bLEDGreen		:= (nStepNo = 40);
+
+o_bLEDRed 		:= (NOT i_bSafetyOK AND tHz1.Q) OR o_bError;
+
+o_bLEDYellow 	:= (nStepNo = 1) OR (o_bBusy AND tHz1.Q) ;
+
+o_bLEDReset 	:= NOT i_bSafetyOK;]]></ST>
+      </Implementation>
+    </Action>
+    <Method Name="mGetParamsData" Id="{a13e489f-7de2-406c-9326-0a091cdddb51}">
+      <Declaration><![CDATA[// Metoda TRUE kiedy dane wyjściowe są ok, jeśli nie FALSE (jeśli not bBusy i FALSE to błąd odczytu) 
+METHOD mGetParamsData : BOOL
+VAR_INPUT
+	bTestParams:	BOOL;	// Jeśli TRUE metoda okresla czy ma dostęp do parametrów, jeśli tak zwraca TRUE, jeśli nie FALSE
+END_VAR
+VAR_OUTPUT
+	bBusy:BOOL;		// Maszyna odświeża dane
+	pMachineParametersStruct: POINTER TO BYTE;	// Wskaźnik do parametrów pracy maszyny
+	uiMachineParametersSize: UINT;				// Rozmiar struktury parametrów pracy maszyny [bajty]
+	wActualCRC16SumInMachine: WORD;				// Aktualna suma CRC16 obliczona z parametrów
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bTestParams THEN
+	//mGetParamsData := stMachineSettings.bSerialCommunicationEN;
+ELSE
+	//pMachineParametersStruct := ADR(stParamAktProgramu);
+	//uiMachineParametersSize := SIZEOF(stParamAktProgramu);
+	wActualCRC16SumInMachine := F_DATA_TO_CRC16_CCITT(pData := pMachineParametersStruct, cbData := uiMachineParametersSize, crc := 16#0000);
+	bBusy := FALSE;
+	mGetParamsData := TRUE;	
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mNewEvent" Id="{f744b944-99e2-4c91-b473-b38448ec9be9}">
+      <Declaration><![CDATA[METHOD INTERNAL mNewEvent : BOOL
+VAR_INPUT
+	nEventClass:nPIM_EventClasses;
+	nEvent: nUnderPressureTestErrorCodes;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF nEventClass = nPIM_EventClasses.AlarmAutoConfirm OR nEventClass = nPIM_EventClasses.Message THEN		// Alarm nieblokadowy
+	I_PimSystem.mSetNewMachineState(nPIM_MachineStates._0_Initialization);
+	nStepNo := 100;
+ELSE
+	I_PimSystem.mSetNewMachineState(nPIM_MachineStates._7_ErrorOccurr);
+
+	I_PimSystem.mNewEvent(iEventId := nEvent, nEventType := nEventClass, tMessageTime := T#0S);
+	nStepNo := 100;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Action Name="StatusUpdate" Id="{05a1fe1d-3da2-40b2-a27a-8f74f6d30bca}">
+      <Implementation>
+        <ST><![CDATA[o_bSaferyError := NOT i_bSafetyOK;
+]]></ST>
+      </Implementation>
+    </Action>
+    <LineIds Name="fbUnderpressureTester">
+      <LineId Id="17" Count="8" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="fbUnderpressureTester.AutoCycle">
+      <LineId Id="2" Count="3" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="6" Count="6" />
+      <LineId Id="112" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="113" Count="0" />
+      <LineId Id="14" Count="37" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="52" Count="27" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="80" Count="4" />
+      <LineId Id="96" Count="0" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="102" Count="0" />
+      <LineId Id="100" Count="0" />
+      <LineId Id="98" Count="1" />
+      <LineId Id="103" Count="0" />
+      <LineId Id="106" Count="1" />
+      <LineId Id="105" Count="0" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="108" Count="1" />
+      <LineId Id="111" Count="0" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="fbUnderpressureTester.Clock">
+      <LineId Id="2" Count="8" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="fbUnderpressureTester.DataProcessing">
+      <LineId Id="2" Count="19" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="22" Count="16" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="fbUnderpressureTester.ErrorProcessing">
+      <LineId Id="2" Count="4" />
+      <LineId Id="11" Count="2" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="14" Count="3" />
+      <LineId Id="1" Count="0" />
+      <LineId Id="24" Count="6" />
+      <LineId Id="23" Count="0" />
+    </LineIds>
+    <LineIds Name="fbUnderpressureTester.FB_init">
+      <LineId Id="3" Count="0" />
+    </LineIds>
+    <LineIds Name="fbUnderpressureTester.HardwareComponents">
+      <LineId Id="2" Count="34" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="fbUnderpressureTester.Init">
+      <LineId Id="2" Count="11" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="fbUnderpressureTester.Light">
+      <LineId Id="2" Count="7" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="fbUnderpressureTester.mGetParamsData">
+      <LineId Id="25" Count="7" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="fbUnderpressureTester.mNewEvent">
+      <LineId Id="5" Count="8" />
+    </LineIds>
+    <LineIds Name="fbUnderpressureTester.StatusUpdate">
+      <LineId Id="2" Count="0" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <DUT Name="stPimMachineData" Id="{393eb008-c48a-4699-abca-b72b9145514d}">
+    <Declaration><![CDATA[TYPE stPimMachineData :
+STRUCT
+	//Work control
+		//Bool Data
+			bLifeBitPLC				: BOOL;	//LifeBit-D
+			bLifeBitMachine			: BOOL;	//LifeBit-D
+			bWorkAllow				: BOOL;	//Work allowelance form PIM-D
+			bWorkInProgress			: BOOL;	//Machine is performing process-D
+			bCycleEnd				: BOOL;	//Cycle End state-D
+			bError					: BOOL;	//Error state-D
+			bAlarm					: BOOL; //Alarm state 
+			bResetError				: BOOL;	//Reset after error-D
+			bConfirmError			: BOOL;	//Confirmation of alarm-D
+			bTestMode				: BOOL; //TestMode Work Allowelance-D
+			bOfflineWorkAllow		: BOOL;	//Work allowelance of machine work without PIM -D
+			bStopPerform			: BOOL; //Remote stop -D
+			//bSaveDataToPLC		: BOOL;	//Perform data transfer to PLC - Used for parametrization
+			//bValidateData			: BOOL;	//Perform Validation of data between PIM and Machine - Parametrization
+			bWaitWithWork			: BOOL;	//Wait while producing parts if next machine have high traffic-D
+		//1-Byte Data
+			iProductId				: INT;	//Bottle needed to be produced -N
+			iActualWorkStep			: INT;	//Workstep of cycle -N
+		//2-Byte Data
+			iErrorCode				: INT;	//Number of error code-D
+	//Parts controll
+		//4-Byte Data
+			wGoodPartsAmount		: WORD;	//Amount of GOOD parts what was allready produced -N
+			wBadPartsAmount			: WORD;	//Amount of BAD parts what was allready produced -N
+		//2-Byte Data
+			iCycleTime				: INT; //Cycle Time [ms] -N
+	//Parts flow set-up
+		//1-Byte Data
+			iPartsCreatedInOneTime 	: INT; //Amount of parts that are done one 1 cycle -N
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

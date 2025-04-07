@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="fbGechterPress" Id="{ad5d4552-efcc-4e1b-8b9a-b85b6d2793b0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbGechterPress IMPLEMENTS I_StationMachine
+VAR_IN_OUT
+	stDigInOuts: stGechterPress_InOuts;
+END_VAR
+VAR_INPUT
+	iBasePosSetting :INT:= 2000;
+	iEndPosSetting :INT:= 8000;
+END_VAR
+VAR_OUTPUT
+	nError:nGechterPress_ErrorCodes;
+END_VAR
+VAR
+	I_PimSystem			: I_PIM;
+	fbWorkPermFilter	: fbBinaryFilter; 
+	fbTON_MeasureDelay :TON;
+	udiOperationsOK_Qty: UDINT;
+	iWorkStep: INT;
+	bWorkPermitt: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[I_PimSystem.mGetStationData(bWorkPermittion => bWorkPermitt);
+
+fbWorkPermFilter(IN := bWorkPermitt AND stDigInOuts.bPressureSensor AND stDigInOuts.bMachinePowerON, tON := T#500MS, tOFF := T#500MS, Q=> stDigInOuts.bWorkPermition_Q );
+fbTON_MeasureDelay(IN:= stDigInOuts.iPistonPosition > iBasePosSetting, PT:= T#500ms);
+
+//  Błędy monitorowane stale (bezpieczeństwo)
+
+CASE iWorkStep OF 
+	0:	// Inicjalizacja
+		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._0_Initialization);
+		stDigInOuts.bWorkPermition_Q := FALSE;
+		iWorkStep := 1;
+		
+	1:	// Init
+		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._0_Standby_NotReady);
+		iWorkStep := 5;
+	
+	5:	// Krok spoczynkowy - oczekiwanie na nową operację
+		stDigInOuts.bWorkPermition_Q := bWorkPermitt;
+		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._2_ReadyForNewOperation);
+		IF stDigInOuts.bPistonPositionError THEN
+			mNewEvent(nEventClass := nPIM_EventClasses.Alarm, nEvent:= nGechterPress_ErrorCodes.PressPossitionMeasureError);
+		ELSIF NOT stDigInOuts.bPressureSensor THEN
+			mNewEvent(nEventClass := nPIM_EventClasses.Alarm, nEvent:= nGechterPress_ErrorCodes.ToLowAirPressure);
+		ELSIF fbTON_MeasureDelay.Q THEN
+			IF I_PimSystem.mSetNewMachineState(nPIM_MachineStates._3_NewOperationStarted) THEN 
+				iWorkStep := 10;
+			END_IF
+		END_IF
+		
+	10:	// Nowa operacja rozpoczęta - ustawienie sygnałów
+		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._4_OperationInProgress);
+		iWorkStep := 15;
+		
+	15:	// Oczekiwanie na osiąfnięcie pozycji roboczej
+		IF stDigInOuts.iPistonPosition > iEndPosSetting THEN
+			I_PimSystem.mSetNewMachineState(nPIM_MachineStates._5_OperationEndedOK);
+			iWorkStep := 20;
+		ELSIF NOT fbTON_MeasureDelay.Q THEN
+			mNewEvent(nEventClass := nPIM_EventClasses.Error, nEvent:= nGechterPress_ErrorCodes.OperInteruptedBeforeWorkPos);
+		END_IF
+		
+	20:	// Cofnięcie prasy
+		IF I_PimSystem.mSetNewMachineState(nPIM_MachineStates._6_ReturningToBaseState) THEN
+			iWorkStep := 25;
+		END_IF
+
+	25:	// Zakończenie operacji		 
+		IF NOT fbTON_MeasureDelay.Q THEN
+			iWorkStep := 5;
+		END_IF
+		
+	90:	// Zapis statusu NOK i blokowanie stanowiska
+		stDigInOuts.bWorkPermition_Q := FALSE;
+		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._8_WaitForReset);
+		iWorkStep := 91;
+		
+	91:	// Oczekiwanie na potwierdzenie
+		IF I_PimSystem.mSetNewMachineState(nPIM_MachineStates._9_ResetInProgress) THEN
+			iWorkStep := 95;
+		END_IF
+		
+	95:	// Potwierdzenie błedu
+		IF NOT stDigInOuts.bPistonPositionError THEN
+			nError := nGechterPress_ErrorCodes.NoError;
+			I_PimSystem.mSetNewMachineState(nPIM_MachineStates._0_Standby_NotReady);
+			iWorkStep := 0 ;	// Powrót do kroku inicjalizacyjnego lub wskazanego w algorytmie
+		END_IF 
+	ELSE	// Krok domyślny w przypadku błędu w programie
+		mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent:= nGechterPress_ErrorCodes.ProgramConfigError);		
+END_CASE]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{b333fc75-0f1e-4f68-8c2c-6a83dc451d51}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	I_Pim	: I_PIM;		// Interfejs do bloku PIM
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[I_PimSystem := I_Pim;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mGetParamsData" Id="{2fad93b6-e1f8-417c-9e9b-3c4b9d01072b}">
+      <Declaration><![CDATA[(* Metoda TRUE kiedy dane wyjściowe są ok, jeśli nie FALSE (jeśli not bBusy i FALSE to błąd odczytu) *)
+METHOD mGetParamsData : BOOL
+VAR_INPUT
+	bTestParams:	BOOL;	// Jeśli TRUE metoda okresla czy ma dostęp do parametrów, jeśli tak zwraca TRUE, jeśli nie FALSE
+END_VAR
+VAR_OUTPUT
+	bBusy	: BOOL;										//	Maszyna odświeża dane
+	pMachineParametersStruct	: POINTER TO BYTE;		// 	Wskaźnik do parametrów pracy maszyny
+	uiMachineParametersSize	: UINT;						// 	Rozmiar struktury parametrów pracy maszyny [bajty]
+	wActualCRC16SumInMachine	: WORD;					//	Aktualna suma CRC16 obliczona z parametrów
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bTestParams THEN
+	mGetParamsData := FALSE;
+ELSE
+	pMachineParametersStruct := 0;
+	uiMachineParametersSize := 0;
+	wActualCRC16SumInMachine := F_DATA_TO_CRC16_CCITT(pData := pMachineParametersStruct, cbData := uiMachineParametersSize, crc := 16#0000);
+	bBusy := FALSE;
+	mGetParamsData := TRUE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mNewEvent" Id="{c00bc8e0-e80a-49ef-9fa0-2edc3d6b0f2b}">
+      <Declaration><![CDATA[METHOD INTERNAL mNewEvent : BOOL
+VAR_INPUT
+	nEventClass:nPIM_EventClasses;
+	nEvent: nGechterPress_ErrorCodes;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF nEventClass = nPIM_EventClasses.AlarmAutoConfirm OR nEventClass = nPIM_EventClasses.Message THEN		// Alarm nieblokadowy
+	I_PimSystem.mSetNewMachineState(nPIM_MachineStates._0_Initialization);
+	iWorkStep := 95;
+ELSE
+	I_PimSystem.mSetNewMachineState(nPIM_MachineStates._7_ErrorOccurr);
+	I_PimSystem.mNewEvent(iEventId := nEvent, nEventType := nEventClass, tMessageTime := T#0S);
+	iWorkStep := 90;
+END_IF
+nError := nEvent;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="fbGechterPress">
+      <LineId Id="3" Count="69" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="fbGechterPress.FB_init">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="fbGechterPress.mGetParamsData">
+      <LineId Id="3" Count="8" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="fbGechterPress.mNewEvent">
+      <LineId Id="3" Count="7" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

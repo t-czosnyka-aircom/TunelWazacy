@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <DUT Name="nDetectionTunelErrorCodes" Id="{4edd5731-a5d8-4e11-ab8f-f571d716ab68}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE nDetectionTunelErrorCodes :
+(
+	takeOutBottleFormTare := 850,
+	tooMuchDropedBottles := 851,
+	weightCheckWeightTimeOut := 852,
+	massTooSmall := 853,
+	massTooHigh := 854,
+	lackOfDetectionOfSeal := 855,
+	wrongSealDetected := 856,
+	bottleMassLowAndWrongCRing := 857,
+	bottleMassLowAndLackOfCRing := 858,
+	bottleMassHighAndLackOfCRing := 859,
+	bottleMassHighAndWrongCRing := 862,
+	stepTimeOut	:= 863,
+	safetyError := 861
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="fbSealingCorkAssKeyencePN" Id="{36873e46-dc2c-4a89-ae3b-3c50d9a932af}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC fbSealingCorkAssKeyencePN EXTENDS fbStFixBaseTemplate IMPLEMENTS I_Fixture 
+VAR_INPUT
+	bEnCheck:	BOOL;
+	// Wejścia cyfrowe, konfiguracyjne itp
+	iMaxTrigRepeats: INT := 2;
+
+END_VAR
+VAR
+	fbVisionSensor: fbKeyenceIVProfinetCtrl;
+	I_Vision: I_VisionSensorSTD;
+	iTriggerRepeats: INT;
+	bErrorBVS: BOOL;
+	bSealingCorkOK: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fbVisionSensor();
+I_Vision := fbVisionSensor;
+
+CASE iWorkStep OF
+	0:		// Powrót do stanu początkowego (ustawienie zmiennych)
+		bResetMethod := bQReady := bQBusy := bQError := FALSE;
+		fbVisionSensor.bTrigger := FALSE;
+		IF NOT bLock AND NOT bRelease THEN
+			fbTON(IN:= FALSE);
+			iWorkStep := 1;
+		END_IF
+			
+	1: 		// Sprawdzenie czy siłowniki są w dobrej pozycji itp.
+		fbTON(IN:= TRUE, PT:= T#2S);
+		bQLocked := FALSE;
+		iWorkStep := 5;
+	
+	5:		// Oczekiwanie na nowy rozkaz
+		bResetMethod:= bReleaseMethod:= bAuxOperMethod:= bLockMethod := FALSE;
+		bQReady := TRUE;
+		actCheckForNewOrder();
+		
+	10:		// Blokowanie kowadła
+		bQError := FALSE;
+		IF bEnCheck THEN
+			nQErrorId := iTriggerRepeats := 0;
+			iWorkStep := 12;
+		ELSE
+			iWorkStep := 16;
+		END_IF
+		
+	12:		// Oczekiwanie na zakończenie detekcji
+		IF I_Vision.mNewInspection(bError => bErrorBVS, bOut1=> bSealingCorkOK, bOut2=>, bOut3 => ) THEN
+			IF NOT bErrorBVS THEN		// Balluff odpowiedział
+				IF bSealingCorkOK THEN		// Wszystko wykryte
+					iWorkStep := 16;
+				ELSE		// NIe wyszystko wykryte
+					IF iTriggerRepeats >= iMaxTrigRepeats THEN		// Wykonano powtórne zdjęcie
+						mNewError(nSealingCorkAssKeyencePN_ErrorCodes.BadSealingCorkAssembly);
+					ELSE		// Wykonaj powtórne zdjęcie
+						iTriggerRepeats := iTriggerRepeats + 1;
+						fbTON(IN:= FALSE);
+						iWorkStep := 14;
+					END_IF
+				END_IF
+			ELSE		// brak odpowiedzi Balluffa
+				mNewError(nSealingCorkAssKeyencePN_ErrorCodes.SensorNotReady);
+			END_IF
+		END_IF
+	14:		// Oczekiwanie oraz powtórna próba znalezienia
+		fbTON(IN:= TRUE, PT:= T#200MS);
+		IF fbTON.Q THEN
+			fbTON(IN:= FALSE);
+			iWorkStep := 12;
+		END_IF
+	16:		// Wszystko wykryte OK
+		bQError := bQBusy := FALSE;
+		iWorkStep := 5;
+		
+	20:		// Dodatkowa operacja
+		bQBusy := FALSE;
+		bQLocked := FALSE;		
+		iWorkStep := 5;
+	
+	30:		// Zwalnianie kowadła
+		bQBusy := FALSE;
+		bQLocked := FALSE;		
+		iWorkStep := 5;
+	
+	50:		// Manual work coordination
+		fbTON(IN:= TRUE, PT:= T#15M);
+		IF NOT bManualWork OR fbTON.Q THEN
+			fbTON(IN:= FALSE);
+			bManualWork := FALSE;
+			iWorkStep := 0;
+		END_IF	
+		
+	90:		// Błąd w pracy kowadła
+		bQBusy := bQReady:= bQAlarm := FALSE;
+		bQError := TRUE;
+		fbVisionSensor.bTrigger := fbVisionSensor.bReadActualInspection := fbVisionSensor.bChangeInspection := FALSE;
+		iWorkStep := 95;
+		
+	91:
+		bQBusy := bQReady := FALSE;
+		bQAlarm := TRUE;
+		fbVisionSensor.bTrigger := fbVisionSensor.bReadActualInspection := fbVisionSensor.bChangeInspection := FALSE;
+		iWorkStep := 95;
+
+	
+	95:
+		IF bRelease OR bResetMethod THEN
+			bQError := FALSE;
+			nQErrorId := iWorkStep := 0;
+		END_IF
+
+	ELSE
+		mNewError(nSealingCorkAssKeyencePN_ErrorCodes.ProgramConfigError);			
+END_CASE]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

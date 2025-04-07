@@ -1,0 +1,937 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="MAIN" Id="{086fc6ba-1790-4ec6-a004-db460bd84f28}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR	
+	fbSonicTechCom_1Part: fbSonictechSerialCom;
+	 
+	//  stStation_L{nazwa linii}_S{nazwa stanowiska}[_M{numer maszyny}]
+	//  Stanowisko S01
+	stStation_LBS02PL_SBS02PL01: stPIM_ServiceInOuts;
+	fbS01_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbS01_BearingPress);
+	fbS01_BearingPress: fbSonicPress(I_Pim := fbS01_Station);
+	fbS01_KeyencePNVisSens: fbSealingCorkAssKeyencePN;
+	fbS01_PulseCounter: fbPulseCounterPIM;
+	
+	
+	// 	Stanowisko S02 
+	stStation_LBB02PL_SBB02PL01: stPIM_ServiceInOuts;
+	fbS02_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbS02_BearingPress);
+	fbS02_BearingPress: fbSonicPress(I_Pim := fbS02_Station);
+	fbS02_PulseCounter: fbPulseCounterPIM;
+		
+	// 	Stanowisko S03 
+	stStation_LBO02PL_SBO02PL01: stPIM_ServiceInOuts;
+	fbS03_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbS03_BearingPress);
+	fbS03_BearingPress: fbSonicPress(I_Pim := fbS03_Station);
+	fbS03_PulseCounter: fbPulseCounterPIM;
+	
+	// 	Stanowisko S04
+	stStation_LBO02PL_SBO02PL02: stPIM_ServiceInOuts;
+	fbS04_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbS04_BearingPress);
+	fbS04_BearingPress: fbSonicPress(I_Pim := fbS04_Station);
+	fbS04_PulseCounter: fbPulseCounterPIM;
+	
+	// HotPlate G1
+	stStation_LBH0GPL_SBH0GPL01_M1 : stPIM_ServiceInOuts;	
+	fbSB0GPL01_M1_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G1_M1);
+	fbHotPlate_G1_M1: fbHPv3_Control(I_Pim:= fbSB0GPL01_M1_Station);
+		
+	stStation_LBH0GPL_SBH0GPL01_M2 : stPIM_ServiceInOuts;	
+	fbSB0GPL01_M2_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G1_M2);
+	fbHotPlate_G1_M2: fbHPv3_Control(I_Pim:= fbSB0GPL01_M2_Station);
+	
+	stStation_LBH0GPL_SBH0GPL01_M3 : stPIM_ServiceInOuts;	
+	fbSB0GPL01_M3_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G1_M3);
+	fbHotPlate_G1_M3: fbHPv3_Control(I_Pim:= fbSB0GPL01_M3_Station);
+	
+	// HotPlate G2
+	stStation_LBH0HPL_SBH0HPL01_M1 : stPIM_ServiceInOuts;	
+	fbSB0HPL01_M1_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G2_M1);
+	fbHotPlate_G2_M1: fbHPv3_Control(I_Pim:= fbSB0HPL01_M1_Station);
+		
+	stStation_LBH0HPL_SBH0HPL01_M2 : stPIM_ServiceInOuts;	
+	fbSB0HPL01_M2_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G2_M2);
+	fbHotPlate_G2_M2: fbHPv3_Control(I_Pim:= fbSB0HPL01_M2_Station);
+	
+	stStation_LBH0HPL_SBH0HPL01_M3 : stPIM_ServiceInOuts;	
+	fbSB0HPL01_M3_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G2_M3);
+	fbHotPlate_G2_M3: fbHPv3_Control(I_Pim:= fbSB0HPL01_M3_Station);
+	
+	
+	// HotPlate G3
+	stStation_LBH0IPL_SBH0IPL01_M1 : stPIM_ServiceInOuts;	
+	fbSB0IPL01_M1_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G3_M1);
+	fbHotPlate_G3_M1: fbHPv3_Control(I_Pim:= fbSB0IPL01_M1_Station);
+		
+	stStation_LBH0IPL_SBH0IPL01_M2 : stPIM_ServiceInOuts;	
+	fbSB0IPL01_M2_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G3_M2);
+	fbHotPlate_G3_M2: fbHPv3_Control(I_Pim:= fbSB0IPL01_M2_Station);
+	
+	stStation_LBH0IPL_SBH0IPL01_M3 : stPIM_ServiceInOuts;	
+	fbSB0IPL01_M3_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G3_M3);
+	fbHotPlate_G3_M3: fbHPv3_Control(I_Pim:= fbSB0IPL01_M3_Station);
+	// HotPlate G4
+	stStation_LBH0JPL_SBH0JPL01_M1 : stPIM_ServiceInOuts;	
+	fbSB0JPL01_M1_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G4_M1);
+	fbHotPlate_G4_M1: fbHPv3_Control(I_Pim:= fbSB0JPL01_M1_Station);
+		
+	stStation_LBH0JPL_SBH0JPL01_M2 : stPIM_ServiceInOuts;	
+	fbSB0JPL01_M2_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G4_M2);
+	fbHotPlate_G4_M2: fbHPv3_Control(I_Pim:= fbSB0JPL01_M2_Station);
+	
+	stStation_LBH0JPL_SBH0JPL01_M3 : stPIM_ServiceInOuts;	
+	fbSB0JPL01_M3_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G3_M3);
+	fbHotPlate_G4_M3: fbHPv3_Control(I_Pim:= fbSB0JPL01_M3_Station);
+	
+	// 	Stanowisko PlugA
+	//stStation_LBA02PL_SBA02PL03: stPIM_ServiceInOuts;
+	//fbSA03_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbSA03_Plug_A_Welder);
+	//fbSA03_Plug_A_Welder: fbSonictechUSWM(I_Pim := fbSA03_Station);
+	//fbSA03_PulseCounter: fbPulseCounterPIM;
+	
+	// 	Stanowisko PlugB
+	//stStation_LBA02PL_SBA02PL05: stPIM_ServiceInOuts;
+	//fbSA05_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbSA05_Plug_A_Welder);
+	//fbSA05_Plug_A_Welder: fbSonictechUSWM(I_Pim := fbSA05_Station);
+	//fbSA05_PulseCounter: fbPulseCounterPIM;
+	
+	// Dla całej linii
+	fbS_AirPulseCounter:AircomLibrary.fbPulseCounter;
+	fbS_TONAirFlowAlarm:TON;
+	fbS_AirFlowAlarmTrigger:R_TRIG;
+
+	fbIISReset:fbIIS_Restart;
+	bRestart_IIS: BOOL;
+	bRomErrorTableReset: BOOL;
+	fbTcWcfReset: fbTcAdsWcfHost_Restart;
+	bRestartTcWcf:BOOL;
+	
+	bResetWcfAtStartup: BOOL;
+	bTrigger: BOOL;
+	//Bottle filling line
+		//ACT_1_Filler_A
+			stStation_LBA02PL_SBA02PL01_M1: stPIM_ServiceInOuts;
+			fb_Filler_A_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Filler_A_Machine);
+			fb_Filler_A_Machine : fbChiniseMachine(I_Pim := fb_Filler_A_Station);
+		//ACT_2_Cork
+			stStation_LBA02PL_SBA02PL01_M2: stPIM_ServiceInOuts;
+			fb_Cork_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Cork_Machine);
+			fb_Cork_Machine : fbChiniseMachine(I_Pim := fb_Cork_Station);
+		//ACT_3_SonicTech
+			stStation_LBA02PL_SBA02PL02: stPIM_ServiceInOuts;
+			fb_1_SonicTech_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_1_SonicTech_SonictechUSW);
+			fb_1_SonicTech_SonictechUSW		: fbSonictechUSWM(I_Pim := fb_1_SonicTech_Station);
+			fb_1_SonicTech_SonicTechCom		: fbSonictechSerialCom;
+			fb_1_SonicTech_PulseCounter		: fbPulseCounterPIM;
+		//ACT_4_Filler_B
+			stStation_LBA02PL_SBA02PL03: stPIM_ServiceInOuts;
+			fb_Filler_B_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Filler_B_Machine);
+			fb_Filler_B_Machine : fbChiniseMachine(I_Pim := fb_Filler_B_Station);
+		//ACT_5_SonicTech
+			stStation_LBA02PL_SBA02PL04: stPIM_ServiceInOuts;
+			fb_2_SonicTech_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_2_SonicTech_SonictechUSW);
+			fb_2_SonicTech_SonictechUSW: fbSonictechUSWM(I_Pim := fb_2_SonicTech_Station);
+			fb_2_SonicTech_SonicTechCom: fbSonictechSerialCom;
+			fb_2_SonicTech_PulseCounter: fbPulseCounterPIM;
+		//ACT_6_UnderPressure_Tester
+				stStation_LBA02PL_SBA02PL05: stPIM_ServiceInOuts;
+				fb_UnderPressure_Tester_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_UnderPressure_Tester_Machine);
+				//fb_UnderPressure_Tester_Machine : fbUnderpressureTester(I_Pim := fb_UnderPressure_Tester_Station);
+				fbTransporterUnderpressure	: fbTransporter;
+				fb_UnderPressure_Tester_Machine : fbUnderPresureTester_V2(I_Pim := fb_UnderPressure_Tester_Station);
+		//ACT_7_Sticker
+			stStation_LBA02PL_SBA02PL06_M1: stPIM_ServiceInOuts;
+			fb_Sticker_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Sticker_Machine);
+			fb_Sticker_Machine : fbChiniseMachine(I_Pim := fb_Sticker_Station);
+		//ACT_8_Laser
+			stStation_LBA02PL_SBA02PL06_M2: stPIM_ServiceInOuts;
+			fb_Laser_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Laser_Machine);
+			fb_Laser_Machine : fbChiniseMachine(I_Pim := fb_Laser_Station);
+		//ACT_9_Tunel
+				stStation_LBA02PL_SBA02PL07: stPIM_ServiceInOuts;
+				fb_Tunel_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Tunel_Machine);
+				fb_Tunel_Machine : fbDetectionTunel(I_Pim := fb_Tunel_Station);
+		
+		
+		
+END_VAR
+VAR PERSISTENT
+	bKeepSQLConnected: BOOL := TRUE;
+	iMaxSimCmdNumber: INT := 3;
+	nProductTypeMemory: enProductTypes;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// ************* Elementy wspólne dla wszystkich stanowisk	*************
+PLC_BaseFunctions();
+SafetyBackupRestore();
+// Alarmowanie - tablica alarmów (GVL.fbErrorsHistoryTable) jest obsługiwana poprzez metody - funkcja nie musi być wywoływana
+GVL.bLogDataTrigger := GVL_Aircom.stAC_DT_Data.bNew_Second_IMP;
+
+// Obsługa nowego systemu PIM
+GVL.fbSqlCore(bEnable:= GVL_Aircom.bInitDone, 
+	iMaxActiveNodesNb := iMaxSimCmdNumber, 
+	bKeepConnOpen := bKeepSQLConnected, 
+	iResendNbIfError:= 2,
+	tCommTimeout := T#6S,
+	bMasterError=> );
+GVL.fbUserLogin(tLogoutTime := T#32M);
+
+
+// Restart usługi odpowiadającej za wizualizację WWW
+fbIISReset(bExecute := bRestart_IIS);
+bRestart_IIS R=fbIISReset.bBusy;
+
+// Restart serwisu odpowiadającego za komunikację z PIM oraz PC-stickami systemówizyjnych
+bResetWcfAtStartup S= bRestartTcWcf S= GVL_Aircom.stAC_DT_Data.diPLC_UpTimeSeconds = 30 AND NOT bResetWcfAtStartup;		// Automatyczny reset po włączeniu zasilania
+fbTcWcfReset(bExecute := bRestartTcWcf);
+
+// Czyszczenie historii alarmów
+IF bRomErrorTableReset THEN
+	GVL.fbAlarmMasterTable.mReset();
+	bRomErrorTableReset:= FALSE;
+END_IF
+
+// Przełączanie pomiędzy parametrami
+//ACT_SelProdType();
+
+// ************* Obsługa stanowisk - kolejny Act_LN.. to kolejne stanowisko	*************
+//fbSonicTechCom_1Part(stData := GVL_IO.stRS485_Part_I, tTimeout := T#1S, uiResendQty := 1);
+ACT_S01();	// Prasa SonicTech
+ACT_S02();	// Prasa SonicTech
+ACT_S03();	// Prasa SonicTech
+ACT_S04();	// Prasa SonicTech - montaż łożysk w kole
+//Filing Line
+ACT_1_Filler_A();
+ACT_2_Cork();
+ACT_3_SonicTech();
+ACT_4_Filler_B();
+ACT_5_SonicTech();
+ACT_6_UnderPressure_Tester();
+ACT_7_Sticker();
+ACT_8_Laser();
+ACT_9_Tunel();
+
+
+
+
+ACT_HP1();
+ACT_HP2();
+ACT_HP3();
+ACT_HP4();
+
+// Zużycie sprężonego powietrza oraz wybów częstotliwości zapisu
+GVL.bCompressedAirCtrSaveTrigger := GVL_Aircom.stAC_DT_Data.bNew_Shift;
+GVL.bEnergyConsCtrSaveTrigger := GVL_Aircom.stAC_DT_Data.bNew_Shift;
+
+fbS_AirPulseCounter(
+	bImpulseSignal:= GVL_IO.bCompressedAirFlowImpulse, 
+	rValuePerImpulse:= 0.03, 
+	rNewCounterValue:= , 
+	bSaveNewValue:= , 
+	rCounterValue=> GVL.rCompressedAirCounter);
+IF GVL.bCompressedAirCtrSaveTrigger THEN
+	fbS01_Station.m_SqlInsCompressedAirConsumption(rActCompressedAirConsumption := GVL.rCompressedAirCounter);
+END_IF
+
+fbS_TONAirFlowAlarm(IN:= GVL_IO.bCompressedAirFlowAlarmHigh, PT:= T#5S);
+fbS_AirFlowAlarmTrigger(CLK:= fbS_TONAirFlowAlarm.Q);
+IF fbS_AirFlowAlarmTrigger.Q THEN
+	GVL.fbAlarmMasterTable.mPushRow(nAlarmClass:= enAlarmClasses.Error, sMachineId := 'L_Line', sEventDesc := 'High Air Flow Alarm Active' , dwErrorId := 0);	
+END_IF
+
+sCurrentLanguage := VisuElems.CURRENTLANGUAGE;
+	
+
+// Kontrola etherCAT
+]]></ST>
+    </Implementation>
+    <Action Name="_OpisProgramu_Notatki" Id="{bbb9bf4d-965c-4b88-b42f-bdbd7436915e}">
+      <Implementation>
+        <ST><![CDATA[(*		
+*************************************************************************************************************************************************************************************************************
+ToDo:
+- Auto zmiana prarametrów
+- GRBL skalowanie tekstu
+- Timeout zapytania sql w kolejce
+- Wdrożyć podejście DRY Dont Repeat Yourself
+
+
+
+*************************************************************************************************************************************************************************************************************
+1. Opis algorytmu pracy z PIM:		
+
+
+Wspólne numery kroków w algorytmach pracy 
+0 - Krok inicjalizacyjny
+5 - Krok spoczynkowy w którym algorytm oczekuje na nową operację
+
+70 - Zapis statusu - ustawienie zmiennych i wystawienie bitów
+71 - Oczekiwanie na zapis statusu
+75 - Zapis statusu i danych rozszerzonych - ustawienie zmiennych i wystawienie bitów
+76 - Oczekiwanie na zapis statusu
+
+
+90 - Nowy błąd z zapisem statusu - ustawiany bit zapisu statusu 
+91 - Oczekiwanie na zapis statusu - ustawiany bit bBlokowanieStanowsika
+
+92 - Nowy błąd bez zapisu statusu (dodatkowy kod błędu) z wymaganym potwierdzeniem przez min. operatora - ustawiany bit bAlarmStanowiska
+93 - Nowy błąd bez zapisu statusu - potwierdzenie przez operatora lub automatyczne przez PLC
+99 - Oczekiwanie na potwierdzenie błędu przez PIM
+
+
+*************************************************************************************************************************************************************************************************************
+2. Zmiany w programie:
+
+2022.03.31 - Wprowadzenie bitu bAlarmStanowiska, uaktualnienie algorytmów pracy z opcją włączenia wymagania zapisu statusu do DB
+
+
+
+
+*************************************************************************************************************************************************************************************************************
+Notatki:
+Znaczenie poszczególnych zmiennych
+ MachineSettings - Ustawienia maszyny nie związane z parametrami operacji/testów 
+ MachineWorkParameters - Parametry konfiguracyjne cyklu maszyny (czas pompowania, energia zgrzewu itp)
+ 
+ 
+Interfejs z systemem PIM powinien zapewniać:
+- sprawdzenie czy jest zezwolenie na pracę
+
+Teksty do wyświetlenia w kompilatorze
+{text 'Tekst do wyświetlenia'}
+{info 'Tekst do wyświetlenia'}
+{warning 'Tekst do wyświetlenia'}
+{error 'Tekst do wyświetlenia'}
+
+*)]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_1_Filler_A" Id="{b7fb753d-3e55-4915-a3fc-d9881ca6ab71}">
+      <Implementation>
+        <ST><![CDATA[fb_Filler_A_Station(
+	stPimInOut:= stStation_LBA02PL_SBA02PL01_M1,
+	sLineName:= 'BA02PL', 
+	sStationName:= 'BA02PL01', 
+	iMachineNumber:= 1, 
+	bIsHidden:= FALSE, 
+	stStationSettings := GVL.st_Filler_A_PimSettings);
+//Filler A
+fb_Filler_A_Machine(stMachineModbusParams:=GVL.st_Filler_A_MachineSettings,
+					stMachineWorkParams:=GVL.st_Filler_A_MachineParams,
+					bNextMachineWork:= TRUE);
+
+GVL.st_Filler_A_MachineParams.bPartsCount := FALSE;]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_2_Cork" Id="{73bbc71b-4e7f-4b26-b07d-111463ed8f34}">
+      <Implementation>
+        <ST><![CDATA[fb_Cork_Station(
+	stPimInOut:= stStation_LBA02PL_SBA02PL01_M2,
+	sLineName:= 'BA02PL', 
+	sStationName:= 'BA02PL01', 
+	iMachineNumber:= 2,
+	bIsHidden:= FALSE, 
+	stStationSettings := GVL.st_Cork_PimSettings);
+//Cork
+fb_Cork_Machine(stMachineModbusParams:=GVL.st_Cork_MachineSettings,
+					stMachineWorkParams:=GVL.st_Cork_MachineParams,
+					bNextMachineWork:= TRUE);
+GVL.st_Cork_MachineParams.bPartsCount := TRUE;]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_3_SonicTech" Id="{30c87799-64fb-44e6-8866-0dc93cda5dae}">
+      <Implementation>
+        <ST><![CDATA[//SonicTech 1
+fb_1_SonicTech_PulseCounter(
+	bImpulseSignal:= GVL_IO.b_1_SonicTech_EnergyConsumptionImp, 
+	rValuePerImpulse:= 0.001,
+	I_Sql := fb_1_SonicTech_Station,
+	bSaveCtr := GVL.bEnergyConsCtrSaveTrigger,
+	bCtrType_0Elec_1Air := FALSE);
+	
+fb_1_SonicTech_Station(
+	stPimInOut:= stStation_LBA02PL_SBA02PL02,
+	sLineName:= 'BA02PL', 
+	sStationName:= 'BA02PL02', 
+	iMachineNumber:= 1, 
+	bIsHidden:= FALSE, 
+	sPrevStationName:= '',
+	stStationSettings := GVL.st_1_SonicTech_PimSettings);
+
+fb_1_SonicTech_SonictechUSW(
+	stDigitalInOut:= GVL_IO.st_1_SonicTech_WeldingMachine_IO, 
+	I_Fix := ,
+	I_SerialCom := fb_1_SonicTech_SonicTechCom,
+	stMachineSettings:= GVL.st_1_SonicTech_USWelderSettings);
+
+fb_1_SonicTech_SonicTechCom(stData:=GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO,tTimeout:=T#1S);]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_4_Filler_B" Id="{aaddb840-7e4f-4536-87a2-37990ff186bb}">
+      <Implementation>
+        <ST><![CDATA[fb_Filler_B_Station(
+	stPimInOut:= stStation_LBA02PL_SBA02PL03,
+	sLineName:= 'BA02PL', 
+	sStationName:= 'BA02PL03', 
+	iMachineNumber:= 1, 
+	bIsHidden:= FALSE, 
+	stStationSettings := GVL.st_Filler_B_PimSettings);
+//S03
+fb_Filler_B_Machine(stMachineModbusParams:=GVL.st_Filler_B_MachineSettings,
+					stMachineWorkParams:=GVL.st_Filler_B_MachineParams,
+					bNextMachineWork:= TRUE);
+GVL.st_Filler_B_MachineParams.bPartsCount := TRUE;]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_5_SonicTech" Id="{aaedd41b-4c6a-4af6-8ba2-f869272c70f3}">
+      <Implementation>
+        <ST><![CDATA[//SonicTech 1
+fb_2_SonicTech_PulseCounter(
+	bImpulseSignal:= GVL_IO.b_2_SonicTech_EnergyConsumptionImp, 
+	rValuePerImpulse:= 0.001,
+	I_Sql := fb_2_SonicTech_Station,
+	bSaveCtr := GVL.bEnergyConsCtrSaveTrigger,
+	bCtrType_0Elec_1Air := FALSE);
+	
+fb_2_SonicTech_Station(
+	stPimInOut:= stStation_LBA02PL_SBA02PL04,
+	sLineName:= 'BA02PL', 
+	sStationName:= 'BA02PL04', 
+	iMachineNumber:= 1, 
+	bIsHidden:= FALSE, 
+	sPrevStationName:= '',
+	stStationSettings := GVL.st_2_SonicTech_PimSettings);
+
+fb_2_SonicTech_SonictechUSW(
+	stDigitalInOut:= GVL_IO.st_2_SonicTech_WeldingMachine_IO, 
+	I_Fix := ,
+	I_SerialCom := fb_2_SonicTech_SonicTechCom,
+	stMachineSettings:= GVL.st_2_SonicTech_USWelderSettings);
+
+fb_2_SonicTech_SonicTechCom(stData:=GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO,tTimeout:=T#1S);]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_6_UnderPressure_Tester" Id="{0f42a32e-adb5-4984-95ac-324a900398af}">
+      <Implementation>
+        <ST><![CDATA[fb_UnderPressure_Tester_Station(
+	stPimInOut:= stStation_LBA02PL_SBA02PL05,
+	sLineName:= 'BA02PL', 
+	sStationName:= 'BA02PL05', 
+	iMachineNumber:= 1,
+	bIsHidden:= FALSE, 
+	stStationSettings := GVL.st_UnderPressure_Tester_PimSettings);
+fb_UnderPressure_Tester_Machine(stInOuts:=GVL_IO.stUnderPressureInOuts_V2,
+								stParams:=GVL.stUnderPressureTestParams,
+								stStatus:=GVL.stUnderPressureTestStatus);
+(*fb_UnderPressure_Tester_Machine(
+	stInOuts:=GVL_IO.stUnderPreserInOuts,
+	i_bEnable:=fbTransporterUnderpressure.bChamberWorkAllow,
+	i_nVaccumLevel:=st_UnderPressureTester_Params.i_nVaccumLevel,
+	i_tTestRelaxTime:=st_UnderPressureTester_Params.i_tTestRelaxTime,
+	i_tTestTime:=st_UnderPressureTester_Params.i_tTestTime,
+	o_bError:=,
+	o_bSaferyError:=,
+	o_bReady:=,
+	o_bBusy:=,
+	o_nVaccumAI:=,
+	o_sMessage:=
+	);
+	*)
+fbTransporterUnderpressure(	stInOuts:=GVL_IO.stTransporterInOuts,
+							stStatus := GVL.stUnderPressureTestStatus,
+							bWorkAllow:=fb_UnderPressure_Tester_Station.bWorkPermitt,
+							bDorsClosed:=GVL_IO.stUnderPressureInOuts_V2.bLockSens,
+							);]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_7_Sticker" Id="{2df22bce-c2bd-4bd2-82a2-c589103472bd}">
+      <Implementation>
+        <ST><![CDATA[fb_Sticker_Station(
+	stPimInOut:= stStation_LBA02PL_SBA02PL06_M1,
+	sLineName:= 'BA02PL', 
+	sStationName:= 'BA02PL06', 
+	iMachineNumber:= 1, 
+	bIsHidden:= FALSE, 
+	stStationSettings := GVL.st_Sticker_PimSettings);
+//S01_M1
+fb_Sticker_Machine(stMachineModbusParams:=GVL.st_Sticker_MachineSettings,
+					stMachineWorkParams:=GVL.st_Sticker_MachineParams,
+					bNextMachineWork:= NOT GVL.st_Sticker_MachineSettings.stPimData.bError);
+GVL.st_Sticker_MachineParams.bPartsCount := FALSE;]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_8_Laser" Id="{dfdb2487-bbf0-4474-a109-bc6a5d8e79f1}">
+      <Implementation>
+        <ST><![CDATA[fb_Laser_Station(
+	stPimInOut:= stStation_LBA02PL_SBA02PL06_M2,
+	sLineName:= 'BA02PL', 
+	sStationName:= 'BA02PL06', 
+	iMachineNumber:= 2, 
+	bIsHidden:= FALSE, 
+	stStationSettings := GVL.st_Laser_PimSettings);
+//S01_M2
+fb_Laser_Machine(stMachineModbusParams:=GVL.st_Laser_MachineSettings,
+					stMachineWorkParams:=GVL.st_Laser_MachineParams,
+					bNextMachineWork:= TRUE);
+GVL.st_Laser_MachineParams.bPartsCount := TRUE;]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_9_Tunel" Id="{1c00eae3-0be1-4ab8-8ed3-070e2bcadbb0}">
+      <Implementation>
+        <ST><![CDATA[fb_Tunel_Station(
+	stPimInOut:= stStation_LBA02PL_SBA02PL07,
+	sLineName:= 'BA02PL', 
+	sStationName:= 'BA02PL07', 
+	iMachineNumber:= 1, 
+	bIsHidden:= FALSE, 
+	sPrevStationName:= '',
+	stStationSettings := GVL.st_Tunel_Tester_PimSettings);
+
+fb_Tunel_Machine(
+	stInOuts:= GVL_IO.stTunelInOuts,
+	stParams:=GVL.st_Tunel_Params);
+	]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_HP1" Id="{b558beca-8774-4c4b-ac2a-ae0d8d6b8234}">
+      <Implementation>
+        <ST><![CDATA[
+//stStation_LBH0GPL_SBH0GPL01_M1.bPIMActive := stStation_LBH0GPL_SBH0GPL01_M2.bPIMActive := stStation_LBH0GPL_SBH0GPL01_M3.bPIMActive := FALSE;
+//stStation_LBH0GPL_SBH0GPL01_M1.bWorkBlock_PIM := stStation_LBH0GPL_SBH0GPL01_M2.bWorkBlock_PIM := stStation_LBH0GPL_SBH0GPL01_M3.bWorkBlock_PIM := FALSE;
+//stStation_LBH0GPL_SBH0GPL01_M1.bTestMode := stStation_LBH0GPL_SBH0GPL01_M2.bTestMode := stStation_LBH0GPL_SBH0GPL01_M3.bTestMode := FALSE;
+
+
+fbSB0GPL01_M1_Station(
+	stPimInOut:= stStation_LBH0GPL_SBH0GPL01_M1,
+	sLineName:= 'BH0GPL', 
+	sStationName:= 'BH0GPL01', 
+	iMachineNumber:= 1, 
+	bIsHidden:= TRUE, 
+	sPrevStationName:= '',
+	stStationSettings := GVL.stS01_PimSettings );
+
+fbHotPlate_G1_M1(bMarkingAsembled := FALSE, bELM := TRUE);
+
+
+fbSB0GPL01_M2_Station(
+	stPimInOut:= stStation_LBH0GPL_SBH0GPL01_M2,
+	sLineName:= 'BH0GPL', 
+	sStationName:= 'BH0GPL01', 
+	iMachineNumber:= 2, 
+	bIsHidden:= TRUE, 
+	sPrevStationName:= '',
+	stStationSettings := GVL.stS01_PimSettings );
+	
+fbHotPlate_G1_M2(bMarkingAsembled := FALSE, bELM := TRUE);
+
+
+fbSB0GPL01_M3_Station(
+	stPimInOut:= stStation_LBH0GPL_SBH0GPL01_M3,
+	sLineName:= 'BH0GPL', 
+	sStationName:= 'BH0GPL01', 
+	iMachineNumber:= 3, 
+	bIsHidden:= FALSE, 
+	sPrevStationName:= '',
+	stStationSettings := GVL.stS01_PimSettings );	
+
+fbHotPlate_G1_M3(bMarkingAsembled := TRUE, bELM := TRUE);]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_HP2" Id="{fa91109f-5a80-452a-894c-7f81a4cace6a}">
+      <Implementation>
+        <ST><![CDATA[(*
+stStation_LBH0HPL_SBH0HPL01_M1.bPIMActive := stStation_LBH0HPL_SBH0HPL01_M2.bPIMActive := stStation_LBH0HPL_SBH0HPL01_M3.bPIMActive := FALSE;
+stStation_LBH0HPL_SBH0HPL01_M1.bWorkBlock_PIM := stStation_LBH0HPL_SBH0HPL01_M2.bWorkBlock_PIM := stStation_LBH0HPL_SBH0HPL01_M3.bWorkBlock_PIM := FALSE;
+stStation_LBH0HPL_SBH0HPL01_M1.bTestMode := stStation_LBH0HPL_SBH0HPL01_M2.bTestMode := stStation_LBH0HPL_SBH0HPL01_M3.bTestMode := FALSE;
+*)
+
+fbSB0HPL01_M1_Station(
+	stPimInOut:= stStation_LBH0HPL_SBH0HPL01_M1,
+	sLineName:= 'BH0HPL', 
+	sStationName:= 'BH0HPL01', 
+	iMachineNumber:= 1, 
+	bIsHidden:= TRUE, 
+	sPrevStationName:= '',
+	stStationSettings := GVL.stS01_PimSettings );
+
+fbHotPlate_G2_M1(bMarkingAsembled := FALSE, bELM := TRUE);
+
+
+fbSB0HPL01_M2_Station(
+	stPimInOut:= stStation_LBH0HPL_SBH0HPL01_M2,
+	sLineName:= 'BH0HPL', 
+	sStationName:= 'BH0HPL01', 
+	iMachineNumber:= 2, 
+	bIsHidden:= TRUE, 
+	sPrevStationName:= '',
+	stStationSettings := GVL.stS01_PimSettings );
+	
+fbHotPlate_G2_M2(bMarkingAsembled := FALSE, bELM := TRUE);
+
+
+fbSB0HPL01_M3_Station(
+	stPimInOut:= stStation_LBH0HPL_SBH0HPL01_M3,
+	sLineName:= 'BH0HPL', 
+	sStationName:= 'BH0HPL01', 
+	iMachineNumber:= 3, 
+	bIsHidden:= FALSE, 
+	sPrevStationName:= '',
+	stStationSettings := GVL.stS01_PimSettings );	
+
+fbHotPlate_G2_M3(bMarkingAsembled := TRUE, bELM := TRUE);]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_HP3" Id="{1683c73c-539a-452b-bfab-86df218ad688}">
+      <Implementation>
+        <ST><![CDATA[
+//stStation_LBH0IPL_SBH0IPL01_M1.bPIMActive := stStation_LBH0IPL_SBH0IPL01_M2.bPIMActive := stStation_LBH0IPL_SBH0IPL01_M3.bPIMActive := FALSE;
+//stStation_LBH0IPL_SBH0IPL01_M1.bWorkBlock_PIM := stStation_LBH0IPL_SBH0IPL01_M2.bWorkBlock_PIM := stStation_LBH0IPL_SBH0IPL01_M3.bWorkBlock_PIM := FALSE;
+//stStation_LBH0IPL_SBH0IPL01_M1.bTestMode := stStation_LBH0IPL_SBH0IPL01_M2.bTestMode := stStation_LBH0IPL_SBH0IPL01_M3.bTestMode := FALSE;
+
+
+fbSB0IPL01_M1_Station(
+	stPimInOut:= stStation_LBH0IPL_SBH0IPL01_M1,
+	sLineName:= 'BH0IPL', 
+	sStationName:= 'BH0IPL01', 
+	iMachineNumber:= 1, 
+	bIsHidden:= TRUE, 
+	sPrevStationName:= '',
+	stStationSettings := GVL.stS01_PimSettings );
+
+fbHotPlate_G3_M1(bMarkingAsembled := FALSE, bELM := TRUE);
+
+
+fbSB0IPL01_M2_Station(
+	stPimInOut:= stStation_LBH0IPL_SBH0IPL01_M2,
+	sLineName:= 'BH0IPL', 
+	sStationName:= 'BH0IPL01', 
+	iMachineNumber:= 2, 
+	bIsHidden:= TRUE, 
+	sPrevStationName:= '',
+	stStationSettings := GVL.stS01_PimSettings );
+	
+fbHotPlate_G3_M2(bMarkingAsembled := FALSE, bELM := TRUE);
+
+
+fbSB0IPL01_M3_Station(
+	stPimInOut:= stStation_LBH0IPL_SBH0IPL01_M3,
+	sLineName:= 'BH0IPL', 
+	sStationName:= 'BH0IPL01', 
+	iMachineNumber:= 3, 
+	bIsHidden:= FALSE, 
+	sPrevStationName:= '',
+	stStationSettings := GVL.stS01_PimSettings );	
+
+fbHotPlate_G3_M3(bMarkingAsembled := TRUE, bELM := TRUE);]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_HP4" Id="{eab0bf84-6583-4fc3-9d5e-4935ce5dbeb0}">
+      <Implementation>
+        <ST><![CDATA[
+//stStation_LBH0IPL_SBH0IPL01_M1.bPIMActive := stStation_LBH0IPL_SBH0IPL01_M2.bPIMActive := stStation_LBH0IPL_SBH0IPL01_M3.bPIMActive := FALSE;
+//stStation_LBH0IPL_SBH0IPL01_M1.bWorkBlock_PIM := stStation_LBH0IPL_SBH0IPL01_M2.bWorkBlock_PIM := stStation_LBH0IPL_SBH0IPL01_M3.bWorkBlock_PIM := FALSE;
+//stStation_LBH0IPL_SBH0IPL01_M1.bTestMode := stStation_LBH0IPL_SBH0IPL01_M2.bTestMode := stStation_LBH0IPL_SBH0IPL01_M3.bTestMode := FALSE;
+
+
+fbSB0JPL01_M1_Station(
+	stPimInOut:= stStation_LBH0JPL_SBH0JPL01_M1,
+	sLineName:= 'BH0JPL', 
+	sStationName:= 'BH0JPL01', 
+	iMachineNumber:= 1, 
+	bIsHidden:= TRUE, 
+	sPrevStationName:= '',
+	stStationSettings := GVL.stS01_PimSettings );
+
+fbHotPlate_G4_M1(bMarkingAsembled := FALSE, bELM := TRUE);
+
+
+fbSB0JPL01_M2_Station(
+	stPimInOut:= stStation_LBH0JPL_SBH0JPL01_M2,
+	sLineName:= 'BH0JPL', 
+	sStationName:= 'BH0JPL01', 
+	iMachineNumber:= 2, 
+	bIsHidden:= TRUE, 
+	sPrevStationName:= '',
+	stStationSettings := GVL.stS01_PimSettings );
+	
+fbHotPlate_G4_M2(bMarkingAsembled := FALSE, bELM := TRUE);
+
+
+fbSB0JPL01_M3_Station(
+	stPimInOut:= stStation_LBH0JPL_SBH0JPL01_M3,
+	sLineName:= 'BH0JPL', 
+	sStationName:= 'BH0JPL01', 
+	iMachineNumber:= 3, 
+	bIsHidden:= FALSE, 
+	sPrevStationName:= '',
+	stStationSettings := GVL.stS01_PimSettings );	
+
+fbHotPlate_G4_M3(bMarkingAsembled := TRUE, bELM := TRUE);]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_S01" Id="{0c809d0b-1ff5-475a-9787-6af751e1c34a}">
+      <Implementation>
+        <ST><![CDATA[fbS01_PulseCounter(
+	bImpulseSignal:= GVL_IO.bS01_EnergyConsumptionImp, 
+	rValuePerImpulse:= 0.001,
+	I_Sql := fbS01_Station,
+	bSaveCtr := GVL.bEnergyConsCtrSaveTrigger,
+	bCtrType_0Elec_1Air := FALSE);
+
+fbS01_Station(
+	stPimInOut:= stStation_LBS02PL_SBS02PL01,
+	sLineName:= 'BS02PL', 
+	sStationName:= 'BS02PL01', 
+	iMachineNumber:= 1, 
+	bIsHidden:= FALSE, 
+	sPrevStationName:= '',
+	stStationSettings := GVL.stS01_PimSettings );
+
+
+// Prasa ze zgrzewarki Sonictech
+fbS01_BearingPress(
+	stDigInOuts := GVL_IO.stS01_1_BearingPress_IO,
+	I_Fix := fbS01_KeyencePNVisSens,
+	stTestParams:= GVL.stS01_TestParams,
+	stMachineSettings:= GVL.stS01_PressSettings);
+	
+fbS01_KeyencePNVisSens(
+	bLock:= , 
+	bAuxOper:= , 
+	bRelease:= , 
+	bQReady=> , 
+	bQBusy=> , 
+	bQLocked=> , 
+	bQError=> , 
+	bQAlarm=> , 
+	nQErrorId=> , 
+	bEnCheck:= , 
+	iMaxTrigRepeats:= );
+	
+IF bTrigger THEN
+	GVL_IO.bS01_Trigger := TRUE;
+	bTrigger := FALSE;
+ELSE	
+	GVL_IO.bS01_Trigger := FALSE;	
+END_IF
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_S02" Id="{754d7465-69c2-4378-847f-5ad8fd4c3719}">
+      <Implementation>
+        <ST><![CDATA[fbS02_PulseCounter(
+	bImpulseSignal:= GVL_IO.bS02_EnergyConsumptionImp, 
+	rValuePerImpulse:= 0.001,
+	I_Sql := fbS02_Station,
+	bSaveCtr := GVL.bEnergyConsCtrSaveTrigger,
+	bCtrType_0Elec_1Air := FALSE);
+	
+fbS02_Station(
+	stPimInOut:= stStation_LBB02PL_SBB02PL01,
+	sLineName:= 'BB02PL', 
+	sStationName:= 'BB02PL01', 
+	iMachineNumber:= 1, 
+	bIsHidden:= FALSE, 
+	sPrevStationName:= '',
+	stStationSettings := GVL.stS02_PimSettings );
+	
+// Prasa ze zgrzewarki Sonictech
+fbS02_BearingPress(
+	stDigInOuts := GVL_IO.stS02_1_BearingPress_IO,
+	I_Fix := 0,
+	stTestParams:= GVL.stS02_TestParams,
+	stMachineSettings:= GVL.stS02_PressSettings);]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_S03" Id="{e5cb014d-3e27-4d23-8dcf-36cfd87e0f45}">
+      <Implementation>
+        <ST><![CDATA[fbS03_PulseCounter(
+	bImpulseSignal:= GVL_IO.bS03_EnergyConsumptionImp, 
+	rValuePerImpulse:= 0.001,
+	I_Sql := fbS03_Station,
+	bSaveCtr := GVL.bEnergyConsCtrSaveTrigger,
+	bCtrType_0Elec_1Air := FALSE);
+	
+fbS03_Station(
+	stPimInOut:= stStation_LBO02PL_SBO02PL01,
+	sLineName:= 'BO02PL', 
+	sStationName:= 'BO02PL01', 
+	iMachineNumber:= 1, 
+	bIsHidden:= FALSE, 
+	sPrevStationName:= '',
+	stStationSettings := GVL.stS03_PimSettings );
+
+// Prasa ze zgrzewarki Sonictech
+fbS03_BearingPress(
+	stDigInOuts := GVL_IO.stS03_1_BearingPress_IO,
+	I_Fix := 0,
+	stTestParams:= GVL.stS03_TestParams,
+	stMachineSettings:= GVL.stS03_PressSettings);
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_S04" Id="{8a8f14d2-800d-43a9-8f66-2318539f4c4b}">
+      <Implementation>
+        <ST><![CDATA[fbS04_PulseCounter(
+	bImpulseSignal:= GVL_IO.bS04_EnergyConsumptionImp, 
+	rValuePerImpulse:= 0.001,
+	I_Sql := fbS04_Station,
+	bSaveCtr := GVL.bEnergyConsCtrSaveTrigger,
+	bCtrType_0Elec_1Air := FALSE);
+	
+fbS04_Station(
+	stPimInOut:= stStation_LBO02PL_SBO02PL02,
+	sLineName:= 'BO02PL', 
+	sStationName:= 'BO02PL02', 
+	iMachineNumber:= 1, 
+	bIsHidden:= FALSE, 
+	sPrevStationName:= 'BO02PL01',
+	stStationSettings := GVL.stS04_PimSettings );
+
+// Prasa ze zgrzewarki Sonictech
+fbS04_BearingPress(
+	stDigInOuts := GVL_IO.stS04_1_BearingPress_IO,
+	I_Fix := 0,
+	stTestParams:= GVL.stS04_TestParams,
+	stMachineSettings:= GVL.stS04_PressSettings);
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_SA_Komora" Id="{aac1221d-22c1-4f01-98d6-e3ee775ec8ae}">
+      <Implementation>
+        <ST><![CDATA[(*KomoraSC(
+	i_bAck				:= , 
+	i_bEnable			:= TRUE, 
+	i_nVaccumLevel		:= 13000, 
+	i_tTestRelaxTime	:= T#1S, 
+	i_tTestTime			:= T#1S, 
+	o_bError			=> , 
+	o_bSaferyError		=> , 
+	o_bReady			=> , 
+	o_bBusy				=> , 
+	o_nVaccumAI			=> , 
+	o_sMessage			=> );*)
+	
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_SA03" Id="{2955a4cd-b8c0-4b7b-acca-1cf2d437dc0b}">
+      <Implementation>
+        <ST><![CDATA[(*fbSA03_PulseCounter(
+	bImpulseSignal:= GVL_IO.bSxxA_EnergyConsumptionImp, 
+	rValuePerImpulse:= 0.001,
+	I_Sql := fbSA03_Station,
+	bSaveCtr := GVL.bEnergyConsCtrSaveTrigger,
+	bCtrType_0Elec_1Air := FALSE);
+	
+fbSA03_Station(
+	stPimInOut:= stStation_LBA02PL_SBA02PL03,
+	sLineName:= 'BA02PL', 
+	sStationName:= 'BA02PL03', 
+	iMachineNumber:= 1, 
+	bIsHidden:= FALSE, 
+	sPrevStationName:= 'BA02PL02',
+	stStationSettings := );
+
+*)]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_SafetyBackupRestore" Id="{81820118-0f47-4fad-a12d-eb52320f5c8c}">
+      <Implementation>
+        <ST><![CDATA[//fbEL6910Backup(]]></ST>
+      </Implementation>
+    </Action>
+    <LineIds Name="MAIN">
+      <LineId Id="3" Count="55" />
+      <LineId Id="243" Count="0" />
+      <LineId Id="59" Count="24" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN._OpisProgramu_Notatki">
+      <LineId Id="2" Count="55" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_1_Filler_A">
+      <LineId Id="2" Count="9" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_2_Cork">
+      <LineId Id="2" Count="10" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_3_SonicTech">
+      <LineId Id="2" Count="22" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_4_Filler_B">
+      <LineId Id="2" Count="10" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_5_SonicTech">
+      <LineId Id="2" Count="22" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_6_UnderPressure_Tester">
+      <LineId Id="2" Count="27" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_7_Sticker">
+      <LineId Id="2" Count="10" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_8_Laser">
+      <LineId Id="2" Count="10" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_9_Tunel">
+      <LineId Id="2" Count="11" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_HP1">
+      <LineId Id="2" Count="38" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_HP2">
+      <LineId Id="2" Count="38" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_HP3">
+      <LineId Id="2" Count="38" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_HP4">
+      <LineId Id="2" Count="38" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_S01">
+      <LineId Id="2" Count="42" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_S02">
+      <LineId Id="2" Count="20" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_S03">
+      <LineId Id="2" Count="21" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_S04">
+      <LineId Id="2" Count="21" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_SA_Komora">
+      <LineId Id="2" Count="12" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_SA03">
+      <LineId Id="2" Count="15" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_SafetyBackupRestore">
+      <LineId Id="1" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

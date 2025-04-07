@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="nHPv3_ErrorList" Id="{2a598aaa-ff1a-452b-ab99-702c6fefafb7}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+//{attribute 'strict'}
+{attribute 'to_string'}
+TYPE nHPv3_ErrorList :
+(
+	NoError								:= 0,
+	WorkCoverSafetyLockSettingError		:= 601,		// Safety lock is bypassed (workcover opened without lock unlock)
+	ResetRequiredCloseWorkCover			:= 600,
+	HeatedPlateClosePosTimeout			:= 603,
+	HeatedPlateClosePosLost				:= 604,
+	HeatedPlateOpenPosTimeout			:= 605,
+	HeatedPlateOpenPosLost				:= 606,
+	HeatedPlateTemperatureError			:= 607,
+	HeatedPlateHeaterDamaged			:= 612,
+	WorkCoverOpenTimeout				:= 613,
+	SafetySystemNotArmed 				:= 614,			// System safety nie uzbrojony	
+	ServiceDoorOpened_Rear				:= 616,
+	ServiceDoorOpened_Front				:= 617,
+	CleaningModeActive					:= 618,
+	WorkCoverNotClosed					:= 680,
+	EStopPressed_FrontPanel				:= 681,
+	EStopPressed_RearPanel				:= 682,
+	ReturnToBaseStateTimeout			:= 518,
+	
+	ExitPartOutOfTollerance_ToHigh		:= 657,
+	ExitPartOutOfTollerance_ToLow		:= 658,
+	WeldingTimeout						:= 685,
+	MarkingTimeout						:= 686,
+	WaitForHP_TempStabilization			:= 689,
+	HeatedPlateColisionWhenMove			:= 690
+)UDINT;
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

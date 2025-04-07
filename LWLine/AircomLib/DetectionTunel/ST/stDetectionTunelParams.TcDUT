@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <DUT Name="stDetectionTunelParams" Id="{57160bfc-a13e-4ee6-ac09-e2790bc80290}">
+    <Declaration><![CDATA[TYPE stDetectionTunelParams :
+STRUCT
+	rBottleLoad				: REAL;
+	rBottleLoadTolerance	: REAL;
+	iConvoyerMaxSpeed		: INT;
+	iSpeedingTime			: INT;
+	iDropedBottlesLimit		: BYTE;
+	bWeightCheck			: BOOL;
+	bCognexEnable			: BOOL;
+	bOrangeExpected			: BOOL;	//Input 2
+	bGreenExpected			: BOOL; //Input 1
+	rConvoyerSpeed			: REAL;
+	iForceStabilTime		: INT;
+	iStartWaitTime			: INT;
+	iDetectionWaitTime		: INT;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

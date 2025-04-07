@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="stHP_Axis_HMI_Data" Id="{6532642b-f0f6-4a63-a715-523c0a25c433}">
+    <Declaration><![CDATA[TYPE stHP_Axis_HMI_Data :
+STRUCT
+	bError			: BOOL;				// Axis in error
+	bEnabled		: BOOL;				// Axis enabled
+	bInMotion		: BOOL;				// Axis in motion
+	bManualMode		: BOOL;				// Manual mode
+	bTaring			: BOOL;				// Load cell taring
+	bPartClampState	: BOOL;				// Part Clamp state
+	bPartClampToogle: BOOL;				// Outpuut toggle
+	iWorkStepDesc	: INT;				// WorkStep description
+	udiErrorId		: UDINT;			// Error Id
+	lrPosition_PV	: LREAL;			// Actual position
+	lrPosition_Base	: LREAL;			// Base position value
+	lrVelocity_PV	: LREAL;			// Actual velocity
+	rForce_PV		: REAL;				// Actual Force
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

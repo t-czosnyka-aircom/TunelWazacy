@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <DUT Name="stDetectionTunelInOuts" Id="{861d9d1f-606e-421e-93f4-9488974fe10e}">
+    <Declaration><![CDATA[TYPE stDetectionTunelInOuts :
+STRUCT
+	//
+	bBottleIncomming		AT %I*	: BOOL;	
+	bBottleInput			AT %I*	: BOOL;
+	//
+	bActuatorHome			AT %I*	: BOOL;
+	bActuatorTestLoad		AT %I*	: BOOL;	
+	bActuatorPush			AT %I*	: BOOL;	
+	bActuatorConvoyerHome 	AT %I*	: BOOL;	
+	bActuatorConvoyerPush 	AT %I*	: BOOL;	
+	//
+	stLoadCell						: stLoadCell_InOutsData;;
+	iBeltVolocity			AT %Q*	: INT;
+	bBeltDirection			AT %Q*	: BOOL;
+	//
+	bActuatorPositioning	AT %Q*	: BOOL;	//Big actuator bottle tare position perform
+	bActuatorDropBottle		AT %Q*	: BOOL;	//Big actuator bottle drop position perform
+	bActuatorPerformBack	AT %Q*	: BOOL;	//Big actuator bottle home position perform
+	bActuatorPushConvoyer	AT %Q*	: BOOL;	//Smal conveyor actuator push bottle perform
+	//
+	bDorsClosedNO			AT %I*	: BOOL;
+	bDorsClosedNC			AT %I*	: BOOL;
+	//Cognex settings
+	stCognex				: stCognexIS280_DigInOut;
+	bTarePerform			: BOOL;
+	rLoadCell				: REAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

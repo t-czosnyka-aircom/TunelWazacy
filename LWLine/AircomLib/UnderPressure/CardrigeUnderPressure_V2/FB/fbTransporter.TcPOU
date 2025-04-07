@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="fbTransporter" Id="{78f5784e-c411-4395-a136-364a70cb5e6b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbTransporter 
+VAR_IN_OUT
+	stInOuts 	: stTransporterInOuts;
+	stStatus	: stUnderPressureTestStatus_V2;
+END_VAR
+VAR_INPUT
+	bWorkAllow 			: BOOL;
+	bDorsClosed			: BOOL;
+END_VAR
+VAR_OUTPUT
+	
+END_VAR
+
+VAR
+	iWorkStep 				: INT;
+	fbDelayStep 			: TON;
+	fbEndOfChamberCycle 	: R_TRIG;
+	bServiceReset			: BOOL;
+	fbEntraceSensorFilter	: TON;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//Error Reaction
+	stStatus.bWorkAllow := NOT stStatus.bError AND (iWorkStep = 24 OR iWorkStep = 25);
+//Reset sequence
+IF stStatus.bResetSequence THEN
+	stStatus.bResetSequence := FALSE;
+	iWorkStep := 0;
+END_IF
+fbEndOfChamberCycle(CLK:=stStatus.bWorkEnd);
+//Entrace sensor filter
+fbEntraceSensorFilter(IN:=stInOuts.bEntraceSensor,PT:=T#400MS);
+CASE iWorkStep OF
+	
+	0:		//Initialization	
+			IF NOT stInOuts.bEntraceCarriage AND NOT stInOuts.bEntraceChamber THEN
+				stInOuts.bCarriageBlockerEntrace := TRUE;
+				stInOuts.bCarriageBlockerChamber := FALSE;
+			END_IF
+			IF  stInOuts.bEntraceChamber THEN
+				stInOuts.bCarriageBlockerEntrace := FALSE;
+				stInOuts.bCarriageBlockerChamber := TRUE;
+			END_IF
+			IF stInOuts.bEntraceCarriage THEN
+				IF stInOuts.bPartsEntraceCarriage THEN
+					iWorkStep :=14;
+				END_IF
+				IF NOT stInOuts.bPartsEntraceCarriage THEN
+					iWorkStep :=10;
+				END_IF
+			END_IF
+			IF stInOuts.bEntraceChamber AND stInOuts.bDorsOpened THEN
+				IF stInOuts.bPartsEntraceChamber THEN
+					iWorkStep := 22;
+				END_IF
+				
+				IF NOT stInOuts.bPartsEntraceChamber THEN
+					iWorkStep := 28;
+				END_IF
+			END_IF
+	5:		//Back to normal state
+			stInOuts.bEscapeBlocker := TRUE;
+			iWorkStep:= 10;	
+	10:		//Wait for next cycle
+			stInOuts.bCarriageBlockerEntrace := TRUE;
+			stInOuts.bEntraceBlocker :=  NOT stInOuts.bEntraceSensor AND NOT bWorkAllow;
+		IF NOT stInOuts.bEntraceSensor AND stInOuts.bEntraceCarriage AND bWorkAllow THEN
+			iWorkStep:= 12;
+			stInOuts.bEntraceBlocker := FALSE;
+		END_IF
+	12:		//Waiting for parts entrace
+		IF fbEntraceSensorFilter.Q AND stInOuts.bBlockerEntryDown THEN
+			iWorkStep:= 14;
+		END_IF
+		IF NOT bWorkAllow THEN
+			iWorkStep:= 10;
+		END_IF
+	14:		//Waiting for parts going on carrdrige
+		IF NOT stInOuts.bEntraceSensor THEN
+			stInOuts.bEntraceBlocker := TRUE;
+			iWorkStep:= 16;
+		END_IF
+	16:		//Allowing carrdrige move to chamber position
+		IF stInOuts.bDorsOpened AND stInOuts.bBlockerEntryUp THEN
+			stInOuts.bCarriageBlockerEntrace := FALSE;
+			iWorkStep:= 18;
+		END_IF
+	18:		//Waiting for postition change of carrdrige
+		IF stInOuts.bEntraceChamber THEN
+			stInOuts.bCarriageBlockerChamber := TRUE;
+			iWorkStep:= 20;
+		END_IF
+	20:		//Waiting for parts delivery to chamber
+		fbDelayStep(IN:=NOT stInOuts.bPartsEntraceChamber,PT:= T#500MS);
+		IF  fbDelayStep.Q THEN
+			stInOuts.bCarriageBlockerChamber := FALSE;
+			fbDelayStep(IN:=FALSE);
+			iWorkStep:= 22;
+		END_IF
+	22:		// Waiting for back to entry position
+		IF stInOuts.bEntraceCarriage THEN
+			stInOuts.bCarriageBlockerEntrace := TRUE;
+			iWorkStep:= 24;
+		END_IF
+	24:		// Waiting for dors closed
+		IF bDorsClosed AND stStatus.bBusy THEN
+			iWorkStep:= 25;
+		END_IF
+	25:		//Waiting for end of cycle
+		IF fbEndOfChamberCycle.Q AND NOT stStatus.bError THEN
+			iWorkStep:= 26;
+		END_IF
+		
+	26:		//Waiting for dors opened
+		IF stInOuts.bDorsOpened THEN
+			stInOuts.bCarriageBlockerEntrace := FALSE;
+			iWorkStep:= 28;
+		END_IF
+	28:		//Waiting for takeout position
+		IF stInOuts.bEntraceChamber THEN
+			stInOuts.bCarriageBlockerChamber := TRUE;
+			iWorkStep:= 30;
+		END_IF
+	30:	//Unlocking carrdrige
+		fbDelayStep(IN:=stInOuts.bPartsEntraceChamber,PT:=T#1S);
+		IF fbDelayStep.Q THEN
+			fbDelayStep(IN:=FALSE);
+			stInOuts.bCarriageBlockerChamber := FALSE;
+			iWorkStep:= 32;
+		END_IF
+	32:	//Locking Cardrige
+		IF stInOuts.bEntraceCarriage THEN
+			stInOuts.bCarriageBlockerEntrace:=TRUE;
+			iWorkStep:= 34;
+		END_IF
+	34:	//Opening exit lock
+		stInOuts.bEscapeBlocker := FALSE;
+		IF stInOuts.bEscapeSensor AND stInOuts.bBlockerEscapeDown THEN
+			iWorkStep:= 36;
+		END_IF
+	36:	//Closing exit lock
+		fbDelayStep(IN:=NOT stInOuts.bEscapeSensor,PT:=T#500MS);
+		IF fbDelayStep.Q  THEN
+			stInOuts.bEscapeBlocker := TRUE;
+			fbDelayStep(IN:=FALSE);
+			iWorkStep:= 5;
+		END_IF
+	
+	90:		//Error occur
+			stInOuts.bCarriageBlockerChamber := FALSE;
+			stInOuts.bCarriageBlockerEntrace := FALSE;		
+			iWorkStep := 91;	
+	91:		//Wait for reset
+			IF NOT stStatus.bError OR bServiceReset THEN
+				bServiceReset := FALSE;
+				iWorkStep := 95;
+			END_IF
+			
+	95:		//Performing reset sequence
+			iWorkStep := 0;
+		
+
+
+
+
+END_CASE]]></ST>
+    </Implementation>
+    <LineIds Name="fbTransporter">
+      <LineId Id="172" Count="0" />
+      <LineId Id="169" Count="1" />
+      <LineId Id="278" Count="1" />
+      <LineId Id="281" Count="0" />
+      <LineId Id="280" Count="0" />
+      <LineId Id="171" Count="0" />
+      <LineId Id="302" Count="1" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="137" Count="0" />
+      <LineId Id="143" Count="0" />
+      <LineId Id="145" Count="0" />
+      <LineId Id="144" Count="0" />
+      <LineId Id="157" Count="2" />
+      <LineId Id="156" Count="0" />
+      <LineId Id="138" Count="0" />
+      <LineId Id="146" Count="0" />
+      <LineId Id="151" Count="1" />
+      <LineId Id="154" Count="1" />
+      <LineId Id="153" Count="0" />
+      <LineId Id="147" Count="0" />
+      <LineId Id="139" Count="0" />
+      <LineId Id="160" Count="0" />
+      <LineId Id="162" Count="5" />
+      <LineId Id="161" Count="0" />
+      <LineId Id="31" Count="1" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="33" Count="1" />
+      <LineId Id="194" Count="0" />
+      <LineId Id="67" Count="1" />
+      <LineId Id="193" Count="0" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="45" Count="1" />
+      <LineId Id="74" Count="1" />
+      <LineId Id="196" Count="2" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="83" Count="1" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="49" Count="1" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="90" Count="0" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="94" Count="0" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="95" Count="1" />
+      <LineId Id="92" Count="1" />
+      <LineId Id="56" Count="1" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="102" Count="0" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="58" Count="1" />
+      <LineId Id="100" Count="1" />
+      <LineId Id="215" Count="0" />
+      <LineId Id="248" Count="0" />
+      <LineId Id="218" Count="1" />
+      <LineId Id="249" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="105" Count="0" />
+      <LineId Id="63" Count="1" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="109" Count="0" />
+      <LineId Id="107" Count="0" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="123" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="124" Count="0" />
+      <LineId Id="122" Count="0" />
+      <LineId Id="111" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="112" Count="0" />
+      <LineId Id="125" Count="0" />
+      <LineId Id="130" Count="0" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="113" Count="1" />
+      <LineId Id="127" Count="2" />
+      <LineId Id="115" Count="0" />
+      <LineId Id="134" Count="0" />
+      <LineId Id="132" Count="0" />
+      <LineId Id="136" Count="0" />
+      <LineId Id="135" Count="0" />
+      <LineId Id="133" Count="0" />
+      <LineId Id="116" Count="0" />
+      <LineId Id="277" Count="0" />
+      <LineId Id="37" Count="1" />
+      <LineId Id="176" Count="1" />
+      <LineId Id="39" Count="1" />
+      <LineId Id="174" Count="0" />
+      <LineId Id="273" Count="0" />
+      <LineId Id="175" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="24" Count="4" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="21" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

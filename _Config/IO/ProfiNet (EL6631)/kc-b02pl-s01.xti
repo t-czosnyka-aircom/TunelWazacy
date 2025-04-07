@@ -1,0 +1,2008 @@
+<?xml version="1.0"?>
+<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.50" ClassName="CPnIoBoxDef" SubType="9121">
+	<DataTypes>
+		<DataType>
+			<Name GUID="{648E1ADD-8A97-162E-A6C9-11E594346289}">PN_Command_Control_Register0_1ED36D78</Name>
+			<BitSize>16</BitSize>
+			<SubItem>
+				<Name>Trigger</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Register_Image</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>1</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Change_Program</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>2</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Clear_Warning</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>3</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Reset_Statistics</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>4</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Clear_Buffer</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>5</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{256F6CEE-315C-FDB3-E31A-A5DBE8FC6D8A}">PN_Command_Control_Register1_8914BBB9</Name>
+			<BitSize>16</BitSize>
+			<SubItem>
+				<Name>Result_Ready_Ack</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{4FFA6778-61DA-A714-4631-69B2BFF775E4}">PN_Command_Status_Bits_Register0_BEF2C05B</Name>
+			<BitSize>16</BitSize>
+			<SubItem>
+				<Name>Trigger_Ack</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Register_Image_Ack</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>1</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Change_Program_Ack</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>2</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Clear_Warning_Ack</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>3</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Reset_Statistics_Ack</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>4</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Clear_Buffer_Ack</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>5</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Trigger_Fail</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>8</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Register_Image_Fail</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>9</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Change_Program_Fail</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>10</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{86DC9D85-20E3-FE48-C9E7-8D08E8FED35D}">PN_Command_Status_Bits_Register1_2DCAA447</Name>
+			<BitSize>16</BitSize>
+			<SubItem>
+				<Name>Result_Ready</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Complte_Toggle</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>1</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Busy</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>2</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Imaging</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>3</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Run</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>4</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Ready</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>5</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Buffer_Overrun</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>13</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Warning</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>14</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Error</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>15</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{BEC63BC0-1B8A-7C90-83EE-371D49A23292}">PN_Device_Result_Bits_Register0_4D536C80</Name>
+			<BitSize>16</BitSize>
+			<SubItem>
+				<Name>Total_Status</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Pos_Adjust</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>1</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Logic1</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>2</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Logic2</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>3</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Logic3</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>4</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Logic4</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>5</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Total_Status_NG</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>6</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{06071A97-3BE3-0F0E-D1D6-44C5CFE6780F}">PN_Device_Result_Bits_Register1_C335116A</Name>
+			<BitSize>16</BitSize>
+			<SubItem>
+				<Name>Tool1</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tool2</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>1</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tool3</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>2</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tool4</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>3</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tool5</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>4</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tool6</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>5</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tool7</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>6</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tool8</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>7</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tool9</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>8</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tool10</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>9</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tool11</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>10</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tool12</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>11</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tool13</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>12</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tool14</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>13</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tool15</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>14</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tool16</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>15</BitOffs>
+			</SubItem>
+		</DataType>
+	</DataTypes>
+	<Box Id="7" BoxType="9121">
+		<Name>__FILENAME__</Name>
+		<Comment><![CDATA[GSDML Name: GSDML-V2.3-Keyence-IV-20150804.xml
+Path: $(TWINCAT3DIR)Config\Io\Profinet\
+VendorName: Keyence
+OrderNumber: IV-HG10
+HW Release Version: 1.0
+SW Release Version: 2.0]]></Comment>
+		<ImageId>121</ImageId>
+		<Vars VarGrpType="1">
+			<Name>Inputs</Name>
+			<Var>
+				<Name>PnIoBoxState</Name>
+				<Comment><![CDATA[0 = No error
+1 = Profinet device state machine is in boot mode
+2 = Device not found
+3 = The stationname is not unique
+4 = IP could not be set
+5 = IP conflict
+6 = DCP set was not successful
+7 = Watchdog error
+8 = Datahold error
+9 = RTC3: Sync mode could not be initiated
+10 = Profinet controller has a link error
+11 = The aliasname is not unique
+12 = The automatic name assignement isn't possible - wrong device type
+13 = IOC-AR is established but no application ready
+14 = IOC-AR is established but module difference
+15 = At least one InputCR is invalid, provider in stop or problemindicator is set
+16 = At least one OutputCR is invalid, provider in stop or problemindicator is set
+31 = Only for EtherCAT gateways: WC-State of cyclic EtherCAT frame is 1
+]]></Comment>
+				<Type>UINT</Type>
+			</Var>
+			<Var>
+				<Name>PnIoBoxDiag</Name>
+				<Comment><![CDATA[0x0000 = No diagnosis
+0x0001 = IOC-AR is not established
+0x0002 = IOC-AR is established
+0x0004 = IOC-AR is established but no application ready
+0x0008 = IOC-AR is established but module difference
+0x0010 = At least one AlarmCR got a diagnosis alarm
+0x0100 = At least one InputCR is invalid
+0x0200 = At least one InputCR Provider is in stop
+0x0400 = At least one InputCR Problemindicator is set
+0x1000 = At least one OutputCR is invalid
+0x2000 = At least one OutputCR Provider is in stop
+0x4000 = At least one OutputCR Problemindicator is set
+]]></Comment>
+				<Type>UINT</Type>
+				<BitOffs>16</BitOffs>
+			</Var>
+		</Vars>
+		<Vars VarGrpType="2">
+			<Name>Outputs</Name>
+			<Var>
+				<Name>PnIoBoxCtrl</Name>
+				<Type>UINT</Type>
+			</Var>
+		</Vars>
+		<Profinet DeviceId="4001" VendorId="509" FrameOffset="49152" IPAdd="0a0a0b0a" ProtocolType="3" BoxOnDeviceTyp="119" MaxPhysSlotNr="22" InstanceServerPort="50000" InstanceClientPort="50001" InstanceId="1" InstanceNumberOfARs="1" InstanceNumberOfAPIs="1" MinDeviceInterval="128" NrOfGsdmlDap="5" SavePnIoBoxValues="0100" Phase="1" WatchdogFaktor="3" ReductionRatio="4" SendClockFaktor="32" MaxInputLen="1440" MaxOutputLen="1440" SendClockFactorData="200040008000" RedRatio="0100020004000800100020004000800000010002" BoxTypeInfo="IV-HG Main Unit" PDOmapping="1" OutputErrorBehavior="2" GSDMLPath="$(TWINCAT3DIR)Config\Io\Profinet\GSDML-V2.3-Keyence-IV-20150804.xml" ImagePath="C:\TwinCAT\3.1\Config\Io\Profinet\GSDML-01FD-0FA1-IV-G.bmp" MainFamily="Sensors" ProductFamily="Keyence Vision Sensors" OrderNr="IV-HG10" DefaultDNSName="IV" VendorName="Keyence" FamDescription="IV Series Vision Sensor" GraphicFile="GSDML-01FD-0FA1-IV-G" SWVersion="2.0" HWVersion="1.0" AltLanguage="7">
+			<UsedGsdmlModule ModuleIdentNumber="5" ModuleName="DAP Module" InfoText="IV-HG Main Unit" OrderNumber="IV-HG10">
+				<Slot>0</Slot>
+			</UsedGsdmlModule>
+			<UsedGsdmlModule ModuleIdentNumber="257" Id="101" ModuleName="Command Control" InfoText="Command Controll device" ModuleCategory="Control Modules">
+				<Slot>1</Slot>
+			</UsedGsdmlModule>
+			<UsedGsdmlModule ModuleIdentNumber="513" Id="201" ModuleName="Command Status Bits" InfoText="Command Status Bits" ModuleCategory="Status Modules">
+				<Slot>2</Slot>
+			</UsedGsdmlModule>
+			<UsedGsdmlModule ModuleIdentNumber="514" Id="202" ModuleName="Device Result Bits" InfoText="Device Result Bits" ModuleCategory="Status Modules">
+				<Slot>3</Slot>
+			</UsedGsdmlModule>
+			<UsedGsdmlModule ModuleIdentNumber="515" Id="203" ModuleName="Device Status Words" InfoText="Device Status Words" ModuleCategory="Status Modules">
+				<Slot>4</Slot>
+			</UsedGsdmlModule>
+			<UsedGsdmlModule ModuleIdentNumber="516" Id="204" ModuleName="Device Statistics" InfoText="Device Statistics" ModuleCategory="Status Modules">
+				<Slot>5</Slot>
+			</UsedGsdmlModule>
+			<UsedGsdmlModule ModuleIdentNumber="769" Id="301" ModuleName="Position Adjust Result" InfoText="Position Adjust Result " ModuleCategory="Tool Results Modules">
+				<Slot>6</Slot>
+			</UsedGsdmlModule>
+			<UsedGsdmlModule ModuleIdentNumber="770" Id="302" ModuleName="Tool Result" InfoText="Tool Result " ModuleCategory="Tool Results Modules">
+				<Slot>7</Slot>
+				<Slot>8</Slot>
+				<Slot>9</Slot>
+				<Slot>10</Slot>
+				<Slot>11</Slot>
+				<Slot>12</Slot>
+				<Slot>13</Slot>
+				<Slot>14</Slot>
+				<Slot>15</Slot>
+				<Slot>16</Slot>
+				<Slot>17</Slot>
+				<Slot>18</Slot>
+				<Slot>19</Slot>
+				<Slot>20</Slot>
+				<Slot>21</Slot>
+				<Slot>22</Slot>
+			</UsedGsdmlModule>
+			<UsedGsdmlSubModule SubSlotNumber="1" TypeOfSubmodule="3" Id="DIM 5" SubModuleName="IV-HG Main Unit" InfoText="IV-HG Main Unit"/>
+			<UsedGsdmlSubModule SubSlotNumber="1" TypeOfSubmodule="3" Id="1" SubModuleName="Command Control" InfoText="Command Controll device">
+				<DataItemOut Name="Command Control Register0" VarSize="16" VarType="{18071995-0000-0000-0000-000000000033}">
+					<BitText Offset="0" Length="1">Trigger</BitText>
+					<BitText Offset="1" Length="1">Register Image</BitText>
+					<BitText Offset="2" Length="1">Change Program</BitText>
+					<BitText Offset="3" Length="1">Clear Warning</BitText>
+					<BitText Offset="4" Length="1">Reset Statistics</BitText>
+					<BitText Offset="5" Length="1">Clear Buffer</BitText>
+				</DataItemOut>
+				<DataItemOut Name="Command Control Register1" VarSize="16" VarType="{18071995-0000-0000-0000-000000000033}">
+					<BitText Offset="0" Length="1">Result Ready Ack</BitText>
+				</DataItemOut>
+				<DataItemOut Name="Program Number" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemOut Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemOut Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemOut Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+			</UsedGsdmlSubModule>
+			<UsedGsdmlSubModule SubSlotNumber="1" TypeOfSubmodule="3" Id="2" SubModuleName="Command Status Bits" InfoText="Command Status Bits">
+				<DataItemIn Name="Command Status Bits Register0" VarSize="16" VarType="{18071995-0000-0000-0000-000000000033}">
+					<BitText Offset="0" Length="1">Trigger Ack</BitText>
+					<BitText Offset="1" Length="1">Register Image Ack</BitText>
+					<BitText Offset="2" Length="1">Change Program Ack</BitText>
+					<BitText Offset="3" Length="1">Clear Warning Ack</BitText>
+					<BitText Offset="4" Length="1">Reset Statistics Ack</BitText>
+					<BitText Offset="5" Length="1">Clear Buffer Ack</BitText>
+					<BitText Offset="8" Length="1">Trigger Fail</BitText>
+					<BitText Offset="9" Length="1">Register Image Fail</BitText>
+					<BitText Offset="10" Length="1">Change Program Fail</BitText>
+				</DataItemIn>
+				<DataItemIn Name="Command Status Bits Register1" VarSize="16" VarType="{18071995-0000-0000-0000-000000000033}">
+					<BitText Offset="0" Length="1">Result Ready</BitText>
+					<BitText Offset="1" Length="1">Complte Toggle</BitText>
+					<BitText Offset="2" Length="1">Busy</BitText>
+					<BitText Offset="3" Length="1">Imaging</BitText>
+					<BitText Offset="4" Length="1">Run</BitText>
+					<BitText Offset="5" Length="1">Ready</BitText>
+					<BitText Offset="13" Length="1">Buffer Overrun</BitText>
+					<BitText Offset="14" Length="1">Warning</BitText>
+					<BitText Offset="15" Length="1">Error</BitText>
+				</DataItemIn>
+			</UsedGsdmlSubModule>
+			<UsedGsdmlSubModule SubSlotNumber="1" TypeOfSubmodule="3" Id="3" SubModuleName="Device Result Bits" InfoText="Device Result Bits">
+				<DataItemIn Name="Device Result Bits Register0" VarSize="16" VarType="{18071995-0000-0000-0000-000000000033}">
+					<BitText Offset="0" Length="1">Total Status</BitText>
+					<BitText Offset="1" Length="1">Pos. Adjust</BitText>
+					<BitText Offset="2" Length="1">Logic1</BitText>
+					<BitText Offset="3" Length="1">Logic2</BitText>
+					<BitText Offset="4" Length="1">Logic3</BitText>
+					<BitText Offset="5" Length="1">Logic4</BitText>
+					<BitText Offset="6" Length="1">Total Status NG</BitText>
+				</DataItemIn>
+				<DataItemIn Name="Device Result Bits Register1" VarSize="16" VarType="{18071995-0000-0000-0000-000000000033}">
+					<BitText Offset="0" Length="1">Tool1</BitText>
+					<BitText Offset="1" Length="1">Tool2</BitText>
+					<BitText Offset="2" Length="1">Tool3</BitText>
+					<BitText Offset="3" Length="1">Tool4</BitText>
+					<BitText Offset="4" Length="1">Tool5</BitText>
+					<BitText Offset="5" Length="1">Tool6</BitText>
+					<BitText Offset="6" Length="1">Tool7</BitText>
+					<BitText Offset="7" Length="1">Tool8</BitText>
+					<BitText Offset="8" Length="1">Tool9</BitText>
+					<BitText Offset="9" Length="1">Tool10</BitText>
+					<BitText Offset="10" Length="1">Tool11</BitText>
+					<BitText Offset="11" Length="1">Tool12</BitText>
+					<BitText Offset="12" Length="1">Tool13</BitText>
+					<BitText Offset="13" Length="1">Tool14</BitText>
+					<BitText Offset="14" Length="1">Tool15</BitText>
+					<BitText Offset="15" Length="1">Tool16</BitText>
+				</DataItemIn>
+			</UsedGsdmlSubModule>
+			<UsedGsdmlSubModule SubSlotNumber="1" TypeOfSubmodule="3" Id="4" SubModuleName="Device Status Words" InfoText="Device Status Words">
+				<DataItemIn Name="Error Number" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Warning Number" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Rest Buffer" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Setting Checksum" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Current Program Number" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Result Program Number" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Result Number" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Process Time" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+			</UsedGsdmlSubModule>
+			<UsedGsdmlSubModule SubSlotNumber="1" TypeOfSubmodule="3" Id="5" SubModuleName="Device Statistics" InfoText="Device Statistics">
+				<DataItemIn Name="Process Time Max" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Process Time Min" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Process Time Ave" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Trigger Count" VarSize="32" VarType="{18071995-0000-0000-0000-000000000008}"/>
+				<DataItemIn Name="OK Count" VarSize="32" VarType="{18071995-0000-0000-0000-000000000008}"/>
+				<DataItemIn Name="NG Count" VarSize="32" VarType="{18071995-0000-0000-0000-000000000008}"/>
+				<DataItemIn Name="Trigger Error Count" VarSize="32" VarType="{18071995-0000-0000-0000-000000000008}"/>
+				<DataItemIn Name="Reserve" VarSize="32" VarType="{18071995-0000-0000-0000-000000000008}"/>
+			</UsedGsdmlSubModule>
+			<UsedGsdmlSubModule SubSlotNumber="1" TypeOfSubmodule="3" Id="6" SubModuleName="Position Adjust Result" InfoText="Position Adjust Result ">
+				<DataItemIn Name="Score" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Score Max" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Score Min" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Lower Limit" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+			</UsedGsdmlSubModule>
+			<UsedGsdmlSubModule SubSlotNumber="1" TypeOfSubmodule="3" Id="7" SubModuleName="Tool Result" InfoText="Tool Result ">
+				<DataItemIn Name="Score" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Score Max" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Score Min" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Lower Limit" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Upper Limit" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+			</UsedGsdmlSubModule>
+			<API Id="1">
+				<Name>API</Name>
+				<ImageId>4</ImageId>
+				<Module Id="#x031d0001" DAP="true" ModuleIdentNumber="5" ModuleInfo="IV-HG Main Unit">
+					<Name>Term 1 (DAP Module)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: IV-HG Main Unit
+OrderNumber: IV-HG10]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c0001" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="DIM 5">
+						<Name>Subterm 1 (IV-HG Main Unit)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: IV-HG Main Unit
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+					<SubModule Id="#x031c0002" SubModuleIdentNumber="1" TypeOfSubModule="1" SubSlotNumber="32768" IsFixSubmodule="true" SubModuleID="IDS_DAP5I" InterfaceData="0100000000000000000000000000000000000000000000000200000000000000">
+						<Name>Subterm 2 (Interface)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+					<SubModule Id="#x031c0003" SubModuleIdentNumber="2" TypeOfSubModule="2" SubSlotNumber="32769" IsFixSubmodule="true" SubModuleID="IDS_DAP5P" PortData="00000000000000000000000000000000000000000000000000000000">
+						<Name>Subterm 3 (Port 1)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d0002" ModuleIdentNumber="257" SlotNumber="1" ModuleInfo="Command Controll device" ModuleID="101" DirectDeletable="true">
+					<Name>Term 2 (Command Control)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Command Controll device
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c0004" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="1">
+						<Name>Subterm 4 (Command Control)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Command Controll device
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+							<Var>
+								<Name>Command Control Register0</Name>
+								<Type GUID="{648E1ADD-8A97-162E-A6C9-11E594346289}">PN_Command_Control_Register0_1ED36D78</Type>
+								<BitOffs>16</BitOffs>
+							</Var>
+							<Var>
+								<Name>Command Control Register1</Name>
+								<Type GUID="{256F6CEE-315C-FDB3-E31A-A5DBE8FC6D8A}">PN_Command_Control_Register1_8914BBB9</Type>
+								<BitOffs>32</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Program Number</Name>
+								<Type>UINT</Type>
+								<BitOffs>48</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[0]</Name>
+								<Type>UINT</Type>
+								<BitOffs>64</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[1]</Name>
+								<Type>UINT</Type>
+								<BitOffs>80</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[2]</Name>
+								<Type>UINT</Type>
+								<BitOffs>96</BitOffs>
+							</Var>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d0003" ModuleIdentNumber="513" SlotNumber="2" ModuleInfo="Command Status Bits" ModuleID="201" DirectDeletable="true">
+					<Name>Term 3 (Command Status Bits)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Command Status Bits
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c0005" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="2">
+						<Name>Subterm 5 (Command Status Bits)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Command Status Bits
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var>
+								<Name>Command Status Bits Register0</Name>
+								<Type GUID="{4FFA6778-61DA-A714-4631-69B2BFF775E4}">PN_Command_Status_Bits_Register0_BEF2C05B</Type>
+								<BitOffs>32</BitOffs>
+							</Var>
+							<Var>
+								<Name>Command Status Bits Register1</Name>
+								<Type GUID="{86DC9D85-20E3-FE48-C9E7-8D08E8FED35D}">PN_Command_Status_Bits_Register1_2DCAA447</Type>
+								<BitOffs>48</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d0004" ModuleIdentNumber="514" SlotNumber="3" ModuleInfo="Device Result Bits" ModuleID="202" DirectDeletable="true">
+					<Name>Term 4 (Device Result Bits)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Device Result Bits
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c0006" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="3">
+						<Name>Subterm 6 (Device Result Bits)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Device Result Bits
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var>
+								<Name>Device Result Bits Register0</Name>
+								<Type GUID="{BEC63BC0-1B8A-7C90-83EE-371D49A23292}">PN_Device_Result_Bits_Register0_4D536C80</Type>
+								<BitOffs>64</BitOffs>
+							</Var>
+							<Var>
+								<Name>Device Result Bits Register1</Name>
+								<Type GUID="{06071A97-3BE3-0F0E-D1D6-44C5CFE6780F}">PN_Device_Result_Bits_Register1_C335116A</Type>
+								<BitOffs>80</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d0005" ModuleIdentNumber="515" SlotNumber="4" ModuleInfo="Device Status Words" ModuleID="203" DirectDeletable="true">
+					<Name>Term 5 (Device Status Words)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Device Status Words
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c0007" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="4">
+						<Name>Subterm 7 (Device Status Words)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Device Status Words
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var Swapping="#x1">
+								<Name>Error Number</Name>
+								<Type>UINT</Type>
+								<BitOffs>96</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Warning Number</Name>
+								<Type>UINT</Type>
+								<BitOffs>112</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Rest Buffer</Name>
+								<Type>UINT</Type>
+								<BitOffs>128</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Setting Checksum</Name>
+								<Type>UINT</Type>
+								<BitOffs>144</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Current Program Number</Name>
+								<Type>UINT</Type>
+								<BitOffs>160</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Result Program Number</Name>
+								<Type>UINT</Type>
+								<BitOffs>176</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Result Number</Name>
+								<Type>UINT</Type>
+								<BitOffs>192</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Process Time</Name>
+								<Type>UINT</Type>
+								<BitOffs>208</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d0006" ModuleIdentNumber="516" SlotNumber="5" ModuleInfo="Device Statistics" ModuleID="204" DirectDeletable="true">
+					<Name>Term 6 (Device Statistics)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Device Statistics
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c0008" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="5">
+						<Name>Subterm 8 (Device Statistics)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Device Statistics
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var Swapping="#x1">
+								<Name>Process Time Max</Name>
+								<Type>UINT</Type>
+								<BitOffs>224</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Process Time Min</Name>
+								<Type>UINT</Type>
+								<BitOffs>240</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Process Time Ave</Name>
+								<Type>UINT</Type>
+								<BitOffs>256</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[0]</Name>
+								<Type>UINT</Type>
+								<BitOffs>272</BitOffs>
+							</Var>
+							<Var Swapping="#x3">
+								<Name>Trigger Count</Name>
+								<Type>UDINT</Type>
+								<BitOffs>288</BitOffs>
+							</Var>
+							<Var Swapping="#x3">
+								<Name>OK Count</Name>
+								<Type>UDINT</Type>
+								<BitOffs>320</BitOffs>
+							</Var>
+							<Var Swapping="#x3">
+								<Name>NG Count</Name>
+								<Type>UDINT</Type>
+								<BitOffs>352</BitOffs>
+							</Var>
+							<Var Swapping="#x3">
+								<Name>Trigger Error Count</Name>
+								<Type>UDINT</Type>
+								<BitOffs>384</BitOffs>
+							</Var>
+							<Var Swapping="#x3">
+								<Name>Reserve[1]</Name>
+								<Type>UDINT</Type>
+								<BitOffs>416</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d0007" ModuleIdentNumber="769" SlotNumber="6" ModuleInfo="Position Adjust Result " ModuleID="301" DirectDeletable="true">
+					<Name>Term 7 (Position Adjust Result)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Position Adjust Result 
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c0009" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="6">
+						<Name>Subterm 9 (Position Adjust Result)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Position Adjust Result 
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var Swapping="#x1">
+								<Name>Score</Name>
+								<Type>UINT</Type>
+								<BitOffs>448</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Max</Name>
+								<Type>UINT</Type>
+								<BitOffs>464</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Min</Name>
+								<Type>UINT</Type>
+								<BitOffs>480</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Lower Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>496</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[0]</Name>
+								<Type>UINT</Type>
+								<BitOffs>512</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[1]</Name>
+								<Type>UINT</Type>
+								<BitOffs>528</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[2]</Name>
+								<Type>UINT</Type>
+								<BitOffs>544</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[3]</Name>
+								<Type>UINT</Type>
+								<BitOffs>560</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[4]</Name>
+								<Type>UINT</Type>
+								<BitOffs>576</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[5]</Name>
+								<Type>UINT</Type>
+								<BitOffs>592</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d0008" ModuleIdentNumber="770" SlotNumber="7" ModuleInfo="Tool Result " ModuleID="302" DirectDeletable="true">
+					<Name>Term 8 (Tool Result)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Tool Result 
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c000a" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="7">
+						<Name>Subterm 10 (Tool Result)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Tool Result 
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var Swapping="#x1">
+								<Name>Score</Name>
+								<Type>UINT</Type>
+								<BitOffs>608</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Max</Name>
+								<Type>UINT</Type>
+								<BitOffs>624</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Min</Name>
+								<Type>UINT</Type>
+								<BitOffs>640</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Lower Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>656</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Upper Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>672</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[0]</Name>
+								<Type>UINT</Type>
+								<BitOffs>688</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[1]</Name>
+								<Type>UINT</Type>
+								<BitOffs>704</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[2]</Name>
+								<Type>UINT</Type>
+								<BitOffs>720</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[3]</Name>
+								<Type>UINT</Type>
+								<BitOffs>736</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[4]</Name>
+								<Type>UINT</Type>
+								<BitOffs>752</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d0009" ModuleIdentNumber="770" SlotNumber="8" ModuleInfo="Tool Result " ModuleID="302" DirectDeletable="true">
+					<Name>Term 9 (Tool Result)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Tool Result 
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c000b" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="7">
+						<Name>Subterm 11 (Tool Result)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Tool Result 
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var Swapping="#x1">
+								<Name>Score</Name>
+								<Type>UINT</Type>
+								<BitOffs>768</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Max</Name>
+								<Type>UINT</Type>
+								<BitOffs>784</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Min</Name>
+								<Type>UINT</Type>
+								<BitOffs>800</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Lower Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>816</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Upper Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>832</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[0]</Name>
+								<Type>UINT</Type>
+								<BitOffs>848</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[1]</Name>
+								<Type>UINT</Type>
+								<BitOffs>864</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[2]</Name>
+								<Type>UINT</Type>
+								<BitOffs>880</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[3]</Name>
+								<Type>UINT</Type>
+								<BitOffs>896</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[4]</Name>
+								<Type>UINT</Type>
+								<BitOffs>912</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d000a" ModuleIdentNumber="770" SlotNumber="9" ModuleInfo="Tool Result " ModuleID="302" DirectDeletable="true">
+					<Name>Term 10 (Tool Result)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Tool Result 
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c000c" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="7">
+						<Name>Subterm 12 (Tool Result)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Tool Result 
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var Swapping="#x1">
+								<Name>Score</Name>
+								<Type>UINT</Type>
+								<BitOffs>928</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Max</Name>
+								<Type>UINT</Type>
+								<BitOffs>944</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Min</Name>
+								<Type>UINT</Type>
+								<BitOffs>960</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Lower Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>976</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Upper Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>992</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[0]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1008</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[1]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1024</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[2]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1040</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[3]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1056</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[4]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1072</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d000b" ModuleIdentNumber="770" SlotNumber="10" ModuleInfo="Tool Result " ModuleID="302" DirectDeletable="true">
+					<Name>Term 11 (Tool Result)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Tool Result 
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c000d" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="7">
+						<Name>Subterm 13 (Tool Result)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Tool Result 
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var Swapping="#x1">
+								<Name>Score</Name>
+								<Type>UINT</Type>
+								<BitOffs>1088</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Max</Name>
+								<Type>UINT</Type>
+								<BitOffs>1104</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Min</Name>
+								<Type>UINT</Type>
+								<BitOffs>1120</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Lower Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>1136</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Upper Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>1152</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[0]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1168</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[1]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1184</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[2]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1200</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[3]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1216</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[4]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1232</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d000c" ModuleIdentNumber="770" SlotNumber="11" ModuleInfo="Tool Result " ModuleID="302" DirectDeletable="true">
+					<Name>Term 12 (Tool Result)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Tool Result 
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c000e" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="7">
+						<Name>Subterm 14 (Tool Result)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Tool Result 
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var Swapping="#x1">
+								<Name>Score</Name>
+								<Type>UINT</Type>
+								<BitOffs>1248</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Max</Name>
+								<Type>UINT</Type>
+								<BitOffs>1264</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Min</Name>
+								<Type>UINT</Type>
+								<BitOffs>1280</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Lower Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>1296</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Upper Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>1312</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[0]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1328</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[1]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1344</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[2]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1360</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[3]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1376</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[4]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1392</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d000d" ModuleIdentNumber="770" SlotNumber="12" ModuleInfo="Tool Result " ModuleID="302" DirectDeletable="true">
+					<Name>Term 13 (Tool Result)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Tool Result 
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c000f" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="7">
+						<Name>Subterm 15 (Tool Result)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Tool Result 
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var Swapping="#x1">
+								<Name>Score</Name>
+								<Type>UINT</Type>
+								<BitOffs>1408</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Max</Name>
+								<Type>UINT</Type>
+								<BitOffs>1424</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Min</Name>
+								<Type>UINT</Type>
+								<BitOffs>1440</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Lower Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>1456</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Upper Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>1472</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[0]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1488</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[1]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1504</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[2]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1520</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[3]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1536</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[4]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1552</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d000e" ModuleIdentNumber="770" SlotNumber="13" ModuleInfo="Tool Result " ModuleID="302" DirectDeletable="true">
+					<Name>Term 14 (Tool Result)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Tool Result 
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c0010" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="7">
+						<Name>Subterm 16 (Tool Result)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Tool Result 
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var Swapping="#x1">
+								<Name>Score</Name>
+								<Type>UINT</Type>
+								<BitOffs>1568</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Max</Name>
+								<Type>UINT</Type>
+								<BitOffs>1584</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Min</Name>
+								<Type>UINT</Type>
+								<BitOffs>1600</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Lower Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>1616</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Upper Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>1632</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[0]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1648</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[1]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1664</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[2]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1680</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[3]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1696</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[4]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1712</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d000f" ModuleIdentNumber="770" SlotNumber="14" ModuleInfo="Tool Result " ModuleID="302" DirectDeletable="true">
+					<Name>Term 15 (Tool Result)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Tool Result 
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c0011" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="7">
+						<Name>Subterm 17 (Tool Result)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Tool Result 
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var Swapping="#x1">
+								<Name>Score</Name>
+								<Type>UINT</Type>
+								<BitOffs>1728</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Max</Name>
+								<Type>UINT</Type>
+								<BitOffs>1744</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Min</Name>
+								<Type>UINT</Type>
+								<BitOffs>1760</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Lower Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>1776</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Upper Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>1792</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[0]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1808</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[1]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1824</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[2]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1840</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[3]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1856</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[4]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1872</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d0010" ModuleIdentNumber="770" SlotNumber="15" ModuleInfo="Tool Result " ModuleID="302" DirectDeletable="true">
+					<Name>Term 16 (Tool Result)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Tool Result 
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c0012" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="7">
+						<Name>Subterm 18 (Tool Result)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Tool Result 
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var Swapping="#x1">
+								<Name>Score</Name>
+								<Type>UINT</Type>
+								<BitOffs>1888</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Max</Name>
+								<Type>UINT</Type>
+								<BitOffs>1904</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Min</Name>
+								<Type>UINT</Type>
+								<BitOffs>1920</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Lower Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>1936</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Upper Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>1952</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[0]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1968</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[1]</Name>
+								<Type>UINT</Type>
+								<BitOffs>1984</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[2]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2000</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[3]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2016</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[4]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2032</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d0011" ModuleIdentNumber="770" SlotNumber="16" ModuleInfo="Tool Result " ModuleID="302" DirectDeletable="true">
+					<Name>Term 17 (Tool Result)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Tool Result 
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c0013" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="7">
+						<Name>Subterm 19 (Tool Result)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Tool Result 
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var Swapping="#x1">
+								<Name>Score</Name>
+								<Type>UINT</Type>
+								<BitOffs>2048</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Max</Name>
+								<Type>UINT</Type>
+								<BitOffs>2064</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Min</Name>
+								<Type>UINT</Type>
+								<BitOffs>2080</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Lower Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>2096</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Upper Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>2112</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[0]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2128</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[1]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2144</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[2]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2160</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[3]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2176</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[4]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2192</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d0012" ModuleIdentNumber="770" SlotNumber="17" ModuleInfo="Tool Result " ModuleID="302" DirectDeletable="true">
+					<Name>Term 18 (Tool Result)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Tool Result 
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c0014" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="7">
+						<Name>Subterm 20 (Tool Result)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Tool Result 
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var Swapping="#x1">
+								<Name>Score</Name>
+								<Type>UINT</Type>
+								<BitOffs>2208</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Max</Name>
+								<Type>UINT</Type>
+								<BitOffs>2224</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Min</Name>
+								<Type>UINT</Type>
+								<BitOffs>2240</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Lower Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>2256</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Upper Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>2272</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[0]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2288</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[1]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2304</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[2]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2320</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[3]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2336</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[4]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2352</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d0013" ModuleIdentNumber="770" SlotNumber="18" ModuleInfo="Tool Result " ModuleID="302" DirectDeletable="true">
+					<Name>Term 19 (Tool Result)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Tool Result 
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c0015" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="7">
+						<Name>Subterm 21 (Tool Result)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Tool Result 
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var Swapping="#x1">
+								<Name>Score</Name>
+								<Type>UINT</Type>
+								<BitOffs>2368</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Max</Name>
+								<Type>UINT</Type>
+								<BitOffs>2384</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Min</Name>
+								<Type>UINT</Type>
+								<BitOffs>2400</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Lower Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>2416</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Upper Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>2432</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[0]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2448</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[1]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2464</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[2]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2480</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[3]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2496</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[4]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2512</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d0014" ModuleIdentNumber="770" SlotNumber="19" ModuleInfo="Tool Result " ModuleID="302" DirectDeletable="true">
+					<Name>Term 20 (Tool Result)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Tool Result 
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c0016" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="7">
+						<Name>Subterm 22 (Tool Result)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Tool Result 
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var Swapping="#x1">
+								<Name>Score</Name>
+								<Type>UINT</Type>
+								<BitOffs>2528</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Max</Name>
+								<Type>UINT</Type>
+								<BitOffs>2544</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Min</Name>
+								<Type>UINT</Type>
+								<BitOffs>2560</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Lower Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>2576</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Upper Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>2592</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[0]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2608</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[1]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2624</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[2]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2640</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[3]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2656</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[4]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2672</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d0015" ModuleIdentNumber="770" SlotNumber="20" ModuleInfo="Tool Result " ModuleID="302" DirectDeletable="true">
+					<Name>Term 21 (Tool Result)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Tool Result 
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c0017" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="7">
+						<Name>Subterm 23 (Tool Result)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Tool Result 
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var Swapping="#x1">
+								<Name>Score</Name>
+								<Type>UINT</Type>
+								<BitOffs>2688</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Max</Name>
+								<Type>UINT</Type>
+								<BitOffs>2704</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Min</Name>
+								<Type>UINT</Type>
+								<BitOffs>2720</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Lower Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>2736</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Upper Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>2752</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[0]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2768</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[1]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2784</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[2]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2800</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[3]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2816</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[4]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2832</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d0016" ModuleIdentNumber="770" SlotNumber="21" ModuleInfo="Tool Result " ModuleID="302" DirectDeletable="true">
+					<Name>Term 22 (Tool Result)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Tool Result 
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c0018" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="7">
+						<Name>Subterm 24 (Tool Result)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Tool Result 
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var Swapping="#x1">
+								<Name>Score</Name>
+								<Type>UINT</Type>
+								<BitOffs>2848</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Max</Name>
+								<Type>UINT</Type>
+								<BitOffs>2864</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Min</Name>
+								<Type>UINT</Type>
+								<BitOffs>2880</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Lower Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>2896</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Upper Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>2912</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[0]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2928</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[1]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2944</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[2]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2960</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[3]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2976</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[4]</Name>
+								<Type>UINT</Type>
+								<BitOffs>2992</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+				<Module Id="#x031d0017" ModuleIdentNumber="770" SlotNumber="22" ModuleInfo="Tool Result " ModuleID="302" DirectDeletable="true">
+					<Name>Term 23 (Tool Result)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Module Info: Tool Result 
+]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c0019" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="7">
+						<Name>Subterm 25 (Tool Result)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.3-Keyence-IV-20150804.xml
+Submodule Info: Tool Result 
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+							<Var Swapping="#x1">
+								<Name>Score</Name>
+								<Type>UINT</Type>
+								<BitOffs>3008</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Max</Name>
+								<Type>UINT</Type>
+								<BitOffs>3024</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Score Min</Name>
+								<Type>UINT</Type>
+								<BitOffs>3040</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Lower Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>3056</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Upper Limit</Name>
+								<Type>UINT</Type>
+								<BitOffs>3072</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[0]</Name>
+								<Type>UINT</Type>
+								<BitOffs>3088</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[1]</Name>
+								<Type>UINT</Type>
+								<BitOffs>3104</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[2]</Name>
+								<Type>UINT</Type>
+								<BitOffs>3120</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[3]</Name>
+								<Type>UINT</Type>
+								<BitOffs>3136</BitOffs>
+							</Var>
+							<Var Swapping="#x1">
+								<Name>Reserve[4]</Name>
+								<Type>UINT</Type>
+								<BitOffs>3152</BitOffs>
+							</Var>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+			</API>
+		</Profinet>
+	</Box>
+</TcSmItem>

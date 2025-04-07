@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="fbKeyenceIVProfinetCtrl" Id="{251404a4-1cf8-4254-8d35-17558b28528c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbKeyenceIVProfinetCtrl IMPLEMENTS I_VisionSensorSTD
+VAR_IN_OUT
+END_VAR
+VAR_INPUT
+	bTrigger:BOOL;
+	bReadActualInspection:BOOL;
+	bChangeInspection:BOOL;		// Zbocze narastające inicjuje zmianę programu
+	iInspectionToActive:INT;
+END_VAR
+VAR_OUTPUT
+	bBusy: BOOL;
+	bOutput1: BOOL;
+	bOutput2: BOOL;
+	bOutput3: BOOL;
+	bError:	BOOL;
+	bResultReady: BOOL;
+	iActiveProgramId:INT;
+END_VAR
+VAR
+	uiPnIOBoxState			AT %I*: UINT;
+	uiPnIOBoxDiag			AT %I*: UINT;
+	wCmdControl_Reg0		AT %Q*: WORD;
+	uiProgNbToSet			AT %Q*: UINT;
+	wCmdStatusBits_Reg0		AT %I*: WORD;
+	wCmdStatusBits_Reg1		AT %I*: WORD;
+	wDevResultBits_Reg0		AT %I*: WORD;
+	wDevResultBits_Reg1		AT %I*: WORD;
+	uiDevStat_ErrorNb		AT %I*: UINT;
+	uiDevStat_WarningNb		AT %I*: UINT;
+	uiDevStat_ConfCRC		AT %I*: UINT;
+	uiDevStat_CurrentProgNb	AT %I*: UINT;
+	uiDevStat_ResultProgNb	AT %I*: UINT;
+	uiDevStat_ResultNb		AT %I*: UINT;
+	uiDevStat_ProcessTime	AT %I*: UINT;
+	uiPosAdj_Score			AT %I*: UINT;
+	uiPosAdj_ScoreMax		AT %I*: UINT;
+	uiPosAdj_ScoreMin		AT %I*: UINT;
+	
+	iWorkStep:INT;
+	fbTP_ImpuleGen:TP;
+	fbTON_Timeout: TON;
+	bNewInspectionBusy, bSetInspectionBusy, bReadInspectionBusy :BOOL;
+	fbTON_CmdTimeout: TON;
+	iIdToSet: INT;
+	fbTON_NewStep: TON;
+	fbTP_ImpulesRead: TP;
+	fbTON_NewStepLong: TON;
+	iTargetIdToSet: INT;
+	bResultTool_1, bResultTool_2, bResultTool_3, bResultTool_4: BOOL;
+	bY_Trigger: BOOL;
+	bY_ChangeProg: BOOL;
+	bY_ClearWrn: BOOL;
+	bX_Busy: BOOL;
+	bX_ResultReady: BOOL;
+	bX_CamReady: BOOL;
+	bX_Warning: BOOL;
+	bX_Error: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[ACT_DataDecode();
+
+CASE iWorkStep OF
+	0:	// Inicjalizacja
+		IF bNewInspectionBusy OR bTrigger THEN		// Nowa detekcja
+			bBusy := TRUE;
+			bSetInspectionBusy := bReadInspectionBusy := FALSE;
+			bError := bOutput1 := bOutput2 := bOutput3 := bResultReady := FALSE;
+			bY_Trigger := TRUE;
+			fbTON_CmdTimeout(IN:= FALSE);
+			iWorkStep := 10;
+(*		ELSIF bReadInspectionBusy OR bReadActualInspection THEN		// Odczyt Id detekcji
+			bBusy := TRUE;
+			bError := bSetInspectionBusy := bResultReady := FALSE;
+			iIdToSet := 21;
+			iActiveProgramId := -1;
+			fbTON_CmdTimeout(IN:= FALSE);
+			iWorkStep := 20;
+		ELSIF bSetInspectionBusy OR bChangeInspection THEN			// Ustawienie nowej detekcji
+			IF bChangeInspection THEN
+				IF iInspectionToActive > 0 AND iInspectionToActive <= 20 THEN
+					iIdToSet := iInspectionToActive;
+				END_IF		
+			END_IF
+			IF iIdToSet > 0 AND iIdToSet <= 20 THEN 			
+				bBusy := TRUE;
+				bError := bResultReady := FALSE;
+				iTargetIdToSet:= iIdToSet;
+				iActiveProgramId := -1;
+				fbTON_CmdTimeout(IN:= FALSE);
+				iWorkStep := 20;
+			ELSE	
+				bBusy := FALSE;
+				bError := bResultReady := TRUE;
+				iActiveProgramId := -1;
+				iWorkStep := 1;
+			END_IF	*)
+		END_IF
+		
+	1:	// Oczekiwanie po wykonanej komendzie na sygnał zerowy na poszczególnych wejściach
+		IF NOT bTrigger AND NOT bReadActualInspection AND NOT bChangeInspection THEN
+			fbTON_CmdTimeout(IN:= TRUE, PT:= T#1S);
+			IF NOT bNewInspectionBusy OR fbTON_CmdTimeout.Q THEN
+				bNewInspectionBusy := FALSE;
+				bBusy := bY_Trigger := FALSE;
+				fbTON_CmdTimeout(IN:= FALSE);
+				iWorkStep := 0;
+			END_IF
+		END_IF
+	
+	10:	// Detekcja wyzwolona, oczekiwanie na rezultat
+		fbTON_CmdTimeout(IN:= TRUE, PT:= T#100MS);
+		IF bX_Busy THEN
+			bY_Trigger := FALSE;
+			iWorkStep := 11;
+		ELSIF fbTON_CmdTimeout.Q THEN
+			bBusy := FALSE;
+			bError := TRUE;
+			fbTON_CmdTimeout(IN:= FALSE);
+			bY_Trigger := FALSE;
+			iWorkStep := 1;
+		END_IF
+		
+	11:	// Oczekiwanie na koniec
+		fbTON_CmdTimeout(IN:= TRUE, PT:= T#600MS);
+		IF NOT bX_Busy THEN		// Detekcja zakończona
+			bOutput1 := bResultTool_1;
+			bOutput2 := bResultTool_2;
+			bOutput3 := bResultTool_3;
+			bResultReady := TRUE;
+			bBusy := FALSE;
+			bY_Trigger := FALSE;
+			iWorkStep := 1;
+		ELSIF fbTON_CmdTimeout.Q THEN
+			bBusy := FALSE;
+			bError := TRUE;
+			fbTON_CmdTimeout(IN:= FALSE);
+			bY_Trigger := FALSE;
+			iWorkStep := 1;
+		END_IF
+				
+	90:	// In case of error ...
+		bError := TRUE;
+		bBusy := FALSE;
+		bY_Trigger := FALSE;
+		fbTON_CmdTimeout(IN:= TRUE, PT:= T#2S);
+		IF fbTON_CmdTimeout.Q THEN
+			iWorkStep := 1; 
+		END_IF
+
+END_CASE
+	
+wCmdControl_Reg0.0 := bY_Trigger;
+wCmdControl_Reg0.2 := bY_ChangeProg;
+wCmdControl_Reg0.3 := bY_ClearWrn;
+]]></ST>
+    </Implementation>
+    <Action Name="ACT_DataDecode" Id="{86b82613-ac33-4665-8e49-457dd7e549b3}">
+      <Implementation>
+        <ST><![CDATA[
+// Status
+bX_Busy := wCmdStatusBits_Reg1.2;
+bX_ResultReady := wCmdStatusBits_Reg1.2;
+bX_CamReady := wCmdStatusBits_Reg1.2;
+bX_Warning := wCmdStatusBits_Reg1.2;
+bX_Error := wCmdStatusBits_Reg1.2;
+
+// Results;
+bResultTool_1:= wDevResultBits_Reg1.0;
+bResultTool_2:= wDevResultBits_Reg1.1;
+bResultTool_3:= wDevResultBits_Reg1.2;
+bResultTool_4:= wDevResultBits_Reg1.3;
+]]></ST>
+      </Implementation>
+    </Action>
+    <Method Name="mNewInspection" Id="{c9c7a93c-41f4-43ae-9240-5b66ef458bce}">
+      <Declaration><![CDATA[METHOD mNewInspection : BOOL (* Metoda zwraca true gdy detekcja zostanie zakończona*)
+VAR_OUTPUT
+	bError	: BOOL;			// Informacja zakończeniu detekcji z błędem
+	bOut1, bOut2, bOut3, bOut4	: BOOL;		// Wyjścia zostają odświeżone po zakońcoznej detekcji 
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF iWorkStep = 0 THEN
+	bOut1 := bOut2 := bOut3 := bOut1 := bResultReady := FALSE;
+	bNewInspectionBusy := TRUE;
+ELSIF bNewInspectionBusy THEN
+	IF bResultReady THEN
+		bOut1 := bOutput1;
+		bOut2 := bOutput2;
+		bOut3 := bOutput3;
+		bNewInspectionBusy := bError := bOut4 := FALSE;
+		mNewInspection := TRUE;
+	ELSIF fbTON_CmdTimeout.Q THEN
+		bError := mNewInspection := TRUE;	
+		bNewInspectionBusy := FALSE;
+	END_IF
+ELSE
+	bError := mNewInspection := TRUE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mReadInspectionId" Id="{2ae2c0c3-6299-4e5a-b9d2-91b691f4f5e5}">
+      <Declaration><![CDATA[METHOD mReadInspectionId : BOOL (* Metoda zwraca true gdy zakończyła pracę*)
+VAR_OUTPUT
+	bError	: BOOL;			// Błąd ustawienia
+	iActiveInspectionId	: INT;		// Identyfikator aktualnej inspekcji
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bError :=  mReadInspectionId := TRUE;
+iActiveInspectionId := -1;
+(*IF iWorkStep = 0 THEN
+	bResultReady := FALSE;
+	bReadInspectionBusy := TRUE;
+ELSIF bReadInspectionBusy THEN
+	IF bResultReady THEN
+		bReadInspectionBusy := bError := FALSE;
+		iActiveInspectionId := iActiveProgramId;
+		mReadInspectionId := TRUE;
+	ELSIF fbTON_CmdTimeout.Q THEN
+		bError := mReadInspectionId := TRUE;	
+		iActiveInspectionId := -1;
+		bReadInspectionBusy := FALSE;
+	END_IF
+ELSE
+	bError := mReadInspectionId := TRUE;
+	iActiveInspectionId := -1;
+END_IF
+*)
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mSetInspectionId" Id="{25301911-0ecc-48ca-a1fe-35b680a2721f}">
+      <Declaration><![CDATA[METHOD mSetInspectionId : BOOL
+VAR_OUTPUT
+	bError	: BOOL; 		// Błąd ustawienia
+	iActiveInspectionId	: INT;		// Identyfikator aktualnej inspekcji
+END_VAR
+VAR_INPUT
+	iInspectionIdToSet	: INT;			// Identyfikator inspekcji do ustawienia
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bError :=  mSetInspectionId := TRUE;
+iActiveInspectionId := -1;
+
+(*IF iWorkStep = 0 AND iInspectionIdToSet <= 20 AND iInspectionIdToSet > 0 THEN
+	bResultReady := FALSE;
+	iIdToSet := iInspectionIdToSet;
+	bSetInspectionBusy := TRUE;
+ELSIF bSetInspectionBusy THEN
+	IF bResultReady THEN
+		bSetInspectionBusy := bError := FALSE;
+		bError := iActiveProgramId <> iInspectionIdToSet;
+		iActiveInspectionId := iActiveProgramId;
+		mSetInspectionId := TRUE;
+	ELSIF fbTON_CmdTimeout.Q THEN
+		bError := mSetInspectionId := TRUE;	
+		iActiveInspectionId := -1;
+		bSetInspectionBusy := FALSE;
+	END_IF
+ELSE
+	bError := mSetInspectionId := TRUE;
+	iActiveInspectionId := -1;
+END_IF
+*)]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

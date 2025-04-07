@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <DUT Name="nByteRegisterForPIM" Id="{3361ed48-1512-4f29-ac0a-6366a36ed8fe}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE nByteRegisterForPIM :
+(
+	//Inputs - To PLC
+	iActualWorkStep 		:= 9000,
+	wGoodPartsAmountHighInt := 9001,
+	wGoodPartsAmountLowInt 	:= 9002,
+	wBadPartsAmountHighInt 	:= 9003,
+	wBadPartsAmountLowInt 	:= 9004,
+	iCycleTime 				:= 9005,
+	iPartsCreatedInOneTime 	:= 9006,
+	iErrorCode				:= 9007,
+	//Outputs - From PLC
+	iProductId 				:= 9020
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

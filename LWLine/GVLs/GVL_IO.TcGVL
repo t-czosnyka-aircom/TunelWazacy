@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <GVL Name="GVL_IO" Id="{3a3e8a3f-c558-4d33-83cd-786f8332bedc}">
+    <Declaration><![CDATA[VAR_GLOBAL
+
+//******************** Strona I ********************  
+	bCompressedAirFlowImpulse AT %I* : BOOL;		// Impuls co 30L
+	bCompressedAirFlowAlarmHigh AT %I* : BOOL;		// Alarm gdy przekroczony przepływ 300L/min
+
+// Komunikacja RS485
+// S01
+	bS01_EnergyConsumptionImp 			AT %I* :BOOL;
+	stS01_1_BearingPress_IO				: stSonicPress_DigInOuts;
+	bS01_Trigger			 			AT %Q* :BOOL;
+	bS01_Result 						AT %I* :BOOL;
+	bS01_Ready	 						AT %I* :BOOL;
+	
+// S02	- 
+	bS02_EnergyConsumptionImp 			AT %I* :BOOL;
+	stS02_1_BearingPress_IO				: stSonicPress_DigInOuts;
+	
+// S03 - 
+	bS03_EnergyConsumptionImp 			AT %I* :BOOL;
+	stS03_1_BearingPress_IO				: stSonicPress_DigInOuts;
+	
+// S04 - 
+	bS04_EnergyConsumptionImp 			AT %I* :BOOL;
+	stS04_1_BearingPress_IO				: stSonicPress_DigInOuts;
+	
+	
+// Sxx Plug A - 
+	bSxxA_EnergyConsumptionImp 			AT %I* :BOOL;
+	stSxxA_1_PlugAWelder_IO				: stSonicTech_DigInOuts;
+	
+	
+// Sxx Plug B - 
+	bSxxB_EnergyConsumptionImp 			AT %I* :BOOL;
+	stSxxB_1_PlugAWelder_IO				: stSonicTech_DigInOuts;
+//	Bottle filling line
+		//S02
+	b_1_SonicTech_EnergyConsumptionImp 				AT %I* :BOOL;
+	st_1_SonicTech_WeldingMachine_IO				: stSonicTech_DigInOuts;
+	st_1_SonicTech_WeldMachineSerialData_IO			: stSerialComData;
+	//S04
+	b_2_SonicTech_EnergyConsumptionImp 				AT %I* :BOOL;
+	st_2_SonicTech_WeldingMachine_IO				: stSonicTech_DigInOuts;
+	//S05
+	stUnderPreserInOuts 							: stUnderPressureTester;
+	stTransporterInOuts								: stTransporterInOuts;
+	stUnderPressureInOuts_V2						: stUnderPressureTesterInOuts_V2;
+	//S07
+	stTunelInOuts									: stDetectionTunelInOuts;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <EnumerationTextList Name="nGechterPress_ErrorCodes" Id="{84f4f40e-f3d6-4b88-914b-9854b1b56523}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+{attribute 'to_string'}
+TYPE nGechterPress_ErrorCodes :
+(
+	// Błędy ogólne
+	NoError := 0,
+	UnKnownAlarm := 53,						// Niezidentyfikowany alarm maszyny
+	UnKnownLock := 54,						// Niezidentyfikowana blokada maszyny
+	ProgramConfigError := 90,				// Błąd w konfiguracji programu
+	ResetTimeout := 518,					// Timeout resetu maszyny
+	SafetySystemNotArmed := 614,			// System safety nie uzbrojony
+	NoMachineReactionOnStartSig := 140,		// Brak reakcji na sygnał startu (brak wysunięcia siłownika - brak powietrza itp.)
+	TwoHandStartReleasedToEarly := 96,		// Dwustart zwolniony zbyt wcześnie
+	
+	OperInteruptedBeforeWorkPos := 132,		// Za wcześnie puszczono dwustart - część nie wprasowana
+	ToLowAirPressure	:= 290,				// Niskie ciśnienie sprężonego powietrza 
+	PressPossitionMeasureError := 291		// Błąd pomiaru pozycji prasy
+);
+END_TYPE
+]]></Declaration>
+    <XmlArchive>
+      <Data>
+        <o xml:space="preserve" t="TextListEnumerationTextListObject">
+          <l n="TextList" t="ArrayList" cet="TextListRow">
+            <o>
+              <v n="TextID">"NoError"</v>
+              <v n="TextDefault">"0"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"UnKnownAlarm"</v>
+              <v n="TextDefault">"53"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"UnKnownLock"</v>
+              <v n="TextDefault">"54"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ProgramConfigError"</v>
+              <v n="TextDefault">"90"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ResetTimeout"</v>
+              <v n="TextDefault">"518"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"SafetySystemNotArmed"</v>
+              <v n="TextDefault">"614"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"NoMachineReactionOnStartSig"</v>
+              <v n="TextDefault">"140"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"TwoHandStartReleasedToEarly"</v>
+              <v n="TextDefault">"96"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"OperInteruptedBeforeWorkPos"</v>
+              <v n="TextDefault">"132"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ToLowAirPressure"</v>
+              <v n="TextDefault">"290"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"PressPossitionMeasureError"</v>
+              <v n="TextDefault">"291"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">""</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+          </l>
+          <l n="Languages" t="ArrayList" />
+          <v n="GuidInit">{153003e6-0223-4117-a2fe-b0661b2a8593}</v>
+          <v n="GuidReInit">{7a6571cc-2417-499d-87fb-043e1fa049dd}</v>
+          <v n="GuidExitX">{1b50f423-1161-4ebe-9a2c-b28c428e7f3e}</v>
+        </o>
+      </Data>
+      <TypeList>
+        <Type n="ArrayList">System.Collections.ArrayList</Type>
+        <Type n="Guid">System.Guid</Type>
+        <Type n="String">System.String</Type>
+        <Type n="TextListEnumerationTextListObject">{4b60233c-f940-4beb-b331-82133b520151}</Type>
+        <Type n="TextListRow">{53da1be7-ad25-47c3-b0e8-e26286dad2e0}</Type>
+      </TypeList>
+    </XmlArchive>
+  </EnumerationTextList>
+</TcPlcObject>

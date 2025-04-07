@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <GVL Name="Global_Alarms" Id="{5cd9baef-bbe8-4767-8636-86aa5675a56e}">
+    <Declaration><![CDATA[VAR_GLOBAL CONSTANT
+	FIRST_MESSAGE: UDINT := 1;
+	LAST_MESSAGE: UDINT := 1200;
+END_VAR
+VAR_GLOBAL
+	MSG_ALARM_List			:ARRAY[FIRST_MESSAGE..LAST_MESSAGE] OF BOOL;
+	MSG_ALARM_ListQuit		:ARRAY[FIRST_MESSAGE..LAST_MESSAGE] OF BOOL;
+	MSG_WARNING_List		:ARRAY[FIRST_MESSAGE..LAST_MESSAGE] OF BOOL;
+	MSG_WARNING_ListQuit	:ARRAY[FIRST_MESSAGE..LAST_MESSAGE] OF BOOL;
+	aAlarms					:ARRAY[1..80] OF ST_ReadEvent;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

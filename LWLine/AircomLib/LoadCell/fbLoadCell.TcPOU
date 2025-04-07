@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="fbLoadCell" Id="{4ed80c1b-acfa-4f29-a893-2740788a7820}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbLoadCell
+VAR
+	wStatus		AT %I* : WORD;	// .1-Overrange, .3-Data invalid, .6-Error, .7-Calib in progress, .9-Steady state, .13-SyncErr, .15-TxPDO_Toggle
+	rValue		AT %I* : REAL;	// Wartość siły w [N]
+	wControl	AT %Q* : WORD;	// .0-Start calibration, .1-Disable calib., .2-InputFreeze, .4-Tara                  
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="propDisableCalibration" Id="{7077f5d9-6359-47e8-9d1a-003d37246b4a}">
+      <Declaration><![CDATA[PROPERTY propDisableCalibration : BOOL]]></Declaration>
+      <Get Name="Get" Id="{c6f0b1cc-f3d0-4af3-b05e-e883918721d3}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[propDisableCalibration:= wControl.1;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{28f9980e-c46e-4651-b4ab-96f485fdecfd}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[wControl.1 := propDisableCalibration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="propIsCalibrationInProgress" Id="{85dd532d-ef43-44ed-955f-aa51b217b6ec}">
+      <Declaration><![CDATA[PROPERTY propIsCalibrationInProgress : BOOL]]></Declaration>
+      <Get Name="Get" Id="{1cf7078d-bb0f-4041-b1a6-2cf1203bafab}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[propIsCalibrationInProgress := wStatus.7;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="propIsValueReady" Id="{64a10cc6-17ca-42d7-9b2c-6a03f9792cc6}">
+      <Declaration><![CDATA[PROPERTY propIsValueReady : BOOL]]></Declaration>
+      <Get Name="Get" Id="{b8e8d96a-e207-49d4-af55-1c4f805642cd}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[propIsValueReady := NOT wStatus.1 AND NOT wStatus.3 AND NOT wStatus.6 AND NOT wStatus.7 AND NOT wStatus.13; 
+
+]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="propStartCalibration" Id="{b258b86e-fe2b-4f79-a73b-702e70425705}">
+      <Declaration><![CDATA[PROPERTY propStartCalibration : BOOL]]></Declaration>
+      <Get Name="Get" Id="{9fa0dfa0-6b93-4e1d-b41a-40bb28a04bc1}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[propStartCalibration:= wControl.0;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{0c004399-18c6-43a3-8cb6-9249359a6ed0}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[wControl.0 := propStartCalibration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="propValue" Id="{76bfce06-1cae-4b0a-a168-019ea64560d0}">
+      <Declaration><![CDATA[PROPERTY propValue : REAL]]></Declaration>
+      <Get Name="Get" Id="{0e89c5a7-702d-46f5-b52c-284658db08c2}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[propValue := rValue;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

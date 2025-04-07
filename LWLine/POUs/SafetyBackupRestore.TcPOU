@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="SafetyBackupRestore" Id="{142d23dd-f0a9-4133-9934-5512a659294a}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM SafetyBackupRestore
+VAR
+	wSafetyProjectCRC AT %I*: WORD;
+	udiSafetyPLCSerialNb AT %I*: UDINT;
+	fbEL6910Backup: FB_SAVELOGICPROGRAM;
+	fbEL6910Restore: FB_RESTORELOGICPROGRAM;
+	bStartBackup: BOOL;
+	abEL6910AmsNetID AT %I*: ARRAY [0..5] OF BYTE;
+	wEL6910port AT %I*: WORD;
+	abInternalBuffer: ARRAY[0..16#FFFF] OF BYTE;
+	sFileString: T_MaxString := 'c:\temp\safety\complibTest_EL6910.bin';
+	LocalAmsNetID: T_AmsNetID := '172.55.76.53.1.1';
+	bSaveDone: BOOL;
+	sSaveResult: STRING(200);
+	bSaveErr: BOOL;
+	bStartRestore: BOOL;
+	abInternalbuffer2: ARRAY[0..16#FFFF] OF BYTE;
+	bRestoreDone: BOOL;
+	sRestoreResult: STRING(200);
+	bRestoreErr: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

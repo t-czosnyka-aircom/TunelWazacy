@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <DUT Name="nBoolRegisterForPIM" Id="{55e8e0ad-2a07-4216-b2de-068a8c0a0e67}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE nBoolRegisterForPIM :
+(
+	//Bool registers adres
+		//Inputs - To PLC
+			bLifeBitMachine		:= 9010,
+			bWorkInProgress 	:= 9011,
+			bCycleEnd 			:= 9012,
+			bError 				:= 9013,
+			bAlarm 				:= 9014,
+			bOfflineWorkAllow 	:= 9015,
+		//Outputs  - From PLC
+			bLifeBitPLC	 		:= 9030,
+			bWorkAllow 			:= 9031,
+			bResetError 		:= 9032,
+			bConfirmError 		:= 9033,
+			bTestMode 			:= 9034,
+			bStopPerform 		:= 9035,
+			bSaveDataToPLC 		:= 9036,
+			bValidateData		:= 9037,
+			bWaitWithWork		:= 9038
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

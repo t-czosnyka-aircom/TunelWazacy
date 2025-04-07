@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <GVL Name="GVL" Id="{69f7cdc0-3158-4717-a696-28ebab840371}">
+    <Declaration><![CDATA[//{attribute 'Tc2GvlVarNames'}
+VAR_GLOBAL CONSTANT
+	// Określenie wyglądu dla każdego rodzaju alarmu - 
+	iAlarmClassesQty:INT:= 7;
+	astAlarmColorTable:ARRAY [1 .. iAlarmClassesQty] OF stAlarmRowAppearanceData:= [
+		(sFontName:='Arial', iFontSize:=10, dwFontFlags:=0, dwTextColor:=16#FF404040, dwAlignmentFlags:=0, dwBackgroundColor:=16#FFCDCDCD, dwFrameColor:=16#FF585858, iFrameWidth:= 1),	// Info
+		(sFontName:='Arial', iFontSize:=10, dwFontFlags:=0, dwTextColor:=16#FF404040, dwAlignmentFlags:=0, dwBackgroundColor:=16#FFCDCDCD, dwFrameColor:=16#FF585858, iFrameWidth:= 1),	// Warning
+		(sFontName:='Arial', iFontSize:=10, dwFontFlags:=0, dwTextColor:=16#FF404040, dwAlignmentFlags:=0, dwBackgroundColor:=16#FFCDCDCD, dwFrameColor:=16#FF585858, iFrameWidth:= 1),	// Error
+		(sFontName:='Arial', iFontSize:=10, dwFontFlags:=0, dwTextColor:=16#FF404040, dwAlignmentFlags:=0, dwBackgroundColor:=16#FFCDCDCD, dwFrameColor:=16#FF585858, iFrameWidth:= 1),	// Quality
+		(sFontName:='Arial', iFontSize:=10, dwFontFlags:=0, dwTextColor:=16#FF404040, dwAlignmentFlags:=0, dwBackgroundColor:=16#FFCDCDCD, dwFrameColor:=16#FF585858, iFrameWidth:= 1),	// Maintenance
+		(sFontName:='Arial', iFontSize:=10, dwFontFlags:=0, dwTextColor:=16#FF404040, dwAlignmentFlags:=0, dwBackgroundColor:=16#FFCDCDCD, dwFrameColor:=16#FF585858, iFrameWidth:= 1),	// IT
+		(sFontName:='Arial', iFontSize:=10, dwFontFlags:=0, dwTextColor:=16#FF404040, dwAlignmentFlags:=0, dwBackgroundColor:=16#FFCDCDCD, dwFrameColor:=16#FF585858, iFrameWidth:= 1)	// Developer
+		]; 
+	// https://www.rapidtables.com/convert/color/rgb-to-hex.html
+	adwHPNestsColorTable:ARRAY [1..12] OF DWORD := [16#FF69B8FC, 16#FF409040, 16#FF409090, 16#FFF04042, 16#FF204080, 16#FF404040, 
+													16#FF404040, 16#FF404040, 16#FF404040, 16#FF404040, 16#FF404040, 16#FF404040];
+END_VAR
+
+
+VAR_GLOBAL PERSISTENT
+	nProductType:enProductTypes;
+	sCurrentLanguage:STRING(10);
+	
+	// S01
+	stS01_PimSettings: stPIM_StationSettings;
+	stS01_PressSettings:stSonicPress_MachSettings;
+	stS01_TestParams:stSonicPress_TestParams;
+	
+	// S02
+	stS02_PimSettings: stPIM_StationSettings;
+	stS02_PressSettings:stSonicPress_MachSettings;
+	stS02_TestParams:stSonicPress_TestParams;
+	
+	// S03
+	stS03_PimSettings: stPIM_StationSettings;
+	stS03_PressSettings:stSonicPress_MachSettings;
+	stS03_TestParams:stSonicPress_TestParams;
+	fbS03_PulseCounter: fbPulseCounterPIM;
+	
+	// S04
+	stS04_PimSettings: stPIM_StationSettings;
+	stS04_PressSettings:stSonicPress_MachSettings;
+	stS04_TestParams:stSonicPress_TestParams;
+
+	abChoseStationsToLog:ARRAY [1.. 22] OF BOOL :=[22(TRUE)]; 
+	
+	// Zmienne systemu wizyjnego - nie usuwać oraz nie zmieniać
+	//CA
+	diProductTypeCA05PL:DINT;
+	sReferenceDataMatrixTextCA05PL:STRING(80);
+	diReferenceStickerTypeCA05PL:DINT;
+	bReferenceSignValueCA05PL:BOOL;
+	//CP
+	diProductTypeCP05PL:DINT;
+	sReferenceDataMatrixTextCP05PL:STRING(80);
+	diReferenceStickerTypeCP05PL:DINT;
+	bReferenceSignValueCP05PL:BOOL;
+	
+	//Bottle filling line
+	
+	stMachineData 							: ARRAY[0..4] OF stCommunicationParametriation;
+	//S_01                              	
+	st_Filler_A_PimSettings					: stPIM_StationSettings;
+	st_Cork_PimSettings						: stPIM_StationSettings;
+	st_Filler_A_MachineSettings				: stCommunicationParametriation;
+	st_Cork_MachineSettings					: stCommunicationParametriation;
+	st_Filler_A_MachineParams				: stMachineParams;
+	st_Cork_MachineParams					: stMachineParams;
+	//S_02
+	st_1_SonicTech_PimSettings				: stPIM_StationSettings;
+	st_1_SonicTech_USWelderSettings			: stSonicTech_MachSettings;
+	//S_03
+	st_Filler_B_PimSettings					: stPIM_StationSettings;
+	st_Filler_B_MachineSettings				: stCommunicationParametriation;
+	st_Filler_B_MachineParams				: stMachineParams;
+	//S_04	
+	st_2_SonicTech_PimSettings				: stPIM_StationSettings;
+	st_2_SonicTech_USWelderSettings			: stSonicTech_MachSettings;
+	//S_05	
+	st_UnderPressure_Tester_PimSettings		: stPIM_StationSettings;
+	st_UnderPressureTester_Params			: stUnderPressureTestParams;
+	stUnderPressureTestParams				: stUnderPressureTestParams_V2;
+	stUnderPressureTestStatus				: stUnderPressureTestStatus_V2;
+	//S_06	
+	st_Sticker_PimSettings					: stPIM_StationSettings;
+	st_Laser_PimSettings					: stPIM_StationSettings;
+	st_Sticker_MachineSettings				: stCommunicationParametriation;
+	st_Laser_MachineSettings				: stCommunicationParametriation;
+	st_Sticker_MachineParams				: stMachineParams;
+	st_Laser_MachineParams					: stMachineParams;
+	//S_09	
+	st_Tunel_Tester_PimSettings				: stPIM_StationSettings;
+	st_Tunel_Params							: stDetectionTunelParams;
+END_VAR
+
+
+
+VAR_GLOBAL
+	// Common Data
+	bCompressedAirCtrSaveTrigger:BOOL;
+	bEnergyConsCtrSaveTrigger:BOOL;
+	rCompressedAirCounter:REAL;
+
+	fbUserLogin:fbPIM_UserLogin(I_Sql := GVL.fbSqlCore);
+	
+	bLogDataTrigger:BOOL;
+	
+	fbAlarmMasterTable:fbAlarmMasterTable;		// Logowanie błędów - nie usuwać!!!
+	fbStringFormat:FB_FormatString;
+		
+	fbSqlCore:fbSQL_Core;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

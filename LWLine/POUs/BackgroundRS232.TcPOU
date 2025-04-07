@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="BackgroundRS232" Id="{9a20473f-0d3f-4584-b429-33e10587a848}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM BackgroundRS232
+VAR
+
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*
+GVL_IO.stS01_1_WeldMachineSerialData_IO.fbSerialCom(RxBufferEL := GVL_IO.stS01_1_WeldMachineSerialData_IO.RxBufferEL, TxBufferEL := GVL_IO.stS01_1_WeldMachineSerialData_IO.TxBufferEL);
+GVL_IO.stS03_1_WeldMachineSerialData_IO.fbSerialCom(RxBufferEL := GVL_IO.stS03_1_WeldMachineSerialData_IO.RxBufferEL, TxBufferEL := GVL_IO.stS03_1_WeldMachineSerialData_IO.TxBufferEL);
+GVL_IO.stS05_1_WeldMachineSerialData_IO.fbSerialCom(RxBufferEL := GVL_IO.stS05_1_WeldMachineSerialData_IO.RxBufferEL, TxBufferEL := GVL_IO.stS05_1_WeldMachineSerialData_IO.TxBufferEL);
+GVL_IO.stS06_1_WeldMachineSerialData_IO.fbSerialCom(RxBufferEL := GVL_IO.stS06_1_WeldMachineSerialData_IO.RxBufferEL, TxBufferEL := GVL_IO.stS06_1_WeldMachineSerialData_IO.TxBufferEL);
+GVL_IO.stS07_1_WeldMachineSerialData_IO.fbSerialCom(RxBufferEL := GVL_IO.stS07_1_WeldMachineSerialData_IO.RxBufferEL, TxBufferEL := GVL_IO.stS07_1_WeldMachineSerialData_IO.TxBufferEL);
+GVL_IO.stS08_1_WeldMachineSerialData_IO.fbSerialCom(RxBufferEL := GVL_IO.stS08_1_WeldMachineSerialData_IO.RxBufferEL, TxBufferEL := GVL_IO.stS08_1_WeldMachineSerialData_IO.TxBufferEL);
+GVL_IO.stS09_1_WeldMachineSerialData_IO.fbSerialCom(RxBufferEL := GVL_IO.stS09_1_WeldMachineSerialData_IO.RxBufferEL, TxBufferEL := GVL_IO.stS09_1_WeldMachineSerialData_IO.TxBufferEL);
+GVL_IO.stS10_1_WeldMachineSerialData_IO.fbSerialCom(RxBufferEL := GVL_IO.stS10_1_WeldMachineSerialData_IO.RxBufferEL, TxBufferEL := GVL_IO.stS10_1_WeldMachineSerialData_IO.TxBufferEL);
+GVL_IO.stS16_1_WeldMachineSerialData_IO.fbSerialCom(RxBufferEL := GVL_IO.stS16_1_WeldMachineSerialData_IO.RxBufferEL, TxBufferEL := GVL_IO.stS16_1_WeldMachineSerialData_IO.TxBufferEL);
+GVL_IO.stS17_1_WeldMachineSerialData_IO.fbSerialCom(RxBufferEL := GVL_IO.stS17_1_WeldMachineSerialData_IO.RxBufferEL, TxBufferEL := GVL_IO.stS17_1_WeldMachineSerialData_IO.TxBufferEL);
+
+GVL_IO.stS12_1_HiosScrewdriver_IO.stSerialCom.fbSerialCom(RxBufferEL := GVL_IO.stS12_1_HiosScrewdriver_IO.stSerialCom.RxBufferEL, TxBufferEL := GVL_IO.stS12_1_HiosScrewdriver_IO.stSerialCom.TxBufferEL);
+
+GVL_IO.stS21_DTL_InOuts.stGrblComm.fbSerialCom(RxBufferEL := GVL_IO.stS21_DTL_InOuts.stGrblComm.RxBufferEL, TxBufferEL := GVL_IO.stS21_DTL_InOuts.stGrblComm.TxBufferEL);
+GVL_IO.stS21_DTL_InOuts.stDmReaderComComm.fbSerialCom(RxBufferEL := GVL_IO.stS21_DTL_InOuts.stDmReaderComComm.RxBufferEL, TxBufferEL := GVL_IO.stS21_DTL_InOuts.stDmReaderComComm.TxBufferEL);
+*)]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

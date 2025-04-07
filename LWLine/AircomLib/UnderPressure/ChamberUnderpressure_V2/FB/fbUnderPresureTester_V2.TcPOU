@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="fbUnderPresureTester_V2" Id="{462e440b-7307-420e-9b04-0dfafe6159c5}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbUnderPresureTester_V2 IMPLEMENTS I_StationMachine
+VAR_IN_OUT
+	stInOuts 					: stUnderPressureTesterInOuts_V2;	//In Outs for modules
+	stParams					: stUnderPressureTestParams_V2;		//Parameters for underpressure chamber
+	stStatus					: stUnderPressureTestStatus_V2;		//Status struct
+END_VAR
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	fbVacuumMeasure				: 	fbAnalogMeasurement;		//Block for underpressure calibration
+	fbTON_1Hz					: 	TON;						//Timer with 1 Hz cycle
+	bOneHzClock					: 	BOOL;						//Bool variable for 1 Hz status
+	iWorkStep					: 	INT;						//Step in sequence of work
+	fbTON_VacumObtained			: 	TON;						//Filtering the vacuum status
+	fbTON_VacumNearZero			: 	TON;						//Filtering the vacuum status
+	I_PimSystem					: 	I_PIM;						//PIM block
+	fbTON_VacuumMonitor			: 	TON;						//Checking that undeerpressure in increasing;			
+	rLastUnderPressure			: 	REAL;						//Underpressure history		
+	fbTOFF_CycleEndTurnOf		: 	TOF;						//Setting up end cycle
+	//iCyclesToRepeat				: 	INT;						//How many cycles need to be done?		
+	bServiceReset				: BOOL;							//Reset 
+	bManual						: BOOL;							//Manual mode
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[ACT_Background();
+CASE iWorkStep OF
+	0:		// Init
+		iWorkStep := 1;
+		stInOuts.bPumpRly := FALSE;
+		stInOuts.bEValve := TRUE;
+		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._0_Initialization);
+	1:		// Wait for obtaining atmospheric pressure
+		IF NOT stInOuts.bEValve THEN
+			iWorkStep := 5;
+		END_IF
+	
+	5:		// Setup new test
+		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._0_Standby_NotReady);
+		iWorkStep := 10;
+	10:		// Waiting for ext test premission 
+		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._2_ReadyForNewOperation);
+		IF stInOuts.bLockSens AND stInOuts.bSafetyOK AND NOT stInOuts.bEValve AND stStatus.bWorkAllow THEN
+			IF I_PimSystem.mSetNewMachineState(nPIM_MachineStates._3_NewOperationStarted) THEN
+				iWorkStep := 15;
+			END_IF
+		END_IF
+	15:		// Stating new cycle
+		stInOuts.bPumpRly := TRUE;
+		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._4_OperationInProgress);
+		iWorkStep := 20;
+	20:		// Waiting for end of cycle
+		IF fbTON_VacumObtained.Q THEN
+			stInOuts.bPumpRly := FALSE;
+			stInOuts.bEValve := TRUE;
+			iWorkStep := 25;
+		END_IF
+	25:		//Waiting for pressure low value
+		IF NOT stInOuts.bEValve THEN
+			iWorkStep := 30;
+		END_IF
+	30:		//Waiting for doors open
+		IF NOT stInOuts.bLockSens THEN
+			iWorkStep := 5;
+		END_IF
+	50:		//Manual mode
+		IF NOT stStatus.bManual THEN
+			iWorkStep := 5;
+		END_IF
+	90:	//Error obtained
+		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._8_WaitForReset);
+		iWorkStep	:= 91;
+		stInOuts.bEValve	:= TRUE;
+		stInOuts.bPumpRly	:= FALSE;
+	91:	//Waiting for reset
+		IF I_PimSystem.mSetNewMachineState(nPIM_MachineStates._9_ResetInProgress) OR bServiceReset THEN
+			IF stInOuts.bSafetyOK THEN
+				stInOuts.bEValve	:= TRUE;
+				stInOuts.bPumpRly	:= FALSE;
+				iWorkStep			:= 95;
+			ELSE
+				iWorkStep	:= 90;
+			END_IF
+		END_IF
+	95:	//Reset confirmed
+		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._0_Standby_NotReady);
+		iWorkStep		:= 5;
+END_CASE]]></ST>
+    </Implementation>
+    <Action Name="ACT_Background" Id="{13628eb4-55a8-4aaa-a5cf-98a57b0ecf09}">
+      <Implementation>
+        <ST><![CDATA[//------------------------------------------------------------------------------------------------
+//Measurement scalling
+fbVacuumMeasure(rIn:=stInOuts.iVacuumLevel,
+				stMeasureScalingData:=stParams.stVacuumData,
+				tStalaczasowa:= T#10MS,
+				rOutFiltered=>stInOuts.rVacuumLevel);
+//------------------------------------------------------------------------------------------------
+//1Hz clock
+fbTON_1Hz(IN:=NOT fbTON_1Hz.Q,PT:=T#500MS);
+bOneHzClock := fbTON_1Hz.Q XOR bOneHzClock;
+//------------------------------------------------------------------------------------------------
+//LED Light Control
+stInOuts.bLEDGreen		:= stStatus.bWorkEnd;
+stInOuts.bLEDRed 		:= (NOT stInOuts.bSafetyOK AND bOneHzClock) OR stStatus.bError;
+stInOuts.bLEDYellow 	:= (iWorkStep = 10) OR (stStatus.bBusy AND bOneHzClock) ;
+stInOuts.bLEDReset 		:= NOT stInOuts.bSafetyOK;
+//------------------------------------------------------------------------------------------------
+//Vacuum obtained
+fbTON_VacumObtained(IN:=stInOuts.rVacuumLevel>=stParams.rVaccumLevelToObtain,PT:=T#50MS);
+//------------------------------------------------------------------------------------------------
+//No Vacuum - Stable - Turn off 
+fbTON_VacumNearZero(IN:=(stInOuts.rVacuumLevel<4), PT:= T#500MS);
+stInOuts.bEValve R= fbTON_VacumNearZero.Q;
+//------------------------------------------------------------------------------------------------
+//Busy signal
+stStatus.bBusy := stInOuts.bPumpRly;
+//------------------------------------------------------------------------------------------------
+//Checking increase of underpressure - Error
+fbTON_VacuumMonitor(IN:=stStatus.bBusy AND (stInOuts.rVacuumLevel > rLastUnderPressure), PT:=T#5S);
+//------------------------------------------------------------------------------------------------
+//Calculating underpressure increasing
+IF stInOuts.rVacuumLevel > rLastUnderPressure AND stStatus.bBusy THEN
+	rLastUnderPressure := stInOuts.rVacuumLevel;
+ELSIF NOT stStatus.bBusy THEN
+	rLastUnderPressure := 0;
+END_IF
+//------------------------------------------------------------------------------------------------
+// Cycle end status
+fbTOFF_CycleEndTurnOf(IN:=fbTON_VacumObtained.Q,PT:=T#1S);
+stStatus.bWorkEnd := fbTOFF_CycleEndTurnOf.Q;
+//------------------------------------------------------------------------------------------------
+// Error status setup
+stStatus.bError := iWorkStep >= 90;
+//------------------------------------------------------------------------------------------------
+// Error pressure is no increasing 
+IF fbTON_VacuumMonitor.Q AND NOT stStatus.bError THEN
+	mNewEvent(nEventClass:=nPIM_EventClasses.Error,nEvent:=nUnderPressureTestErrorCodes.TestTimeOut);
+END_IF
+//------------------------------------------------------------------------------------------------
+//Error safety turned on
+IF NOT  stInOuts.bSafetyOK AND NOT stStatus.bError THEN
+	mNewEvent(nEventClass:=nPIM_EventClasses.Error,nEvent:=nUnderPressureTestErrorCodes.SafetyError);
+END_IF
+//------------------------------------------------------------------------------------------------
+]]></ST>
+      </Implementation>
+    </Action>
+    <Method Name="FB_init" Id="{667e6daf-02d1-45ba-9492-c5dd84fa9c0d}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains	: BOOL;
+	bInCopyCode 	: BOOL;
+	I_Pim			: I_PIM;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[I_PimSystem := I_Pim;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mGetParamsData" Id="{b52daad4-ffe4-4514-a088-af794b089f9c}">
+      <Declaration><![CDATA[{warning 'add method implementation '}
+(* Metoda TRUE kiedy dane wyjściowe są ok, jeśli nie FALSE (jeśli not bBusy i FALSE to błąd odczytu) *)
+METHOD mGetParamsData : BOOL
+VAR_INPUT
+	(* Jeśli TRUE metoda okresla czy ma dostęp do parametrów, jeśli tak zwraca TRUE, jeśli nie FALSE*)
+	bTestParams	: BOOL;
+END_VAR
+VAR_OUTPUT
+	(* Maszyna odświeża dane*)
+	bBusy	: BOOL;
+	(* Wskaźnik do parametrów pracy maszyny*)
+	pMachineParametersStruct	: POINTER TO BYTE;
+	(* Rozmiar struktury parametrów pracy maszyny [bajty]*)
+	uiMachineParametersSize	: UINT;
+	(* Aktualna suma CRC16 obliczona z parametrów*)
+	wActualCRC16SumInMachine	: WORD;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bTestParams THEN
+	//mGetParamsData := stMachineSettings.bSerialCommunicationEN;
+ELSE
+	//pMachineParametersStruct := ADR(stParamAktProgramu);
+	//uiMachineParametersSize := SIZEOF(stParamAktProgramu);
+	wActualCRC16SumInMachine := F_DATA_TO_CRC16_CCITT(pData := pMachineParametersStruct, cbData := uiMachineParametersSize, crc := 16#0000);
+	bBusy := FALSE;
+	mGetParamsData := TRUE;	
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mNewEvent" Id="{1b4a9d77-38a3-427c-b260-2da22bfe9ca8}">
+      <Declaration><![CDATA[METHOD INTERNAL mNewEvent : BOOL
+VAR_INPUT
+	nEventClass:nPIM_EventClasses;
+	nEvent: nUnderPressureTestErrorCodes;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF nEventClass = nPIM_EventClasses.AlarmAutoConfirm OR nEventClass = nPIM_EventClasses.Message THEN		// Alarm nieblokadowy
+	I_PimSystem.mSetNewMachineState(nPIM_MachineStates._0_Initialization);
+	iWorkStep := 90;
+ELSE
+	I_PimSystem.mSetNewMachineState(nPIM_MachineStates._7_ErrorOccurr);
+
+	I_PimSystem.mNewEvent(iEventId := nEvent, nEventType := nEventClass, tMessageTime := T#0S);
+	iWorkStep := 90;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="fbUnderPresureTester_V2">
+      <LineId Id="9" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="83" Count="2" />
+      <LineId Id="90" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="87" Count="2" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="46" Count="3" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="93" Count="0" />
+      <LineId Id="95" Count="1" />
+      <LineId Id="94" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="100" Count="0" />
+      <LineId Id="54" Count="1" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="109" Count="0" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="107" Count="0" />
+      <LineId Id="56" Count="1" />
+      <LineId Id="110" Count="1" />
+      <LineId Id="58" Count="1" />
+      <LineId Id="112" Count="1" />
+      <LineId Id="144" Count="3" />
+      <LineId Id="66" Count="1" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="173" Count="1" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="138" Count="0" />
+      <LineId Id="140" Count="0" />
+      <LineId Id="207" Count="1" />
+      <LineId Id="205" Count="0" />
+      <LineId Id="210" Count="1" />
+      <LineId Id="206" Count="0" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="71" Count="1" />
+      <LineId Id="137" Count="0" />
+      <LineId Id="37" Count="0" />
+    </LineIds>
+    <LineIds Name="fbUnderPresureTester_V2.ACT_Background">
+      <LineId Id="7" Count="1" />
+      <LineId Id="1" Count="2" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="29" Count="1" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="49" Count="1" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="41" Count="1" />
+      <LineId Id="46" Count="1" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="56" Count="2" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="63" Count="1" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="66" Count="1" />
+    </LineIds>
+    <LineIds Name="fbUnderPresureTester_V2.FB_init">
+      <LineId Id="3" Count="0" />
+    </LineIds>
+    <LineIds Name="fbUnderPresureTester_V2.mGetParamsData">
+      <LineId Id="20" Count="7" />
+      <LineId Id="19" Count="0" />
+    </LineIds>
+    <LineIds Name="fbUnderPresureTester_V2.mNewEvent">
+      <LineId Id="5" Count="8" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

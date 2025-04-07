@@ -1,0 +1,879 @@
+<?xml version="1.0"?>
+<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.62" ClassName="CFlbTermDef" SubType="9099">
+	<DataTypes>
+		<DataType>
+			<Name GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety" TcBaseType="true">FSOE_6</Name>
+			<BitSize>48</BitSize>
+			<SubItem>
+				<Name>FSoE CMD</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000002}">USINT</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>FSoE Data</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000032}">BITARR8</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>8</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>FSoE CRC_0</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>16</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>FSoE ConnID</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>32</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}" AutoDeleteType="true">FSOE_11</Name>
+			<BitSize>88</BitSize>
+			<SubItem>
+				<Name>FSoE CMD</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000002}">USINT</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>FSoE Data 0</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000033}">BITARR16</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>8</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>FSoE CRC_0</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>24</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>FSoE Data 1</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000033}">BITARR16</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>40</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>FSoE CRC_1</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>56</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>FSoE ConnID</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>72</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{18071995-0000-0000-0000-002000000004}" IecBaseType="true" BitType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..3] OF BIT</Name>
+			<BitSize>4</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000010}">BIT</BaseType>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>4</Elements>
+			</ArrayInfo>
+		</DataType>
+		<DataType>
+			<Name GUID="{73F57572-A2C9-F88F-FFC6-9BA3A895E419}" AutoDeleteType="true">INFODATA_FB_1</Name>
+			<BitSize>8</BitSize>
+			<SubItem>
+				<Name>State</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000002}">USINT</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{18071995-0000-0000-0000-002000000010}" IecBaseType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..1] OF BYTE</Name>
+			<BitSize>16</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>2</Elements>
+			</ArrayInfo>
+		</DataType>
+	</DataTypes>
+	<ImageDatas>
+		<ImageData Id="1000">424dd6020000000000003600000028000000100000000e0000000100180000000000a002000000000000000000000000000000000000ff00ffff00ffff00ffff00ffff00ffff00ff008066008099008066008099008066ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff00ffff00000000ffff000000008099ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff00ffff00ffff00ffff00ffff008066ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff00ffff00ffff00ffff00ffff008099ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff00ffff00000000ffff000000008066ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff00ffffff000000ffffff0000008099ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff00ffff00ffff00ffff00ffff008066ff00ffff00ffff00ffff00ffff00ff66009999006666009999006666009999006600ffff00000000ffff000000008099ff00ffff00ffff00ffff00ffff00ff99006666009999006666009999006666009900ffff0000ff00ffff0000ff008066ff00ffff00ffff00ffff00ffff00ff66009999006666009999006666009999006600ffff00ffff00ffff00ffff008099ff00ffff00ffff00ffff00ffff00ff99006666009999006666009999006666009900ffff00000000ffff000000008066ff00ffff00ffff00ffff00ffff00ff66009999006666009999006666009999006600ffff00ffff00ffff00ffff008099ff00ffff00ffff00ffff00ffff00ff99006666009999006666009999006666009900ffff00800000ffff008000008066ff00ffff00ffff00ffff00ffff00ff66009999006666009999006666009999006600ffff00ffff00ffff00ffff008099ff00ffff00ffff00ffff00ffff00ff</ImageData>
+	</ImageDatas>
+	<Box Id="8" BoxType="9099" BoxFlags="#x00000020">
+		<Name>__FILENAME__</Name>
+		<ImageId>1000</ImageId>
+		<EtherCAT SlaveType="2" PdiType="#x0005" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="3" FoeType="1" VendorId="#x00000002" ProductCode="#x1afe3052" RevisionNo="#x00140000" InfoDataAddr="true" RepeatSupport="true" TimeoutStateChange1="5000" TimeoutMailbox2="10000" TComSupport="true" PortPhys="51" DebugMemory="8" SafetyLogicSupported="true" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL6910, TwinSAFE PLC" Desc="EL6910">
+			<SyncMan>001000012600010001000000000100010001001026010000</SyncMan>
+			<SyncMan>001100012200010002000000000100010001001122010000</SyncMan>
+			<SyncMan>00121b012400010003000000000000000200001224010000</SyncMan>
+			<SyncMan>001d37012000010004000000000000000200001d20010000</SyncMan>
+			<SyncMan>002e00002400000003000000000000000000002e24000000</SyncMan>
+			<SyncMan>002f00002000000004000000000000000000002f20000000</SyncMan>
+			<Fmmu>0000000000000000001200020100000001000000060000000200000000000000</Fmmu>
+			<Fmmu>0000000000000000001d00010100000002000000060000000300000000000000</Fmmu>
+			<Fmmu>00000000000000000d0800010100000003000000000000000000000000000000</Fmmu>
+			<Fmmu>0000000000000000000000020000000001000000060000000400010000000000</Fmmu>
+			<Fmmu>0000000000000000000000010000000002000000060000000500010000000000</Fmmu>
+			<BootStrapData>0010f400f410f400</BootStrapData>
+			<SuName>Safety</SuName>
+			<MBoxUserCmdData>004003000a0000001f000000030010000000000000000000000000000000000020f31005020000000100456e61626c6520446961674d65737361676520617320656d657267656e637900</MBoxUserCmdData>
+			<Pdo Name="ConnectionInputs" Index="#x1a00" Flags="#x2011" SyncMan="3">
+				<Entry Name="Message_2 TxPDO" Index="#x7000" Sub="#x01">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_3 TxPDO" Index="#x7000" Sub="#x02">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_151 TxPDO" Index="#x7000" Sub="#x03">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_30 TxPDO" Index="#x7000" Sub="#x04">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_31 TxPDO" Index="#x7000" Sub="#x05">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_243 TxPDO" Index="#x7000" Sub="#x06">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_44 TxPDO" Index="#x7000" Sub="#x07">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_45 TxPDO" Index="#x7000" Sub="#x08">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_244 TxPDO" Index="#x7000" Sub="#x09">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_49 TxPDO" Index="#x7000" Sub="#x0a">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_50 TxPDO" Index="#x7000" Sub="#x0b">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_154 TxPDO" Index="#x7000" Sub="#x0c">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_51 TxPDO" Index="#x7000" Sub="#x0d">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_52 TxPDO" Index="#x7000" Sub="#x0e">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_155 TxPDO" Index="#x7000" Sub="#x0f">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_53 TxPDO" Index="#x7000" Sub="#x10">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_54 TxPDO" Index="#x7000" Sub="#x11">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_156 TxPDO" Index="#x7000" Sub="#x12">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_91 TxPDO" Index="#x7000" Sub="#x13">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_92 TxPDO" Index="#x7000" Sub="#x14">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_166 TxPDO" Index="#x7000" Sub="#x15">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_93 TxPDO" Index="#x7000" Sub="#x16">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_94 TxPDO" Index="#x7000" Sub="#x17">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_158 TxPDO" Index="#x7000" Sub="#x18">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_95 TxPDO" Index="#x7000" Sub="#x19">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_96 TxPDO" Index="#x7000" Sub="#x1a">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_159 TxPDO" Index="#x7000" Sub="#x1b">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_249 TxPDO" Index="#x7000" Sub="#x1c">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_257 TxPDO" Index="#x7000" Sub="#x1d">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_258 TxPDO" Index="#x7000" Sub="#x1e">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_247 TxPDO" Index="#x7000" Sub="#x1f">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_255 TxPDO" Index="#x7000" Sub="#x20">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_256 TxPDO" Index="#x7000" Sub="#x21">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_248 TxPDO" Index="#x7000" Sub="#x22">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_253 TxPDO" Index="#x7000" Sub="#x23">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_254 TxPDO" Index="#x7000" Sub="#x24">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+			</Pdo>
+			<Pdo Name="ConnectionOutputs" Index="#x1600" InOut="1" Flags="#x2011" SyncMan="2">
+				<Entry Name="Message_2 RxPDO" Index="#x6000" Sub="#x01">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_3 RxPDO" Index="#x6000" Sub="#x02">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_151 RxPDO" Index="#x6000" Sub="#x03">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_30 RxPDO" Index="#x6000" Sub="#x04">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_31 RxPDO" Index="#x6000" Sub="#x05">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_243 RxPDO" Index="#x6000" Sub="#x06">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_44 RxPDO" Index="#x6000" Sub="#x07">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_45 RxPDO" Index="#x6000" Sub="#x08">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_244 RxPDO" Index="#x6000" Sub="#x09">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_49 RxPDO" Index="#x6000" Sub="#x0a">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_50 RxPDO" Index="#x6000" Sub="#x0b">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_154 RxPDO" Index="#x6000" Sub="#x0c">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_51 RxPDO" Index="#x6000" Sub="#x0d">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_52 RxPDO" Index="#x6000" Sub="#x0e">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_155 RxPDO" Index="#x6000" Sub="#x0f">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_53 RxPDO" Index="#x6000" Sub="#x10">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_54 RxPDO" Index="#x6000" Sub="#x11">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_156 RxPDO" Index="#x6000" Sub="#x12">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_91 RxPDO" Index="#x6000" Sub="#x13">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_92 RxPDO" Index="#x6000" Sub="#x14">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_166 RxPDO" Index="#x6000" Sub="#x15">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_93 RxPDO" Index="#x6000" Sub="#x16">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_94 RxPDO" Index="#x6000" Sub="#x17">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_158 RxPDO" Index="#x6000" Sub="#x18">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_95 RxPDO" Index="#x6000" Sub="#x19">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_96 RxPDO" Index="#x6000" Sub="#x1a">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_159 RxPDO" Index="#x6000" Sub="#x1b">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_249 RxPDO" Index="#x6000" Sub="#x1c">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_257 RxPDO" Index="#x6000" Sub="#x1d">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_258 RxPDO" Index="#x6000" Sub="#x1e">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_247 RxPDO" Index="#x6000" Sub="#x1f">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_255 RxPDO" Index="#x6000" Sub="#x20">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_256 RxPDO" Index="#x6000" Sub="#x21">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_248 RxPDO" Index="#x6000" Sub="#x22">
+					<Type GUID="{0994ABA9-6F32-EEB9-4362-7774F7A1F4F4}">FSOE_11</Type>
+				</Entry>
+				<Entry Name="Message_253 RxPDO" Index="#x6000" Sub="#x23">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+				<Entry Name="Message_254 RxPDO" Index="#x6000" Sub="#x24">
+					<Type GUID="{2438F91B-E188-4ED7-8594-54354F9ED6A4}" Namespace="Safety">FSOE_6</Type>
+				</Entry>
+			</Pdo>
+			<Pdo Name="StandardInputs" Index="#x1bf0" Flags="#x2011" SyncMan="3">
+				<Entry Name="TwinSafeGroup_HP1_M1.bComErr_9" Index="#x7000" Sub="#x01">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M1.bDoorClosed_10" Index="#x7000" Sub="#x02">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M1.bEStopErr_11" Index="#x7000" Sub="#x03">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M1.bEStopRelay_12" Index="#x7000" Sub="#x04">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M1.bFbErr_13" Index="#x7000" Sub="#x05">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M1.bFrontDoorClosed_14" Index="#x7000" Sub="#x06">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M1.bRearDoorClosed_15" Index="#x7000" Sub="#x07">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M1.bSTO_16" Index="#x7000" Sub="#x08">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M1.bWeldingCoverClosed_17" Index="#x7000" Sub="#x09">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M2.bEStopErr_21" Index="#x7000" Sub="#x0a">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M2.bDoorClosed_22" Index="#x7000" Sub="#x0b">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M2.bEStopRelay_23" Index="#x7000" Sub="#x0c">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M2.bFbErr_24" Index="#x7000" Sub="#x0d">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M2.bFrontDoorCLosed_25" Index="#x7000" Sub="#x0e">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M2.bRearDoorClosed_26" Index="#x7000" Sub="#x0f">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M2.bSTO_27" Index="#x7000" Sub="#x10">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M2.bWeldingCoverClosed_28" Index="#x7000" Sub="#x11">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M2.bComErr_29" Index="#x7000" Sub="#x12">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M3.bComErr_35" Index="#x7000" Sub="#x13">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M3.bDoorClosed_36" Index="#x7000" Sub="#x14">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M3.bEStopErr_37" Index="#x7000" Sub="#x15">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M3.bEStopRelay_38" Index="#x7000" Sub="#x16">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M3.bFbErr_39" Index="#x7000" Sub="#x17">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M3.bFrontDoorClosed_40" Index="#x7000" Sub="#x18">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M3.bRearDoorClosed_41" Index="#x7000" Sub="#x19">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M3.bSTO_42" Index="#x7000" Sub="#x1a">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M3.bWeldingCoverClosed_43" Index="#x7000" Sub="#x1b">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M1.bComErr_57" Index="#x7000" Sub="#x1c">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M1.bFbErr_58" Index="#x7000" Sub="#x1d">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M1.bDoorClosed_59" Index="#x7000" Sub="#x1e">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M1.bEStopErr_60" Index="#x7000" Sub="#x1f">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M1.bEStopRelay_61" Index="#x7000" Sub="#x20">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M1.bFrontDoorClosed_62" Index="#x7000" Sub="#x21">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M1.bRearDoorClosed_63" Index="#x7000" Sub="#x22">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M1.bSTO_64" Index="#x7000" Sub="#x23">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M1.bWeldingCoverCLosed_65" Index="#x7000" Sub="#x24">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M3.bComErr_68" Index="#x7000" Sub="#x25">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M3.bDoorClosed_69" Index="#x7000" Sub="#x26">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M3.bEStopErr_70" Index="#x7000" Sub="#x27">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M3.bEStopRelay_71" Index="#x7000" Sub="#x28">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M3.bFbErr_72" Index="#x7000" Sub="#x29">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M3.bFrontDoorClosed_73" Index="#x7000" Sub="#x2a">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M3.bRearDoorClosed_74" Index="#x7000" Sub="#x2b">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M3.bSTO_75" Index="#x7000" Sub="#x2c">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M3.bWeldingCoverClosed_76" Index="#x7000" Sub="#x2d">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M2.bComErr_79" Index="#x7000" Sub="#x2e">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M2.bDoorClosed_80" Index="#x7000" Sub="#x2f">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M2.bEStopErr_81" Index="#x7000" Sub="#x30">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M2.bEStopRelay_82" Index="#x7000" Sub="#x31">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M2.bFbErr_83" Index="#x7000" Sub="#x32">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M2.bFrontDoorClosed_84" Index="#x7000" Sub="#x33">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M2.bRearDoorClosed_85" Index="#x7000" Sub="#x34">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M2.bSTO_86" Index="#x7000" Sub="#x35">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M2.bWeldingCoverClosed_87" Index="#x7000" Sub="#x36">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M1.bComErr_99" Index="#x7000" Sub="#x37">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M1.bDoorClosed_100" Index="#x7000" Sub="#x38">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M1.bEStopErr_101" Index="#x7000" Sub="#x39">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M1.bEStopRelay_102" Index="#x7000" Sub="#x3a">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M1.bFbErr_103" Index="#x7000" Sub="#x3b">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M1.bFrontDoorClosed_104" Index="#x7000" Sub="#x3c">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M1.bRearDoorClosed_105" Index="#x7000" Sub="#x3d">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M1.bSTO_106" Index="#x7000" Sub="#x3e">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M1.bWeldingCoverClosed_107" Index="#x7000" Sub="#x3f">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M2.bComErr_110" Index="#x7000" Sub="#x40">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M2.bDoorClosed_111" Index="#x7000" Sub="#x41">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M2.bEStopErr_112" Index="#x7000" Sub="#x42">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M2.bEStopRelay_113" Index="#x7000" Sub="#x43">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M2.bFbErr_114" Index="#x7000" Sub="#x44">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M2.bFrontDoorClosed_115" Index="#x7000" Sub="#x45">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M2.bRearDoorClosed_116" Index="#x7000" Sub="#x46">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M2.bSTO_117" Index="#x7000" Sub="#x47">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M2.bWeldingCoverClosed_118" Index="#x7000" Sub="#x48">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M3.bComErr_121" Index="#x7000" Sub="#x49">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M3.bDoorClosed_122" Index="#x7000" Sub="#x4a">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M3.bEStopErr_123" Index="#x7000" Sub="#x4b">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M3.bEstopRelay_124" Index="#x7000" Sub="#x4c">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M3.bFbErr_125" Index="#x7000" Sub="#x4d">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M3.bFrontDoorClosed_126" Index="#x7000" Sub="#x4e">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M3.bRearDoorClosed_127" Index="#x7000" Sub="#x4f">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M3.bSTO_128" Index="#x7000" Sub="#x50">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M3.bWeldingCoverClosed_129" Index="#x7000" Sub="#x51">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M1.bSTO_ELM_167" Index="#x7000" Sub="#x52">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M2.bSTO_ELM_168" Index="#x7000" Sub="#x53">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M3.bSTO_ELM_169" Index="#x7000" Sub="#x54">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M1.bSTO_ELM_170" Index="#x7000" Sub="#x55">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M2.bSTO_ELM_171" Index="#x7000" Sub="#x56">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M3.bSTO_ELM_172" Index="#x7000" Sub="#x57">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M1.bSTO_ELM_173" Index="#x7000" Sub="#x58">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M2.bSTO_ELM_174" Index="#x7000" Sub="#x59">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M3.bSTO_ELM_175" Index="#x7000" Sub="#x5a">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M1.bComErr_273" Index="#x7000" Sub="#x5b">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M1.bEStopErr_274" Index="#x7000" Sub="#x5c">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M1.bEStopRelay_275" Index="#x7000" Sub="#x5d">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M1.bFbErr_276" Index="#x7000" Sub="#x5e">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M1.bFrontDoorClosed_277" Index="#x7000" Sub="#x5f">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M1.bRearDoorClosed_278" Index="#x7000" Sub="#x60">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M1.bSTO_279" Index="#x7000" Sub="#x61">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M1.bSTO_ELM_280" Index="#x7000" Sub="#x62">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M1.bWeldingCoverClosed_281" Index="#x7000" Sub="#x63">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M1.bDoorClosed_282" Index="#x7000" Sub="#x64">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M2.bComErr_285" Index="#x7000" Sub="#x65">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M2.bEStopErr_286" Index="#x7000" Sub="#x66">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M2.bEStopRelay_287" Index="#x7000" Sub="#x67">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M2.bFbErr_288" Index="#x7000" Sub="#x68">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M2.bFrontDoorClosed_289" Index="#x7000" Sub="#x69">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M2.bRearDoorClosed_290" Index="#x7000" Sub="#x6a">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M2.bSTO_291" Index="#x7000" Sub="#x6b">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M2.bSTO_ELM_292" Index="#x7000" Sub="#x6c">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M2.bWeldingCoverClosed_293" Index="#x7000" Sub="#x6d">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M2.bDoorClosed_294" Index="#x7000" Sub="#x6e">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M3.bComErr_297" Index="#x7000" Sub="#x6f">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M3.bEStopErr_298" Index="#x7000" Sub="#x70">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M3.bEStopRelay_299" Index="#x7000" Sub="#x71">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M3.bFbErr_300" Index="#x7000" Sub="#x72">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M3.bFrontDoorClosed_301" Index="#x7000" Sub="#x73">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M3.bRearDoorClosed_302" Index="#x7000" Sub="#x74">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M3.bSTO_303" Index="#x7000" Sub="#x75">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M3.bSTO_ELM_304" Index="#x7000" Sub="#x76">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M3.bWeldingCoverClosed_305" Index="#x7000" Sub="#x77">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M3.bDoorClosed_306" Index="#x7000" Sub="#x78">
+					<Type>BIT</Type>
+				</Entry>
+			</Pdo>
+			<Pdo Name="StandardOutputs" Index="#x17f0" InOut="1" Flags="#x2011" SyncMan="2">
+				<Entry Name="TwinSafeGroup_HP1_M1.ErrorAcknowledgement_1" Index="#x6000" Sub="#x01">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M1.bManualWork_7" Index="#x6000" Sub="#x02">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M1.bRun_8" Index="#x6000" Sub="#x03">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M2.ErrorAcknowledgement_18" Index="#x6000" Sub="#x04">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M2.bRun_19" Index="#x6000" Sub="#x05">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M2.bManualWork_20" Index="#x6000" Sub="#x06">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M3.ErrorAcknowledgement_32" Index="#x6000" Sub="#x07">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M3.bManualWork_33" Index="#x6000" Sub="#x08">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M3.bRun_34" Index="#x6000" Sub="#x09">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M1.ErrorAcknowledgement_46" Index="#x6000" Sub="#x0a">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M2.ErrorAcknowledgement_47" Index="#x6000" Sub="#x0b">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M3.ErrorAcknowledgement_48" Index="#x6000" Sub="#x0c">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M1.bRun_55" Index="#x6000" Sub="#x0d">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M1.bManualWork_56" Index="#x6000" Sub="#x0e">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M3.bRun_66" Index="#x6000" Sub="#x0f">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M3.bManualWork_67" Index="#x6000" Sub="#x10">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M2.bRun_77" Index="#x6000" Sub="#x11">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M2.bManualWork_78" Index="#x6000" Sub="#x12">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M1.ErrorAcknowledgement_88" Index="#x6000" Sub="#x13">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M2.ErrorAcknowledgement_89" Index="#x6000" Sub="#x14">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M3.ErrorAcknowledgement_90" Index="#x6000" Sub="#x15">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M1.bRun_97" Index="#x6000" Sub="#x16">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M1.bManualWork_98" Index="#x6000" Sub="#x17">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M2.bRun_108" Index="#x6000" Sub="#x18">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M2.bManualWork_109" Index="#x6000" Sub="#x19">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M3.bRun_119" Index="#x6000" Sub="#x1a">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M3.bManualWork_120" Index="#x6000" Sub="#x1b">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M1.ErrorAcknowledgement_250" Index="#x6000" Sub="#x1c">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M2.ErrorAcknowledgement_251" Index="#x6000" Sub="#x1d">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M3.ErrorAcknowledgement_252" Index="#x6000" Sub="#x1e">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M1.bManualWork_271" Index="#x6000" Sub="#x1f">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M1.bRun_272" Index="#x6000" Sub="#x20">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M2.bManualWork_283" Index="#x6000" Sub="#x21">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M2.bRun_284" Index="#x6000" Sub="#x22">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M3.bManualWork_295" Index="#x6000" Sub="#x23">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M3.bRun_296" Index="#x6000" Sub="#x24">
+					<Type>BIT</Type>
+				</Entry>
+				<Entry>
+					<Type GUID="{18071995-0000-0000-0000-002000000004}">ARRAY [0..3] OF BIT</Type>
+				</Entry>
+			</Pdo>
+			<Pdo Name="Function Block Info Data" Index="#x1bf8" Flags="#x2011" SyncMan="3">
+				<Entry Name="TwinSafeGroup_HP1_M1.Network1.UserFB.FBTof1 Info Data" Index="#x7000" Sub="#x01">
+					<Type GUID="{73F57572-A2C9-F88F-FFC6-9BA3A895E419}">INFODATA_FB_1</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M2.Network1.UserFB.FBTof1 Info Data" Index="#x7000" Sub="#x02">
+					<Type GUID="{73F57572-A2C9-F88F-FFC6-9BA3A895E419}">INFODATA_FB_1</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP1_M3.Network1.UserFB.FBTof1 Info Data" Index="#x7000" Sub="#x03">
+					<Type GUID="{73F57572-A2C9-F88F-FFC6-9BA3A895E419}">INFODATA_FB_1</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M1.Network1.UserFB.FBTof1 Info Data" Index="#x7000" Sub="#x04">
+					<Type GUID="{73F57572-A2C9-F88F-FFC6-9BA3A895E419}">INFODATA_FB_1</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M2.Network1.UserFB.FBTof1 Info Data" Index="#x7000" Sub="#x05">
+					<Type GUID="{73F57572-A2C9-F88F-FFC6-9BA3A895E419}">INFODATA_FB_1</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP2_M3.Network1.UserFB.FBTof1 Info Data" Index="#x7000" Sub="#x06">
+					<Type GUID="{73F57572-A2C9-F88F-FFC6-9BA3A895E419}">INFODATA_FB_1</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M1.Network1.UserFB.FBTof1 Info Data" Index="#x7000" Sub="#x07">
+					<Type GUID="{73F57572-A2C9-F88F-FFC6-9BA3A895E419}">INFODATA_FB_1</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M2.Network1.UserFB.FBTof1 Info Data" Index="#x7000" Sub="#x08">
+					<Type GUID="{73F57572-A2C9-F88F-FFC6-9BA3A895E419}">INFODATA_FB_1</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP3_M3.Network1.UserFB.FBTof1 Info Data" Index="#x7000" Sub="#x09">
+					<Type GUID="{73F57572-A2C9-F88F-FFC6-9BA3A895E419}">INFODATA_FB_1</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M1.Network1.UserFB.FBTof1 Info Data" Index="#x7000" Sub="#x0a">
+					<Type GUID="{73F57572-A2C9-F88F-FFC6-9BA3A895E419}">INFODATA_FB_1</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M2.Network1.UserFB.FBTof1 Info Data" Index="#x7000" Sub="#x0b">
+					<Type GUID="{73F57572-A2C9-F88F-FFC6-9BA3A895E419}">INFODATA_FB_1</Type>
+				</Entry>
+				<Entry Name="TwinSafeGroup_HP4_M3.Network1.UserFB.FBTof1 Info Data" Index="#x7000" Sub="#x0c">
+					<Type GUID="{73F57572-A2C9-F88F-FFC6-9BA3A895E419}">INFODATA_FB_1</Type>
+				</Entry>
+			</Pdo>
+			<Pdo Name="Device Info Data" Index="#x1bfe" Flags="#x2011" SyncMan="3">
+				<Entry Name="Project CRC" Index="#x7000" Sub="#x01">
+					<Type>WORD</Type>
+				</Entry>
+				<Entry Name="Serial Number" Index="#x7000" Sub="#x02">
+					<Type>UDINT</Type>
+				</Entry>
+			</Pdo>
+			<Pdo Name="FSLOGIC Inputs" Index="#x1bff" Flags="#x0011" SyncMan="3">
+				<Entry Name="Safe Logic State" Index="#xf100" Sub="#x01">
+					<Type>USINT</Type>
+				</Entry>
+				<Entry Name="Cycle Counter" Index="#xf100" Sub="#x02">
+					<Type>USINT</Type>
+				</Entry>
+			</Pdo>
+			<Pdo Name="FSLOGIC Outputs" Index="#x17ff" InOut="1" Flags="#x0011" SyncMan="2">
+				<Entry>
+					<Type GUID="{18071995-0000-0000-0000-002000000010}">ARRAY [0..1] OF BYTE</Type>
+				</Entry>
+			</Pdo>
+			<CoeProfile ProfileNo="5001"/>
+		</EtherCAT>
+	</Box>
+</TcSmItem>

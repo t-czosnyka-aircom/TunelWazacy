@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <DUT Name="stTransporterInOuts" Id="{5cc8f80c-1014-4128-bc9d-d5cc2cee5003}">
+    <Declaration><![CDATA[  TYPE stTransporterInOuts :
+STRUCT
+	//Blocker on Input
+		bEntraceSensor 				AT 	%I* 	: 	BOOL;	//Sensor on parts entrace station
+		bBlockerEntryUp				AT 	%I* 	: 	BOOL;	//Sensor on blocker is in up position
+		bBlockerEntryDown			AT 	%I* 	: 	BOOL;	//Sensor on blocker is in down position
+		bEntraceBlocker	 			AT 	%Q* 	: 	BOOL;	//Blocking actuator on entrace of station
+	//Blocker on Output     		
+		bEscapeSensor 				AT 	%I* 	: 	BOOL;	//Sensor on parts exit station
+		bBlockerEscapeUp			AT 	%I* 	: 	BOOL;	//Sensor on blocker is in up position
+		bBlockerEscapeDown			AT 	%I* 	: 	BOOL;	//Sensor on blocker is in down position
+		bEscapeBlocker	 			AT 	%Q* 	: 	BOOL;	//Blocking actuator on exit of station
+	//Carriage Entrace      		
+		bEntraceCarriage 			AT 	%I* 	: 	BOOL;	//Sensor entrace carriage
+		bPartsEntraceCarriage		AT 	%I* 	: 	BOOL;   //Sensor of parts under the carrdrige near chamber
+		bCarriageBlockerEntrace 	AT 	%Q* 	: 	BOOL;	//Block Carriage near entrace             		
+	//Carriage Chamber      		
+		bEntraceChamber 			AT 	%I* 	: 	BOOL;	//Sensor entrace chamber
+		bPartsEntraceChamber		AT 	%I* 	: 	BOOL;	//Sensor of parts under the carrdrige near chamber
+		bDorsOpened					AT 	%I* 	: 	BOOL;	//Dors open sensor
+		bCarriageBlockerChamber 	AT 	%Q* 	: 	BOOL;	//Block Carriage near chamber
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

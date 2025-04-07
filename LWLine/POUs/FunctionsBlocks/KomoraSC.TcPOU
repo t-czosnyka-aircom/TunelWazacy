@@ -1,0 +1,323 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="KomoraSC" Id="{838e9080-1927-0e83-0dc4-1ce191b0bb34}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM KomoraSC
+VAR_INPUT
+	i_bAck							: BOOL;					//Reset z systemu
+	i_bEnable						: BOOL;					//Zezwolenie zew
+	i_nVaccumLevel					: REAL;					//Wartosc docelowa podcisnienia
+	i_tTestRelaxTime				: TIME;					//Czas po odpowietrzeniu
+	i_tTestTime						: TIME;					//Czas po osiagnieciu prozni
+END_VAR
+
+VAR_OUTPUT
+	o_bError						: BOOL;					//Zgloszenie bledu do systemu
+	o_bSaferyError					: BOOL;					//Brak gotowosci ukladu bezpieczenstwa komory
+	o_bReady						: BOOL;					//Komora gotowa do pracy
+	o_bBusy							: BOOL;					//Komora w cyklu
+	o_nVaccumAI						: REAL;					//Wartosc podcisnienia
+	o_sMessage						: STRING(80);			//Komunikat do systemu
+END_VAR
+
+
+VAR
+	//Moduls
+	i_aEK1818InputBit		AT%I* 	: ARRAY[0..7] OF BOOL;	//Bity wej modulu EK1818
+	i_aEL3702ChValue		AT%I* 	: ARRAY[0..1] OF INT;	//Warotsci z wejsc analogowych
+	o_aEK1818OutputBit		AT%Q*	: ARRAY[0..3] OF BOOL;	//Bity wyjsciowe modulu EK1818
+	o_aEL2008OutputBit		AT%Q*	: ARRAY[0..7] OF BOOL;	//Bity wyjsciowe modulu EL2008
+	
+	//Process
+	bInit							: BOOL;					//Pierwszy cykl Programu
+	nStepNo							: INT;					//Numer kroku
+	bChamberIdleState				: BOOL;					//Komora odpowietrzona
+	bChamberVacuumAchieved			: BOOL;					//Komora z proznia
+	bLocAckPls						: F_TRIG;				//Zbocze opadajace sygnału otwarcia drzwi
+	
+	// Timers
+	tHz1							: TON;					
+	tHz1aux							: TON;
+	tTestTimerTON					: TON;
+	tTestRelaxTimerTON				: TON;
+	tTestTimeoutTON					: TON;
+                      		
+	//Input                 		
+	i_bSW_OnOff						: BOOL;					//Przelacznik ON/OFF
+	i_bStopButtonNC					: BOOL;					//Przycisk Stop (NC)
+	i_bPhaseControlRelay			: BOOL;					//Kontrola faz OK
+	i_bDoorSens						: BOOL;					//Czujnik drzwi
+	i_bSafetyOK						: BOOL;					//Uklad bezpieczenstwa OK
+	i_bVaccumOK						: BOOL;					//Sygnal DQ z czujnika podcisnienia
+	i_bSafetyDiag					: BOOL;					//Sygnal diagnostyczny z przekznika bezpieczenstwa
+                            		
+	//Output                		
+	o_bLEDBlue						: BOOL;					//Kolumna switlan LED 
+	o_bLEDGreen						: BOOL;					//Kolumna switlan LED 
+	o_bLEDYellow					: BOOL;					//Kolumna switlan LED 
+	o_bLEDRed						: BOOL;					//Kolumna switlan LED 
+	o_bLEDReset						: BOOL;					//Podswietlenie przycisku reset
+	o_bPumpRly						: BOOL;					//Stcznik silnika pompy
+	o_bLight						: BOOL;					//Oswietlenie komory
+	o_bEValve						: BOOL;					//Elektrozawor odpowietrzenia
+	o_bTimer						: BOOL;					//Licznik motogodzin
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Clock();
+Init();
+HardwareComponents();
+Light();
+
+DataProcessing();
+ErrorProcessing();
+StatusUpdate();
+AutoCycle();
+]]></ST>
+    </Implementation>
+    <Action Name="AutoCycle" Id="{665256c3-c1c6-08dd-3699-2a3a7415abff}">
+      <Implementation>
+        <ST><![CDATA[
+
+CASE nStepNo OF
+	1: //Init
+		o_bEValve;	//:= FALSE;
+		o_bPumpRly;//	:= FALSE;
+		o_sMessage	:= 'Idle';
+
+
+		IF o_bReady AND i_bDoorSens	AND bChamberIdleState THEN
+			o_bBusy 	:= TRUE;
+			nStepNo 	:= 10;
+		END_IF;
+
+
+	10: //Zalaczenie pompy; Zamkniecie zaworu; 
+		//Czekaj do osiagniecia zadanego podcisnienia
+		o_sMessage	:= 'Step 1';
+		o_bEValve	:= FALSE;
+		o_bPumpRly	:= TRUE;
+
+		IF bChamberVacuumAchieved THEN
+			o_bPumpRly	:= FALSE;
+			nStepNo	:= 15;
+		END_IF
+
+
+	15: //Osiagnieto zadane podcisnienie
+		//Odczekaj zadany czas testu
+		//Otworz zawor
+		o_sMessage	:= 'Step 2';
+		IF tTestTimerTON.Q THEN
+			o_bEValve	:= TRUE;
+			o_bPumpRly	:= FALSE;
+			nStepNo	:= 20;
+		END_IF
+
+
+	20: //Czekaj na wyrownanie cisnienia w komorze
+		o_sMessage	:= 'Step 3';
+		IF bChamberIdleState THEN
+			nStepNo	:= 25;
+		END_IF
+
+
+	25: //Odczekaj zadany czas relaksaci produktu
+		//Zalaczenie pompy; Zamkniecie zaworu; 
+		o_sMessage	:= 'Step 4';
+		IF tTestRelaxTimerTON.Q THEN
+			o_bEValve	:= FALSE;
+			o_bPumpRly	:= TRUE;
+			nStepNo:= 30;
+		END_IF
+
+
+	30: //Czekaj do osiagniecia zadanego podcisnienia
+		o_sMessage	:= 'Step 5';
+		IF bChamberVacuumAchieved THEN
+			o_bPumpRly	:= FALSE;
+			nStepNo	:= 35;
+		END_IF
+
+
+	35: //Odczekaj zadany czas testu
+		//Otworz zawor
+		o_sMessage	:= 'Step 6';
+		IF tTestTimerTON.Q THEN
+			o_bEValve	:= TRUE;
+			o_bPumpRly	:= FALSE;
+			nStepNo	:= 40;
+		END_IF
+
+
+	40: //Koniec testu;
+		//Czekaj na otwarcie komory
+		o_sMessage	:= 'Step 7';
+		IF bChamberIdleState AND NOT i_bDoorSens THEN
+			o_bBusy := FALSE;
+			nStepNo	:= 1;
+		END_IF
+
+
+	100: //Error
+		o_bEValve	:= FALSE;
+		o_bPumpRly	:= FALSE;
+
+END_CASE]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="Clock" Id="{89d337bf-a216-0d7a-14ba-7c7d8b5ac5b9}">
+      <Implementation>
+        <ST><![CDATA[////////////////////////////////////////////////////////////////////
+//Clock
+//
+//Generator impulsow
+//GM
+
+//1Hz
+tHz1	(IN:= NOT tHz1aux.Q,PT:=T#500MS);
+tHz1aux	(IN:= tHz1.Q,PT:=T#500MS);
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="DataProcessing" Id="{98305e60-caa2-0aa0-16ac-911c8a9daf36}">
+      <Implementation>
+        <ST><![CDATA[////////////////////////////////////////////////////////////////////
+//DataProcessing
+//
+//Przygotowanie danych i sygnalow potrzebnych do dalszego uzycia
+//GM
+
+tTestRelaxTimerTON	(IN:= ((nStepNo = 25) OR (nStepNo = 25)), PT:= i_tTestRelaxTime);
+tTestTimerTON		(IN:= ((nStepNo = 15) OR (nStepNo = 35)), PT:= i_tTestTime);
+tTestTimeoutTON		(IN:= o_bBusy, PT:= T#60m);
+
+bLocAckPls			(CLK:= i_bDoorSens);
+
+
+
+o_bReady:= i_bEnable 
+			AND i_bPhaseControlRelay 
+			AND i_bSafetyOK 
+			AND i_bSW_OnOff;
+
+
+
+o_nVaccumAI := INT_TO_REAL(i_aEL3702ChValue[0]);
+
+IF o_nVaccumAI <= 3500 THEN
+	bChamberIdleState 	:= TRUE;
+ELSE
+	bChamberIdleState	:= FALSE;
+END_IF
+
+IF o_nVaccumAI >= i_nVaccumLevel THEN
+	bChamberVacuumAchieved 	:= TRUE;
+ELSE
+	bChamberVacuumAchieved	:= FALSE;
+END_IF
+
+IF NOT i_bStopButtonNC THEN 
+	nStepNo := 1;
+END_IF]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ErrorProcessing" Id="{d747029c-37a4-0cff-0ce7-f6e66f1bab17}">
+      <Implementation>
+        <ST><![CDATA[////////////////////////////////////////////////////////////////////
+//ErrorProcessing
+//
+//Obsluga bledow
+//GM
+
+IF (i_bAck OR bLocAckPls.Q) AND o_bError THEN
+	o_bError 		:= FALSE;
+	nStepNo			:= 1;
+END_IF
+
+IF tTestTimeoutTON.Q THEN
+	o_bBusy			:= FALSE;
+	o_bError 		:= TRUE;
+	nStepNo			:= 100;
+	o_sMessage		:= 'Test Timeout';	
+END_IF]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="HardwareComponents" Id="{f4f6185a-98b0-049a-0801-1f5cfe982a21}">
+      <Implementation>
+        <ST><![CDATA[////////////////////////////////////////////////////////////////////
+//HardwareComponents
+//
+//Przepisanie zmiennych procesowych na zmienne linkowane z/na wej/wyj fizyczne
+//GM	
+
+
+	//EK1818 Input
+	i_bSW_OnOff				:= i_aEK1818InputBit[0];
+	i_bStopButtonNC			:= i_aEK1818InputBit[1];
+	i_bPhaseControlRelay	:= i_aEK1818InputBit[2];
+	i_bDoorSens				:= i_aEK1818InputBit[3];
+	i_bSafetyOK				:= i_aEK1818InputBit[4];
+	i_bVaccumOK				:= i_aEK1818InputBit[5];
+	i_bSafetyDiag			:= i_aEK1818InputBit[6];
+
+	//EK1818 Output
+	o_aEK1818OutputBit[0]	:= o_bTimer;
+	//o_aEK1818OutputBit[1];	//free
+	//o_aEK1818OutputBit[2];	//free
+	//o_aEK1818OutputBit[3];	//free
+
+	
+	//EL2008 Output
+	o_aEL2008OutputBit[0]	:= o_bLEDBlue; 
+	o_aEL2008OutputBit[1] 	:= o_bLEDGreen;
+	o_aEL2008OutputBit[2] 	:= o_bLEDYellow;
+	o_aEL2008OutputBit[3] 	:= o_bLEDRed;
+	o_aEL2008OutputBit[4] 	:= o_bLEDReset;
+	o_aEL2008OutputBit[5] 	:= o_bPumpRly;
+	o_aEL2008OutputBit[6] 	:= o_bLight;
+	o_aEL2008OutputBit[7] 	:= o_bEValve;
+
+
+	//EL3702 Analog Input
+	]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="Init" Id="{a9ace9cb-3ae1-0593-1f8b-fcc1468611f8}">
+      <Implementation>
+        <ST><![CDATA[////////////////////////////////////////////////////////////////////
+//Init
+//
+//Pierwszy cykl programu po restarcie PLC
+//GM
+
+IF NOT bInit THEN
+	bInit 			:= TRUE;
+	o_bPumpRly 		:= FALSE;
+	o_bEValve		:= TRUE;
+	nStepNo			:= 1;
+	o_sMessage		:= 'Init Done';
+END_IF]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="Light" Id="{f5a603b3-dbff-0980-276a-308c1bd12676}">
+      <Implementation>
+        <ST><![CDATA[o_bLEDBlue;
+
+o_bLEDGreen		:= (nStepNo = 40);
+
+o_bLEDRed 		:= (NOT i_bSafetyOK AND tHz1.Q) OR o_bError;
+
+o_bLEDYellow 	:= (nStepNo = 1) OR (o_bBusy AND tHz1.Q) ;
+
+o_bLEDReset 	:= NOT i_bSafetyOK;]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="StatusUpdate" Id="{7012bc1f-d0a1-0e6f-1ef5-d8592ff8bc1e}">
+      <Implementation>
+        <ST><![CDATA[o_bSaferyError := NOT i_bSafetyOK;
+]]></ST>
+      </Implementation>
+    </Action>
+  </POU>
+</TcPlcObject>

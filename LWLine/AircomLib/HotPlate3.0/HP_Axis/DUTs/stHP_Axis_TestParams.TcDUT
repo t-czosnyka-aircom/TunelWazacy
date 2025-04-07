@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="stHP_Axis_TestParams" Id="{e7a0598f-5f84-4d30-a439-aee0104a0658}">
+    <Declaration><![CDATA[TYPE stHP_Axis_TestParams :
+STRUCT
+	bPartLockAfterHpContact			: BOOL	:= FALSE;		// When False lock after closing cover, when true - after contact with heatedplate
+	lrPartLoadPosition_mm			: LREAL	:= 30;			// Part load position
+	lrSafeHpMovementPos_mm			: LREAL	:= 20;			// Position safe for heated plate movements (above plate)
+
+	bCheckPartToleranceAfterContact	: BOOL	:= TRUE;		// When True axis calculate if part dimmension is inside the limit
+	bMeltingForceRegulation			: BOOL	:= FALSE;		// When False regulation in saw shape mode, when True continous PI regulation (for adjusting parts)
+	rAdjContactDetectForce_N		: REAL	:= 26.0;		// Force treshold above which distance is measured (contact is detected) for adjustment
+	lrPreBaseOffset_mm				: LREAL	:= 2.0;			// Offset before base position to move fast speed
+	lrPartToleranceFromBasePos_mm	: LREAL := 1.0;			// Tolerance of contact point acording to calibrated base point 
+	nMeltingMode					: nHP_Axis_AdjustmentModes	:= nHP_Axis_AdjustmentModes.FitByDRM;
+	rMeltingForce_N					: REAL	:= 50.0;		// Max force whem melting material
+	rMeltingTimeout_s				: REAL	:= 8.0;			// Max time for achieve melting target depth after contact from heatedplate
+	lrMeltingDistance_mm			: LREAL	:= 0.8;			// Distance to achieve after reach force treshold (melting distance)
+	rHeatingUpTime_s				: REAL	:= 10.0;		// Time to wait after achieve melt target position
+	rAdhesionForceLimit_N			: REAL	:= 30.0;		// Force that PLC trying not to overcross when goint of the heated plate
+
+	nConnectingMode					: nHP_Axis_ConnectionModes	:= nHP_Axis_ConnectionModes.FitByForce;
+	rConContactDetecForce_N			: REAL	:= 3.0;			// Force treshold above which distance is measured (contact is detected) for welding
+	lrPreConnectingOffset_mm		: LREAL	:= 1.0;			// Offset before connection point (regarding to HP height and melting distance)
+	lrConnectingDistance_mm			: LREAL	:= 0.2;			// Distance to achieve after reach force treshold (melting distance)
+	rConnectingMinForce_N			: REAL	:= 5.0;			// Min force which must be ahcieve during connecting parts
+	rConnectingForce_N				: REAL	:= 20.0;		// Max force when connecting parts
+	rConnectingTimeout_s			: REAL	:= 5.0;			// Max time for achieve connection point when connecting parts
+	rCoolingDownTime_s				: REAL	:= 6.0;			// Time to wait after achieve connection position (cooling down)
+//	{attribute 'hide'}                            
+//	rReserve						: REAL;		// 
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
