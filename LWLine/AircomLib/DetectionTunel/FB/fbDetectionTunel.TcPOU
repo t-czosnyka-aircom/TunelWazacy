@@ -266,7 +266,8 @@ CASE iWorkStep OF
 END_CASE]]></ST>
     </Implementation>
     <Property Name="ActualWeight" Id="{7d232ba5-d9ea-4fe0-9467-03bc33692ecf}">
-      <Declaration><![CDATA[PROPERTY ActualWeight : REAL]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY ActualWeight : REAL]]></Declaration>
       <Get Name="Get" Id="{85520b2f-066c-4168-8df0-d2177020389d}">
         <Declaration><![CDATA[VAR
 END_VAR

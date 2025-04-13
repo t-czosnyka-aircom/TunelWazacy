@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <DUT Name="stModTcpHist" Id="{39a0af0e-b90c-464e-b067-dc8da3465d56}">
+    <Declaration><![CDATA[TYPE stModTcpHist :
+STRUCT
+	sTimeString		: STRING(19);
+	sMachineIndifiner				: STRING;					// Indifiner for internal data exchange
+	sIpAdress 						: STRING(15);				// Ip Adress of slave
+	iPort							: UINT;						// Port of the slave
+	iUnitId							: BYTE;						// Id of Slave
+	rCommandTime					: REAL;						// Time of command perform in [s]
+	nErrorId						: UDINT;					// Id of Communication Error
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

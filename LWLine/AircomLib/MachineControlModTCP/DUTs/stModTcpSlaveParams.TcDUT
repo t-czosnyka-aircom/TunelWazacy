@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <DUT Name="stModTcpSlaveParams" Id="{39d32712-4644-468b-b159-367f9c71a652}">
+    <Declaration><![CDATA[TYPE stModTcpSlaveParams :
+STRUCT
+	sIpAdress 						: STRING(15);
+	iPort							: UINT;
+	iUnitId							: BYTE;
+	iRegisterReadStartAdress		: UINT;						// First adress of read registers data
+	iRegisterWriteStartAdress		: UINT;	
+	iRegisterReadAmount				: UINT;
+	iRegisterWriteAmount			: UINT;
+	sMachineIdenfier				: STRING;
+	bPartsCount						: BOOL;
+	iErrorOffset					: INT;
+	rCommunicationCycleTime			: REAL := 0.5;
+	bCommunicationActive			: BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

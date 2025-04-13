@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <DUT Name="stChiniseMachineHmiData" Id="{4c95d23e-b955-4cc3-a250-0b8e1eb96915}">
+    <Declaration><![CDATA[TYPE stChiniseMachineHmiData :
+STRUCT
+	nLastOperationStatus		: nModbusTCP_CommandStatus;
+	stPimCommunicationData		: stPimMachineData;
+	stModbusTcpData				: stModTcpQue;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

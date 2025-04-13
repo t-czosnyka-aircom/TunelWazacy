@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <DUT Name="nModbusTCP_CommandStatus" Id="{18fb5d5e-fea1-4184-8934-a792e4e0909f}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE nModbusTCP_CommandStatus :
+(
+	nNoCommand_00 := 0,
+	nCommandPerformed_01 := 1,
+	nCommandWrongParams_02 := 2,
+	nCommandAlreadyinQue_03 := 3,
+	nRecordAllreadyInUse_04	:= 4
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

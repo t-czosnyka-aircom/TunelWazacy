@@ -218,6 +218,49 @@
     <Compile Include="AircomLib\LoadCell\stLoadCell_InOutsData.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AircomLib\MachineControlModTCP\DUTs\stChiniseMachineHmiData.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AircomLib\MachineControlModTCP\DUTs\stModTcpSlaveParams.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AircomLib\MachineControlModTCP\POUs\fbChiniseMachine_v2.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AircomLib\MachineControlModTCP\VISUs\vChiniseMachineStatus_v2.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="AircomLib\MachineControlModTCP\VISUs\vFillingLine.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="AircomLib\ModbusTCP_Core\DUTs\GVL_ModbusTCP_Constants.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
+    </Compile>
+    <Compile Include="AircomLib\ModbusTCP_Core\DUTs\nModbusTCP_CommandStatus.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AircomLib\ModbusTCP_Core\DUTs\stModTcpCore_HmiData.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AircomLib\ModbusTCP_Core\DUTs\stModTcpHist.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AircomLib\ModbusTCP_Core\DUTs\stModTcpQue.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AircomLib\ModbusTCP_Core\Interface\iModbusTcpCore.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AircomLib\ModbusTCP_Core\POUs\fbModTCP_Core.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AircomLib\ModbusTCP_Core\VISUs\vModbusTcpCore.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
     <Compile Include="AircomLib\RecipeManagerAC\DUTs\enRecMan_ErrorList.TcTLEO">
       <SubType>Code</SubType>
     </Compile>
@@ -467,6 +510,7 @@
     <Compile Include="VISUs\MainScreens\vFrameFillingLine_2.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+      <ExcludeFromBuild>true</ExcludeFromBuild>
     </Compile>
     <Compile Include="VISUs\MainScreens\vGlobalSettings.TcVIS">
       <SubType>Code</SubType>
@@ -479,6 +523,7 @@
     <Compile Include="VISUs\MainScreens\vFrameFillingLine_1.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+      <ExcludeFromBuild>true</ExcludeFromBuild>
     </Compile>
     <Compile Include="VISU_TASK.TcTTO">
       <SubType>Code</SubType>
@@ -511,6 +556,15 @@
     <Folder Include="AircomLib\DetectionTunel" />
     <Folder Include="AircomLib\CardrigeUnderPressure_V1" />
     <Folder Include="AircomLib\KeyenceProfinetTest" />
+    <Folder Include="AircomLib\MachineControlModTCP" />
+    <Folder Include="AircomLib\MachineControlModTCP\DUTs" />
+    <Folder Include="AircomLib\MachineControlModTCP\POUs" />
+    <Folder Include="AircomLib\MachineControlModTCP\VISUs" />
+    <Folder Include="AircomLib\ModbusTCP_Core" />
+    <Folder Include="AircomLib\ModbusTCP_Core\DUTs" />
+    <Folder Include="AircomLib\ModbusTCP_Core\Interface" />
+    <Folder Include="AircomLib\ModbusTCP_Core\VISUs" />
+    <Folder Include="AircomLib\ModbusTCP_Core\POUs" />
     <Folder Include="AircomLib\RecipeManagerAC\DUTs" />
     <Folder Include="AircomLib\RecipeManagerAC" />
     <Folder Include="AircomLib\UnderPressure" />

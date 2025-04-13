@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <DUT Name="stModTcpCore_HmiData" Id="{3e9dbe82-1561-4c63-98ec-2a73a2b585db}">
+    <Declaration><![CDATA[TYPE stModTcpCore_HmiData :
+STRUCT
+	arVisuHist						: ARRAY[0..GVL_ModbusTCP_Constants.iCommuniactionHistoryLimit] OF STRING;
+	iAmoutOfPerformedCommunications	: DWORD;
+	iAmoutOfErrors					: DWORD;
+	iLastQue						: UINT;
+	iActualQue						: UINT;
+	bClearStatistic					: BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

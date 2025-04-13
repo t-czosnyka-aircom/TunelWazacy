@@ -109,15 +109,17 @@ VAR
 	
 	bResetWcfAtStartup: BOOL;
 	bTrigger: BOOL;
+	fbModbusTcpCore	: fbModTCP_Core;
 	//Bottle filling line
 		//ACT_1_Filler_A
 			stStation_LBA02PL_SBA02PL01_M1: stPIM_ServiceInOuts;
 			fb_Filler_A_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Filler_A_Machine);
-			fb_Filler_A_Machine : fbChiniseMachine(I_Pim := fb_Filler_A_Station);
+			//fb_Filler_A_Machine : fbChiniseMachine(I_Pim := fb_Filler_A_Station);
+			fb_Filler_A_Machine : fbChiniseMachine_v2(I_Pim := fb_Filler_A_Station,iModbusCore := fbModbusTcpCore); 
 		//ACT_2_Cork
 			stStation_LBA02PL_SBA02PL01_M2: stPIM_ServiceInOuts;
 			fb_Cork_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Cork_Machine);
-			fb_Cork_Machine : fbChiniseMachine(I_Pim := fb_Cork_Station);
+			fb_Cork_Machine : fbChiniseMachine_v2(I_Pim := fb_Cork_Station,iModbusCore := fbModbusTcpCore);
 		//ACT_3_SonicTech
 			stStation_LBA02PL_SBA02PL02: stPIM_ServiceInOuts;
 			fb_1_SonicTech_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_1_SonicTech_SonictechUSW);
@@ -127,7 +129,7 @@ VAR
 		//ACT_4_Filler_B
 			stStation_LBA02PL_SBA02PL03: stPIM_ServiceInOuts;
 			fb_Filler_B_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Filler_B_Machine);
-			fb_Filler_B_Machine : fbChiniseMachine(I_Pim := fb_Filler_B_Station);
+			fb_Filler_B_Machine : fbChiniseMachine_v2(I_Pim := fb_Filler_B_Station,iModbusCore := fbModbusTcpCore);
 		//ACT_5_SonicTech
 			stStation_LBA02PL_SBA02PL04: stPIM_ServiceInOuts;
 			fb_2_SonicTech_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_2_SonicTech_SonictechUSW);
@@ -143,11 +145,11 @@ VAR
 		//ACT_7_Sticker
 			stStation_LBA02PL_SBA02PL06_M1: stPIM_ServiceInOuts;
 			fb_Sticker_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Sticker_Machine);
-			fb_Sticker_Machine : fbChiniseMachine(I_Pim := fb_Sticker_Station);
+			fb_Sticker_Machine : fbChiniseMachine_v2(I_Pim := fb_Sticker_Station,iModbusCore := fbModbusTcpCore);
 		//ACT_8_Laser
 			stStation_LBA02PL_SBA02PL06_M2: stPIM_ServiceInOuts;
 			fb_Laser_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Laser_Machine);
-			fb_Laser_Machine : fbChiniseMachine(I_Pim := fb_Laser_Station);
+			fb_Laser_Machine : fbChiniseMachine_v2(I_Pim := fb_Laser_Station,iModbusCore := fbModbusTcpCore);
 		//ACT_9_Tunel
 				stStation_LBA02PL_SBA02PL07: stPIM_ServiceInOuts;
 				fb_Tunel_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Tunel_Machine);
@@ -192,6 +194,8 @@ IF bRomErrorTableReset THEN
 	bRomErrorTableReset:= FALSE;
 END_IF
 
+//Rdzeń komunikacji Modbus TCP
+fbModbusTcpCore(stTimeStruct:=GVL_Aircom.stAC_DT_Data);
 // Przełączanie pomiędzy parametrami
 //ACT_SelProdType();
 
@@ -309,7 +313,18 @@ Teksty do wyświetlenia w kompilatorze
     </Action>
     <Action Name="ACT_1_Filler_A" Id="{b7fb753d-3e55-4915-a3fc-d9881ca6ab71}">
       <Implementation>
-        <ST><![CDATA[fb_Filler_A_Station(
+        <ST><![CDATA[GVL.st_Filler_A_Parameters.bPartsCount:= FALSE;
+GVL.st_Filler_A_Parameters.iErrorOffset := 1000;
+GVL.st_Filler_A_Parameters.iPort:= 500;
+GVL.st_Filler_A_Parameters.iUnitId := 1;
+GVL.st_Filler_A_Parameters.sIpAdress := '192.168.13.180';
+GVL.st_Filler_A_Parameters.iRegisterReadStartAdress:=9000;
+GVL.st_Filler_A_Parameters.iRegisterWriteStartAdress:=9020;
+GVL.st_Filler_A_Parameters.iRegisterReadAmount := 20;
+GVL.st_Filler_A_Parameters.iRegisterWriteAmount := 20;
+GVL.st_Filler_A_Parameters.sMachineIdenfier := 'BA02PL01_M1';
+
+fb_Filler_A_Station(
 	stPimInOut:= stStation_LBA02PL_SBA02PL01_M1,
 	sLineName:= 'BA02PL', 
 	sStationName:= 'BA02PL01', 
@@ -317,16 +332,32 @@ Teksty do wyświetlenia w kompilatorze
 	bIsHidden:= FALSE, 
 	stStationSettings := GVL.st_Filler_A_PimSettings);
 //Filler A
-fb_Filler_A_Machine(stMachineModbusParams:=GVL.st_Filler_A_MachineSettings,
-					stMachineWorkParams:=GVL.st_Filler_A_MachineParams,
-					bNextMachineWork:= TRUE);
+//fb_Filler_A_Machine(stMachineModbusParams:=GVL.st_Filler_A_MachineSettings,
+					//stMachineWorkParams:=GVL.st_Filler_A_MachineParams,
+					//bNextMachineWork:= TRUE);
 
-GVL.st_Filler_A_MachineParams.bPartsCount := FALSE;]]></ST>
+//GVL.st_Filler_A_MachineParams.bPartsCount := FALSE;
+
+fb_Filler_A_Machine(stSlaveParms:=GVL.st_Filler_A_Parameters);
+]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_2_Cork" Id="{73bbc71b-4e7f-4b26-b07d-111463ed8f34}">
       <Implementation>
-        <ST><![CDATA[fb_Cork_Station(
+        <ST><![CDATA[GVL.st_Cork_Parameters.bPartsCount:= TRUE;
+GVL.st_Cork_Parameters.iErrorOffset := 1100;
+GVL.st_Cork_Parameters.iPort:= 500;
+GVL.st_Cork_Parameters.iUnitId := 1;
+GVL.st_Cork_Parameters.sIpAdress := '192.168.13.181';
+GVL.st_Cork_Parameters.iRegisterReadStartAdress:=9000;
+GVL.st_Cork_Parameters.iRegisterWriteStartAdress:=9020;
+GVL.st_Cork_Parameters.iRegisterReadAmount := 20;
+GVL.st_Cork_Parameters.iRegisterWriteAmount := 20;
+GVL.st_Cork_Parameters.sMachineIdenfier := 'BA02PL01_M2';
+
+
+
+fb_Cork_Station(
 	stPimInOut:= stStation_LBA02PL_SBA02PL01_M2,
 	sLineName:= 'BA02PL', 
 	sStationName:= 'BA02PL01', 
@@ -334,10 +365,12 @@ GVL.st_Filler_A_MachineParams.bPartsCount := FALSE;]]></ST>
 	bIsHidden:= FALSE, 
 	stStationSettings := GVL.st_Cork_PimSettings);
 //Cork
-fb_Cork_Machine(stMachineModbusParams:=GVL.st_Cork_MachineSettings,
-					stMachineWorkParams:=GVL.st_Cork_MachineParams,
-					bNextMachineWork:= TRUE);
-GVL.st_Cork_MachineParams.bPartsCount := TRUE;]]></ST>
+//fb_Cork_Machine(stMachineModbusParams:=GVL.st_Cork_MachineSettings,
+					//stMachineWorkParams:=GVL.st_Cork_MachineParams,
+					//bNextMachineWork:= TRUE);
+//GVL.st_Cork_MachineParams.bPartsCount := TRUE;
+
+fb_Cork_Machine(stSlaveParms:=GVL.st_Cork_Parameters);]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_3_SonicTech" Id="{30c87799-64fb-44e6-8866-0dc93cda5dae}">
@@ -370,7 +403,19 @@ fb_1_SonicTech_SonicTechCom(stData:=GVL_IO.st_1_SonicTech_WeldMachineSerialData_
     </Action>
     <Action Name="ACT_4_Filler_B" Id="{aaddb840-7e4f-4536-87a2-37990ff186bb}">
       <Implementation>
-        <ST><![CDATA[fb_Filler_B_Station(
+        <ST><![CDATA[GVL.st_Filler_B_Parameters.bPartsCount:= TRUE;
+GVL.st_Filler_B_Parameters.iErrorOffset := 1000;
+GVL.st_Filler_B_Parameters.iPort:= 500;
+GVL.st_Filler_B_Parameters.iUnitId := 1;
+GVL.st_Filler_B_Parameters.sIpAdress := '192.168.13.182';
+GVL.st_Filler_B_Parameters.iRegisterReadStartAdress:=9000;
+GVL.st_Filler_B_Parameters.iRegisterWriteStartAdress:=9020;
+GVL.st_Filler_B_Parameters.iRegisterReadAmount := 20;
+GVL.st_Filler_B_Parameters.iRegisterWriteAmount := 20;
+GVL.st_Filler_B_Parameters.sMachineIdenfier := 'BA02PL03';
+
+
+fb_Filler_B_Station(
 	stPimInOut:= stStation_LBA02PL_SBA02PL03,
 	sLineName:= 'BA02PL', 
 	sStationName:= 'BA02PL03', 
@@ -378,10 +423,12 @@ fb_1_SonicTech_SonicTechCom(stData:=GVL_IO.st_1_SonicTech_WeldMachineSerialData_
 	bIsHidden:= FALSE, 
 	stStationSettings := GVL.st_Filler_B_PimSettings);
 //S03
-fb_Filler_B_Machine(stMachineModbusParams:=GVL.st_Filler_B_MachineSettings,
-					stMachineWorkParams:=GVL.st_Filler_B_MachineParams,
-					bNextMachineWork:= TRUE);
-GVL.st_Filler_B_MachineParams.bPartsCount := TRUE;]]></ST>
+//fb_Filler_B_Machine(stMachineModbusParams:=GVL.st_Filler_B_MachineSettings,
+					//stMachineWorkParams:=GVL.st_Filler_B_MachineParams,
+					//bNextMachineWork:= TRUE);
+//GVL.st_Filler_B_MachineParams.bPartsCount := TRUE;
+
+fb_Filler_B_Machine(stSlaveParms:=GVL.st_Filler_B_Parameters);]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_5_SonicTech" Id="{aaedd41b-4c6a-4af6-8ba2-f869272c70f3}">
@@ -447,7 +494,19 @@ fbTransporterUnderpressure(	stInOuts:=GVL_IO.stTransporterInOuts,
     </Action>
     <Action Name="ACT_7_Sticker" Id="{2df22bce-c2bd-4bd2-82a2-c589103472bd}">
       <Implementation>
-        <ST><![CDATA[fb_Sticker_Station(
+        <ST><![CDATA[GVL.st_Sticker_Parameters.bPartsCount:= FALSE;
+GVL.st_Sticker_Parameters.iErrorOffset := 1200;
+GVL.st_Sticker_Parameters.iPort:= 500;
+GVL.st_Sticker_Parameters.iUnitId := 1;
+GVL.st_Sticker_Parameters.sIpAdress := '192.168.13.183';
+GVL.st_Sticker_Parameters.iRegisterReadStartAdress:=9000;
+GVL.st_Sticker_Parameters.iRegisterWriteStartAdress:=9020;
+GVL.st_Sticker_Parameters.iRegisterReadAmount := 20;
+GVL.st_Sticker_Parameters.iRegisterWriteAmount := 20;
+GVL.st_Sticker_Parameters.sMachineIdenfier := 'BA02PL06_M1';
+
+
+fb_Sticker_Station(
 	stPimInOut:= stStation_LBA02PL_SBA02PL06_M1,
 	sLineName:= 'BA02PL', 
 	sStationName:= 'BA02PL06', 
@@ -455,15 +514,29 @@ fbTransporterUnderpressure(	stInOuts:=GVL_IO.stTransporterInOuts,
 	bIsHidden:= FALSE, 
 	stStationSettings := GVL.st_Sticker_PimSettings);
 //S01_M1
-fb_Sticker_Machine(stMachineModbusParams:=GVL.st_Sticker_MachineSettings,
+(*fb_Sticker_Machine(stMachineModbusParams:=GVL.st_Sticker_MachineSettings,
 					stMachineWorkParams:=GVL.st_Sticker_MachineParams,
 					bNextMachineWork:= NOT GVL.st_Sticker_MachineSettings.stPimData.bError);
-GVL.st_Sticker_MachineParams.bPartsCount := FALSE;]]></ST>
+GVL.st_Sticker_MachineParams.bPartsCount := FALSE;*)
+
+fb_Sticker_Machine(stSlaveParms:=GVL.st_Sticker_Parameters);]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_8_Laser" Id="{dfdb2487-bbf0-4474-a109-bc6a5d8e79f1}">
       <Implementation>
-        <ST><![CDATA[fb_Laser_Station(
+        <ST><![CDATA[GVL.st_Laser_Parameters.bPartsCount:= TRUE;
+GVL.st_Laser_Parameters.iErrorOffset := 1300;
+GVL.st_Laser_Parameters.iPort:= 500;
+GVL.st_Laser_Parameters.iUnitId := 1;
+GVL.st_Laser_Parameters.sIpAdress := '192.168.13.184';
+GVL.st_Laser_Parameters.iRegisterReadStartAdress:=9000;
+GVL.st_Laser_Parameters.iRegisterWriteStartAdress:=9020;
+GVL.st_Laser_Parameters.iRegisterReadAmount := 20;
+GVL.st_Laser_Parameters.iRegisterWriteAmount := 20;
+GVL.st_Laser_Parameters.sMachineIdenfier := 'BA02PL06_M2';
+
+
+fb_Laser_Station(
 	stPimInOut:= stStation_LBA02PL_SBA02PL06_M2,
 	sLineName:= 'BA02PL', 
 	sStationName:= 'BA02PL06', 
@@ -471,10 +544,12 @@ GVL.st_Sticker_MachineParams.bPartsCount := FALSE;]]></ST>
 	bIsHidden:= FALSE, 
 	stStationSettings := GVL.st_Laser_PimSettings);
 //S01_M2
-fb_Laser_Machine(stMachineModbusParams:=GVL.st_Laser_MachineSettings,
+(*fb_Laser_Machine(stMachineModbusParams:=GVL.st_Laser_MachineSettings,
 					stMachineWorkParams:=GVL.st_Laser_MachineParams,
 					bNextMachineWork:= TRUE);
-GVL.st_Laser_MachineParams.bPartsCount := TRUE;]]></ST>
+GVL.st_Laser_MachineParams.bPartsCount := TRUE;*)
+
+fb_Laser_Machine(stSlaveParms:=GVL.st_Laser_Parameters);]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_9_Tunel" Id="{1c00eae3-0be1-4ab8-8ed3-070e2bcadbb0}">
@@ -843,7 +918,11 @@ fbSA03_Station(
       </Implementation>
     </Action>
     <LineIds Name="MAIN">
-      <LineId Id="3" Count="55" />
+      <LineId Id="3" Count="28" />
+      <LineId Id="404" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="405" Count="0" />
+      <LineId Id="33" Count="25" />
       <LineId Id="243" Count="0" />
       <LineId Id="59" Count="24" />
       <LineId Id="2" Count="0" />
@@ -853,22 +932,40 @@ fbSA03_Station(
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_1_Filler_A">
+      <LineId Id="29" Count="3" />
+      <LineId Id="34" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="37" Count="2" />
+      <LineId Id="36" Count="0" />
       <LineId Id="2" Count="9" />
       <LineId Id="14" Count="0" />
       <LineId Id="12" Count="0" />
       <LineId Id="1" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_2_Cork">
+      <LineId Id="20" Count="3" />
+      <LineId Id="25" Count="4" />
+      <LineId Id="15" Count="3" />
       <LineId Id="2" Count="10" />
       <LineId Id="1" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_3_SonicTech">
       <LineId Id="2" Count="22" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_4_Filler_B">
+      <LineId Id="19" Count="3" />
+      <LineId Id="24" Count="4" />
+      <LineId Id="15" Count="2" />
       <LineId Id="2" Count="10" />
       <LineId Id="1" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_5_SonicTech">
       <LineId Id="2" Count="22" />
@@ -879,12 +976,22 @@ fbSA03_Station(
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_7_Sticker">
+      <LineId Id="19" Count="3" />
+      <LineId Id="24" Count="4" />
+      <LineId Id="15" Count="2" />
       <LineId Id="2" Count="10" />
       <LineId Id="1" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_8_Laser">
+      <LineId Id="19" Count="3" />
+      <LineId Id="24" Count="4" />
+      <LineId Id="15" Count="2" />
       <LineId Id="2" Count="10" />
       <LineId Id="1" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_9_Tunel">
       <LineId Id="2" Count="11" />
