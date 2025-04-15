@@ -22,10 +22,19 @@ VAR
 	fbErrorDetect					: R_TRIG;
 	iErrorCalc						: INT;
 	fbFilterBusy					: TON;
+
+	
+	//Visu
+	stHMI							: stModTcpCore_HmiData;
+	rTimeForStatistic				: REAL;
+	iLastQueStat					: UINT;
+	iActualQueStat					: UINT;
+	arVisuHist						: ARRAY[0..GVL_ModbusTCP_Constants.iCommuniactionHistoryLimit] OF STRING;
 	iAmoutOfPerformedCommunications	: DWORD;
 	iAmoutOfErrors					: DWORD;
-	arVisuHist						: ARRAY[0..GVL_ModbusTCP_Constants.iCommuniactionHistoryLimit] OF STRING;
-	stHMI							: stModTcpCore_HmiData;
+	rTimeforMinuteStatitic			: REAL;
+	iLastQueStatMinute				: UINT;
+	iActualQueStatMinute			: UINT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -33,7 +42,7 @@ END_VAR
 //TO-DO
 //Dodać możliwość node - wiele jednoczesnych pracesów
 //Dodać możliwosć wymiany inforamcji w Coilach
-//Wykonać lepszą diagnostykę 
+//Wykonać lepszą diagnostykę - OK
 //Poprawiać ewentualnie wystepujące błędy
 
 
@@ -148,6 +157,7 @@ IF fbCommTimeOFF.Q THEN
 	arModTcpCommandHist[iHistory].nErrorId := fbModbusTCP.nErrId;
 	arVisuHist[iHistory] := CONCAT(STR1:=arVisuHist[iHistory] ,STR2:=UDINT_TO_STRING(arModTcpCommandHist[iHistory].nErrorId));
 	iHistory := iHistory + 1;
+	iActualQueStat := iActualQueStat + 1;
 END_IF
 
 //HMI
@@ -160,8 +170,29 @@ stHMI.iLastQue :=iLastQue;
 IF stHMI.bClearStatistic THEN
 	iAmoutOfPerformedCommunications := 0;
 	iAmoutOfErrors := 0;
+	iActualQueStatMinute := 0;
+	iLastQueStatMinute := 0;
 	stHMI.bClearStatistic := FALSE;
-END_IF]]></ST>
+END_IF
+rTimeForStatistic := rTimeForStatistic + 0.01;
+rTimeforMinuteStatitic := rTimeforMinuteStatitic + 0.01;
+IF rTimeForStatistic >= 1 THEN
+	stHMI.iMessagesPerSecond := iActualQueStat;
+	stHMI.iPullsPerSecond	:= iLastQueStat;
+	iActualQueStatMinute := iActualQueStatMinute + iActualQueStat;
+	iLastQueStatMinute	:= iLastQueStatMinute + iLastQueStat;
+	iLastQueStat 	:= 0;
+	iActualQueStat	:= 0;
+	rTimeForStatistic := 0;
+END_IF
+stHMI.iMessagesPerMinute 	:= iActualQueStatMinute;
+stHMI.iPullsPerrMinute		:= iLastQueStatMinute;
+IF rTimeforMinuteStatitic > 60 THEN
+	iActualQueStatMinute := 0;
+	iLastQueStatMinute := 0;
+END_IF
+	
+	]]></ST>
       </Implementation>
     </Action>
     <Method Name="mAddToQue" Id="{6fcee0ac-971a-4c86-9aba-3116f2e46b99}">
@@ -184,10 +215,12 @@ AND stCommParams.wRegistersReadQuantity <= 2*SIZEOF(stCommParams.arRegisterReadA
 		IF arCommQue[iLastQue].sMachineIndifiner <> '' THEN
 			mAddToQue := nModbusTCP_CommandStatus.nRecordAllreadyInUse_04;
 			iLastQue := iLastQue + 1;
+			iLastQueStat := iLastQueStat + 1;
 		ELSE
 			arCommQue[iLastQue] := stCommParams;
 			mAddToQue := nModbusTCP_CommandStatus.nCommandPerformed_01;
 			iLastQue := iLastQue + 1;
+			iLastQueStat := iLastQueStat + 1;
 		END_IF
 	//END_IF
 ELSE
@@ -288,6 +321,7 @@ END_VAR
       <LineId Id="30" Count="0" />
       <LineId Id="37" Count="0" />
       <LineId Id="31" Count="0" />
+      <LineId Id="68" Count="0" />
       <LineId Id="16" Count="0" />
       <LineId Id="39" Count="0" />
       <LineId Id="38" Count="0" />
@@ -296,17 +330,35 @@ END_VAR
       <LineId Id="42" Count="3" />
       <LineId Id="48" Count="1" />
       <LineId Id="52" Count="0" />
+      <LineId Id="77" Count="1" />
       <LineId Id="51" Count="0" />
       <LineId Id="50" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="63" Count="1" />
+      <LineId Id="75" Count="1" />
+      <LineId Id="66" Count="1" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="83" Count="0" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="60" Count="1" />
     </LineIds>
     <LineIds Name="fbModTCP_Core.mAddToQue">
       <LineId Id="76" Count="2" />
       <LineId Id="80" Count="5" />
       <LineId Id="94" Count="1" />
       <LineId Id="101" Count="0" />
+      <LineId Id="107" Count="0" />
       <LineId Id="97" Count="0" />
       <LineId Id="99" Count="1" />
       <LineId Id="98" Count="0" />
+      <LineId Id="108" Count="0" />
       <LineId Id="96" Count="0" />
       <LineId Id="89" Count="4" />
       <LineId Id="21" Count="0" />
