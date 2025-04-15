@@ -3,38 +3,37 @@
   <POU Name="fbModTCP_Core" Id="{1eebaeb0-68d5-4ffe-85ae-e4bdd94758f4}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK fbModTCP_Core IMPLEMENTS iModbusTcpCore
 VAR_INPUT
-	stTimeStruct : stAircomTimeStruct;
+	stTimeStruct : stAircomTimeStruct;																						// Time struct for data ack
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	fbModbusTCP 					: FB_MBReadWriteRegs;
-	arCommQue						: ARRAY[0..GVL_ModbusTCP_Constants.iQueLimit] OF stModTcpQue;
-	arModTcpCommandHist				: ARRAY[0..GVL_ModbusTCP_Constants.iCommuniactionHistoryLimit]  OF stModTcpHist;
-	iWorkStep						: INT;
-	stCommToPerform					: stModTcpQue;
-	iLastQue						: UINT;
-	iActualQue						: UINT;
-	iHistory						: UINT;
-	rCommunicationTime				: REAL;
-	fbCommTimeON					: R_TRIG;
-	fbCommTimeOFF					: F_TRIG;
-	fbErrorDetect					: R_TRIG;
-	iErrorCalc						: INT;
-	fbFilterBusy					: TON;
-
-	
+	fbModbusTCP 					: FB_MBReadWriteRegs;																	// Main function for ModbusTCP
+	arCommQue						: ARRAY[0..GVL_ModbusTCP_Constants.iQueLimit] OF stModTcpQue;							// Que for core
+	arModTcpCommandHist				: ARRAY[0..GVL_ModbusTCP_Constants.iCommuniactionHistoryLimit]  OF stModTcpHist;		// Saving of prcesed command
+	iWorkStep						: INT;																					// Workstep
+	stCommToPerform					: stModTcpQue;																			// Block for process purpose
+	iLastQue						: UINT;																					// Que for commands
+	iActualQue						: UINT;																					// Actualy performed register of que
+	iHistory						: UINT;																					// History record
+	rCommunicationTime				: REAL;																					// Time of communication
+	fbCommTimeON					: R_TRIG;																				// Start of modbus block - Rise Edge
+	fbCommTimeOFF					: F_TRIG;																				// End of modbus block - Falling Edge
+	fbErrorDetect					: R_TRIG;																				// Error detected status
+	iErrorCalc						: INT;																					// Calculation of errors
 	//Visu
-	stHMI							: stModTcpCore_HmiData;
-	rTimeForStatistic				: REAL;
-	iLastQueStat					: UINT;
-	iActualQueStat					: UINT;
-	arVisuHist						: ARRAY[0..GVL_ModbusTCP_Constants.iCommuniactionHistoryLimit] OF STRING;
-	iAmoutOfPerformedCommunications	: DWORD;
-	iAmoutOfErrors					: DWORD;
-	rTimeforMinuteStatitic			: REAL;
-	iLastQueStatMinute				: UINT;
-	iActualQueStatMinute			: UINT;
+	stHMI							: stModTcpCore_HmiData;																	// Data for HMI purpose
+	rTimeForStatistic				: REAL;																					// Time variable for statistic calculation - per second
+	iLastQueStat					: UINT;																					// Amount of data saved to que
+	iActualQueStat					: UINT;																					// Amount od data procesed
+	arVisuHist						: ARRAY[0..GVL_ModbusTCP_Constants.iCommuniactionHistoryLimit] OF STRING;				// Command History
+	iAmoutOfPerformedCommunications	: DWORD;																				// Sum amount of performed data exchange - per second
+	iAmoutOfErrors					: DWORD;																				// Sum amount of errsrs during data exchange - per second
+	rTimeforMinuteStatitic			: REAL;																					// Time variable for statistic calculation - per minute
+	iLastQueStatMinute				: UINT;																					// Sum amount of performed data exchange - per minute
+	iActualQueStatMinute			: UINT;																					// Sum amount of errors during data exchange - per minute
+	arErrorHistory					: ARRAY[0..GVL_ModbusTCP_Constants.iCommunicationErrorHistory] OF STRING;				// Data of errors during communicaiotn
+	iErrorHistoryIdentifier			: UINT;																					// Calculation of error history
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -42,7 +41,6 @@ END_VAR
 //TO-DO
 //Dodać możliwość node - wiele jednoczesnych pracesów
 //Dodać możliwosć wymiany inforamcji w Coilach
-//Wykonać lepszą diagnostykę - OK
 //Poprawiać ewentualnie wystepujące błędy
 
 
@@ -115,30 +113,30 @@ CASE iWorkStep OF
 		IF NOT fbModbusTCP.bBusy THEN
 			iWorkStep := 10;
 		END_IF
-	60:		//Lookup for erros
-	
-	90: 	//Error ocured 
-
 
 END_CASE]]></ST>
     </Implementation>
     <Action Name="ACT_Background" Id="{3293cfc1-0622-4dd3-8ae2-5d0eb1a0ab74}">
       <Implementation>
-        <ST><![CDATA[//Error counting
+        <ST><![CDATA[// Main function
 fbModbusTCP();
+//Error counting
 fbErrorDetect(CLK:= fbModbusTCP.bError);
 IF fbErrorDetect.Q THEN
 	iErrorCalc := iErrorCalc + 1;
 	iAmoutOfErrors := iAmoutOfErrors + 1;
+	arErrorHistory[iErrorHistoryIdentifier] := CONCAT(STR1:= stCommToPerform.sMachineIndifiner,STR2:=' | ');
+	arErrorHistory[iErrorHistoryIdentifier] := CONCAT(STR1:= arErrorHistory[iErrorHistoryIdentifier],STR2:=stCommToPerform.sIpAdress);
+	arErrorHistory[iErrorHistoryIdentifier] := CONCAT(STR1:= arErrorHistory[iErrorHistoryIdentifier],STR2:=' | ');
+	arErrorHistory[iErrorHistoryIdentifier] := CONCAT(STR1:= arErrorHistory[iErrorHistoryIdentifier],STR2:=LREAL_TO_FMTSTR(in:=rCommunicationTime,iPrecision:=3,bRound:= FALSE));
+	arErrorHistory[iErrorHistoryIdentifier] := CONCAT(STR1:= arErrorHistory[iErrorHistoryIdentifier],STR2:=' | ');
+	arErrorHistory[iErrorHistoryIdentifier] := CONCAT(STR1:= arErrorHistory[iErrorHistoryIdentifier],STR2:=UDINT_TO_STRING(fbModbusTCP.nErrId));
+	iErrorHistoryIdentifier := iErrorHistoryIdentifier + 1;
 END_IF
+// Clear amount of errors
 IF fbModbusTCP.cbRead <> 0 THEN
 	iErrorCalc := 0;
 END_IF
-
-//Background Modbus
-
-fbModbusTCP.tTimeout := GVL_ModbusTCP_Constants.tModbusCommunicationTimeOut;
-
 
 //Communication statistic
 fbCommTimeON(CLK:= fbModbusTCP.bBusy);
@@ -150,7 +148,6 @@ IF fbModbusTCP.bBusy THEN
 	rCommunicationTime := rCommunicationTime + 0.01;
 END_IF
 IF fbCommTimeOFF.Q THEN
-	//iActualQue := iActualQue + 1;
 	arModTcpCommandHist[iHistory].rCommandTime := rCommunicationTime;
 	arVisuHist[iHistory] := CONCAT(STR1:=arVisuHist[iHistory] ,STR2:=LREAL_TO_FMTSTR(in:=rCommunicationTime,iPrecision:=3,bRound:= FALSE));
 	arVisuHist[iHistory] := CONCAT(STR1:=arVisuHist[iHistory] ,STR2:=' | ');
@@ -162,21 +159,28 @@ END_IF
 
 //HMI
 
-stHMI.arVisuHist := arVisuHist;
-stHMI.iActualQue := iActualQue;
-stHMI.iAmoutOfErrors :=iAmoutOfErrors;
-stHMI.iAmoutOfPerformedCommunications := iAmoutOfPerformedCommunications;
-stHMI.iLastQue :=iLastQue;
+stHMI.arVisuHist 						:= arVisuHist;
+stHMI.arErrorHistory 					:= arErrorHistory;
+stHMI.iActualQue 						:= iActualQue;
+stHMI.iAmoutOfErrors 					:= iAmoutOfErrors;
+stHMI.iAmoutOfPerformedCommunications 	:= iAmoutOfPerformedCommunications;
+stHMI.iLastQue 							:= iLastQue;
+stHMI.iMessagesPerMinute 				:= iActualQueStatMinute;
+stHMI.iPullsPerrMinute					:= iLastQueStatMinute;
+
 IF stHMI.bClearStatistic THEN
 	iAmoutOfPerformedCommunications := 0;
 	iAmoutOfErrors := 0;
 	iActualQueStatMinute := 0;
 	iLastQueStatMinute := 0;
+	iErrorHistoryIdentifier := 0;
+	iHistory := 0;
 	stHMI.bClearStatistic := FALSE;
+	MEMSET(destAddr:=ADR(arErrorHistory),fillByte:=0,n:= SIZEOF(arErrorHistory));
+	MEMSET(destAddr:=ADR(arVisuHist),fillByte:=0,n:= SIZEOF(arVisuHist));
 END_IF
-rTimeForStatistic := rTimeForStatistic + 0.01;
-rTimeforMinuteStatitic := rTimeforMinuteStatitic + 0.01;
-IF rTimeForStatistic >= 1 THEN
+
+IF rTimeForStatistic >= GVL_ModbusTCP_Constants.rTimeForSecondStatistic THEN
 	stHMI.iMessagesPerSecond := iActualQueStat;
 	stHMI.iPullsPerSecond	:= iLastQueStat;
 	iActualQueStatMinute := iActualQueStatMinute + iActualQueStat;
@@ -185,13 +189,17 @@ IF rTimeForStatistic >= 1 THEN
 	iActualQueStat	:= 0;
 	rTimeForStatistic := 0;
 END_IF
-stHMI.iMessagesPerMinute 	:= iActualQueStatMinute;
-stHMI.iPullsPerrMinute		:= iLastQueStatMinute;
-IF rTimeforMinuteStatitic > 60 THEN
+
+IF rTimeforMinuteStatitic >= GVL_ModbusTCP_Constants.rTimeForMinuteStatistic THEN
 	iActualQueStatMinute := 0;
 	iLastQueStatMinute := 0;
+	rTimeforMinuteStatitic := 0;
 END_IF
-	
+
+rTimeForStatistic := rTimeForStatistic + 0.01;
+rTimeforMinuteStatitic := rTimeforMinuteStatitic + 0.01;
+
+fbModbusTCP.tTimeout := GVL_ModbusTCP_Constants.tModbusCommunicationTimeOut;
 	]]></ST>
       </Implementation>
     </Action>
@@ -244,7 +252,8 @@ END_VAR
     </Property>
     <LineIds Name="fbModTCP_Core">
       <LineId Id="178" Count="1" />
-      <LineId Id="182" Count="3" />
+      <LineId Id="182" Count="1" />
+      <LineId Id="185" Count="0" />
       <LineId Id="180" Count="1" />
       <LineId Id="153" Count="0" />
       <LineId Id="108" Count="0" />
@@ -297,26 +306,26 @@ END_VAR
       <LineId Id="60" Count="1" />
       <LineId Id="40" Count="0" />
       <LineId Id="62" Count="1" />
-      <LineId Id="37" Count="2" />
-      <LineId Id="26" Count="1" />
+      <LineId Id="37" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
     <LineIds Name="fbModTCP_Core.ACT_Background">
       <LineId Id="2" Count="0" />
       <LineId Id="15" Count="0" />
+      <LineId Id="104" Count="0" />
       <LineId Id="3" Count="2" />
       <LineId Id="33" Count="0" />
-      <LineId Id="6" Count="2" />
+      <LineId Id="90" Count="1" />
+      <LineId Id="93" Count="1" />
+      <LineId Id="106" Count="1" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="105" Count="0" />
+      <LineId Id="7" Count="1" />
       <LineId Id="1" Count="0" />
-      <LineId Id="10" Count="1" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="9" Count="0" />
       <LineId Id="17" Count="1" />
-      <LineId Id="20" Count="8" />
-      <LineId Id="32" Count="0" />
-      <LineId Id="29" Count="0" />
+      <LineId Id="20" Count="9" />
       <LineId Id="34" Count="1" />
       <LineId Id="30" Count="0" />
       <LineId Id="37" Count="0" />
@@ -327,13 +336,18 @@ END_VAR
       <LineId Id="38" Count="0" />
       <LineId Id="47" Count="0" />
       <LineId Id="40" Count="0" />
+      <LineId Id="103" Count="0" />
       <LineId Id="42" Count="3" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="100" Count="0" />
       <LineId Id="48" Count="1" />
       <LineId Id="52" Count="0" />
       <LineId Id="77" Count="1" />
+      <LineId Id="109" Count="1" />
       <LineId Id="51" Count="0" />
+      <LineId Id="101" Count="1" />
       <LineId Id="50" Count="0" />
-      <LineId Id="54" Count="0" />
       <LineId Id="82" Count="0" />
       <LineId Id="57" Count="0" />
       <LineId Id="63" Count="1" />
@@ -341,13 +355,18 @@ END_VAR
       <LineId Id="66" Count="1" />
       <LineId Id="65" Count="0" />
       <LineId Id="59" Count="0" />
-      <LineId Id="83" Count="0" />
       <LineId Id="56" Count="0" />
       <LineId Id="53" Count="0" />
       <LineId Id="79" Count="0" />
       <LineId Id="81" Count="0" />
+      <LineId Id="84" Count="0" />
       <LineId Id="80" Count="0" />
-      <LineId Id="60" Count="1" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="85" Count="0" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="61" Count="0" />
     </LineIds>
     <LineIds Name="fbModTCP_Core.mAddToQue">
       <LineId Id="76" Count="2" />

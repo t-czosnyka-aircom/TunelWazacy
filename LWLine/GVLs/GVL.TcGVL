@@ -61,23 +61,19 @@ VAR_GLOBAL PERSISTENT
 	
 	//Bottle filling line
 	
-	stMachineData 							: ARRAY[0..4] OF stCommunicationParametriation;
 	//S_01 Test
 	
 	//S_01                              	
 	st_Filler_A_PimSettings					: stPIM_StationSettings;
 	st_Cork_PimSettings						: stPIM_StationSettings;
-	st_Filler_A_MachineSettings				: stCommunicationParametriation;
-	st_Cork_MachineSettings					: stCommunicationParametriation;
-	st_Filler_A_MachineParams				: stMachineParams;
-	st_Cork_MachineParams					: stMachineParams;
+	st_Filler_A_Parameters					: stModTcpSlaveParams;
+	st_Cork_Parameters						: stModTcpSlaveParams;
 	//S_02
 	st_1_SonicTech_PimSettings				: stPIM_StationSettings;
 	st_1_SonicTech_USWelderSettings			: stSonicTech_MachSettings;
 	//S_03
 	st_Filler_B_PimSettings					: stPIM_StationSettings;
-	st_Filler_B_MachineSettings				: stCommunicationParametriation;
-	st_Filler_B_MachineParams				: stMachineParams;
+	st_Filler_B_Parameters					: stModTcpSlaveParams;
 	//S_04	
 	st_2_SonicTech_PimSettings				: stPIM_StationSettings;
 	st_2_SonicTech_USWelderSettings			: stSonicTech_MachSettings;
@@ -89,21 +85,16 @@ VAR_GLOBAL PERSISTENT
 	//S_06	
 	st_Sticker_PimSettings					: stPIM_StationSettings;
 	st_Laser_PimSettings					: stPIM_StationSettings;
-	st_Sticker_MachineSettings				: stCommunicationParametriation;
-	st_Laser_MachineSettings				: stCommunicationParametriation;
-	st_Sticker_MachineParams				: stMachineParams;
-	st_Laser_MachineParams					: stMachineParams;
+	st_Sticker_Parameters					: stModTcpSlaveParams;
+	st_Laser_Parameters						: stModTcpSlaveParams;
 	//S_09	
 	st_Tunel_Tester_PimSettings				: stPIM_StationSettings;
 	st_Tunel_Params							: stDetectionTunelParams;
 	
 	//Chinise machines
 	
-	st_Filler_A_Parameters					: stModTcpSlaveParams;
-	st_Cork_Parameters						: stModTcpSlaveParams;
-	st_Filler_B_Parameters					: stModTcpSlaveParams;
-	st_Sticker_Parameters					: stModTcpSlaveParams;
-	st_Laser_Parameters						: stModTcpSlaveParams;
+	
+	
 	
 END_VAR
 

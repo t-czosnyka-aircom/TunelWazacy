@@ -156,7 +156,10 @@ VAR
 				fb_Tunel_Machine : fbDetectionTunel(I_Pim := fb_Tunel_Station);
 		
 		
-		
+		// Shit do lcizenia dla projektów :)
+		fbFillingLineAir_PulseCounter	: fbPulseCounterPIM;
+		fbHotPlateAir_PulseCounter		: fbPulseCounterPIM;
+		fbPreAssembyAir_PulseCounter	: fbPulseCounterPIM;
 END_VAR
 VAR PERSISTENT
 	bKeepSQLConnected: BOOL := TRUE;
@@ -246,7 +249,8 @@ END_IF
 
 sCurrentLanguage := VisuElems.CURRENTLANGUAGE;
 	
-
+//Nowe liczneie
+ACT_SideAirMeasure();
 // Kontrola etherCAT
 ]]></ST>
     </Implementation>
@@ -917,6 +921,30 @@ fbSA03_Station(
         <ST><![CDATA[//fbEL6910Backup(]]></ST>
       </Implementation>
     </Action>
+    <Action Name="ACT_SideAirMeasure" Id="{1c705fc0-0632-437b-bf44-6834525b271d}">
+      <Implementation>
+        <ST><![CDATA[fbPreAssembyAir_PulseCounter(
+	bImpulseSignal:= GVL_IO.bCompressedAirFlowImpulsePreAssembly, 
+	rValuePerImpulse:= 0.03,
+	I_Sql := fbS01_Station,
+	bSaveCtr := GVL.bEnergyConsCtrSaveTrigger,
+	bCtrType_0Elec_1Air := TRUE);
+	
+fbFillingLineAir_PulseCounter(
+	bImpulseSignal:= GVL_IO.bCompressedAirFlowImpulseFilling, 
+	rValuePerImpulse:= 0.03,
+	I_Sql := fb_Filler_A_Station,
+	bSaveCtr := GVL.bEnergyConsCtrSaveTrigger,
+	bCtrType_0Elec_1Air := TRUE);
+	
+fbHotPlateAir_PulseCounter(
+	bImpulseSignal:= GVL_IO.bCompressedAirFlowImpulseHotPlate, 
+	rValuePerImpulse:= 0.03,
+	I_Sql := fbSB0JPL01_M1_Station,
+	bSaveCtr := GVL.bEnergyConsCtrSaveTrigger,
+	bCtrType_0Elec_1Air := TRUE);]]></ST>
+      </Implementation>
+    </Action>
     <LineIds Name="MAIN">
       <LineId Id="3" Count="28" />
       <LineId Id="404" Count="0" />
@@ -924,7 +952,9 @@ fbSA03_Station(
       <LineId Id="405" Count="0" />
       <LineId Id="33" Count="25" />
       <LineId Id="243" Count="0" />
-      <LineId Id="59" Count="24" />
+      <LineId Id="59" Count="23" />
+      <LineId Id="578" Count="0" />
+      <LineId Id="83" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="MAIN._OpisProgramu_Notatki">
@@ -1039,6 +1069,16 @@ fbSA03_Station(
     </LineIds>
     <LineIds Name="MAIN.ACT_SafetyBackupRestore">
       <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_SideAirMeasure">
+      <LineId Id="2" Count="4" />
+      <LineId Id="1" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="9" Count="4" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="16" Count="4" />
+      <LineId Id="15" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

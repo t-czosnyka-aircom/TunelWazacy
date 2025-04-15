@@ -4,6 +4,7 @@
     <Declaration><![CDATA[TYPE stModTcpCore_HmiData :
 STRUCT
 	arVisuHist						: ARRAY[0..GVL_ModbusTCP_Constants.iCommuniactionHistoryLimit] OF STRING;
+	arErrorHistory					: ARRAY[0..GVL_ModbusTCP_Constants.iCommunicationErrorHistory] OF STRING;
 	iAmoutOfPerformedCommunications	: DWORD;
 	iAmoutOfErrors					: DWORD;
 	iLastQue						: UINT;
