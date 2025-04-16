@@ -1166,7 +1166,7 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{1A289FD8-2FC0-4B29-B34F-E4BF25DBB957}" Name="LWLine" PrjFilePath="LWLine\LWLine.plcproj" TmcFilePath="LWLine\LWLine.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{60667BD8-C131-6920-08E4-F868E2F4983B}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{A991CEAA-9D89-86F3-593C-12C337699D1D}">
 					<Name>LWLine Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1" ContextId="1" AreaNo="16">
@@ -3716,6 +3716,10 @@ External Setpoint Generation:
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
+							<Name>GVL_IO.bS01_Result</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>GVL_IO.stS01_1_BearingPress_IO.bHomePosSensor</Name>
 							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
 							<Type>BOOL</Type>
@@ -3756,10 +3760,6 @@ External Setpoint Generation:
 						<Var>
 							<Name>GVL_IO.stS01_1_BearingPress_IO.wPressureSensStat</Name>
 							<Type>WORD</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bS01_Result</Name>
-							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bS01_Ready</Name>
@@ -3998,14 +3998,14 @@ S02]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60</Name>
-							<Comment><![CDATA[ linked to the EL6002 in the TwinCAT System Manager ]]></Comment>
-							<Type GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom">EL6inData22B</Type>
-						</Var>
-						<Var>
 							<Name>GVL_IO.b_2_SonicTech_EnergyConsumptionImp</Name>
 							<Comment><![CDATA[S04]]></Comment>
 							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60</Name>
+							<Comment><![CDATA[ linked to the EL6002 in the TwinCAT System Manager ]]></Comment>
+							<Type GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom">EL6inData22B</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.st_2_SonicTech_WeldingMachine_IO.bWeld_OK</Name>
@@ -5523,6 +5523,10 @@ S02]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
+							<Name>GVL_IO.bS01_Trigger</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>GVL_IO.stS01_1_BearingPress_IO.bPressGoDown_Q</Name>
 							<Comment><![CDATA[ Zezwolenie systemu na pracę zgrzewarki ultradźwiękoiwej]]></Comment>
 							<Type>BOOL</Type>
@@ -5535,10 +5539,6 @@ S02]]></Comment>
 						<Var>
 							<Name>GVL_IO.stS01_1_BearingPress_IO.iPressureToSet</Name>
 							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bS01_Trigger</Name>
-							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.stS02_1_BearingPress_IO.bPressGoDown_Q</Name>

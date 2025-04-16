@@ -9,7 +9,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	I_PimSystem					: I_PIM;
-	iModbusTcpCommunication 	: iModbusTcpCore;
+	I_ModbusTcpCommunication 	: I_ModbusTcpCore;
 	iWorkStep 					: INT;
 	bServiceReset				: BOOL;
 	stPimCommunicationData		: stPimMachineData;
@@ -144,7 +144,7 @@ ELSE
 END_IF
 IF rCommIntervalCounter >= stSlaveParms.rCommunicationCycleTime THEN
 		rCommIntervalCounter := 0;
-		nLastOperationStatus := iModbusTcpCommunication.mAddToQue(stCommParams:=stModbusTcpData);
+		nLastOperationStatus := I_ModbusTcpCommunication.mAddToQue(stCommParams:=stModbusTcpData);
 		stPimCommunicationData.bLifeBitPLC := NOT stPimCommunicationData.bLifeBitPLC;
 END_IF
 
@@ -192,12 +192,12 @@ VAR_INPUT
 	bInitRetains	: BOOL;
 	bInCopyCode 	: BOOL;
 	I_Pim			: I_PIM;
-	iModbusCore		: iModbusTcpCore;
+	I_ModbusCore	: I_ModbusTcpCore;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[I_PimSystem := I_Pim;
-iModbusTcpCommunication := iModbusCore;
+I_ModbusTcpCommunication := I_ModbusCore;
 stModbusTcpData.arRegisterReadArray := ADR(arReadArray);
 stModbusTcpData.arRegisterWriteArray := ADR(arWriteArray);
 ]]></ST>

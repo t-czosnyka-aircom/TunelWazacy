@@ -220,7 +220,7 @@
     <Compile Include="AircomLib\ModbusTCP\ModbusTCP_Core\DUTs\stModTcpQue.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AircomLib\ModbusTCP\ModbusTCP_Core\Interface\iModbusTcpCore.TcIO">
+    <Compile Include="AircomLib\ModbusTCP\ModbusTCP_Core\Interface\I_ModbusTcpCore.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AircomLib\ModbusTCP\ModbusTCP_Core\POUs\fbModTCP_Core.TcPOU">
@@ -299,6 +299,22 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AircomLib\UnderPressure\ChamberUnderpressure_V2\Visu\vUnderPressureFrame_V2.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="AircomLib\UnderPressure\UnderPressureChamber_V3\DUTs\nUnderPressureTestErrorCodes_V3.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AircomLib\UnderPressure\UnderPressureChamber_V3\DUTs\stUnderPressureTesterInOuts_V3.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AircomLib\UnderPressure\UnderPressureChamber_V3\DUTs\stUnderPressureTestParams_V3.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AircomLib\UnderPressure\UnderPressureChamber_V3\POUs\fbUnderPresureTester_V3.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AircomLib\UnderPressure\UnderPressureChamber_V3\VISUs\vUnderPressureFrame_V3.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
@@ -539,6 +555,10 @@
     <Folder Include="AircomLib\UnderPressure\ChamberUnderpressure_V2\FB" />
     <Folder Include="AircomLib\UnderPressure\ChamberUnderpressure_V2\Visu" />
     <Folder Include="AircomLib\UnderPressure\ChamberUnderpressure_V2\ST" />
+    <Folder Include="AircomLib\UnderPressure\UnderPressureChamber_V3" />
+    <Folder Include="AircomLib\UnderPressure\UnderPressureChamber_V3\DUTs" />
+    <Folder Include="AircomLib\UnderPressure\UnderPressureChamber_V3\VISUs" />
+    <Folder Include="AircomLib\UnderPressure\UnderPressureChamber_V3\POUs" />
     <Folder Include="DUTs" />
     <Folder Include="GVLs" />
     <Folder Include="AircomLib" />
