@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
-  <POU Name="fbSealingCorkAssKeyencePN" Id="{36873e46-dc2c-4a89-ae3b-3c50d9a932af}" SpecialFunc="None">
+  <POU Name="fbSealingCorkAssKeyencePN" Id="{a2e71178-4ee5-46d0-be3f-d542ea62a160}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC fbSealingCorkAssKeyencePN EXTENDS fbStFixBaseTemplate IMPLEMENTS I_Fixture 
 VAR_INPUT
 	bEnCheck:	BOOL;
@@ -13,7 +13,10 @@ VAR
 	I_Vision: I_VisionSensorSTD;
 	iTriggerRepeats: INT;
 	bErrorBVS: BOOL;
-	bSealingCorkOK: BOOL;
+	bOring 	: BOOL;
+	bCap		: BOOL;
+	bOringWidth : BOOL;
+	iDetecitonPick	: INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -49,13 +52,33 @@ CASE iWorkStep OF
 		END_IF
 		
 	12:		// Oczekiwanie na zakończenie detekcji
-		IF I_Vision.mNewInspection(bError => bErrorBVS, bOut1=> bSealingCorkOK, bOut2=>, bOut3 => ) THEN
+		IF I_Vision.mNewInspection(bError => bErrorBVS, bOut1=> bOring, bOut2=> bCap, bOut3 => bOringWidth) THEN
+			iDetecitonPick.0 := bOring;			//0-1
+			iDetecitonPick.1 := bCap;			//0-2
+			iDetecitonPick.2 := bOringWidth;	//0-4
 			IF NOT bErrorBVS THEN		// Balluff odpowiedział
-				IF bSealingCorkOK THEN		// Wszystko wykryte
+				IF bOring AND bCap AND bOringWidth THEN		// Wszystko wykryte
 					iWorkStep := 16;
 				ELSE		// NIe wyszystko wykryte
 					IF iTriggerRepeats >= iMaxTrigRepeats THEN		// Wykonano powtórne zdjęcie
-						mNewError(nSealingCorkAssKeyencePN_ErrorCodes.BadSealingCorkAssembly);
+						CASE iDetecitonPick OF
+							0:
+								mNewError(nSealingCorkAssKeyencePN_ErrorCodes.BadSealingCorkAssembly);
+							1:
+								mNewError(nSealingCorkAssKeyencePN_ErrorCodes.LackOfOring);
+							2:
+								mNewError(nSealingCorkAssKeyencePN_ErrorCodes.CapNotDetected);
+							3:
+								mNewError(nSealingCorkAssKeyencePN_ErrorCodes.CapNotDetectedAndNoOring);
+							4:
+								mNewError(nSealingCorkAssKeyencePN_ErrorCodes.WrongOringWidth);
+							5:
+								mNewError(nSealingCorkAssKeyencePN_ErrorCodes.BadSealingCorkAssembly);
+							6:
+								mNewError(nSealingCorkAssKeyencePN_ErrorCodes.WrongOringWidthAndCapNotDetected);
+							7:
+								mNewError(nSealingCorkAssKeyencePN_ErrorCodes.BadSealingCorkAssembly);
+						END_CASE
 					ELSE		// Wykonaj powtórne zdjęcie
 						iTriggerRepeats := iTriggerRepeats + 1;
 						fbTON(IN:= FALSE);
@@ -118,7 +141,13 @@ CASE iWorkStep OF
 END_CASE]]></ST>
     </Implementation>
     <LineIds Name="fbSealingCorkAssKeyencePN">
-      <LineId Id="3" Count="97" />
+      <LineId Id="3" Count="32" />
+      <LineId Id="118" Count="2" />
+      <LineId Id="36" Count="4" />
+      <LineId Id="122" Count="1" />
+      <LineId Id="125" Count="14" />
+      <LineId Id="124" Count="0" />
+      <LineId Id="42" Count="58" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.50" ClassName="CPnIoBoxDef" SubType="9121">
+<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.62" ClassName="CPnIoBoxDef" SubType="9121">
 	<DataTypes>
 		<DataType>
 			<Name GUID="{648E1ADD-8A97-162E-A6C9-11E594346289}">PN_Command_Control_Register0_1ED36D78</Name>
@@ -374,7 +374,7 @@ SW Release Version: 2.0]]></Comment>
 				<Type>UINT</Type>
 			</Var>
 		</Vars>
-		<Profinet DeviceId="4001" VendorId="509" FrameOffset="49152" IPAdd="0a0a0b0a" ProtocolType="3" BoxOnDeviceTyp="119" MaxPhysSlotNr="22" InstanceServerPort="50000" InstanceClientPort="50001" InstanceId="1" InstanceNumberOfARs="1" InstanceNumberOfAPIs="1" MinDeviceInterval="128" NrOfGsdmlDap="5" SavePnIoBoxValues="0100" Phase="1" WatchdogFaktor="3" ReductionRatio="4" SendClockFaktor="32" MaxInputLen="1440" MaxOutputLen="1440" SendClockFactorData="200040008000" RedRatio="0100020004000800100020004000800000010002" BoxTypeInfo="IV-HG Main Unit" PDOmapping="1" OutputErrorBehavior="2" GSDMLPath="$(TWINCAT3DIR)Config\Io\Profinet\GSDML-V2.3-Keyence-IV-20150804.xml" ImagePath="C:\TwinCAT\3.1\Config\Io\Profinet\GSDML-01FD-0FA1-IV-G.bmp" MainFamily="Sensors" ProductFamily="Keyence Vision Sensors" OrderNr="IV-HG10" DefaultDNSName="IV" VendorName="Keyence" FamDescription="IV Series Vision Sensor" GraphicFile="GSDML-01FD-0FA1-IV-G" SWVersion="2.0" HWVersion="1.0" AltLanguage="7">
+		<Profinet DeviceId="4001" VendorId="509" FrameOffset="49152" IPAdd="0a0a0b0a" ProtocolType="3" BoxOnDeviceTyp="119" MaxPhysSlotNr="22" AvailableSlots="0..22" InstanceServerPort="50000" InstanceClientPort="50001" InstanceId="1" InstanceNumberOfARs="1" InstanceNumberOfAPIs="1" MinDeviceInterval="128" NrOfGsdmlDap="5" SavePnIoBoxValues="0100" Phase="1" WatchdogFaktor="3" ReductionRatio="16" SendClockFaktor="32" MaxInputLen="1440" MaxOutputLen="1440" SendClockFactorData="200040008000" RedRatio="0100020004000800100020004000800000010002" BoxTypeInfo="IV-HG Main Unit" PDOmapping="1" OutputErrorBehavior="2" GSDMLPath="$(TWINCAT3DIR)Config\Io\Profinet\GSDML-V2.3-Keyence-IV-20150804.xml" ImagePath="C:\TwinCAT\3.1\Config\Io\Profinet\GSDML-01FD-0FA1-IV-G.bmp" MainFamily="Sensors" ProductFamily="Keyence Vision Sensors" OrderNr="IV-HG10" DefaultDNSName="IV" VendorName="Keyence" FamDescription="IV Series Vision Sensor" GraphicFile="GSDML-01FD-0FA1-IV-G" SWVersion="2.0" HWVersion="1.0" AltLanguage="7">
 			<UsedGsdmlModule ModuleIdentNumber="5" ModuleName="DAP Module" InfoText="IV-HG Main Unit" OrderNumber="IV-HG10">
 				<Slot>0</Slot>
 			</UsedGsdmlModule>
@@ -416,119 +416,119 @@ SW Release Version: 2.0]]></Comment>
 			</UsedGsdmlModule>
 			<UsedGsdmlSubModule SubSlotNumber="1" TypeOfSubmodule="3" Id="DIM 5" SubModuleName="IV-HG Main Unit" InfoText="IV-HG Main Unit"/>
 			<UsedGsdmlSubModule SubSlotNumber="1" TypeOfSubmodule="3" Id="1" SubModuleName="Command Control" InfoText="Command Controll device">
-				<DataItemOut Name="Command Control Register0" VarSize="16" VarType="{18071995-0000-0000-0000-000000000033}">
-					<BitText Offset="0" Length="1">Trigger</BitText>
-					<BitText Offset="1" Length="1">Register Image</BitText>
-					<BitText Offset="2" Length="1">Change Program</BitText>
-					<BitText Offset="3" Length="1">Clear Warning</BitText>
-					<BitText Offset="4" Length="1">Reset Statistics</BitText>
-					<BitText Offset="5" Length="1">Clear Buffer</BitText>
+				<DataItemOut>
+					<BitText Offset="0" Length="0">Trigger</BitText>
+					<BitText Offset="0" Length="0">Register Image</BitText>
+					<BitText Offset="0" Length="0">Change Program</BitText>
+					<BitText Offset="0" Length="0">Clear Warning</BitText>
+					<BitText Offset="0" Length="0">Reset Statistics</BitText>
+					<BitText Offset="0" Length="0">Clear Buffer</BitText>
 				</DataItemOut>
-				<DataItemOut Name="Command Control Register1" VarSize="16" VarType="{18071995-0000-0000-0000-000000000033}">
-					<BitText Offset="0" Length="1">Result Ready Ack</BitText>
+				<DataItemOut>
+					<BitText Offset="0" Length="0">Result Ready Ack</BitText>
 				</DataItemOut>
-				<DataItemOut Name="Program Number" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemOut Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemOut Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemOut Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemOut/>
+				<DataItemOut/>
+				<DataItemOut/>
+				<DataItemOut/>
 			</UsedGsdmlSubModule>
 			<UsedGsdmlSubModule SubSlotNumber="1" TypeOfSubmodule="3" Id="2" SubModuleName="Command Status Bits" InfoText="Command Status Bits">
-				<DataItemIn Name="Command Status Bits Register0" VarSize="16" VarType="{18071995-0000-0000-0000-000000000033}">
-					<BitText Offset="0" Length="1">Trigger Ack</BitText>
-					<BitText Offset="1" Length="1">Register Image Ack</BitText>
-					<BitText Offset="2" Length="1">Change Program Ack</BitText>
-					<BitText Offset="3" Length="1">Clear Warning Ack</BitText>
-					<BitText Offset="4" Length="1">Reset Statistics Ack</BitText>
-					<BitText Offset="5" Length="1">Clear Buffer Ack</BitText>
-					<BitText Offset="8" Length="1">Trigger Fail</BitText>
-					<BitText Offset="9" Length="1">Register Image Fail</BitText>
-					<BitText Offset="10" Length="1">Change Program Fail</BitText>
+				<DataItemIn>
+					<BitText Offset="0" Length="0">Trigger Ack</BitText>
+					<BitText Offset="0" Length="0">Register Image Ack</BitText>
+					<BitText Offset="0" Length="0">Change Program Ack</BitText>
+					<BitText Offset="0" Length="0">Clear Warning Ack</BitText>
+					<BitText Offset="0" Length="0">Reset Statistics Ack</BitText>
+					<BitText Offset="0" Length="0">Clear Buffer Ack</BitText>
+					<BitText Offset="0" Length="0">Trigger Fail</BitText>
+					<BitText Offset="0" Length="0">Register Image Fail</BitText>
+					<BitText Offset="0" Length="0">Change Program Fail</BitText>
 				</DataItemIn>
-				<DataItemIn Name="Command Status Bits Register1" VarSize="16" VarType="{18071995-0000-0000-0000-000000000033}">
-					<BitText Offset="0" Length="1">Result Ready</BitText>
-					<BitText Offset="1" Length="1">Complte Toggle</BitText>
-					<BitText Offset="2" Length="1">Busy</BitText>
-					<BitText Offset="3" Length="1">Imaging</BitText>
-					<BitText Offset="4" Length="1">Run</BitText>
-					<BitText Offset="5" Length="1">Ready</BitText>
-					<BitText Offset="13" Length="1">Buffer Overrun</BitText>
-					<BitText Offset="14" Length="1">Warning</BitText>
-					<BitText Offset="15" Length="1">Error</BitText>
+				<DataItemIn>
+					<BitText Offset="0" Length="0">Result Ready</BitText>
+					<BitText Offset="0" Length="0">Complte Toggle</BitText>
+					<BitText Offset="0" Length="0">Busy</BitText>
+					<BitText Offset="0" Length="0">Imaging</BitText>
+					<BitText Offset="0" Length="0">Run</BitText>
+					<BitText Offset="0" Length="0">Ready</BitText>
+					<BitText Offset="0" Length="0">Buffer Overrun</BitText>
+					<BitText Offset="0" Length="0">Warning</BitText>
+					<BitText Offset="0" Length="0">Error</BitText>
 				</DataItemIn>
 			</UsedGsdmlSubModule>
 			<UsedGsdmlSubModule SubSlotNumber="1" TypeOfSubmodule="3" Id="3" SubModuleName="Device Result Bits" InfoText="Device Result Bits">
-				<DataItemIn Name="Device Result Bits Register0" VarSize="16" VarType="{18071995-0000-0000-0000-000000000033}">
-					<BitText Offset="0" Length="1">Total Status</BitText>
-					<BitText Offset="1" Length="1">Pos. Adjust</BitText>
-					<BitText Offset="2" Length="1">Logic1</BitText>
-					<BitText Offset="3" Length="1">Logic2</BitText>
-					<BitText Offset="4" Length="1">Logic3</BitText>
-					<BitText Offset="5" Length="1">Logic4</BitText>
-					<BitText Offset="6" Length="1">Total Status NG</BitText>
+				<DataItemIn>
+					<BitText Offset="0" Length="0">Total Status</BitText>
+					<BitText Offset="0" Length="0">Pos. Adjust</BitText>
+					<BitText Offset="0" Length="0">Logic1</BitText>
+					<BitText Offset="0" Length="0">Logic2</BitText>
+					<BitText Offset="0" Length="0">Logic3</BitText>
+					<BitText Offset="0" Length="0">Logic4</BitText>
+					<BitText Offset="0" Length="0">Total Status NG</BitText>
 				</DataItemIn>
-				<DataItemIn Name="Device Result Bits Register1" VarSize="16" VarType="{18071995-0000-0000-0000-000000000033}">
-					<BitText Offset="0" Length="1">Tool1</BitText>
-					<BitText Offset="1" Length="1">Tool2</BitText>
-					<BitText Offset="2" Length="1">Tool3</BitText>
-					<BitText Offset="3" Length="1">Tool4</BitText>
-					<BitText Offset="4" Length="1">Tool5</BitText>
-					<BitText Offset="5" Length="1">Tool6</BitText>
-					<BitText Offset="6" Length="1">Tool7</BitText>
-					<BitText Offset="7" Length="1">Tool8</BitText>
-					<BitText Offset="8" Length="1">Tool9</BitText>
-					<BitText Offset="9" Length="1">Tool10</BitText>
-					<BitText Offset="10" Length="1">Tool11</BitText>
-					<BitText Offset="11" Length="1">Tool12</BitText>
-					<BitText Offset="12" Length="1">Tool13</BitText>
-					<BitText Offset="13" Length="1">Tool14</BitText>
-					<BitText Offset="14" Length="1">Tool15</BitText>
-					<BitText Offset="15" Length="1">Tool16</BitText>
+				<DataItemIn>
+					<BitText Offset="0" Length="0">Tool1</BitText>
+					<BitText Offset="0" Length="0">Tool2</BitText>
+					<BitText Offset="0" Length="0">Tool3</BitText>
+					<BitText Offset="0" Length="0">Tool4</BitText>
+					<BitText Offset="0" Length="0">Tool5</BitText>
+					<BitText Offset="0" Length="0">Tool6</BitText>
+					<BitText Offset="0" Length="0">Tool7</BitText>
+					<BitText Offset="0" Length="0">Tool8</BitText>
+					<BitText Offset="0" Length="0">Tool9</BitText>
+					<BitText Offset="0" Length="0">Tool10</BitText>
+					<BitText Offset="0" Length="0">Tool11</BitText>
+					<BitText Offset="0" Length="0">Tool12</BitText>
+					<BitText Offset="0" Length="0">Tool13</BitText>
+					<BitText Offset="0" Length="0">Tool14</BitText>
+					<BitText Offset="0" Length="0">Tool15</BitText>
+					<BitText Offset="0" Length="0">Tool16</BitText>
 				</DataItemIn>
 			</UsedGsdmlSubModule>
 			<UsedGsdmlSubModule SubSlotNumber="1" TypeOfSubmodule="3" Id="4" SubModuleName="Device Status Words" InfoText="Device Status Words">
-				<DataItemIn Name="Error Number" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Warning Number" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Rest Buffer" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Setting Checksum" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Current Program Number" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Result Program Number" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Result Number" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Process Time" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
 			</UsedGsdmlSubModule>
 			<UsedGsdmlSubModule SubSlotNumber="1" TypeOfSubmodule="3" Id="5" SubModuleName="Device Statistics" InfoText="Device Statistics">
-				<DataItemIn Name="Process Time Max" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Process Time Min" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Process Time Ave" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Trigger Count" VarSize="32" VarType="{18071995-0000-0000-0000-000000000008}"/>
-				<DataItemIn Name="OK Count" VarSize="32" VarType="{18071995-0000-0000-0000-000000000008}"/>
-				<DataItemIn Name="NG Count" VarSize="32" VarType="{18071995-0000-0000-0000-000000000008}"/>
-				<DataItemIn Name="Trigger Error Count" VarSize="32" VarType="{18071995-0000-0000-0000-000000000008}"/>
-				<DataItemIn Name="Reserve" VarSize="32" VarType="{18071995-0000-0000-0000-000000000008}"/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
 			</UsedGsdmlSubModule>
 			<UsedGsdmlSubModule SubSlotNumber="1" TypeOfSubmodule="3" Id="6" SubModuleName="Position Adjust Result" InfoText="Position Adjust Result ">
-				<DataItemIn Name="Score" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Score Max" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Score Min" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Lower Limit" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
 			</UsedGsdmlSubModule>
 			<UsedGsdmlSubModule SubSlotNumber="1" TypeOfSubmodule="3" Id="7" SubModuleName="Tool Result" InfoText="Tool Result ">
-				<DataItemIn Name="Score" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Score Max" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Score Min" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Lower Limit" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Upper Limit" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
-				<DataItemIn Name="Reserve" VarSize="16" VarType="{18071995-0000-0000-0000-000000000005}"/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
+				<DataItemIn/>
 			</UsedGsdmlSubModule>
 			<API Id="1">
 				<Name>API</Name>
@@ -647,7 +647,7 @@ Submodule Info: Command Status Bits
 								<BitOffs>32</BitOffs>
 							</Var>
 							<Var>
-								<Name>Command Status Bits Register1</Name>
+								<Name> </Name>
 								<Type GUID="{86DC9D85-20E3-FE48-C9E7-8D08E8FED35D}">PN_Command_Status_Bits_Register1_2DCAA447</Type>
 								<BitOffs>48</BitOffs>
 							</Var>

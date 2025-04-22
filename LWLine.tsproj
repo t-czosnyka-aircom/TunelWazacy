@@ -1139,13 +1139,13 @@ External Setpoint Generation:
 					<ManualSelect>{6952449D-F68C-49A2-ADE4-8639D85B33A4}</ManualSelect>
 					<ManualSelect>{A1AF8A04-C08D-4853-A5A0-0E6C3A278A8C}</ManualSelect>
 					<TargetSelect TargetId="2">{BF78CFC7-2E63-42C3-8C07-BB6C346BFB8B}</TargetSelect>
-					<TargetSelect TargetId="2">{92583661-35AE-45CE-BD4F-C35BFE16F07E}</TargetSelect>
-					<TargetSelect TargetId="2">{BCA6EE0A-9CE1-4D3F-98CA-413ABC0D94FD}</TargetSelect>
 					<TargetSelect TargetId="2">{66689887-CCBD-452C-AC9A-039D997C6E66}</TargetSelect>
+					<TargetSelect TargetId="2">{BCA6EE0A-9CE1-4D3F-98CA-413ABC0D94FD}</TargetSelect>
+					<TargetSelect TargetId="2">{92583661-35AE-45CE-BD4F-C35BFE16F07E}</TargetSelect>
 					<TargetSelect TargetId="2">{7AFD0713-1333-4A3B-938C-7B9BD0418C8D}</TargetSelect>
 					<TargetSelect TargetId="2">{6952449D-F68C-49A2-ADE4-8639D85B33A4}</TargetSelect>
-					<TargetSelect TargetId="2">{A1AF8A04-C08D-4853-A5A0-0E6C3A278A8C}</TargetSelect>
 					<TargetSelect TargetId="2">{520DE751-9DB6-47CB-8240-BD5C466E7E64}</TargetSelect>
+					<TargetSelect TargetId="2">{A1AF8A04-C08D-4853-A5A0-0E6C3A278A8C}</TargetSelect>
 					<LicenseDevice DongleHardwareId="2" DongleDevice="#x0302001a" DongleLevel="40" DongleSystemId="{E3103F76-3B3D-EBC6-C946-7D277F141827}" DongleSerialNumber="0100069988"/>
 				</Target>
 			</Licenses>
@@ -1166,7 +1166,7 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{1A289FD8-2FC0-4B29-B34F-E4BF25DBB957}" Name="LWLine" PrjFilePath="LWLine\LWLine.plcproj" TmcFilePath="LWLine\LWLine.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{A991CEAA-9D89-86F3-593C-12C337699D1D}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{EB22A3F8-6A0B-073E-A2C1-08822C986C36}">
 					<Name>LWLine Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1" ContextId="1" AreaNo="16">
@@ -7030,7 +7030,7 @@ S02]]></Comment>
 				<Link VarA="PlcTask Outputs^GVL_IO.stS04_1_BearingPress_IO.iPressureToSet" VarB="AO Standard (INT16) Ch.3^Value"/>
 			</OwnerB>
 			<OwnerB Name="TIID^ProfiNet (EL6631)^kc-b02pl-s01">
-				<Link VarA="PlcTask Inputs^GVL_IO.bS01_Ready" VarB="API^Term 3 (Command Status Bits)^Subterm 5 (Command Status Bits)^Inputs^Command Status Bits Register1^Ready"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.bS01_Ready" VarB="API^Term 3 (Command Status Bits)^Subterm 5 (Command Status Bits)^Inputs^ ^Ready"/>
 				<Link VarA="PlcTask Inputs^GVL_IO.bS01_Result" VarB="API^Term 4 (Device Result Bits)^Subterm 6 (Device Result Bits)^Inputs^Device Result Bits Register0^Total_Status"/>
 				<Link VarA="PlcTask Inputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.uiDevStat_ConfCRC" VarB="API^Term 5 (Device Status Words)^Subterm 7 (Device Status Words)^Inputs^Setting Checksum"/>
 				<Link VarA="PlcTask Inputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.uiDevStat_CurrentProgNb" VarB="API^Term 5 (Device Status Words)^Subterm 7 (Device Status Words)^Inputs^Current Program Number"/>
@@ -7045,6 +7045,7 @@ S02]]></Comment>
 				<Link VarA="PlcTask Inputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.uiPosAdj_ScoreMax" VarB="API^Term 7 (Position Adjust Result)^Subterm 9 (Position Adjust Result)^Inputs^Score Max"/>
 				<Link VarA="PlcTask Inputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.uiPosAdj_ScoreMin" VarB="API^Term 7 (Position Adjust Result)^Subterm 9 (Position Adjust Result)^Inputs^Score Min"/>
 				<Link VarA="PlcTask Inputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.wCmdStatusBits_Reg0" VarB="API^Term 3 (Command Status Bits)^Subterm 5 (Command Status Bits)^Inputs^Command Status Bits Register0"/>
+				<Link VarA="PlcTask Inputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.wCmdStatusBits_Reg1" VarB="API^Term 3 (Command Status Bits)^Subterm 5 (Command Status Bits)^Inputs^ "/>
 				<Link VarA="PlcTask Inputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.wDevResultBits_Reg0" VarB="API^Term 4 (Device Result Bits)^Subterm 6 (Device Result Bits)^Inputs^Device Result Bits Register0"/>
 				<Link VarA="PlcTask Inputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.wDevResultBits_Reg1" VarB="API^Term 4 (Device Result Bits)^Subterm 6 (Device Result Bits)^Inputs^Device Result Bits Register1"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.uiProgNbToSet" VarB="API^Term 2 (Command Control)^Subterm 4 (Command Control)^Outputs^Program Number"/>
