@@ -342,7 +342,7 @@ fb_Filler_A_Station(
 
 //GVL.st_Filler_A_MachineParams.bPartsCount := FALSE;
 
-fb_Filler_A_Machine(stSlaveParms:=GVL.st_Filler_A_Parameters);
+fb_Filler_A_Machine(stSlaveParms:=GVL.st_Filler_A_Parameters,bNextMachineWork := TRUE);
 ]]></ST>
       </Implementation>
     </Action>
@@ -374,7 +374,7 @@ fb_Cork_Station(
 					//bNextMachineWork:= TRUE);
 //GVL.st_Cork_MachineParams.bPartsCount := TRUE;
 
-fb_Cork_Machine(stSlaveParms:=GVL.st_Cork_Parameters);]]></ST>
+fb_Cork_Machine(stSlaveParms:=GVL.st_Cork_Parameters,bNextMachineWork := TRUE);]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_3_SonicTech" Id="{30c87799-64fb-44e6-8866-0dc93cda5dae}">
@@ -432,7 +432,7 @@ fb_Filler_B_Station(
 					//bNextMachineWork:= TRUE);
 //GVL.st_Filler_B_MachineParams.bPartsCount := TRUE;
 
-fb_Filler_B_Machine(stSlaveParms:=GVL.st_Filler_B_Parameters);]]></ST>
+fb_Filler_B_Machine(stSlaveParms:=GVL.st_Filler_B_Parameters,bNextMachineWork := TRUE);]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_5_SonicTech" Id="{aaedd41b-4c6a-4af6-8ba2-f869272c70f3}">
@@ -523,7 +523,7 @@ fb_Sticker_Station(
 					bNextMachineWork:= NOT GVL.st_Sticker_MachineSettings.stPimData.bError);
 GVL.st_Sticker_MachineParams.bPartsCount := FALSE;*)
 
-fb_Sticker_Machine(stSlaveParms:=GVL.st_Sticker_Parameters);]]></ST>
+fb_Sticker_Machine(stSlaveParms:=GVL.st_Sticker_Parameters,bNextMachineWork :=fb_Laser_Machine.stPimCommunicationData.bWorkInProgress);]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_8_Laser" Id="{dfdb2487-bbf0-4474-a109-bc6a5d8e79f1}">
@@ -553,7 +553,7 @@ fb_Laser_Station(
 					bNextMachineWork:= TRUE);
 GVL.st_Laser_MachineParams.bPartsCount := TRUE;*)
 
-fb_Laser_Machine(stSlaveParms:=GVL.st_Laser_Parameters);]]></ST>
+fb_Laser_Machine(stSlaveParms:=GVL.st_Laser_Parameters,bNextMachineWork := fb_Tunel_Machine.I_PimSystem.prWorkPermission);]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_9_Tunel" Id="{1c00eae3-0be1-4ab8-8ed3-070e2bcadbb0}">

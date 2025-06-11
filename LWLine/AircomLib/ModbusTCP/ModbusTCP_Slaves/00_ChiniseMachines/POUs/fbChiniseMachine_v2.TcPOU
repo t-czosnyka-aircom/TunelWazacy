@@ -4,6 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK fbChiniseMachine_v2 IMPLEMENTS I_StationMachine
 VAR_INPUT
 	stSlaveParms				: stModTcpSlaveParams;
+	bNextMachineWork			: BOOL;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -99,7 +100,7 @@ stModbusTcpData.iRegisterReadStartAdress	:= stSlaveParms.iRegisterReadStartAdres
 stModbusTcpData.iRegisterWriteStartAdress	:= stSlaveParms.iRegisterWriteStartAdress;
 //Rewrite signals from PIM System
 //stMachineModbusParams.stPimData.bOfflineWorkAllow :=FALSE;
-stPimCommunicationData.bStopPerform:=I_PimSystem.prPimBlockWork;
+stPimCommunicationData.bStopPerform:=NOT bNextmachineWork;
 stPimCommunicationData.bTestMode:=I_PimSystem.prTestMode;
 stPimCommunicationData.bWaitWithWork:=I_PimSystem.prPlcBlockWork;
 stPimCommunicationData.bWorkAllow:=I_PimSystem.prWorkPermission ;
@@ -167,11 +168,11 @@ IF stPimCommunicationData.bError AND iWorkStep < 90 AND stSlaveParms.bCommunicat
 END_IF
 
 //Zabezpieczenie przed błędami w odczycie części do liczenia
-IF ABS(iLastPartsRecord - stPimCommunicationData.wGoodPartsAmount) > 5  THEN
+IF (stPimCommunicationData.wGoodPartsAmount - iLastPartsRecord) > 5  OR (stPimCommunicationData.wGoodPartsAmount - iLastPartsRecord) < 0 THEN
 	iLastPartsRecord := stPimCommunicationData.wGoodPartsAmount;
 END_IF
 //Parts reset
-IF stPimCommunicationData.wGoodPartsAmount = 0 THEN
+IF stPimCommunicationData.wGoodPartsAmount = 0  THEN
 	iLastPartsRecord := 0;
 END_IF
 

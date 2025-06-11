@@ -1166,7 +1166,7 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{1A289FD8-2FC0-4B29-B34F-E4BF25DBB957}" Name="LWLine" PrjFilePath="LWLine\LWLine.plcproj" TmcFilePath="LWLine\LWLine.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{EB22A3F8-6A0B-073E-A2C1-08822C986C36}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{290E3FB9-554A-B815-5162-BC4E031A1ED5}">
 					<Name>LWLine Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1" ContextId="1" AreaNo="16">
@@ -3716,10 +3716,6 @@ External Setpoint Generation:
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_IO.bS01_Result</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
 							<Name>GVL_IO.stS01_1_BearingPress_IO.bHomePosSensor</Name>
 							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
 							<Type>BOOL</Type>
@@ -3762,12 +3758,21 @@ External Setpoint Generation:
 							<Type>WORD</Type>
 						</Var>
 						<Var>
+							<Name>GVL_IO.bS01_Result</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>GVL_IO.bS01_Ready</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bS02_EnergyConsumptionImp</Name>
 							<Comment><![CDATA[ S02	- ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bS03_EnergyConsumptionImp</Name>
+							<Comment><![CDATA[ S03 - ]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -3813,16 +3818,6 @@ External Setpoint Generation:
 							<Type>WORD</Type>
 						</Var>
 						<Var>
-							<Name>GVL_IO.bS03_EnergyConsumptionImp</Name>
-							<Comment><![CDATA[ S03 - ]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bS04_EnergyConsumptionImp</Name>
-							<Comment><![CDATA[ S04 - ]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
 							<Name>GVL_IO.stS03_1_BearingPress_IO.bHomePosSensor</Name>
 							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
 							<Type>BOOL</Type>
@@ -3865,6 +3860,16 @@ External Setpoint Generation:
 							<Type>WORD</Type>
 						</Var>
 						<Var>
+							<Name>GVL_IO.bS04_EnergyConsumptionImp</Name>
+							<Comment><![CDATA[ S04 - ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bSxxA_EnergyConsumptionImp</Name>
+							<Comment><![CDATA[ Sxx Plug A - ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>GVL_IO.stS04_1_BearingPress_IO.bHomePosSensor</Name>
 							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
 							<Type>BOOL</Type>
@@ -3905,11 +3910,6 @@ External Setpoint Generation:
 						<Var>
 							<Name>GVL_IO.stS04_1_BearingPress_IO.wPressureSensStat</Name>
 							<Type>WORD</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bSxxA_EnergyConsumptionImp</Name>
-							<Comment><![CDATA[ Sxx Plug A - ]]></Comment>
-							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.stSxxA_1_PlugAWelder_IO.bWeld_OK</Name>
@@ -7030,7 +7030,6 @@ S02]]></Comment>
 				<Link VarA="PlcTask Outputs^GVL_IO.stS04_1_BearingPress_IO.iPressureToSet" VarB="AO Standard (INT16) Ch.3^Value"/>
 			</OwnerB>
 			<OwnerB Name="TIID^ProfiNet (EL6631)^kc-b02pl-s01">
-				<Link VarA="PlcTask Inputs^GVL_IO.bS01_Ready" VarB="API^Term 3 (Command Status Bits)^Subterm 5 (Command Status Bits)^Inputs^ ^Ready"/>
 				<Link VarA="PlcTask Inputs^GVL_IO.bS01_Result" VarB="API^Term 4 (Device Result Bits)^Subterm 6 (Device Result Bits)^Inputs^Device Result Bits Register0^Total_Status"/>
 				<Link VarA="PlcTask Inputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.uiDevStat_ConfCRC" VarB="API^Term 5 (Device Status Words)^Subterm 7 (Device Status Words)^Inputs^Setting Checksum"/>
 				<Link VarA="PlcTask Inputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.uiDevStat_CurrentProgNb" VarB="API^Term 5 (Device Status Words)^Subterm 7 (Device Status Words)^Inputs^Current Program Number"/>
@@ -7045,7 +7044,7 @@ S02]]></Comment>
 				<Link VarA="PlcTask Inputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.uiPosAdj_ScoreMax" VarB="API^Term 7 (Position Adjust Result)^Subterm 9 (Position Adjust Result)^Inputs^Score Max"/>
 				<Link VarA="PlcTask Inputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.uiPosAdj_ScoreMin" VarB="API^Term 7 (Position Adjust Result)^Subterm 9 (Position Adjust Result)^Inputs^Score Min"/>
 				<Link VarA="PlcTask Inputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.wCmdStatusBits_Reg0" VarB="API^Term 3 (Command Status Bits)^Subterm 5 (Command Status Bits)^Inputs^Command Status Bits Register0"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.wCmdStatusBits_Reg1" VarB="API^Term 3 (Command Status Bits)^Subterm 5 (Command Status Bits)^Inputs^ "/>
+				<Link VarA="PlcTask Inputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.wCmdStatusBits_Reg1" VarB="API^Term 3 (Command Status Bits)^Subterm 5 (Command Status Bits)^Inputs^Command Status Bits Register1"/>
 				<Link VarA="PlcTask Inputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.wDevResultBits_Reg0" VarB="API^Term 4 (Device Result Bits)^Subterm 6 (Device Result Bits)^Inputs^Device Result Bits Register0"/>
 				<Link VarA="PlcTask Inputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.wDevResultBits_Reg1" VarB="API^Term 4 (Device Result Bits)^Subterm 6 (Device Result Bits)^Inputs^Device Result Bits Register1"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.uiProgNbToSet" VarB="API^Term 2 (Command Control)^Subterm 4 (Command Control)^Outputs^Program Number"/>

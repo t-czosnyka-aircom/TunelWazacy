@@ -27,6 +27,7 @@ VAR
 	bBottleMassToLow	: BOOL;
 	bBottleWrongCRing	: BOOL;
 	bBottleLackOfCRing	: BOOL;
+	bLackOfBottle		: BOOL;
 	byDetectionStatus	: BYTE;
 	fbDetectionWaitTimer: TON;
 	fbWaitForStart		: TON;
@@ -55,11 +56,11 @@ fbVisionSensor(stIo_Data:=stInOuts.stCognex);
 
 //Load Cell Filter
 //--------------------------------------------------------------------------------------------
-fbLoadFiler(rIn := stInOuts.stLoadCell.rValue, tTimeConstant := T#150MS);
+fbLoadFiler(rIn := stInOuts.stLoadCell.rValue, tTimeConstant := T#100MS);
 stInOuts.rLoadCell := ActualWeight;
 fbTON_ForceSampling(IN:= NOT fbTON_ForceSampling.Q, PT:= T#30MS);
 IF fbTON_ForceSampling.Q THEN
-	fbTON_ForceStable(IN:= ABS(rLastForceMeasure-ActualWeight)< MAX(0.5,ActualWeight*0.02), PT:= INT_TO_TIME(stParams.iForceStabilTime));
+	fbTON_ForceStable(IN:= ABS(rLastForceMeasure-ActualWeight)< MAX(0.5,ActualWeight*0.01), PT:= INT_TO_TIME(stParams.iForceStabilTime));
 	rLastForceMeasure := ActualWeight;
 END_IF
 
@@ -67,7 +68,7 @@ END_IF
 //--------------------------------------------------------------------------------------------
 IF stInOuts.bTarePerform THEN
 	IF fbTON_ForceStable.Q THEN
-		rLoadOffset := rLoadOffset + ActualWeight;
+		rLoadOffset := ActualWeight;
 		stInOuts.bTarePerform := FALSE;
 	ELSE
 		IF fbTON_TareTimeout.Q THEN
@@ -137,9 +138,12 @@ CASE iWorkStep OF
 				ELSIF stInOuts.stCognex.bInOut2 THEN
 					bBottleWrongCRing := TRUE;
 					iWorkStep := 20;
-				//ELSE
-					//bBottleLackOfCRing := TRUE;
-					//iWorkStep := 20;
+				ELSIF stInOuts.stCognex.bInOut3 THEN
+					bBottleLackOfCRing := TRUE;
+					iWorkStep := 20;
+				ELSIF NOT stInOuts.stCognex.bIn1 AND NOT stInOuts.stCognex.bInOut2 AND NOT stInOuts.stCognex.bInOut3 THEN
+					bLackOfBottle := TRUE;
+					iWorkStep := 20;
 				END_IF
 			ELSIF stParams.bOrangeExpected THEN
 				IF stInOuts.stCognex.bIn1 THEN
@@ -147,9 +151,12 @@ CASE iWorkStep OF
 					iWorkStep := 20;
 				ELSIF stInOuts.stCognex.bInOut2 THEN
 					iWorkStep := 20;
-				//ELSE
-					//bBottleLackOfCRing := TRUE;
-					//iWorkStep := 20;
+				ELSIF stInOuts.stCognex.bInOut3 THEN
+					bBottleLackOfCRing := TRUE;
+					iWorkStep := 20;
+				ELSIF NOT stInOuts.stCognex.bIn1 AND NOT stInOuts.stCognex.bInOut2 AND NOT stInOuts.stCognex.bInOut3 THEN
+					bLackOfBottle := TRUE;
+					iWorkStep := 20;
 				END_IF
 			END_IF
 		END_IF
@@ -217,6 +224,7 @@ CASE iWorkStep OF
 			byDetectionStatus.1 := bBottleLackOfCRing;			//+2
 			byDetectionStatus.2 := bBottleMassToLow;			//+4
 			byDetectionStatus.3 := bBottleMassToHigh;			//+8
+			byDetectionStatus.4 := bLackOfBottle;				//+16
 			CASE byDetectionStatus OF
 				0:	//Nic
 					
@@ -249,7 +257,13 @@ CASE iWorkStep OF
 				14:	//Bottle mass to high + Bottle mass to low + Wrong C Ring - nie wsytapi
 				
 				15:	//Bottle mass to high + Bottle mass to low + Wrong C Ring + Lack of C Ring - nie wsytapi*)
-	
+				16: //Bottle not detected
+					mNewEvent(nEventClass := nPIM_EventClasses.Error, nEvent:= nDetectionTunelErrorCodes.bottleNoBottleDetected);
+				20: //Bottle not tetected + Bottle mass too Low
+					mNewEvent(nEventClass := nPIM_EventClasses.Error, nEvent:= nDetectionTunelErrorCodes.bottleMassLowAndNoBottleDetected);
+				24: //Bottle not tetected + Bottle mass too High
+					mNewEvent(nEventClass := nPIM_EventClasses.Error, nEvent:= nDetectionTunelErrorCodes.bottleMassHighAndNoBottleDetected);
+				
 			END_CASE
 			bBottleWrongCRing := bBottleLackOfCRing := bBottleMassToLow := bBottleMassToHigh := FALSE;
 		END_IF
@@ -343,7 +357,23 @@ END_IF]]></ST>
       <LineId Id="264" Count="0" />
       <LineId Id="4" Count="19" />
       <LineId Id="297" Count="0" />
-      <LineId Id="24" Count="205" />
+      <LineId Id="24" Count="79" />
+      <LineId Id="330" Count="1" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="337" Count="1" />
+      <LineId Id="336" Count="0" />
+      <LineId Id="107" Count="9" />
+      <LineId Id="332" Count="2" />
+      <LineId Id="117" Count="66" />
+      <LineId Id="339" Count="0" />
+      <LineId Id="184" Count="32" />
+      <LineId Id="344" Count="0" />
+      <LineId Id="340" Count="0" />
+      <LineId Id="343" Count="0" />
+      <LineId Id="342" Count="0" />
+      <LineId Id="345" Count="0" />
+      <LineId Id="341" Count="0" />
+      <LineId Id="217" Count="12" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="fbDetectionTunel.ActualWeight.Get">
