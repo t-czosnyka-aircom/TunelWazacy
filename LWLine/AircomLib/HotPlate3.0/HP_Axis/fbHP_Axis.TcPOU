@@ -406,7 +406,7 @@ CASE iWorkStep_Axis OF
 		END_IF
 		
 	90:	// Go to Safe position
-		McMoveAbs.Execute := McMoveRel.Execute := McStop.Execute := FALSE;
+		McMoveVelocity.Execute := McMoveAbs.Execute := McMoveRel.Execute := McStop.Execute := FALSE;
 		iWorkStep_Axis := 92;		// Domyślnie tylko wyłącz napęd
 		IF Enabled AND NOT stInOuts.stAxis_Data.Status.Error AND (IsHomed AND ActualPosition > 20) THEN// AND (bTouchingHP OR (ActualForce > 20 AND NOT bTaring) ) THEN	// Drive homed, ready and position is greather than load position - reverse fixture
 			PartClamp := TRUE;
@@ -732,6 +732,7 @@ CASE iWorkStep_Alghorithm OF
 			McMoveVelocity.Execute := TRUE;
 		END_IF
 		IF fbTON_WorkStepTime_Alg.Q THEN
+			McMoveVelocity.Execute := FALSE;
 			mNewEvent(nEvent:= nHP_Axis_ErrorList.AdjustmentContactDetectionTimeout, ErrorCode := INT_TO_UDINT(iWorkStep_Alghorithm));
 		END_IF
 		
@@ -1726,7 +1727,9 @@ END_VAR
     <LineIds Name="fbHP_Axis.ACT_WeldingAlghorithm">
       <LineId Id="2" Count="91" />
       <LineId Id="407" Count="0" />
-      <LineId Id="94" Count="312" />
+      <LineId Id="94" Count="23" />
+      <LineId Id="409" Count="0" />
+      <LineId Id="118" Count="288" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="fbHP_Axis.ActualForce.Get">

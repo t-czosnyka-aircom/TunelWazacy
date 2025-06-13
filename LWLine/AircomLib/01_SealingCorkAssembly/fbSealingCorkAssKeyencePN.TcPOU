@@ -53,9 +53,9 @@ CASE iWorkStep OF
 		
 	12:		// Oczekiwanie na zakończenie detekcji
 		IF I_Vision.mNewInspection(bError => bErrorBVS, bOut1=> bOring, bOut2=> bCap, bOut3 => bOringWidth) THEN
-			iDetecitonPick.0 := bOring;			//0-1
-			iDetecitonPick.1 := bCap;			//0-2
-			iDetecitonPick.2 := bOringWidth;	//0-4
+			iDetecitonPick.0 := NOT bOring;			//0-1
+			iDetecitonPick.1 := NOT bCap;			//0-2
+			iDetecitonPick.2 := NOT bOringWidth;	//0-4
 			IF NOT bErrorBVS THEN		// Balluff odpowiedział
 				IF bOring AND bCap AND bOringWidth THEN		// Wszystko wykryte
 					iWorkStep := 16;
@@ -73,7 +73,7 @@ CASE iWorkStep OF
 							4:
 								mNewError(nSealingCorkAssKeyencePN_ErrorCodes.WrongOringWidth);
 							5:
-								mNewError(nSealingCorkAssKeyencePN_ErrorCodes.BadSealingCorkAssembly);
+								mNewError(nSealingCorkAssKeyencePN_ErrorCodes.LackOfOring);
 							6:
 								mNewError(nSealingCorkAssKeyencePN_ErrorCodes.WrongOringWidthAndCapNotDetected);
 							7:
