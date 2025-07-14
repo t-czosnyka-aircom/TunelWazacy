@@ -173,13 +173,7 @@ SafetyBackupRestore();
 // Alarmowanie - tablica alarmów (GVL.fbErrorsHistoryTable) jest obsługiwana poprzez metody - funkcja nie musi być wywoływana
 GVL.bLogDataTrigger := GVL_Aircom.stAC_DT_Data.bNew_Second_IMP;
 
-// Obsługa nowego systemu PIM
-GVL.fbSqlCore(bEnable:= GVL_Aircom.bInitDone, 
-	iMaxActiveNodesNb := iMaxSimCmdNumber, 
-	bKeepConnOpen := bKeepSQLConnected, 
-	iResendNbIfError:= 2,
-	tCommTimeout := T#6S,
-	bMasterError=> );
+
 GVL.fbUserLogin(tLogoutTime := T#32M);
 
 
@@ -785,8 +779,7 @@ fbS01_KeyencePNVisSens(
 	bQError=> , 
 	bQAlarm=> , 
 	nQErrorId=> , 
-	bEnCheck:= , 
-	iMaxTrigRepeats:= );
+	stParams := );
 	
 IF bTrigger THEN
 	GVL_IO.bS01_Trigger := TRUE;
@@ -947,7 +940,8 @@ fbHotPlateAir_PulseCounter(
       </Implementation>
     </Action>
     <LineIds Name="MAIN">
-      <LineId Id="3" Count="28" />
+      <LineId Id="3" Count="5" />
+      <LineId Id="15" Count="16" />
       <LineId Id="404" Count="0" />
       <LineId Id="32" Count="0" />
       <LineId Id="405" Count="0" />
@@ -1045,7 +1039,8 @@ fbHotPlateAir_PulseCounter(
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_S01">
-      <LineId Id="2" Count="42" />
+      <LineId Id="2" Count="34" />
+      <LineId Id="38" Count="6" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_S02">

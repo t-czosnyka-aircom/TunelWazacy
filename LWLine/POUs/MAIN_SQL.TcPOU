@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="MAIN_SQL" Id="{47b3d3cd-ccf1-479b-867b-fba47a74ead5}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN_SQL
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Obsługa nowego systemu PIM
+GVL.fbSqlCore(bEnable:= GVL_Aircom.bInitDone, 
+	iMaxActiveNodesNb := MAIN.iMaxSimCmdNumber, 
+	bKeepConnOpen := MAIN.bKeepSQLConnected, 
+	iResendNbIfError:= 2,
+	tCommTimeout := T#6S,
+	bMasterError=> );]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN_SQL">
+      <LineId Id="6" Count="5" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

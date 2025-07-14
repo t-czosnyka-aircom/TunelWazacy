@@ -26,6 +26,9 @@
     <Compile Include="AircomLib\01_SealingCorkAssembly\nSealingCorkAssKeyencePN_ErrorCodes.TcTLEO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AircomLib\01_SealingCorkAssembly\stKeyenceInspectionParams.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="AircomLib\DetectionTunel\FB\fbDetectionTunel.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -174,6 +177,16 @@
     </Compile>
     <Compile Include="AircomLib\LoadCell\stLoadCell_InOutsData.TcDUT">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AircomLib\MachineCycleCounter\fbMachineCycleCounter.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AircomLib\MachineCycleCounter\stResetHistory.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AircomLib\MachineCycleCounter\vMachineCycleCounter_V2.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
     <Compile Include="AircomLib\ModbusTCP\ModbusTCP_Slaves\00_ChiniseMachines\DUTs\nBoolRegisterForPIM.TcDUT">
       <SubType>Code</SubType>
@@ -336,6 +349,9 @@
     <Compile Include="FastTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FastTask_SQL.TcTTO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GlobalTextList.TcGTLO">
       <SubType>Code</SubType>
     </Compile>
@@ -414,6 +430,9 @@
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\MAIN_SQL.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\SafetyBackupRestore.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -434,6 +453,10 @@
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
     <Compile Include="VISUs\Common\SonicPress\SubFrame\vSonicPress_SubStatus.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="VISUs\Common\SonicPress\SubFrame\vSonicPress_SubVision.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
@@ -492,11 +515,6 @@
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
-    <Compile Include="VISUs\MainScreens\vFrameFillingLine_2.TcVIS">
-      <SubType>Code</SubType>
-      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
-      <ExcludeFromBuild>true</ExcludeFromBuild>
-    </Compile>
     <Compile Include="VISUs\MainScreens\vGlobalSettings.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
@@ -504,11 +522,6 @@
     <Compile Include="VISUs\MainScreens\vS01_04.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
-    </Compile>
-    <Compile Include="VISUs\MainScreens\vFrameFillingLine_1.TcVIS">
-      <SubType>Code</SubType>
-      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
-      <ExcludeFromBuild>true</ExcludeFromBuild>
     </Compile>
     <Compile Include="VISU_TASK.TcTTO">
       <SubType>Code</SubType>
@@ -530,6 +543,7 @@
     <Folder Include="AircomLib\DetectionTunel" />
     <Folder Include="AircomLib\CardrigeUnderPressure_V1" />
     <Folder Include="AircomLib\KeyenceProfinetTest" />
+    <Folder Include="AircomLib\MachineCycleCounter" />
     <Folder Include="AircomLib\ModbusTCP\ModbusTCP_Slaves" />
     <Folder Include="AircomLib\ModbusTCP\ModbusTCP_Slaves\00_ChiniseMachines" />
     <Folder Include="AircomLib\ModbusTCP\ModbusTCP_Slaves\00_ChiniseMachines\DUTs" />
@@ -784,6 +798,11 @@
     <None Include="LWLine.tmc">
       <SubType>Content</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PlaceholderResolution Include="System_VisuElemBase">
+      <Resolution>VisuElemBase, 3.5.13.40 (System)</Resolution>
+    </PlaceholderResolution>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

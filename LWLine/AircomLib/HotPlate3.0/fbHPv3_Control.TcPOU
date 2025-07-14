@@ -16,7 +16,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	stInOuts					: stHPv3_InOuts;		// In/out signals
-		
+	fbCoverCounter				: fbMachineCycleCounter;	
 	// Axis data	------------------------------------------------------------------------------------------------
 	fbAxisUp					: fbHP_Axis;
 	fbAxisDn					: fbHP_Axis;
@@ -120,10 +120,13 @@ VAR
 	iFanCyclesCtr: INT;
 	bWorkCoverOpened: BOOL;
 	bArm_Safety: BOOL;
+	fbCoverCloseTrigger	: R_TRIG;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[	(* To do
+      <ST><![CDATA[//cover cycle Counter
+fbCoverCounter(stTimeStruct:=GVL_Aircom.stAC_DT_Data,iMaximalOperations:=100000);
+	(* To do
 - Kontrola pozycjonowania osi
 - Alarmy
  
@@ -439,6 +442,7 @@ CASE iWorkStep OF
 				iFanCyclesCtr := iFanCyclesCtr +1;
 			END_IF
 			I_PimSystem.mSetNewMachineState(nPIM_MachineStates._5_OperationEndedOK);
+			fbCoverCounter.mCalcCycle();
 			IF stMachSettings.bPartMarking_EN AND bMarkingAsembled THEN
 				bAxisUp_GoToEnded := bAxisDn_GoToEnded := FALSE; 
 				iWorkStep := 30;	
@@ -756,6 +760,7 @@ CASE iWorkStep OF
 			bAxisUp_GoToSafeHPM := bAxisDn_GoToSafeHPM := FALSE;
 			bAxisUp_ResetEnded := bAxisDn_ResetEnded := FALSE;
 			stInOuts.bQ_Sft_ErrAck := bServiceReset := FALSE;
+			fbCoverCounter.mResetWarning();
 			IF bManualMode THEN
 				iWorkStep := 92;
 			ELSE
@@ -946,7 +951,27 @@ A_LightTower();]]></ST>
     <Folder Name="Properties" Id="{7f112f74-16ba-4b8e-9a85-d829dfd4b3b2}" />
     <Action Name="A_BackgroundTasks" Id="{34607de9-1cce-4190-8b8a-6ff1bbc70026}">
       <Implementation>
-        <ST><![CDATA[// General signals
+        <ST><![CDATA[
+
+IF iWorkStep = 10 AND fbCoverCounter.pError THEN
+	mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList._691_CoverCyclesExcesed);
+END_IF
+
+IF fbCoverCounter.pWarning THEN
+	IF fbCoverCounter.iMakedOperations > 98500 THEN
+		mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList._694_CoverCycles1_5kToLimit);
+	ELSIF fbCoverCounter.iMakedOperations > 95000 THEN
+		mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList._693_CoverCycles5kToLimit);
+	ELSIF fbCoverCounter.iMakedOperations > 90000 THEN
+		mNewEvent(nEventClass:= nPIM_EventClasses.Error, nEvent := nHPv3_ErrorList._692_CoverCycles10kToLimit);
+	END_IF
+END_IF
+fbCoverCloseTrigger(CLK:=stInOuts.bI_Sft_WorkCoverClosed);
+IF fbCoverCloseTrigger.Q THEN
+	fbCoverCounter.mCalcOperation();
+END_IF
+
+// General signals
 fbTOF_WorkCoverClosed(IN:= stInOuts.bI_Sft_WorkCoverClosed, PT:= T#400MS);
 iMachineNumber := I_PimSystem.prMachNumber;
 fbTON_STO(IN:= stInOuts.bI_Sft_STO, PT:= T#10MS);
@@ -1287,10 +1312,29 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="fbHPv3_Control">
-      <LineId Id="3" Count="817" />
+      <LineId Id="1066" Count="0" />
+      <LineId Id="1065" Count="0" />
+      <LineId Id="3" Count="315" />
+      <LineId Id="942" Count="0" />
+      <LineId Id="319" Count="316" />
+      <LineId Id="943" Count="0" />
+      <LineId Id="636" Count="184" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="fbHPv3_Control.A_BackgroundTasks">
+      <LineId Id="153" Count="2" />
+      <LineId Id="158" Count="1" />
+      <LineId Id="156" Count="1" />
+      <LineId Id="160" Count="0" />
+      <LineId Id="175" Count="1" />
+      <LineId Id="178" Count="0" />
+      <LineId Id="163" Count="0" />
+      <LineId Id="180" Count="0" />
+      <LineId Id="164" Count="0" />
+      <LineId Id="161" Count="0" />
+      <LineId Id="181" Count="0" />
+      <LineId Id="152" Count="0" />
+      <LineId Id="182" Count="2" />
       <LineId Id="2" Count="148" />
       <LineId Id="1" Count="0" />
     </LineIds>

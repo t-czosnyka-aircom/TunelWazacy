@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
   <DUT Name="nHPv3_ErrorList" Id="{2a598aaa-ff1a-452b-ab99-702c6fefafb7}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 //{attribute 'strict'}
@@ -30,7 +30,11 @@ TYPE nHPv3_ErrorList :
 	WeldingTimeout						:= 685,
 	MarkingTimeout						:= 686,
 	WaitForHP_TempStabilization			:= 689,
-	HeatedPlateColisionWhenMove			:= 690
+	HeatedPlateColisionWhenMove			:= 690,
+	_691_CoverCyclesExcesed				:= 691,
+	_692_CoverCycles10kToLimit			:= 692,
+	_693_CoverCycles5kToLimit			:= 693,
+	_694_CoverCycles1_5kToLimit			:= 694
 )UDINT;
 END_TYPE]]></Declaration>
   </DUT>

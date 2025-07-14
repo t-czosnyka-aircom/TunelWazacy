@@ -8,7 +8,7 @@ VAR_INPUT
 	bTrigger:BOOL;
 	bReadActualInspection:BOOL;
 	bChangeInspection:BOOL;		// Zbocze narastające inicjuje zmianę programu
-	iInspectionToActive:INT;
+	iInspectionToActive:UINT;
 END_VAR
 VAR_OUTPUT
 	bBusy: BOOL;
@@ -173,7 +173,10 @@ bResultTool_1:= wDevResultBits_Reg1.0;
 bResultTool_2:= wDevResultBits_Reg1.1;
 bResultTool_3:= wDevResultBits_Reg1.2;
 bResultTool_4:= wDevResultBits_Reg1.3;
-]]></ST>
+
+IF iInspectionToActive <> uiDevStat_CurrentProgNb THEN
+	mSetInspectionId(iInspectionIdToSet:=UINT_TO_INT(iInspectionToActive));
+END_IF]]></ST>
       </Implementation>
     </Action>
     <Method Name="mNewInspection" Id="{c9c7a93c-41f4-43ae-9240-5b66ef458bce}">
@@ -246,9 +249,24 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[bError :=  mSetInspectionId := TRUE;
-iActiveInspectionId := -1;
+        <ST><![CDATA[iActiveInspectionId := -1;
+IF (uiProgNbToSet <> INT_TO_UINT(iInspectionIdToSet)) AND (iWorkStep = 0) THEN
+	uiProgNbToSet := INT_TO_UINT(iInspectionIdToSet);
+END_IF
 
+IF NOT wCmdControl_Reg0.2 AND (uiDevStat_CurrentProgNb <> uiProgNbToSet) THEN
+	wCmdControl_Reg0.2 := TRUE;
+END_IF
+IF wCmdStatusBits_Reg0.9 THEN
+	wCmdControl_Reg0.2 := FALSE;
+	bError := TRUE;
+END_IF
+IF (uiDevStat_CurrentProgNb = uiProgNbToSet) THEN
+	wCmdControl_Reg0.2 := FALSE;
+	mSetInspectionId := TRUE;
+ELSE
+	mSetInspectionId := FALSE;
+END_IF
 (*IF iWorkStep = 0 AND iInspectionIdToSet <= 20 AND iInspectionIdToSet > 0 THEN
 	bResultReady := FALSE;
 	iIdToSet := iInspectionIdToSet;
@@ -271,5 +289,37 @@ END_IF
 *)]]></ST>
       </Implementation>
     </Method>
+    <LineIds Name="fbKeyenceIVProfinetCtrl">
+      <LineId Id="3" Count="94" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="fbKeyenceIVProfinetCtrl.ACT_DataDecode">
+      <LineId Id="2" Count="13" />
+      <LineId Id="1" Count="0" />
+      <LineId Id="16" Count="1" />
+    </LineIds>
+    <LineIds Name="fbKeyenceIVProfinetCtrl.mNewInspection">
+      <LineId Id="3" Count="16" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="fbKeyenceIVProfinetCtrl.mReadInspectionId">
+      <LineId Id="3" Count="19" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="fbKeyenceIVProfinetCtrl.mSetInspectionId">
+      <LineId Id="4" Count="1" />
+      <LineId Id="33" Count="1" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="37" Count="1" />
+      <LineId Id="45" Count="1" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="39" Count="1" />
+      <LineId Id="42" Count="2" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="6" Count="18" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

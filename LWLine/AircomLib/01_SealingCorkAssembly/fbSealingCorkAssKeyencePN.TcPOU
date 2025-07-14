@@ -2,12 +2,7 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
   <POU Name="fbSealingCorkAssKeyencePN" Id="{a2e71178-4ee5-46d0-be3f-d542ea62a160}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC fbSealingCorkAssKeyencePN EXTENDS fbStFixBaseTemplate IMPLEMENTS I_Fixture 
-VAR_INPUT
-	bEnCheck:	BOOL;
-	// Wejścia cyfrowe, konfiguracyjne itp
-	iMaxTrigRepeats: INT := 2;
 
-END_VAR
 VAR
 	fbVisionSensor: fbKeyenceIVProfinetCtrl;
 	I_Vision: I_VisionSensorSTD;
@@ -18,11 +13,13 @@ VAR
 	bOringWidth : BOOL;
 	iDetecitonPick	: INT;
 END_VAR
+VAR PERSISTENT
+	stParams	:	 stKeyenceInspectionParams;
+END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[fbVisionSensor();
+      <ST><![CDATA[fbVisionSensor(iInspectionToActive:=stParams.iProgramNumber);
 I_Vision := fbVisionSensor;
-
 CASE iWorkStep OF
 	0:		// Powrót do stanu początkowego (ustawienie zmiennych)
 		bResetMethod := bQReady := bQBusy := bQError := FALSE;
@@ -44,7 +41,7 @@ CASE iWorkStep OF
 		
 	10:		// Blokowanie kowadła
 		bQError := FALSE;
-		IF bEnCheck THEN
+		IF stParams.bInspectionEnable THEN
 			nQErrorId := iTriggerRepeats := 0;
 			iWorkStep := 12;
 		ELSE
@@ -60,7 +57,7 @@ CASE iWorkStep OF
 				IF bOring AND bCap AND bOringWidth THEN		// Wszystko wykryte
 					iWorkStep := 16;
 				ELSE		// NIe wyszystko wykryte
-					IF iTriggerRepeats >= iMaxTrigRepeats THEN		// Wykonano powtórne zdjęcie
+					IF iTriggerRepeats >= stParams.iMaxTrigRepeats THEN		// Wykonano powtórne zdjęcie
 						CASE iDetecitonPick OF
 							0:
 								mNewError(nSealingCorkAssKeyencePN_ErrorCodes.BadSealingCorkAssembly);
@@ -141,7 +138,8 @@ CASE iWorkStep OF
 END_CASE]]></ST>
     </Implementation>
     <LineIds Name="fbSealingCorkAssKeyencePN">
-      <LineId Id="3" Count="32" />
+      <LineId Id="3" Count="1" />
+      <LineId Id="6" Count="29" />
       <LineId Id="118" Count="2" />
       <LineId Id="36" Count="4" />
       <LineId Id="122" Count="1" />

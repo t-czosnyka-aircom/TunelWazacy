@@ -1132,7 +1132,10 @@ External Setpoint Generation:
 	</DataTypes>
 	<Project ProjectGUID="{47A695EF-D762-4449-A557-69A8CDE38A13}" TargetNetId="192.168.13.240.1.1" Target64Bit="true" ShowHideConfigurations="#x106">
 		<System>
-			<Settings MaxCpus="2" RouterMemory="134217728" MaxStackSize="128"/>
+			<Settings MaxCpus="2" RouterMemory="268435456" MaxStackSize="1024">
+				<Cpu/>
+				<Cpu CpuId="1"/>
+			</Settings>
 			<Licenses CacheOrCheckLicensesOnStartup="true">
 				<Target BkhfOrder="01490800">
 					<ManualSelect>{92583661-35AE-45CE-BD4F-C35BFE16F07E}</ManualSelect>
@@ -1156,8 +1159,11 @@ External Setpoint Generation:
 				<Task Id="4" Priority="22" CycleTime="100000" AmsPort="351" AdtTasks="true">
 					<Name>PlcTask</Name>
 				</Task>
-				<Task Id="6" Priority="30" CycleTime="2000000" AmsPort="353" AdtTasks="true">
+				<Task Id="6" Priority="30" CycleTime="2000000" AmsPort="353" Affinity="#x00000001" AdtTasks="true">
 					<Name>VISU_TASK</Name>
+				</Task>
+				<Task Id="8" Priority="1" CycleTime="10000" AmsPort="352" Affinity="#x00000001" AdtTasks="true">
+					<Name>FastTask_SQL</Name>
 				</Task>
 			</Tasks>
 		</System>
@@ -1166,10 +1172,10 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{1A289FD8-2FC0-4B29-B34F-E4BF25DBB957}" Name="LWLine" PrjFilePath="LWLine\LWLine.plcproj" TmcFilePath="LWLine\LWLine.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{5BB53554-355E-1ACD-341D-0BD38C0E64C8}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{04404742-AD59-997D-C694-105DBB833262}">
 					<Name>LWLine Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
-					<Vars VarGrpType="1" ContextId="1" AreaNo="16">
+					<Vars VarGrpType="1" ContextId="2" AreaNo="32">
 						<Name>PlcTask Inputs</Name>
 						<Var>
 							<Name>MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.uiPnIOBoxState</Name>
@@ -3676,16 +3682,16 @@ External Setpoint Generation:
 							<Type>WORD</Type>
 						</Var>
 						<Var>
-							<Name>SafetyBackupRestore.wEL6910port</Name>
-							<Type>WORD</Type>
-						</Var>
-						<Var>
 							<Name>SafetyBackupRestore.udiSafetyPLCSerialNb</Name>
 							<Type>UDINT</Type>
 						</Var>
 						<Var>
 							<Name>SafetyBackupRestore.abEL6910AmsNetID</Name>
 							<Type GUID="{12E80FF5-6251-C867-A464-3036E21E986D}">ARRAY [0..5] OF BYTE</Type>
+						</Var>
+						<Var>
+							<Name>SafetyBackupRestore.wEL6910port</Name>
+							<Type>WORD</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bCompressedAirFlowImpulse</Name>
@@ -3713,6 +3719,10 @@ External Setpoint Generation:
 							<Name>GVL_IO.bS01_EnergyConsumptionImp</Name>
 							<Comment><![CDATA[ Komunikacja RS485
  S01]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bS01_Result</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -3758,21 +3768,12 @@ External Setpoint Generation:
 							<Type>WORD</Type>
 						</Var>
 						<Var>
-							<Name>GVL_IO.bS01_Result</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
 							<Name>GVL_IO.bS01_Ready</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bS02_EnergyConsumptionImp</Name>
 							<Comment><![CDATA[ S02	- ]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bS03_EnergyConsumptionImp</Name>
-							<Comment><![CDATA[ S03 - ]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -3818,6 +3819,16 @@ External Setpoint Generation:
 							<Type>WORD</Type>
 						</Var>
 						<Var>
+							<Name>GVL_IO.bS03_EnergyConsumptionImp</Name>
+							<Comment><![CDATA[ S03 - ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bS04_EnergyConsumptionImp</Name>
+							<Comment><![CDATA[ S04 - ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>GVL_IO.stS03_1_BearingPress_IO.bHomePosSensor</Name>
 							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
 							<Type>BOOL</Type>
@@ -3860,16 +3871,6 @@ External Setpoint Generation:
 							<Type>WORD</Type>
 						</Var>
 						<Var>
-							<Name>GVL_IO.bS04_EnergyConsumptionImp</Name>
-							<Comment><![CDATA[ S04 - ]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bSxxA_EnergyConsumptionImp</Name>
-							<Comment><![CDATA[ Sxx Plug A - ]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
 							<Name>GVL_IO.stS04_1_BearingPress_IO.bHomePosSensor</Name>
 							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
 							<Type>BOOL</Type>
@@ -3910,6 +3911,11 @@ External Setpoint Generation:
 						<Var>
 							<Name>GVL_IO.stS04_1_BearingPress_IO.wPressureSensStat</Name>
 							<Type>WORD</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bSxxA_EnergyConsumptionImp</Name>
+							<Comment><![CDATA[ Sxx Plug A - ]]></Comment>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.stSxxA_1_PlugAWelder_IO.bWeld_OK</Name>
@@ -3998,14 +4004,14 @@ S02]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_IO.b_2_SonicTech_EnergyConsumptionImp</Name>
-							<Comment><![CDATA[S04]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
 							<Name>GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60</Name>
 							<Comment><![CDATA[ linked to the EL6002 in the TwinCAT System Manager ]]></Comment>
 							<Type GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom">EL6inData22B</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.b_2_SonicTech_EnergyConsumptionImp</Name>
+							<Comment><![CDATA[S04]]></Comment>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.st_2_SonicTech_WeldingMachine_IO.bWeld_OK</Name>
@@ -4204,7 +4210,7 @@ S02]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 					</Vars>
-					<Vars VarGrpType="2" ContextId="1" AreaNo="17">
+					<Vars VarGrpType="2" ContextId="2" AreaNo="33">
 						<Name>PlcTask Outputs</Name>
 						<Var>
 							<Name>MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.wCmdControl_Reg0</Name>
@@ -5749,6 +5755,15 @@ S02]]></Comment>
 					<Contexts>
 						<Context>
 							<Id>0</Id>
+							<Name>FastTask_SQL</Name>
+							<ManualConfig>
+								<OTCID>#x02010080</OTCID>
+							</ManualConfig>
+							<Priority>1</Priority>
+							<CycleTime>1000000</CycleTime>
+						</Context>
+						<Context>
+							<Id>1</Id>
 							<Name>FastTask</Name>
 							<ManualConfig>
 								<OTCID>#x02010020</OTCID>
@@ -5757,7 +5772,7 @@ S02]]></Comment>
 							<CycleTime>1000000</CycleTime>
 						</Context>
 						<Context>
-							<Id>1</Id>
+							<Id>2</Id>
 							<Name>PlcTask</Name>
 							<ManualConfig>
 								<OTCID>#x02010040</OTCID>
@@ -5766,7 +5781,7 @@ S02]]></Comment>
 							<CycleTime>10000000</CycleTime>
 						</Context>
 						<Context>
-							<Id>2</Id>
+							<Id>3</Id>
 							<Name>VISU_TASK</Name>
 							<ManualConfig>
 								<OTCID>#x02010060</OTCID>
@@ -5776,6 +5791,7 @@ S02]]></Comment>
 						</Context>
 					</Contexts>
 					<TaskPouOids>
+						<TaskPouOid Prio="1" OTCID="#x08502004"/>
 						<TaskPouOid Prio="20" OTCID="#x08502001"/>
 						<TaskPouOid Prio="22" OTCID="#x08502002"/>
 						<TaskPouOid Prio="30" OTCID="#x08502003"/>
