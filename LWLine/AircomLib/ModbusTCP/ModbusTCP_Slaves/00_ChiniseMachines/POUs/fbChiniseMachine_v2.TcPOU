@@ -26,6 +26,7 @@ VAR
 	bLastLifeBitState			: BOOL;
 	stHMI						: stChiniseMachineHmiData;
 	fbLifeBitPLC				: TON;
+	stEthernetCommunication		: stInOutsEthernetCommunication;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -38,7 +39,7 @@ CASE iWorkStep OF
 		I_PimSystem.mSetNewMachineState(nPIM_MachineStates._2_ReadyForNewOperation);	
 		iWorkStep := 10;
 	10: // Start of work
-		IF stPimCommunicationData.wGoodPartsAmount > iLastPartsRecord AND stSlaveParms.bPartsCount THEN
+		IF stPimCommunicationData.wGoodPartsAmount > iLastPartsRecord THEN
 			IF I_PimSystem.mSetNewMachineState(nPIM_MachineStates._3_NewOperationStarted) THEN
 				iLastPartsRecord := iLastPartsRecord +1;
 				iWorkStep := 15;
@@ -113,29 +114,29 @@ fbLifeBitPLC(IN:=NOT fbLifeBitPLC.Q ,PT:=T#500MS);
 fbWorkEnded(CLK:=stPimCommunicationData.bCycleEnd);
 //Data to send to slave
 
-arWriteArray[0]			:= stPimCommunicationData.iProductId;
-arWriteArray[10]		:= BOOL_TO_INT(stPimCommunicationData.bLifeBitPLC);
-arWriteArray[11]		:= BOOL_TO_INT(stPimCommunicationData.bWorkAllow);
-arWriteArray[12]		:= BOOL_TO_INT(stPimCommunicationData.bResetError);
-arWriteArray[13]		:= BOOL_TO_INT(stPimCommunicationData.bConfirmError);
-arWriteArray[14]		:= BOOL_TO_INT(stPimCommunicationData.bTestMode);
-arWriteArray[15]		:= BOOL_TO_INT(stPimCommunicationData.bStopPerform);
-arWriteArray[18]		:= BOOL_TO_INT(stPimCommunicationData.bWaitWithWork);
-arWriteArray[19]		:= BOOL_TO_INT(stPimCommunicationData.bOfflineWorkAllow);
+stEthernetCommunication.iProductID			:= stPimCommunicationData.iProductId;
+stEthernetCommunication.iLifeBitPLC		:= BOOL_TO_INT(stPimCommunicationData.bLifeBitPLC);
+stEthernetCommunication.iWorkAllow		:= BOOL_TO_INT(stPimCommunicationData.bWorkAllow);
+stEthernetCommunication.iResetError		:= BOOL_TO_INT(stPimCommunicationData.bResetError);
+stEthernetCommunication.iConfirmError		:= BOOL_TO_INT(stPimCommunicationData.bConfirmError);
+stEthernetCommunication.iTestMode		:= BOOL_TO_INT(stPimCommunicationData.bTestMode);
+stEthernetCommunication.iStopPerform		:= BOOL_TO_INT(stPimCommunicationData.bStopPerform);
+stEthernetCommunication.iWaitWithWork		:= BOOL_TO_INT(stPimCommunicationData.bWaitWithWork);
+stEthernetCommunication.iOfflineWorkAllow		:= BOOL_TO_INT(stPimCommunicationData.bOfflineWorkAllow);
 
 
 //Data to read form slave
-stPimCommunicationData.iActualWorkStep			:= arReadArray[0];
-stPimCommunicationData.wGoodPartsAmount			:= INT_TO_WORD(arReadArray[1]*256+arReadArray[2]);
-stPimCommunicationData.wBadPartsAmount			:= INT_TO_WORD(arReadArray[3]*256+arReadArray[4]);
-stPimCommunicationData.iCycleTime				:= arReadArray[5];
-stPimCommunicationData.iPartsCreatedInOneTime	:= arReadArray[6];
-stPimCommunicationData.iErrorCode				:= arReadArray[7];
-stPimCommunicationData.bLifeBitMachine			:= INT_TO_BOOL(arReadArray[10]);
-stPimCommunicationData.bWorkInProgress			:= INT_TO_BOOL(arReadArray[11]);
-stPimCommunicationData.bCycleEnd				:= INT_TO_BOOL(arReadArray[12]);
-stPimCommunicationData.bError					:= INT_TO_BOOL(arReadArray[13]);
-stPimCommunicationData.bAlarm					:= INT_TO_BOOL(arReadArray[14]);	
+stPimCommunicationData.iActualWorkStep			:= stEthernetCommunication.iActualWorkStep;
+stPimCommunicationData.wGoodPartsAmount			:= INT_TO_WORD(stEthernetCommunication.iGoodPartsAmountHighByte*256+stEthernetCommunication.iGoodPartsAmountLowByte);
+stPimCommunicationData.wBadPartsAmount			:= INT_TO_WORD(stEthernetCommunication.iBadPartsAmountHighByte*256+stEthernetCommunication.iBadPartsAmountLowByte);
+stPimCommunicationData.iCycleTime				:= stEthernetCommunication.iCycleTime;
+stPimCommunicationData.iPartsCreatedInOneTime	:= stEthernetCommunication.iPartsCreatedInOneTime;
+stPimCommunicationData.iErrorCode				:= stEthernetCommunication.iErrorCode;
+stPimCommunicationData.bLifeBitMachine			:= INT_TO_BOOL(stEthernetCommunication.iLifeBitMachine);
+stPimCommunicationData.bWorkInProgress			:= INT_TO_BOOL(stEthernetCommunication.iWorkInProgress);
+stPimCommunicationData.bCycleEnd				:= INT_TO_BOOL(stEthernetCommunication.iCycleEnd);
+stPimCommunicationData.bError					:= INT_TO_BOOL(stEthernetCommunication.iError);
+stPimCommunicationData.bAlarm					:= INT_TO_BOOL(stEthernetCommunication.iAlarm);	
 			
 //Add command to que 
 IF stSlaveParms.bCommunicationActive THEN
@@ -145,7 +146,7 @@ ELSE
 END_IF
 IF rCommIntervalCounter >= stSlaveParms.rCommunicationCycleTime THEN
 		rCommIntervalCounter := 0;
-		nLastOperationStatus := I_ModbusTcpCommunication.mAddToQue(stCommParams:=stModbusTcpData);
+		//nLastOperationStatus := I_ModbusTcpCommunication.mAddToQue(stCommParams:=stModbusTcpData);
 		stPimCommunicationData.bLifeBitPLC := NOT stPimCommunicationData.bLifeBitPLC;
 END_IF
 

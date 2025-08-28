@@ -1142,14 +1142,12 @@ External Setpoint Generation:
 					<ManualSelect>{6952449D-F68C-49A2-ADE4-8639D85B33A4}</ManualSelect>
 					<ManualSelect>{A1AF8A04-C08D-4853-A5A0-0E6C3A278A8C}</ManualSelect>
 					<TargetSelect TargetId="2">{BF78CFC7-2E63-42C3-8C07-BB6C346BFB8B}</TargetSelect>
-					<TargetSelect TargetId="2">{92583661-35AE-45CE-BD4F-C35BFE16F07E}</TargetSelect>
-					<TargetSelect TargetId="2">{BCA6EE0A-9CE1-4D3F-98CA-413ABC0D94FD}</TargetSelect>
 					<TargetSelect TargetId="2">{66689887-CCBD-452C-AC9A-039D997C6E66}</TargetSelect>
-					<TargetSelect TargetId="2">{7AFD0713-1333-4A3B-938C-7B9BD0418C8D}</TargetSelect>
+					<TargetSelect TargetId="2">{92583661-35AE-45CE-BD4F-C35BFE16F07E}</TargetSelect>
 					<TargetSelect TargetId="2">{6952449D-F68C-49A2-ADE4-8639D85B33A4}</TargetSelect>
-					<TargetSelect TargetId="2">{A1AF8A04-C08D-4853-A5A0-0E6C3A278A8C}</TargetSelect>
 					<TargetSelect TargetId="2">{520DE751-9DB6-47CB-8240-BD5C466E7E64}</TargetSelect>
-					<LicenseDevice DongleHardwareId="2" DongleDevice="#x0302001a" DongleLevel="40" DongleSystemId="{E3103F76-3B3D-EBC6-C946-7D277F141827}" DongleSerialNumber="0100069988"/>
+					<TargetSelect TargetId="2">{A1AF8A04-C08D-4853-A5A0-0E6C3A278A8C}</TargetSelect>
+					<LicenseDevice DongleHardwareId="2" DongleDevice="#x0302001a" DongleLevel="90" DongleSerialNumber="0100069988"/>
 				</Target>
 			</Licenses>
 			<Tasks>
@@ -1172,7 +1170,7 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{1A289FD8-2FC0-4B29-B34F-E4BF25DBB957}" Name="LWLine" PrjFilePath="LWLine\LWLine.plcproj" TmcFilePath="LWLine\LWLine.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{04404742-AD59-997D-C694-105DBB833262}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{D9317194-6F59-CEB3-F966-C49D74741FEC}">
 					<Name>LWLine Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1" ContextId="2" AreaNo="32">
@@ -4209,6 +4207,291 @@ S02]]></Comment>
 							<Comment><![CDATA[ Sygnał w In-Sight Out3 - Wejście detekcji 3]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iConnectionState</Name>
+							<Comment><![CDATA[Inputs]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iActualWorkStep</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iGoodPartsAmountHighByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iGoodPartsAmountLowByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iBadPartsAmountHighByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iBadPartsAmountLowByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iCycleTime</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iPartsCreatedInOneTime</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iErrorCode</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iLifeBitMachine</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iWorkInProgress</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iCycleEnd</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iAlarm</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iConnectionState</Name>
+							<Comment><![CDATA[Inputs]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iActualWorkStep</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iGoodPartsAmountHighByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iGoodPartsAmountLowByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iBadPartsAmountHighByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iBadPartsAmountLowByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iCycleTime</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iPartsCreatedInOneTime</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iErrorCode</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iLifeBitMachine</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iWorkInProgress</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iCycleEnd</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iAlarm</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iConnectionState</Name>
+							<Comment><![CDATA[Inputs]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iActualWorkStep</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iGoodPartsAmountHighByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iGoodPartsAmountLowByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iBadPartsAmountHighByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iBadPartsAmountLowByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iCycleTime</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iPartsCreatedInOneTime</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iErrorCode</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iLifeBitMachine</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iWorkInProgress</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iCycleEnd</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iAlarm</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iConnectionState</Name>
+							<Comment><![CDATA[Inputs]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iActualWorkStep</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iGoodPartsAmountHighByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iGoodPartsAmountLowByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iBadPartsAmountHighByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iBadPartsAmountLowByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iCycleTime</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iPartsCreatedInOneTime</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iErrorCode</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iLifeBitMachine</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iWorkInProgress</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iCycleEnd</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iAlarm</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iConnectionState</Name>
+							<Comment><![CDATA[Inputs]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iActualWorkStep</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iGoodPartsAmountHighByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iGoodPartsAmountLowByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iBadPartsAmountHighByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iBadPartsAmountLowByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iCycleTime</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iPartsCreatedInOneTime</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iErrorCode</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iLifeBitMachine</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iWorkInProgress</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iCycleEnd</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iAlarm</Name>
+							<Type>INT</Type>
+						</Var>
 					</Vars>
 					<Vars VarGrpType="2" ContextId="2" AreaNo="33">
 						<Name>PlcTask Outputs</Name>
@@ -5751,6 +6034,211 @@ S02]]></Comment>
 							<Comment><![CDATA[ Sygnał w In-Sight In1 - Wyjście zwykle nie używane]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iConnectionControl</Name>
+							<Comment><![CDATA[Outputs]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iProductID</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iLifeBitPLC</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iWorkAllow</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iResetError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iConfirmError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iTestMode</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iStopPerform</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iWaitWithWork</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iOfflineWorkAllow</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iConnectionControl</Name>
+							<Comment><![CDATA[Outputs]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iProductID</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iLifeBitPLC</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iWorkAllow</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iResetError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iConfirmError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iTestMode</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iStopPerform</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iWaitWithWork</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iOfflineWorkAllow</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iConnectionControl</Name>
+							<Comment><![CDATA[Outputs]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iProductID</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iLifeBitPLC</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iWorkAllow</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iResetError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iConfirmError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iTestMode</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iStopPerform</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iWaitWithWork</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iOfflineWorkAllow</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iConnectionControl</Name>
+							<Comment><![CDATA[Outputs]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iProductID</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iLifeBitPLC</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iWorkAllow</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iResetError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iConfirmError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iTestMode</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iStopPerform</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iWaitWithWork</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iOfflineWorkAllow</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iConnectionControl</Name>
+							<Comment><![CDATA[Outputs]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iProductID</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iLifeBitPLC</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iWorkAllow</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iResetError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iConfirmError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iTestMode</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iStopPerform</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iWaitWithWork</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iOfflineWorkAllow</Name>
+							<Type>INT</Type>
+						</Var>
 					</Vars>
 					<Contexts>
 						<Context>
@@ -5859,16 +6347,970 @@ S02]]></Comment>
 		<Io>
 			<Device File="LAN1 (EtherCAT).xti" Id="3"/>
 			<Device File="ProfiNet (EL6631).xti" Id="1"/>
+			<Device Id="2" DevType="145" AmsPort="28928" AmsNetId="192.168.13.240.4.1" RemoteName="S01_CM1 (ECAT EIP Adapter (EL6652-0010))">
+				<Name>S01_CM1 (ECAT EIP Adapter (EL6652-0010))</Name>
+				<AddressInfo>
+					<Ecat>
+						<EtherCATDeviceId>202</EtherCATDeviceId>
+						<EtherCATDeviceName>TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S01_Filler_A (EK1818)^S01_CM1 (EL6652-0010)</EtherCATDeviceName>
+					</Ecat>
+				</AddressInfo>
+				<Image Id="6" AddrType="4" ImageType="3">
+					<Name>S01_CM1 (ECAT EIP Adapter (EL6652-0010))-Image</Name>
+				</Image>
+				<Box Id="205" BoxType="9133">
+					<Name>Filler A (TC EtherNet/IP Slave)</Name>
+					<ImageId>63</ImageId>
+					<Vars VarGrpType="1">
+						<Name>Inputs</Name>
+						<Var>
+							<Name>State</Name>
+							<Comment><![CDATA[0x8000 = Slave has no valid Assembly Object configured
+0x4000 = Slave has no valid IP Addr - pending DHCP request
+0x2000 = TCP server: unable to listen on local EtherNet/IP Port (44818)
+0x1000 = UDP server: unable to listen on local EtherNet/IP Port (44818)
+0x0XXX = reserved
+]]></Comment>
+							<Type>UINT</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="2">
+						<Name>Outputs</Name>
+						<Var>
+							<Name>Ctrl</Name>
+							<Type>UINT</Type>
+						</Var>
+					</Vars>
+					<EthernetIp NewSlavePara="cd00000046696c6c65722041202854432045746865724e65742f495020536c61766529000c0000006c000000fc190000010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000105a2347ca00da8c000feffff010ca8c00000800001001e000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000">
+						<SlaveConnection Id="1" ConnectionPara="d5802b00000000000000000055aaffd5d5d5ffaa5500000000000000000055aaffd5802b0000002b80d5ffffaaaaaaffaa550000000000000000000000000000000000002b80d5d5802b0000000055aaffd5802b00000000000000000000000055aaffd5802b00000000000055aaffd5802b00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002b80d5ffffaa5500000000000000002b80805500000000000000002b80d5d5aaaad5d5802b00000000000000000000000055aaffd5802b0000000000002b80d5d5802b0000000000000000000000000000002b80d5ffffaaaaaaffaa550000000055aaffd5802b000000000000000000000000000000002b80d5d5802b2b80d5d5802b000000000000000055aaffd5805580d5d5802b0000000000000055aaffd5802b00000000000000000055aaffaa5500000000000000000000000000000000002b80d5d5802b000000000055aaffd5802b00000000000000000000000055aaffd5802b00000000000055aaffd5802b0000" AssemblyPara="010000000000000000000000000000000000000081000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001600000000000000000000000000000082000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001e0000000000000000000000000000008800000000000000890000000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" ConnectionType="1073741867">
+							<Name>Connection 1 (Input/Output)</Name>
+							<ImageId>24</ImageId>
+							<Vars VarGrpType="1" InsertType="1">
+								<Name>Inputs</Name>
+								<Var>
+									<Name>ConnState</Name>
+									<Comment><![CDATA[0x0001 = Connection is not running
+0x8000 = Connection is running but no new data received
+]]></Comment>
+									<Type>UDINT</Type>
+									<BitOffs>16</BitOffs>
+								</Var>
+								<Var>
+									<Name>iActualWorkStrep</Name>
+									<Type>INT</Type>
+									<BitOffs>48</BitOffs>
+									<ExternalAddress>6</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iGoodPartsAmountHighByte</Name>
+									<Type>INT</Type>
+									<BitOffs>64</BitOffs>
+									<ExternalAddress>8</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iGoodPartsAmountLowByte</Name>
+									<Type>INT</Type>
+									<BitOffs>80</BitOffs>
+									<ExternalAddress>10</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iBadPartsAmountHighByte</Name>
+									<Type>INT</Type>
+									<BitOffs>96</BitOffs>
+									<ExternalAddress>12</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iBadPartsAmountLowByte</Name>
+									<Type>INT</Type>
+									<BitOffs>112</BitOffs>
+									<ExternalAddress>14</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iCycleTime</Name>
+									<Type>INT</Type>
+									<BitOffs>128</BitOffs>
+									<ExternalAddress>16</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iPartsCreatedInOneTime</Name>
+									<Type>INT</Type>
+									<BitOffs>144</BitOffs>
+									<ExternalAddress>18</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iErrorCode</Name>
+									<Type>INT</Type>
+									<BitOffs>160</BitOffs>
+									<ExternalAddress>20</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bLifeBitMachine</Name>
+									<Type>INT</Type>
+									<BitOffs>176</BitOffs>
+									<ExternalAddress>22</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bWorkInProgress</Name>
+									<Type>INT</Type>
+									<BitOffs>192</BitOffs>
+									<ExternalAddress>24</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bCycleEnd</Name>
+									<Type>INT</Type>
+									<BitOffs>208</BitOffs>
+									<ExternalAddress>26</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bError</Name>
+									<Type>INT</Type>
+									<BitOffs>224</BitOffs>
+									<ExternalAddress>28</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bAlarm</Name>
+									<Type>INT</Type>
+									<BitOffs>240</BitOffs>
+									<ExternalAddress>30</ExternalAddress>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="2" InsertType="1">
+								<Name>Outputs</Name>
+								<Var>
+									<Name>ConnCtrl</Name>
+									<Type>UDINT</Type>
+									<BitOffs>16</BitOffs>
+								</Var>
+								<Var>
+									<Name>iProductId</Name>
+									<Type>INT</Type>
+									<BitOffs>48</BitOffs>
+									<ExternalAddress>6</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iLifeBitPLC</Name>
+									<Type>INT</Type>
+									<BitOffs>64</BitOffs>
+									<ExternalAddress>8</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bWorkAllow</Name>
+									<Type>INT</Type>
+									<BitOffs>80</BitOffs>
+									<ExternalAddress>10</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bResetError</Name>
+									<Type>INT</Type>
+									<BitOffs>96</BitOffs>
+									<ExternalAddress>12</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bConfirmError</Name>
+									<Type>INT</Type>
+									<BitOffs>112</BitOffs>
+									<ExternalAddress>14</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bTestMode</Name>
+									<Type>INT</Type>
+									<BitOffs>128</BitOffs>
+									<ExternalAddress>16</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bStopPerform</Name>
+									<Type>INT</Type>
+									<BitOffs>144</BitOffs>
+									<ExternalAddress>18</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bWaitWithWork</Name>
+									<Type>INT</Type>
+									<BitOffs>160</BitOffs>
+									<ExternalAddress>20</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bOfflineWorkAllow</Name>
+									<Type>INT</Type>
+									<BitOffs>176</BitOffs>
+									<ExternalAddress>22</ExternalAddress>
+								</Var>
+							</Vars>
+						</SlaveConnection>
+					</EthernetIp>
+				</Box>
+				<Box Id="206" BoxType="9133">
+					<Name>Cork (TC EtherNet/IP Slave)</Name>
+					<ImageId>63</ImageId>
+					<Vars VarGrpType="1">
+						<Name>Inputs</Name>
+						<Var>
+							<Name>State</Name>
+							<Comment><![CDATA[0x8000 = Slave has no valid Assembly Object configured
+0x4000 = Slave has no valid IP Addr - pending DHCP request
+0x2000 = TCP server: unable to listen on local EtherNet/IP Port (44818)
+0x1000 = UDP server: unable to listen on local EtherNet/IP Port (44818)
+0x0XXX = reserved
+]]></Comment>
+							<Type>UINT</Type>
+							<BitOffs>256</BitOffs>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="2">
+						<Name>Outputs</Name>
+						<Var>
+							<Name>Ctrl</Name>
+							<Type>UINT</Type>
+							<BitOffs>192</BitOffs>
+						</Var>
+					</Vars>
+					<EthernetIp NewSlavePara="ce000000436f726b202854432045746865724e65742f495020536c6176652900000000000c0000006c000000fc1900000101000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200cea2347ca10da8c000feffff010ca8c00000800001001e000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000">
+						<SlaveConnection Id="2" ConnectionPara="d5802b00000000000000000055aaffd5d5d5ffaa5500000000000000000055aaffd5802b0000002b80d5ffffaaaaaaffaa550000000000000000000000000000000000002b80d5d5802b0000000055aaffd5802b00000000000000000000000055aaffd5802b00000000000055aaffd5802b00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002b80d5ffffaa5500000000000000002b80805500000000000000002b80d5d5aaaad5d5802b00000000000000000000000055aaffd5802b0000000000002b80d5d5802b0000000000000000000000000000002b80d5ffffaaaaaaffaa550000000055aaffd5802b000000000000000000000000000000002b80d5d5802b2b80d5d5802b000000000000000055aaffd5805580d5d5802b0000000000000055aaffd5802b00000000000000000055aaffaa5500000000000000000000000000000000002b80d5d5802b000000000055aaffd5802b00000000000000000000000055aaffd5802b00000000000055aaffd5802b0000" AssemblyPara="020000000000000000000000000000000000000081000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001600000000000000000000000000000082000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001e0000000000000000000000000000008800000000000000890000000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" ConnectionType="1073741867">
+							<Name>Connection 1 (Input/Output)</Name>
+							<ImageId>24</ImageId>
+							<Vars VarGrpType="1" InsertType="1">
+								<Name>Inputs</Name>
+								<Var>
+									<Name>ConnState</Name>
+									<Comment><![CDATA[0x0001 = Connection is not running
+0x8000 = Connection is running but no new data received
+]]></Comment>
+									<Type>UDINT</Type>
+									<BitOffs>272</BitOffs>
+								</Var>
+								<Var>
+									<Name>iActualWorkStrep</Name>
+									<Type>INT</Type>
+									<BitOffs>304</BitOffs>
+									<ExternalAddress>6</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iGoodPartsAmountHighByte</Name>
+									<Type>INT</Type>
+									<BitOffs>320</BitOffs>
+									<ExternalAddress>8</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iGoodPartsAmountLowByte</Name>
+									<Type>INT</Type>
+									<BitOffs>336</BitOffs>
+									<ExternalAddress>10</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iBadPartsAmountHighByte</Name>
+									<Type>INT</Type>
+									<BitOffs>352</BitOffs>
+									<ExternalAddress>12</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iBadPartsAmountLowByte</Name>
+									<Type>INT</Type>
+									<BitOffs>368</BitOffs>
+									<ExternalAddress>14</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iCycleTime</Name>
+									<Type>INT</Type>
+									<BitOffs>384</BitOffs>
+									<ExternalAddress>16</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iPartsCreatedInOneTime</Name>
+									<Type>INT</Type>
+									<BitOffs>400</BitOffs>
+									<ExternalAddress>18</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iErrorCode</Name>
+									<Type>INT</Type>
+									<BitOffs>416</BitOffs>
+									<ExternalAddress>20</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bLifeBitMachine</Name>
+									<Type>INT</Type>
+									<BitOffs>432</BitOffs>
+									<ExternalAddress>22</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bWorkInProgress</Name>
+									<Type>INT</Type>
+									<BitOffs>448</BitOffs>
+									<ExternalAddress>24</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bCycleEnd</Name>
+									<Type>INT</Type>
+									<BitOffs>464</BitOffs>
+									<ExternalAddress>26</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bError</Name>
+									<Type>INT</Type>
+									<BitOffs>480</BitOffs>
+									<ExternalAddress>28</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bAlarm</Name>
+									<Type>INT</Type>
+									<BitOffs>496</BitOffs>
+									<ExternalAddress>30</ExternalAddress>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="2" InsertType="1">
+								<Name>Outputs</Name>
+								<Var>
+									<Name>ConnCtrl</Name>
+									<Type>UDINT</Type>
+									<BitOffs>208</BitOffs>
+								</Var>
+								<Var>
+									<Name>iProductId</Name>
+									<Type>INT</Type>
+									<BitOffs>240</BitOffs>
+									<ExternalAddress>6</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iLifeBitPLC</Name>
+									<Type>INT</Type>
+									<BitOffs>256</BitOffs>
+									<ExternalAddress>8</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bWorkAllow</Name>
+									<Type>INT</Type>
+									<BitOffs>272</BitOffs>
+									<ExternalAddress>10</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bResetError</Name>
+									<Type>INT</Type>
+									<BitOffs>288</BitOffs>
+									<ExternalAddress>12</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bConfirmError</Name>
+									<Type>INT</Type>
+									<BitOffs>304</BitOffs>
+									<ExternalAddress>14</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bTestMode</Name>
+									<Type>INT</Type>
+									<BitOffs>320</BitOffs>
+									<ExternalAddress>16</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bStopPerform</Name>
+									<Type>INT</Type>
+									<BitOffs>336</BitOffs>
+									<ExternalAddress>18</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bWaitWithWork</Name>
+									<Type>INT</Type>
+									<BitOffs>352</BitOffs>
+									<ExternalAddress>20</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bOfflineWorkAllow</Name>
+									<Type>INT</Type>
+									<BitOffs>368</BitOffs>
+									<ExternalAddress>22</ExternalAddress>
+								</Var>
+							</Vars>
+						</SlaveConnection>
+					</EthernetIp>
+				</Box>
+				<Ethernet DeviceDesc="EL6652-0010 EtherNet/IP Adapter (Slave)"/>
+				<EtherNetIPSlaveDev/>
+			</Device>
+			<Device Id="4" DevType="145" AmsPort="28676" AmsNetId="192.168.13.240.5.1" RemoteName="S03_CM1 (ECAT EIP Adapter (EL6652-0010))">
+				<Name>S03_CM1 (ECAT EIP Adapter (EL6652-0010))</Name>
+				<AddressInfo>
+					<Ecat>
+						<EtherCATDeviceId>203</EtherCATDeviceId>
+						<EtherCATDeviceName>TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S03_Filler_B (EK1818)^S03_CM1 (EL6652-0010)</EtherCATDeviceName>
+					</Ecat>
+				</AddressInfo>
+				<Image Id="7" AddrType="4" ImageType="3">
+					<Name>S03_CM1 (ECAT EIP Adapter (EL6652-0010))-Image</Name>
+				</Image>
+				<Box Id="207" BoxType="9133">
+					<Name>Filler_B (TC EtherNet/IP Slave)</Name>
+					<ImageId>63</ImageId>
+					<Vars VarGrpType="1">
+						<Name>Inputs</Name>
+						<Var>
+							<Name>State</Name>
+							<Comment><![CDATA[0x8000 = Slave has no valid Assembly Object configured
+0x4000 = Slave has no valid IP Addr - pending DHCP request
+0x2000 = TCP server: unable to listen on local EtherNet/IP Port (44818)
+0x1000 = UDP server: unable to listen on local EtherNet/IP Port (44818)
+0x0XXX = reserved
+]]></Comment>
+							<Type>UINT</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="2">
+						<Name>Outputs</Name>
+						<Var>
+							<Name>Ctrl</Name>
+							<Type>UINT</Type>
+						</Var>
+					</Vars>
+					<EthernetIp NewSlavePara="cf00000046696c6c65725f42202854432045746865724e65742f495020536c61766529000c0000006c000000fc190000010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000105a23473a20da8c000feffff010ca8c00000800001001e000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000">
+						<SlaveConnection Id="3" ConnectionPara="d5802b00000000000000000055aaffd5d5d5ffaa5500000000000000000055aaffd5802b0000002b80d5ffffaaaaaaffaa550000000000000000000000000000000000002b80d5d5802b0000000055aaffd5802b00000000000000000000000055aaffd5802b00000000000055aaffd5802b00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002b80d5ffffaa5500000000000000002b80805500000000000000002b80d5d5aaaad5d5802b00000000000000000000000055aaffd5802b0000000000002b80d5d5802b0000000000000000000000000000002b80d5ffffaaaaaaffaa550000000055aaffd5802b000000000000000000000000000000002b80d5d5802b2b80d5d5802b000000000000000055aaffd5805580d5d5802b0000000000000055aaffd5802b00000000000000000055aaffaa5500000000000000000000000000000000002b80d5d5802b000000000055aaffd5802b00000000000000000000000055aaffd5802b00000000000055aaffd5802b0000" AssemblyPara="030000000000000000000000000000000000000081000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001600000000000000000000000000000082000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001e0000000000000000000000000000008800000000000000890000000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" ConnectionType="1073741867">
+							<Name>Connection 1 (Input/Output)</Name>
+							<ImageId>24</ImageId>
+							<Vars VarGrpType="1" InsertType="1">
+								<Name>Inputs</Name>
+								<Var>
+									<Name>ConnState</Name>
+									<Comment><![CDATA[0x0001 = Connection is not running
+0x8000 = Connection is running but no new data received
+]]></Comment>
+									<Type>UDINT</Type>
+									<BitOffs>16</BitOffs>
+								</Var>
+								<Var>
+									<Name>iActualWorkStrep</Name>
+									<Type>INT</Type>
+									<BitOffs>48</BitOffs>
+									<ExternalAddress>6</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iGoodPartsAmountHighByte</Name>
+									<Type>INT</Type>
+									<BitOffs>64</BitOffs>
+									<ExternalAddress>8</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iGoodPartsAmountLowByte</Name>
+									<Type>INT</Type>
+									<BitOffs>80</BitOffs>
+									<ExternalAddress>10</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iBadPartsAmountHighByte</Name>
+									<Type>INT</Type>
+									<BitOffs>96</BitOffs>
+									<ExternalAddress>12</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iBadPartsAmountLowByte</Name>
+									<Type>INT</Type>
+									<BitOffs>112</BitOffs>
+									<ExternalAddress>14</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iCycleTime</Name>
+									<Type>INT</Type>
+									<BitOffs>128</BitOffs>
+									<ExternalAddress>16</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iPartsCreatedInOneTime</Name>
+									<Type>INT</Type>
+									<BitOffs>144</BitOffs>
+									<ExternalAddress>18</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iErrorCode</Name>
+									<Type>INT</Type>
+									<BitOffs>160</BitOffs>
+									<ExternalAddress>20</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bLifeBitMachine</Name>
+									<Type>INT</Type>
+									<BitOffs>176</BitOffs>
+									<ExternalAddress>22</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bWorkInProgress</Name>
+									<Type>INT</Type>
+									<BitOffs>192</BitOffs>
+									<ExternalAddress>24</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bCycleEnd</Name>
+									<Type>INT</Type>
+									<BitOffs>208</BitOffs>
+									<ExternalAddress>26</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bError</Name>
+									<Type>INT</Type>
+									<BitOffs>224</BitOffs>
+									<ExternalAddress>28</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bAlarm</Name>
+									<Type>INT</Type>
+									<BitOffs>240</BitOffs>
+									<ExternalAddress>30</ExternalAddress>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="2" InsertType="1">
+								<Name>Outputs</Name>
+								<Var>
+									<Name>ConnCtrl</Name>
+									<Type>UDINT</Type>
+									<BitOffs>16</BitOffs>
+								</Var>
+								<Var>
+									<Name>iProductId</Name>
+									<Type>INT</Type>
+									<BitOffs>48</BitOffs>
+									<ExternalAddress>6</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iLifeBitPLC</Name>
+									<Type>INT</Type>
+									<BitOffs>64</BitOffs>
+									<ExternalAddress>8</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bWorkAllow</Name>
+									<Type>INT</Type>
+									<BitOffs>80</BitOffs>
+									<ExternalAddress>10</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bResetError</Name>
+									<Type>INT</Type>
+									<BitOffs>96</BitOffs>
+									<ExternalAddress>12</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bConfirmError</Name>
+									<Type>INT</Type>
+									<BitOffs>112</BitOffs>
+									<ExternalAddress>14</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bTestMode</Name>
+									<Type>INT</Type>
+									<BitOffs>128</BitOffs>
+									<ExternalAddress>16</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bStopPerform</Name>
+									<Type>INT</Type>
+									<BitOffs>144</BitOffs>
+									<ExternalAddress>18</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bWaitWithWork</Name>
+									<Type>INT</Type>
+									<BitOffs>160</BitOffs>
+									<ExternalAddress>20</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bOfflineWorkAllow</Name>
+									<Type>INT</Type>
+									<BitOffs>176</BitOffs>
+									<ExternalAddress>22</ExternalAddress>
+								</Var>
+							</Vars>
+						</SlaveConnection>
+					</EthernetIp>
+				</Box>
+				<Ethernet DeviceDesc="EL6652-0010 EtherNet/IP Adapter (Slave)"/>
+				<EtherNetIPSlaveDev/>
+			</Device>
+			<Device Id="5" DevType="145" AmsPort="28677" AmsNetId="192.168.13.240.6.1" RemoteName="S06_CM1 (ECAT EIP Adapter (EL6652-0010))">
+				<Name>S06_CM1 (ECAT EIP Adapter (EL6652-0010))</Name>
+				<AddressInfo>
+					<Ecat>
+						<EtherCATDeviceId>204</EtherCATDeviceId>
+						<EtherCATDeviceName>TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S06_Sticker (EK1818)^S06_CM1 (EL6652-0010)</EtherCATDeviceName>
+					</Ecat>
+				</AddressInfo>
+				<Image Id="8" AddrType="4" ImageType="3">
+					<Name>S06_CM1 (ECAT EIP Adapter (EL6652-0010))-Image</Name>
+				</Image>
+				<Box Id="208" BoxType="9133">
+					<Name>Sticker (TC EtherNet/IP Slave)</Name>
+					<ImageId>63</ImageId>
+					<Vars VarGrpType="1">
+						<Name>Inputs</Name>
+						<Var>
+							<Name>State</Name>
+							<Comment><![CDATA[0x8000 = Slave has no valid Assembly Object configured
+0x4000 = Slave has no valid IP Addr - pending DHCP request
+0x2000 = TCP server: unable to listen on local EtherNet/IP Port (44818)
+0x1000 = UDP server: unable to listen on local EtherNet/IP Port (44818)
+0x0XXX = reserved
+]]></Comment>
+							<Type>UINT</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="2">
+						<Name>Outputs</Name>
+						<Var>
+							<Name>Ctrl</Name>
+							<Type>UINT</Type>
+						</Var>
+					</Vars>
+					<EthernetIp NewSlavePara="d0000000537469636b6572202854432045746865724e65742f495020536c6176652900000c0000006c000000fc190000010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000105a2346da30da8c000feffff010ca8c00000800001001e000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000">
+						<SlaveConnection Id="4" ConnectionPara="d5802b00000000000000000055aaffd5d5d5ffaa5500000000000000000055aaffd5802b0000002b80d5ffffaaaaaaffaa550000000000000000000000000000000000002b80d5d5802b0000000055aaffd5802b00000000000000000000000055aaffd5802b00000000000055aaffd5802b00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002b80d5ffffaa5500000000000000002b80805500000000000000002b80d5d5aaaad5d5802b00000000000000000000000055aaffd5802b0000000000002b80d5d5802b0000000000000000000000000000002b80d5ffffaaaaaaffaa550000000055aaffd5802b000000000000000000000000000000002b80d5d5802b2b80d5d5802b000000000000000055aaffd5805580d5d5802b0000000000000055aaffd5802b00000000000000000055aaffaa5500000000000000000000000000000000002b80d5d5802b000000000055aaffd5802b00000000000000000000000055aaffd5802b00000000000055aaffd5802b0000" AssemblyPara="040000000000000000000000000000000000000081000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001600000000000000000000000000000082000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001e0000000000000000000000000000008800000000000000890000000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" ConnectionType="1073741867">
+							<Name>Connection 1 (Input/Output)</Name>
+							<ImageId>24</ImageId>
+							<Vars VarGrpType="1" InsertType="1">
+								<Name>Inputs</Name>
+								<Var>
+									<Name>ConnState</Name>
+									<Comment><![CDATA[0x0001 = Connection is not running
+0x8000 = Connection is running but no new data received
+]]></Comment>
+									<Type>UDINT</Type>
+									<BitOffs>16</BitOffs>
+								</Var>
+								<Var>
+									<Name>iActualWorkStrep</Name>
+									<Type>INT</Type>
+									<BitOffs>48</BitOffs>
+									<ExternalAddress>6</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iGoodPartsAmountHighByte</Name>
+									<Type>INT</Type>
+									<BitOffs>64</BitOffs>
+									<ExternalAddress>8</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iGoodPartsAmountLowByte</Name>
+									<Type>INT</Type>
+									<BitOffs>80</BitOffs>
+									<ExternalAddress>10</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iBadPartsAmountHighByte</Name>
+									<Type>INT</Type>
+									<BitOffs>96</BitOffs>
+									<ExternalAddress>12</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iBadPartsAmountLowByte</Name>
+									<Type>INT</Type>
+									<BitOffs>112</BitOffs>
+									<ExternalAddress>14</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iCycleTime</Name>
+									<Type>INT</Type>
+									<BitOffs>128</BitOffs>
+									<ExternalAddress>16</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iPartsCreatedInOneTime</Name>
+									<Type>INT</Type>
+									<BitOffs>144</BitOffs>
+									<ExternalAddress>18</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iErrorCode</Name>
+									<Type>INT</Type>
+									<BitOffs>160</BitOffs>
+									<ExternalAddress>20</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bLifeBitMachine</Name>
+									<Type>INT</Type>
+									<BitOffs>176</BitOffs>
+									<ExternalAddress>22</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bWorkInProgress</Name>
+									<Type>INT</Type>
+									<BitOffs>192</BitOffs>
+									<ExternalAddress>24</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bCycleEnd</Name>
+									<Type>INT</Type>
+									<BitOffs>208</BitOffs>
+									<ExternalAddress>26</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bError</Name>
+									<Type>INT</Type>
+									<BitOffs>224</BitOffs>
+									<ExternalAddress>28</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bAlarm</Name>
+									<Type>INT</Type>
+									<BitOffs>240</BitOffs>
+									<ExternalAddress>30</ExternalAddress>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="2" InsertType="1">
+								<Name>Outputs</Name>
+								<Var>
+									<Name>ConnCtrl</Name>
+									<Type>UDINT</Type>
+									<BitOffs>16</BitOffs>
+								</Var>
+								<Var>
+									<Name>iProductId</Name>
+									<Type>INT</Type>
+									<BitOffs>48</BitOffs>
+									<ExternalAddress>6</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iLifeBitPLC</Name>
+									<Type>INT</Type>
+									<BitOffs>64</BitOffs>
+									<ExternalAddress>8</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bWorkAllow</Name>
+									<Type>INT</Type>
+									<BitOffs>80</BitOffs>
+									<ExternalAddress>10</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bResetError</Name>
+									<Type>INT</Type>
+									<BitOffs>96</BitOffs>
+									<ExternalAddress>12</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bConfirmError</Name>
+									<Type>INT</Type>
+									<BitOffs>112</BitOffs>
+									<ExternalAddress>14</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bTestMode</Name>
+									<Type>INT</Type>
+									<BitOffs>128</BitOffs>
+									<ExternalAddress>16</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bStopPerform</Name>
+									<Type>INT</Type>
+									<BitOffs>144</BitOffs>
+									<ExternalAddress>18</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bWaitWithWork</Name>
+									<Type>INT</Type>
+									<BitOffs>160</BitOffs>
+									<ExternalAddress>20</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bOfflineWorkAllow</Name>
+									<Type>INT</Type>
+									<BitOffs>176</BitOffs>
+									<ExternalAddress>22</ExternalAddress>
+								</Var>
+							</Vars>
+						</SlaveConnection>
+					</EthernetIp>
+				</Box>
+				<Box Id="209" BoxType="9133">
+					<Name>Laser (TC EtherNet/IP Slave)</Name>
+					<ImageId>63</ImageId>
+					<Vars VarGrpType="1">
+						<Name>Inputs</Name>
+						<Var>
+							<Name>State</Name>
+							<Comment><![CDATA[0x8000 = Slave has no valid Assembly Object configured
+0x4000 = Slave has no valid IP Addr - pending DHCP request
+0x2000 = TCP server: unable to listen on local EtherNet/IP Port (44818)
+0x1000 = UDP server: unable to listen on local EtherNet/IP Port (44818)
+0x0XXX = reserved
+]]></Comment>
+							<Type>UINT</Type>
+							<BitOffs>256</BitOffs>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="2">
+						<Name>Outputs</Name>
+						<Var>
+							<Name>Ctrl</Name>
+							<Type>UINT</Type>
+							<BitOffs>192</BitOffs>
+						</Var>
+					</Vars>
+					<EthernetIp NewSlavePara="d10000004c61736572202854432045746865724e65742f495020536c61766529000000000c0000006c000000fc1900000101000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200d1a2346da40da8c000feffff010ca8c00000800001001e000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000">
+						<SlaveConnection Id="5" ConnectionPara="d5802b00000000000000000055aaffd5d5d5ffaa5500000000000000000055aaffd5802b0000002b80d5ffffaaaaaaffaa550000000000000000000000000000000000002b80d5d5802b0000000055aaffd5802b00000000000000000000000055aaffd5802b00000000000055aaffd5802b00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002b80d5ffffaa5500000000000000002b80805500000000000000002b80d5d5aaaad5d5802b00000000000000000000000055aaffd5802b0000000000002b80d5d5802b0000000000000000000000000000002b80d5ffffaaaaaaffaa550000000055aaffd5802b000000000000000000000000000000002b80d5d5802b2b80d5d5802b000000000000000055aaffd5805580d5d5802b0000000000000055aaffd5802b00000000000000000055aaffaa5500000000000000000000000000000000002b80d5d5802b000000000055aaffd5802b00000000000000000000000055aaffd5802b00000000000055aaffd5802b0000" AssemblyPara="050000000000000000000000000000000000000081000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001600000000000000000000000000000082000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001e0000000000000000000000000000008800000000000000890000000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" ConnectionType="1073741867">
+							<Name>Connection 1 (Input/Output)</Name>
+							<ImageId>24</ImageId>
+							<Vars VarGrpType="1" InsertType="1">
+								<Name>Inputs</Name>
+								<Var>
+									<Name>ConnState</Name>
+									<Comment><![CDATA[0x0001 = Connection is not running
+0x8000 = Connection is running but no new data received
+]]></Comment>
+									<Type>UDINT</Type>
+									<BitOffs>272</BitOffs>
+								</Var>
+								<Var>
+									<Name>iActualWorkStrep</Name>
+									<Type>INT</Type>
+									<BitOffs>304</BitOffs>
+									<ExternalAddress>6</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iGoodPartsAmountHighByte</Name>
+									<Type>INT</Type>
+									<BitOffs>320</BitOffs>
+									<ExternalAddress>8</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iGoodPartsAmountLowByte</Name>
+									<Type>INT</Type>
+									<BitOffs>336</BitOffs>
+									<ExternalAddress>10</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iBadPartsAmountHighByte</Name>
+									<Type>INT</Type>
+									<BitOffs>352</BitOffs>
+									<ExternalAddress>12</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iBadPartsAmountLowByte</Name>
+									<Type>INT</Type>
+									<BitOffs>368</BitOffs>
+									<ExternalAddress>14</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iCycleTime</Name>
+									<Type>INT</Type>
+									<BitOffs>384</BitOffs>
+									<ExternalAddress>16</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iPartsCreatedInOneTime</Name>
+									<Type>INT</Type>
+									<BitOffs>400</BitOffs>
+									<ExternalAddress>18</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iErrorCode</Name>
+									<Type>INT</Type>
+									<BitOffs>416</BitOffs>
+									<ExternalAddress>20</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bLifeBitMachine</Name>
+									<Type>INT</Type>
+									<BitOffs>432</BitOffs>
+									<ExternalAddress>22</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bWorkInProgress</Name>
+									<Type>INT</Type>
+									<BitOffs>448</BitOffs>
+									<ExternalAddress>24</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bCycleEnd</Name>
+									<Type>INT</Type>
+									<BitOffs>464</BitOffs>
+									<ExternalAddress>26</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bError</Name>
+									<Type>INT</Type>
+									<BitOffs>480</BitOffs>
+									<ExternalAddress>28</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bAlarm</Name>
+									<Type>INT</Type>
+									<BitOffs>496</BitOffs>
+									<ExternalAddress>30</ExternalAddress>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="2" InsertType="1">
+								<Name>Outputs</Name>
+								<Var>
+									<Name>ConnCtrl</Name>
+									<Type>UDINT</Type>
+									<BitOffs>208</BitOffs>
+								</Var>
+								<Var>
+									<Name>iProductId</Name>
+									<Type>INT</Type>
+									<BitOffs>240</BitOffs>
+									<ExternalAddress>6</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>iLifeBitPLC</Name>
+									<Type>INT</Type>
+									<BitOffs>256</BitOffs>
+									<ExternalAddress>8</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bWorkAllow</Name>
+									<Type>INT</Type>
+									<BitOffs>272</BitOffs>
+									<ExternalAddress>10</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bResetError</Name>
+									<Type>INT</Type>
+									<BitOffs>288</BitOffs>
+									<ExternalAddress>12</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bConfirmError</Name>
+									<Type>INT</Type>
+									<BitOffs>304</BitOffs>
+									<ExternalAddress>14</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bTestMode</Name>
+									<Type>INT</Type>
+									<BitOffs>320</BitOffs>
+									<ExternalAddress>16</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bStopPerform</Name>
+									<Type>INT</Type>
+									<BitOffs>336</BitOffs>
+									<ExternalAddress>18</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bWaitWithWork</Name>
+									<Type>INT</Type>
+									<BitOffs>352</BitOffs>
+									<ExternalAddress>20</ExternalAddress>
+								</Var>
+								<Var>
+									<Name>bOfflineWorkAllow</Name>
+									<Type>INT</Type>
+									<BitOffs>368</BitOffs>
+									<ExternalAddress>22</ExternalAddress>
+								</Var>
+							</Vars>
+						</SlaveConnection>
+					</EthernetIp>
+				</Box>
+				<Ethernet DeviceDesc="EL6652-0010 EtherNet/IP Adapter (Slave)"/>
+				<EtherNetIPSlaveDev/>
+			</Device>
 		</Io>
 	</Project>
 	<Mappings>
-		<MappingInfo Identifier="{00000000-2002-0850-0120-500810000403}" Id="#x02030070"/>
-		<MappingInfo Identifier="{00000000-2002-0850-0120-500841000403}" Id="#x02030040"/>
+		<MappingInfo Identifier="{00000000-2002-0850-0220-500810000403}" Id="#x02030070"/>
+		<MappingInfo Identifier="{00000000-2002-0850-0220-500841000403}" Id="#x02030040"/>
+		<MappingInfo Identifier="{00000000-2002-0850-0220-500860000403}" Id="#x02030090"/>
+		<MappingInfo Identifier="{00000000-2002-0850-0220-500870000403}" Id="#x020300b0"/>
+		<MappingInfo Identifier="{00000000-2002-0850-0220-500880000403}" Id="#x020300a0"/>
 		<MappingInfo Identifier="{00000000-0030-0304-2000-040330000403}" Id="#x02030010"/>
 		<MappingInfo Identifier="{00000000-0050-0304-2000-040352000403}" Id="#x02030050"/>
 		<MappingInfo Identifier="{08502002-0030-0304-0020-500830000403}" Id="#x02030030" Watchdog="00000000000000000000000000000000"/>
 		<MappingInfo Identifier="{08502002-0050-0304-0020-500850000403}" Id="#x02030060" Watchdog="00000000000000000000000000000000"/>
-		<MappingInfo Identifier="{05000010-2002-0850-2000-040301205008}" Id="#x02030080" Watchdog="14000000040000000400000004000000"/>
+		<MappingInfo Identifier="{05000010-2002-0850-2000-040302205008}" Id="#x02030080" Watchdog="14000000040000000400000004000000"/>
 		<MappingInfo Identifier="{03040040-0040-0304-4000-040340000403}" Id="#x02030020" Watchdog="04000000040000000400000004000000"/>
 		<OwnerA Name="TIPC^LWLine^LWLine Instance">
 			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S02_SonicTech (EK1818)">
@@ -7065,6 +8507,136 @@ S02]]></Comment>
 				<Link VarA="PlcTask Inputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.wDevResultBits_Reg1" VarB="API^Term 4 (Device Result Bits)^Subterm 6 (Device Result Bits)^Inputs^Device Result Bits Register1"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.uiProgNbToSet" VarB="API^Term 2 (Command Control)^Subterm 4 (Command Control)^Outputs^Program Number"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.wCmdControl_Reg0" VarB="API^Term 2 (Command Control)^Subterm 4 (Command Control)^Outputs^Command Control Register0"/>
+			</OwnerB>
+			<OwnerB Name="TIID^S01_CM1 (ECAT EIP Adapter (EL6652-0010))^Cork (TC EtherNet/IP Slave)">
+				<Link VarA="PlcTask Inputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iActualWorkStep" VarB="Connection 1 (Input/Output)^Inputs^iActualWorkStrep"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iAlarm" VarB="Connection 1 (Input/Output)^Inputs^bAlarm"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iBadPartsAmountHighByte" VarB="Connection 1 (Input/Output)^Inputs^iBadPartsAmountHighByte"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iBadPartsAmountLowByte" VarB="Connection 1 (Input/Output)^Inputs^iBadPartsAmountLowByte"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iConnectionState" VarB="Connection 1 (Input/Output)^Inputs^ConnState"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iCycleEnd" VarB="Connection 1 (Input/Output)^Inputs^bCycleEnd"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iCycleTime" VarB="Connection 1 (Input/Output)^Inputs^iCycleTime"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iError" VarB="Connection 1 (Input/Output)^Inputs^bError"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iErrorCode" VarB="Connection 1 (Input/Output)^Inputs^iErrorCode"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iGoodPartsAmountHighByte" VarB="Connection 1 (Input/Output)^Inputs^iGoodPartsAmountHighByte"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iGoodPartsAmountLowByte" VarB="Connection 1 (Input/Output)^Inputs^iGoodPartsAmountLowByte"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iLifeBitMachine" VarB="Connection 1 (Input/Output)^Inputs^bLifeBitMachine"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iPartsCreatedInOneTime" VarB="Connection 1 (Input/Output)^Inputs^iPartsCreatedInOneTime"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iWorkInProgress" VarB="Connection 1 (Input/Output)^Inputs^bWorkInProgress"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iConfirmError" VarB="Connection 1 (Input/Output)^Outputs^bConfirmError"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iConnectionControl" VarB="Connection 1 (Input/Output)^Outputs^ConnCtrl"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iLifeBitPLC" VarB="Connection 1 (Input/Output)^Outputs^iLifeBitPLC"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iOfflineWorkAllow" VarB="Connection 1 (Input/Output)^Outputs^bOfflineWorkAllow"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iProductID" VarB="Connection 1 (Input/Output)^Outputs^iProductId"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iResetError" VarB="Connection 1 (Input/Output)^Outputs^bResetError"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iStopPerform" VarB="Connection 1 (Input/Output)^Outputs^bStopPerform"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iTestMode" VarB="Connection 1 (Input/Output)^Outputs^bTestMode"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iWaitWithWork" VarB="Connection 1 (Input/Output)^Outputs^bWaitWithWork"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Cork_Machine.stEthernetCommunication.iWorkAllow" VarB="Connection 1 (Input/Output)^Outputs^bWorkAllow"/>
+			</OwnerB>
+			<OwnerB Name="TIID^S01_CM1 (ECAT EIP Adapter (EL6652-0010))^Filler A (TC EtherNet/IP Slave)">
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iActualWorkStep" VarB="Connection 1 (Input/Output)^Inputs^iActualWorkStrep"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iAlarm" VarB="Connection 1 (Input/Output)^Inputs^bAlarm"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iBadPartsAmountHighByte" VarB="Connection 1 (Input/Output)^Inputs^iBadPartsAmountHighByte"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iBadPartsAmountLowByte" VarB="Connection 1 (Input/Output)^Inputs^iBadPartsAmountLowByte"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iConnectionState" VarB="Connection 1 (Input/Output)^Inputs^ConnState"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iCycleEnd" VarB="Connection 1 (Input/Output)^Inputs^bCycleEnd"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iCycleTime" VarB="Connection 1 (Input/Output)^Inputs^iCycleTime"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iError" VarB="Connection 1 (Input/Output)^Inputs^bError"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iErrorCode" VarB="Connection 1 (Input/Output)^Inputs^iErrorCode"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iGoodPartsAmountHighByte" VarB="Connection 1 (Input/Output)^Inputs^iGoodPartsAmountHighByte"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iGoodPartsAmountLowByte" VarB="Connection 1 (Input/Output)^Inputs^iGoodPartsAmountLowByte"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iLifeBitMachine" VarB="Connection 1 (Input/Output)^Inputs^bLifeBitMachine"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iPartsCreatedInOneTime" VarB="Connection 1 (Input/Output)^Inputs^iPartsCreatedInOneTime"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iWorkInProgress" VarB="Connection 1 (Input/Output)^Inputs^bWorkInProgress"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iConfirmError" VarB="Connection 1 (Input/Output)^Outputs^bConfirmError"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iConnectionControl" VarB="Connection 1 (Input/Output)^Outputs^ConnCtrl"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iLifeBitPLC" VarB="Connection 1 (Input/Output)^Outputs^iLifeBitPLC"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iOfflineWorkAllow" VarB="Connection 1 (Input/Output)^Outputs^bOfflineWorkAllow"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iProductID" VarB="Connection 1 (Input/Output)^Outputs^iProductId"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iResetError" VarB="Connection 1 (Input/Output)^Outputs^bResetError"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iStopPerform" VarB="Connection 1 (Input/Output)^Outputs^bStopPerform"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iTestMode" VarB="Connection 1 (Input/Output)^Outputs^bTestMode"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iWaitWithWork" VarB="Connection 1 (Input/Output)^Outputs^bWaitWithWork"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Filler_A_Machine.stEthernetCommunication.iWorkAllow" VarB="Connection 1 (Input/Output)^Outputs^bWorkAllow"/>
+			</OwnerB>
+			<OwnerB Name="TIID^S03_CM1 (ECAT EIP Adapter (EL6652-0010))^Filler_B (TC EtherNet/IP Slave)">
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iActualWorkStep" VarB="Connection 1 (Input/Output)^Inputs^iActualWorkStrep"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iAlarm" VarB="Connection 1 (Input/Output)^Inputs^bAlarm"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iBadPartsAmountHighByte" VarB="Connection 1 (Input/Output)^Inputs^iBadPartsAmountHighByte"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iBadPartsAmountLowByte" VarB="Connection 1 (Input/Output)^Inputs^iBadPartsAmountLowByte"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iConnectionState" VarB="Connection 1 (Input/Output)^Inputs^ConnState"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iCycleEnd" VarB="Connection 1 (Input/Output)^Inputs^bCycleEnd"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iCycleTime" VarB="Connection 1 (Input/Output)^Inputs^iCycleTime"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iError" VarB="Connection 1 (Input/Output)^Inputs^bError"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iErrorCode" VarB="Connection 1 (Input/Output)^Inputs^iErrorCode"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iGoodPartsAmountHighByte" VarB="Connection 1 (Input/Output)^Inputs^iGoodPartsAmountHighByte"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iGoodPartsAmountLowByte" VarB="Connection 1 (Input/Output)^Inputs^iGoodPartsAmountLowByte"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iLifeBitMachine" VarB="Connection 1 (Input/Output)^Inputs^bLifeBitMachine"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iPartsCreatedInOneTime" VarB="Connection 1 (Input/Output)^Inputs^iPartsCreatedInOneTime"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iWorkInProgress" VarB="Connection 1 (Input/Output)^Inputs^bWorkInProgress"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iConfirmError" VarB="Connection 1 (Input/Output)^Outputs^bConfirmError"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iConnectionControl" VarB="Connection 1 (Input/Output)^Outputs^ConnCtrl"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iLifeBitPLC" VarB="Connection 1 (Input/Output)^Outputs^iLifeBitPLC"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iOfflineWorkAllow" VarB="Connection 1 (Input/Output)^Outputs^bOfflineWorkAllow"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iProductID" VarB="Connection 1 (Input/Output)^Outputs^iProductId"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iResetError" VarB="Connection 1 (Input/Output)^Outputs^bResetError"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iStopPerform" VarB="Connection 1 (Input/Output)^Outputs^bStopPerform"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iTestMode" VarB="Connection 1 (Input/Output)^Outputs^bTestMode"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iWaitWithWork" VarB="Connection 1 (Input/Output)^Outputs^bWaitWithWork"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Filler_B_Machine.stEthernetCommunication.iWorkAllow" VarB="Connection 1 (Input/Output)^Outputs^bWorkAllow"/>
+			</OwnerB>
+			<OwnerB Name="TIID^S06_CM1 (ECAT EIP Adapter (EL6652-0010))^Laser (TC EtherNet/IP Slave)">
+				<Link VarA="PlcTask Inputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iActualWorkStep" VarB="Connection 1 (Input/Output)^Inputs^iActualWorkStrep"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iAlarm" VarB="Connection 1 (Input/Output)^Inputs^bAlarm"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iBadPartsAmountHighByte" VarB="Connection 1 (Input/Output)^Inputs^iBadPartsAmountHighByte"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iBadPartsAmountLowByte" VarB="Connection 1 (Input/Output)^Inputs^iBadPartsAmountLowByte"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iConnectionState" VarB="Connection 1 (Input/Output)^Inputs^ConnState"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iCycleEnd" VarB="Connection 1 (Input/Output)^Inputs^bCycleEnd"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iCycleTime" VarB="Connection 1 (Input/Output)^Inputs^iCycleTime"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iError" VarB="Connection 1 (Input/Output)^Inputs^bError"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iErrorCode" VarB="Connection 1 (Input/Output)^Inputs^iErrorCode"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iGoodPartsAmountHighByte" VarB="Connection 1 (Input/Output)^Inputs^iGoodPartsAmountHighByte"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iGoodPartsAmountLowByte" VarB="Connection 1 (Input/Output)^Inputs^iGoodPartsAmountLowByte"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iLifeBitMachine" VarB="Connection 1 (Input/Output)^Inputs^bLifeBitMachine"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iPartsCreatedInOneTime" VarB="Connection 1 (Input/Output)^Inputs^iPartsCreatedInOneTime"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iWorkInProgress" VarB="Connection 1 (Input/Output)^Inputs^bWorkInProgress"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iConfirmError" VarB="Connection 1 (Input/Output)^Outputs^bConfirmError"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iConnectionControl" VarB="Connection 1 (Input/Output)^Outputs^ConnCtrl"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iLifeBitPLC" VarB="Connection 1 (Input/Output)^Outputs^iLifeBitPLC"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iOfflineWorkAllow" VarB="Connection 1 (Input/Output)^Outputs^bOfflineWorkAllow"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iProductID" VarB="Connection 1 (Input/Output)^Outputs^iProductId"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iResetError" VarB="Connection 1 (Input/Output)^Outputs^bResetError"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iStopPerform" VarB="Connection 1 (Input/Output)^Outputs^bStopPerform"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iTestMode" VarB="Connection 1 (Input/Output)^Outputs^bTestMode"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iWaitWithWork" VarB="Connection 1 (Input/Output)^Outputs^bWaitWithWork"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Laser_Machine.stEthernetCommunication.iWorkAllow" VarB="Connection 1 (Input/Output)^Outputs^bWorkAllow"/>
+			</OwnerB>
+			<OwnerB Name="TIID^S06_CM1 (ECAT EIP Adapter (EL6652-0010))^Sticker (TC EtherNet/IP Slave)">
+				<Link VarA="PlcTask Inputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iActualWorkStep" VarB="Connection 1 (Input/Output)^Inputs^iActualWorkStrep"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iAlarm" VarB="Connection 1 (Input/Output)^Inputs^bAlarm"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iBadPartsAmountHighByte" VarB="Connection 1 (Input/Output)^Inputs^iBadPartsAmountHighByte"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iBadPartsAmountLowByte" VarB="Connection 1 (Input/Output)^Inputs^iBadPartsAmountLowByte"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iConnectionState" VarB="Connection 1 (Input/Output)^Inputs^ConnState"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iCycleEnd" VarB="Connection 1 (Input/Output)^Inputs^bCycleEnd"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iCycleTime" VarB="Connection 1 (Input/Output)^Inputs^iCycleTime"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iError" VarB="Connection 1 (Input/Output)^Inputs^bError"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iErrorCode" VarB="Connection 1 (Input/Output)^Inputs^iErrorCode"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iGoodPartsAmountHighByte" VarB="Connection 1 (Input/Output)^Inputs^iGoodPartsAmountHighByte"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iGoodPartsAmountLowByte" VarB="Connection 1 (Input/Output)^Inputs^iGoodPartsAmountLowByte"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iLifeBitMachine" VarB="Connection 1 (Input/Output)^Inputs^bLifeBitMachine"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iPartsCreatedInOneTime" VarB="Connection 1 (Input/Output)^Inputs^iPartsCreatedInOneTime"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iWorkInProgress" VarB="Connection 1 (Input/Output)^Inputs^bWorkInProgress"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iConfirmError" VarB="Connection 1 (Input/Output)^Outputs^bConfirmError"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iConnectionControl" VarB="Connection 1 (Input/Output)^Outputs^ConnCtrl"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iLifeBitPLC" VarB="Connection 1 (Input/Output)^Outputs^iLifeBitPLC"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iOfflineWorkAllow" VarB="Connection 1 (Input/Output)^Outputs^bOfflineWorkAllow"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iProductID" VarB="Connection 1 (Input/Output)^Outputs^iProductId"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iResetError" VarB="Connection 1 (Input/Output)^Outputs^bResetError"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iStopPerform" VarB="Connection 1 (Input/Output)^Outputs^bStopPerform"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iTestMode" VarB="Connection 1 (Input/Output)^Outputs^bTestMode"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iWaitWithWork" VarB="Connection 1 (Input/Output)^Outputs^bWaitWithWork"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_Sticker_Machine.stEthernetCommunication.iWorkAllow" VarB="Connection 1 (Input/Output)^Outputs^bWorkAllow"/>
 			</OwnerB>
 			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Axis_G1_M1_Dn">
 				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.fbAxisDn.stInOuts.stAxis_Data.NcToPlc" VarB="Outputs^ToPlc"/>

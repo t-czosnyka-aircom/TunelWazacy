@@ -20,6 +20,7 @@ END_VAR
     <Implementation>
       <ST><![CDATA[fbVisionSensor(iInspectionToActive:=stParams.iProgramNumber);
 I_Vision := fbVisionSensor;
+stParams.bInspectionEnable S=  GVL.fbUserLogin.nUserRole <> nSQL_UserRoles.Maintenance;
 CASE iWorkStep OF
 	0:		// Powrót do stanu początkowego (ustawienie zmiennych)
 		bResetMethod := bQReady := bQBusy := bQError := FALSE;
@@ -139,6 +140,7 @@ END_CASE]]></ST>
     </Implementation>
     <LineIds Name="fbSealingCorkAssKeyencePN">
       <LineId Id="3" Count="1" />
+      <LineId Id="171" Count="0" />
       <LineId Id="6" Count="29" />
       <LineId Id="118" Count="2" />
       <LineId Id="36" Count="4" />

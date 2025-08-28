@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <DUT Name="stInOutsEthernetCommunication" Id="{3637ccde-9727-43a3-bf67-187ed4629d2a}">
+    <Declaration><![CDATA[TYPE stInOutsEthernetCommunication :
+STRUCT
+	//Inputs
+	iConnectionState			AT %I* 	: UDINT;
+	iActualWorkStep				AT %I*	: INT;
+	iGoodPartsAmountHighByte	AT %I*	: INT;
+	iGoodPartsAmountLowByte		AT %I*	: INT;
+	iBadPartsAmountHighByte		AT %I*	: INT;
+	iBadPartsAmountLowByte		AT %I*	: INT;
+	iCycleTime					AT %I*	: INT;
+	iPartsCreatedInOneTime		AT %I*	: INT;
+	iErrorCode					AT %I*	: INT;
+	iLifeBitMachine				AT %I*	: INT;
+	iWorkInProgress				AT %I*	: INT;
+	iCycleEnd					AT %I*	: INT;
+	iError						AT %I*	: INT;
+	iAlarm						AT %I*	: INT;
+	//Outputs
+	iConnectionControl			AT %Q* 	: UDINT;
+	iProductID					AT %Q*	: INT;
+	iLifeBitPLC					AT %Q*	: INT;
+	iWorkAllow					AT %Q*	: INT;
+	iResetError					AT %Q*	: INT;
+	iConfirmError				AT %Q*	: INT;
+	iTestMode					AT %Q*	: INT;
+	iStopPerform				AT %Q*	: INT;
+	iWaitWithWork				AT %Q*	: INT;
+	iOfflineWorkAllow			AT %Q*	: INT;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
