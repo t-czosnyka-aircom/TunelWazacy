@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
   <EnumerationTextList Name="nHP_Axis_AdjustmentModes" Id="{db58ba8b-d863-490c-b09e-46c9b83522b9}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 {attribute 'strict'}
@@ -7,7 +7,8 @@ TYPE nHP_Axis_AdjustmentModes :
 (
 	None := 0,
 	FitByABS := 1,
-	FitByDRM := 2
+	FitByDRM := 2,
+	FitByForfce := 3
 );
 END_TYPE
 ]]></Declaration>
@@ -28,6 +29,11 @@ END_TYPE
             <o>
               <v n="TextID">"FitByDRM"</v>
               <v n="TextDefault">"2"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"FitByForfce"</v>
+              <v n="TextDefault">"3"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>

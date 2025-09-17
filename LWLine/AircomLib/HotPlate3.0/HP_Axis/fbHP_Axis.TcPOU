@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
   <POU Name="fbHP_Axis" Id="{f41e0dee-2020-4b0f-95c8-8a778a61a25d}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK fbHP_Axis ////Blok funkcyjny obslugujacy kompleksowao jedna Os 
 VAR_INPUT
@@ -770,7 +770,7 @@ CASE iWorkStep_Alghorithm OF
 							arg2:= F_LREAL(lrTmp),
 							arg3:= F_LREAL(lrMeltingEnergyCalculation));
 						mAddTimeStat(sText :=GVL_Aircom.fbFormatString.sOut);
-					END_IF		
+					END_IF			
 			END_CASE
 			IF iWorkStep_Alghorithm <> 31 THEN
 				bMeltingActive:= FALSE;
@@ -1729,7 +1729,11 @@ END_VAR
       <LineId Id="407" Count="0" />
       <LineId Id="94" Count="23" />
       <LineId Id="409" Count="0" />
-      <LineId Id="118" Count="288" />
+      <LineId Id="118" Count="25" />
+      <LineId Id="412" Count="0" />
+      <LineId Id="145" Count="9" />
+      <LineId Id="413" Count="0" />
+      <LineId Id="156" Count="250" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="fbHP_Axis.ActualForce.Get">

@@ -66,6 +66,12 @@
     <Compile Include="AircomLib\HotPlate3.0\fbHPv3_Control.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AircomLib\HotPlate3.0\HP_CurrentVerifier\fbHP_WeldPlateHeaterChecker.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AircomLib\HotPlate3.0\HP_CurrentVerifier\stHP_WelderingPlateParams.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="AircomLib\HotPlate3.0\VISUs\Subframes\vHP3_MachineSub_Main.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
@@ -102,6 +108,10 @@
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
     <Compile Include="AircomLib\HotPlate3.0\VISUs\VisuModules\vHP3_AxisBrakeControl.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="AircomLib\HotPlate3.0\VISUs\VisuModules\vHP3_WeldingPlateMonitorVisu.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
@@ -537,6 +547,7 @@
     <Folder Include="AircomLib\DetectionTunel\ST" />
     <Folder Include="AircomLib\HotPlate3.0" />
     <Folder Include="AircomLib\HotPlate3.0\DUTs" />
+    <Folder Include="AircomLib\HotPlate3.0\HP_CurrentVerifier" />
     <Folder Include="AircomLib\HotPlate3.0\VISUs" />
     <Folder Include="AircomLib\HotPlate3.0\VISUs\Subframes" />
     <Folder Include="AircomLib\HotPlate3.0\VISUs\VisuModules" />
@@ -671,12 +682,6 @@
     <PlaceholderReference Include="Tc3_EventLogger">
       <DefaultResolution>Tc3_EventLogger, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_EventLogger</Namespace>
-      <Parameters>
-        <Parameter ListName="PARAMETERLIST" xmlns="">
-          <Key>CSOURCENAMESIZE</Key>
-          <Value>256</Value>
-        </Parameter>
-      </Parameters>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Interfaces">
       <DefaultResolution>Tc3_Interfaces, * (Beckhoff Automation GmbH)</DefaultResolution>
@@ -689,12 +694,6 @@
     <PlaceholderReference Include="Util">
       <DefaultResolution>Util, * (System)</DefaultResolution>
       <Namespace>Util</Namespace>
-      <Parameters>
-        <Parameter ListName="TEXTBLOCKSIZE" xmlns="">
-          <Key>IBLOCKSIZE</Key>
-          <Value>22800</Value>
-        </Parameter>
-      </Parameters>
     </PlaceholderReference>
     <PlaceholderReference Include="VisuDialogs">
       <DefaultResolution>VisuDialogs, * (System)</DefaultResolution>
@@ -727,61 +726,9 @@
     </LibraryReference>
     <LibraryReference Include="Tc2_System,newest,Beckhoff Automation GmbH">
       <Namespace>Tc2_System</Namespace>
-      <Parameters>
-        <Parameter ListName="PARAM" xmlns="">
-          <Key>TABLE_UPPER_BOUND</Key>
-          <Value>15</Value>
-        </Parameter>
-        <Parameter ListName="PARAM" xmlns="">
-          <Key>STRING_LENGTH_EXP</Key>
-          <Value>255</Value>
-        </Parameter>
-        <Parameter ListName="PARAM" xmlns="">
-          <Key>STRING_LENGTH_ADDRESS</Key>
-          <Value>20</Value>
-        </Parameter>
-        <Parameter ListName="PARAM" xmlns="">
-          <Key>STRING_LENGTH_COMMENT</Key>
-          <Value>255</Value>
-        </Parameter>
-        <Parameter ListName="PARAM" xmlns="">
-          <Key>STRING_LENGTH_OUTSTRING</Key>
-          <Value>255</Value>
-        </Parameter>
-        <Parameter ListName="PARAM" xmlns="">
-          <Key>TABLE_SHOW_VALID_ITEMS</Key>
-          <Value>FALSE</Value>
-        </Parameter>
-      </Parameters>
     </LibraryReference>
     <LibraryReference Include="Tc2_Utilities,newest,Beckhoff Automation GmbH">
       <Namespace>Tc2_Utilities</Namespace>
-      <Parameters>
-        <Parameter ListName="PARAMETERLIST" xmlns="">
-          <Key>NMAXLICENSES</Key>
-          <Value>50</Value>
-        </Parameter>
-        <Parameter ListName="PARAMETERLIST" xmlns="">
-          <Key>NMAXLICENSEDEVICES</Key>
-          <Value>16</Value>
-        </Parameter>
-        <Parameter ListName="PARAMETERLIST" xmlns="">
-          <Key>NMAXCPUCOUNT</Key>
-          <Value>64</Value>
-        </Parameter>
-        <Parameter ListName="PARAMETERLIST" xmlns="">
-          <Key>CMAXCHARACTERS</Key>
-          <Value>16#FFFFFFF0</Value>
-        </Parameter>
-        <Parameter ListName="PARAMETERLIST" xmlns="">
-          <Key>NMAXFILESONDONGLE</Key>
-          <Value>20</Value>
-        </Parameter>
-        <Parameter ListName="PARAMETERLIST" xmlns="">
-          <Key>CMAXCSVFIELDVALUESIZE</Key>
-          <Value>255</Value>
-        </Parameter>
-      </Parameters>
     </LibraryReference>
     <LibraryReference Include="Visu Interfaces,newest,System">
       <Namespace>Visu_Interfaces</Namespace>

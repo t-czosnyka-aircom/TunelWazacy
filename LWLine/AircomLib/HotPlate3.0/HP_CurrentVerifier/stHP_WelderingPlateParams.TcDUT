@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <DUT Name="stHP_WelderingPlateParams" Id="{ce71af35-6b98-4f0b-9abd-a2641e63284d}">
+    <Declaration><![CDATA[TYPE stHP_WelderingPlateParams :
+STRUCT
+	rWeldingPlateHeaterPower			: REAL 	:= 500;	// Moc pojedyńczej grzałki
+	iWeldingPlateHeatersAmount			: UINT	:= 2;	// Liczba grzałek na HP
+	bEnableWelderHeatersBurnDetection	: BOOL 	:= FALSE;//Załączenie detekcji spaalenia grzałek na maszynie		
+	rMaximalCurrentDeviation			: REAL 	:= 30;	//Maksymalna różnica zużycia prądu w przypadku pracy grzalek w [%]
+	stCalibrationData			: stMeasurementScalingData;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
