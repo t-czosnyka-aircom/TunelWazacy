@@ -112,6 +112,11 @@ VAR
 	bWaitForSP: BOOL;
 	lrMeltingPrevPosition: LREAL;
 	lrMeltingEnergyCalculation: LREAL;
+	//Nowe łączenie po sile
+	bForceConnectingForceArchived	: BOOL;
+	fbForceConnectingTimer			: TON;
+	bCoolingActive					: BOOL;
+	
 END_VAR
 VAR PERSISTENT
 	lrBasePos_mm		: LREAL;
@@ -549,7 +554,7 @@ fbMc_ForcePID(
 	Y_OFFSET:= 0.0, 
 	Y_MIN:= 0.2, 
 	Y_MAX:= 100*stSettings.rSlowSpeed_mm_s, 
-	MANUAL:= bWaitForSP OR NOT bMeltingActive OR NOT bPID_ForceRegulation, 
+	MANUAL:= bWaitForSP OR (NOT bMeltingActive AND NOT bCoolingActive AND NOT (bConnectingActive AND bPID_ForceRegulation)) OR NOT bPID_ForceRegulation, //Tutaj dodano
 	RESET:=, 
 	Y=> );
 
@@ -588,7 +593,7 @@ CASE iTestPIR_Reg OF
 		END_IF		
 END_CASE
 
-IF bMeltingActive OR bConnectingActive THEN
+IF bMeltingActive OR bConnectingActive OR bCoolingActive THEN
 	McMoveVelocity.Direction:= MC_Direction.MC_Positive_Direction;
 	IF bPID_ForceRegulation THEN
 		bWaitForSP R= fbMc_ForcePID.ACTUAL<fbMc_ForcePID.SET_POINT ;
@@ -620,7 +625,7 @@ END_IF]]></ST>
 CASE iWorkStep_Alghorithm OF
 	0:		// Check if
 		fbTON_WorkStepTime_Alg(IN:= FALSE);
-		bMeltingActive := bConnectingActive := bDetectCollision_Active := FALSE;
+		bCoolingActive := bMeltingActive := bConnectingActive := bDetectCollision_Active := FALSE;
 		iWorkStep_Alghorithm := 10;
 		
 	10: 	// Waiting for new operation
@@ -918,11 +923,12 @@ CASE iWorkStep_Alghorithm OF
 		IF iWorkStep_Alghorithm <> 55 THEN fbTON_WorkStepTime_Alg(IN:= FALSE); END_IF	
 			
 	56:		// Connecting
-		fbTON_WorkStepTime_Alg(IN:= TRUE, PT:= REAL_TO_TIME(stTestParams.rConnectingTimeout_s*1000));
+		fbTON_WorkStepTime_Alg(IN:= TRUE, PT:= REAL_TO_TIME(stTestParams.rConnectingTimeout_s*1000+stTestParams.rStabilForceConnectingTime*1000*BOOL_TO_REAL(nHP_Axis_ConnectionModes.FitByForceNew=stTestParams.nConnectingMode)));
 		bConnectingActive:= TRUE;
 		fbMc_ForcePID.ACTUAL := ActualForce;	// rExternalForce_N;
 		fbMc_ForcePID.SET_POINT := stTestParams.rConnectingForce_N; 
-		bPID_ForceRegulation := FALSE;
+		//bPID_ForceRegulation := FALSE; //
+		bPID_ForceRegulation := (nHP_Axis_ConnectionModes.FitByForceNew = stTestParams.nConnectingMode); //
 		bConnectionMinForceReached S= ActualForce > stTestParams.rConnectingMinForce_N;
 		IF rConnectingMaxForce < ActualForce THEN
  			rConnectingMaxForce := ActualForce;
@@ -984,9 +990,37 @@ CASE iWorkStep_Alghorithm OF
 						iWorkStep_Alghorithm := 57;
 					END_IF 
 				END_IF		
-							
+			nHP_Axis_ConnectionModes.FitByForceNew:
+				bForceConnectingForceArchived S= ActualForce >= (stTestParams.rConnectingForce_N - 1) ;
+				bForceConnectingForceArchived R= ABS(1-(ActualForce/stTestParams.rConnectingForce_N)) > 0.4; //Wykonaj reset jeżeli różnica w sile jest większa niż 40 %
+				
+				fbForceConnectingTimer(IN:=bForceConnectingForceArchived,PT:=REAL_TO_TIME(stTestParams.rStabilForceConnectingTime*1000));
+				IF fbForceConnectingTimer.Q THEN
+					lrTmp:= ActualPosition - lrConnectionContactPoint_mm;
+					GVL_Aircom.fbFormatString(sFormat := 'Laczenie na sile osiągnięto czas - pozycja %.3f[mm], droga %.3f[mm]',
+							arg1:= F_LREAL(McReadActualPosition.Position),
+							arg2:= F_LREAL(lrTmp));
+					mAddTimeStat(sText :=GVL_Aircom.fbFormatString.sOut);
+					fbForceConnectingTimer(IN:=FALSE);
+					bForceConnectingForceArchived R= TRUE;
+					bPID_ForceRegulation := FALSE;
+					iWorkStep_Alghorithm := 57;
+				ELSIF ActualPosition > (lrConnectionContactPoint_mm + stTestParams.lrConnectingDistance_mm) THEN
+					lrTmp:= ActualPosition - lrConnectionContactPoint_mm;
+					GVL_Aircom.fbFormatString(sFormat := 'Laczenie na sile osiągnięto pozycję - pozycja %.3f[mm], droga %.3f[mm]',
+							arg1:= F_LREAL(McReadActualPosition.Position),
+							arg2:= F_LREAL(lrTmp));
+					mAddTimeStat(sText :=GVL_Aircom.fbFormatString.sOut);
+					fbForceConnectingTimer(IN:=FALSE);
+					bForceConnectingForceArchived R= TRUE;
+					bPID_ForceRegulation := FALSE;
+					iWorkStep_Alghorithm := 57;
+				END_IF	
 		END_CASE
 		IF fbTON_WorkStepTime_Alg.Q THEN
+			fbForceConnectingTimer(IN:=FALSE);
+			bForceConnectingForceArchived R= TRUE;
+			bPID_ForceRegulation := FALSE;
 			mNewEvent(nEvent:= nHP_Axis_ErrorList.ConnectionTimeout, ErrorCode := INT_TO_UDINT(iWorkStep_Alghorithm));
 		END_IF
 		IF iWorkStep_Alghorithm <> 56 THEN 
@@ -1007,10 +1041,28 @@ CASE iWorkStep_Alghorithm OF
 		END_IF
 		
 	60:		// Cooling down
+		bPID_ForceRegulation := stTestParams.bAllowCoolingForceAquire;
+		bCoolingActive:= stTestParams.bAllowCoolingForceAquire;
+		fbMc_ForcePID.ACTUAL := ActualForce;
+		fbMc_ForcePID.SET_POINT := stTestParams.rFirstCoolingForceSetUp - (stTestParams.rFirstCoolingForceSetUp - stTestParams.rSecondCoolingforceSetUp)*(TIME_TO_REAL(fbTON_WorkStepTime_Alg.ET)/(stTestParams.rCoolingDownTime_s*1000));
 		fbTON_WorkStepTime_Alg(IN:= TRUE, PT:= REAL_TO_TIME(stTestParams.rCoolingDownTime_s*1000));
 		IF fbTON_WorkStepTime_Alg.Q THEN		// Parts connected
 			fbTON_WorkStepTime_Alg(IN:= FALSE);
+			bPID_ForceRegulation := FALSE;
+			bCoolingActive:= FALSE;
+			McMoveVelocity.Execute := FALSE;
+			McStop.Execute := TRUE;
+			iWorkStep_Alghorithm := 65;
+		END_IF
+		
+	65:	//Stop	
+		IF McStop.Done THEN
+			McStop.Execute := FALSE; 
+			fbTON_WorkStepTime_Alg(IN:= FALSE);
 			iWorkStep_Alghorithm := 70;
+		ELSIF McStop.Error THEN
+			McStop.Execute := FALSE; 
+			mNewEvent(nEvent:= nHP_Axis_ErrorList.MotionFB_Error, ErrorCode := McStop.ErrorID);
 		END_IF
 		
 	70:		// Connection ended
@@ -1733,7 +1785,43 @@ END_VAR
       <LineId Id="412" Count="0" />
       <LineId Id="145" Count="9" />
       <LineId Id="413" Count="0" />
-      <LineId Id="156" Count="250" />
+      <LineId Id="156" Count="150" />
+      <LineId Id="464" Count="0" />
+      <LineId Id="307" Count="61" />
+      <LineId Id="414" Count="0" />
+      <LineId Id="431" Count="1" />
+      <LineId Id="434" Count="0" />
+      <LineId Id="433" Count="0" />
+      <LineId Id="437" Count="0" />
+      <LineId Id="447" Count="4" />
+      <LineId Id="458" Count="0" />
+      <LineId Id="461" Count="0" />
+      <LineId Id="465" Count="0" />
+      <LineId Id="443" Count="0" />
+      <LineId Id="445" Count="0" />
+      <LineId Id="453" Count="4" />
+      <LineId Id="459" Count="1" />
+      <LineId Id="466" Count="0" />
+      <LineId Id="452" Count="0" />
+      <LineId Id="444" Count="0" />
+      <LineId Id="370" Count="1" />
+      <LineId Id="462" Count="1" />
+      <LineId Id="467" Count="0" />
+      <LineId Id="372" Count="17" />
+      <LineId Id="468" Count="0" />
+      <LineId Id="391" Count="0" />
+      <LineId Id="484" Count="2" />
+      <LineId Id="483" Count="0" />
+      <LineId Id="392" Count="2" />
+      <LineId Id="481" Count="1" />
+      <LineId Id="487" Count="1" />
+      <LineId Id="395" Count="1" />
+      <LineId Id="476" Count="0" />
+      <LineId Id="397" Count="0" />
+      <LineId Id="489" Count="6" />
+      <LineId Id="478" Count="0" />
+      <LineId Id="496" Count="0" />
+      <LineId Id="398" Count="8" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="fbHP_Axis.ActualForce.Get">

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
   <EnumerationTextList Name="nHP_Axis_ConnectionModes" Id="{c726e8a5-2102-421a-a540-61b05819599d}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 {attribute 'strict'}
@@ -8,7 +8,8 @@ TYPE nHP_Axis_ConnectionModes :
 	None := 0,
 	FitByABS := 1,
 	FitByDRM := 2,
-	FitByForce := 3
+	FitByForce := 3,
+	FitByForceNew := 4
 	
 );
 END_TYPE
@@ -35,6 +36,11 @@ END_TYPE
             <o>
               <v n="TextID">"FitByForce"</v>
               <v n="TextDefault">"3"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"FitByForceNew"</v>
+              <v n="TextDefault">"4"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>

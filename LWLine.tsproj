@@ -2,58 +2,6 @@
 <TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.68">
 	<DataTypes>
 		<DataType>
-			<Name GUID="{12E80FF5-6251-C867-A464-3036E21E986D}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..5] OF BYTE</Name>
-			<BitSize>48</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>6</Elements>
-			</ArrayInfo>
-		</DataType>
-		<DataType>
-			<Name GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom" AutoDeleteType="true">EL6inData22B</Name>
-			<Comment><![CDATA[ This data type is corresponding to the
-   EL-6xxx data structure used in the
-   TwinCAT SystemManager
-   (EL-6xxx version using 22 data bytes) 
-]]></Comment>
-			<BitSize>192</BitSize>
-			<SubItem>
-				<Name>Status</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>D</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>22</Elements>
-				</ArrayInfo>
-				<BitSize>176</BitSize>
-				<BitOffs>16</BitOffs>
-			</SubItem>
-		</DataType>
-		<DataType>
-			<Name GUID="{481A0C15-D2DB-59F6-F498-C30AA9C1998C}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..7] OF BOOL</Name>
-			<BitSize>64</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>8</Elements>
-			</ArrayInfo>
-		</DataType>
-		<DataType>
-			<Name GUID="{2982B12D-8728-3DC7-15E9-7EFAACC33702}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..1] OF INT</Name>
-			<BitSize>32</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>2</Elements>
-			</ArrayInfo>
-		</DataType>
-		<DataType>
 			<Name GUID="{CBC83B73-B816-4597-A9E5-2B03263CA131}" Namespace="MC" TcBaseType="true" HideType="true" IecDeclaration="DWORD;">NCTOPLC_AXIS_REF_STATE</Name>
 			<BitSize>32</BitSize>
 			<SubItem>
@@ -847,7 +795,16 @@ External Setpoint Generation:
 			</Relations>
 		</DataType>
 		<DataType>
-			<Name GUID="{D6B0A42D-897A-4B90-95E8-3C741C3CE3EE}" Namespace="Tc2_SerialCom" AutoDeleteType="true">EL6outData22B</Name>
+			<Name GUID="{12E80FF5-6251-C867-A464-3036E21E986D}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..5] OF BYTE</Name>
+			<BitSize>48</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>6</Elements>
+			</ArrayInfo>
+		</DataType>
+		<DataType>
+			<Name GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom" AutoDeleteType="true">EL6inData22B</Name>
 			<Comment><![CDATA[ This data type is corresponding to the
    EL-6xxx data structure used in the
    TwinCAT SystemManager
@@ -855,7 +812,7 @@ External Setpoint Generation:
 ]]></Comment>
 			<BitSize>192</BitSize>
 			<SubItem>
-				<Name>Ctrl</Name>
+				<Name>Status</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
 				<BitSize>16</BitSize>
 				<BitOffs>0</BitOffs>
@@ -872,12 +829,21 @@ External Setpoint Generation:
 			</SubItem>
 		</DataType>
 		<DataType>
-			<Name GUID="{ACB00D92-8A3C-90A7-DB92-3AB4C0604945}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..3] OF BOOL</Name>
-			<BitSize>32</BitSize>
+			<Name GUID="{481A0C15-D2DB-59F6-F498-C30AA9C1998C}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..7] OF BOOL</Name>
+			<BitSize>64</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
 			<ArrayInfo>
 				<LBound>0</LBound>
-				<Elements>4</Elements>
+				<Elements>8</Elements>
+			</ArrayInfo>
+		</DataType>
+		<DataType>
+			<Name GUID="{2982B12D-8728-3DC7-15E9-7EFAACC33702}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..1] OF INT</Name>
+			<BitSize>32</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>2</Elements>
 			</ArrayInfo>
 		</DataType>
 		<DataType>
@@ -1068,6 +1034,40 @@ External Setpoint Generation:
 			</Relations>
 		</DataType>
 		<DataType>
+			<Name GUID="{D6B0A42D-897A-4B90-95E8-3C741C3CE3EE}" Namespace="Tc2_SerialCom" AutoDeleteType="true">EL6outData22B</Name>
+			<Comment><![CDATA[ This data type is corresponding to the
+   EL-6xxx data structure used in the
+   TwinCAT SystemManager
+   (EL-6xxx version using 22 data bytes) 
+]]></Comment>
+			<BitSize>192</BitSize>
+			<SubItem>
+				<Name>Ctrl</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>D</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>22</Elements>
+				</ArrayInfo>
+				<BitSize>176</BitSize>
+				<BitOffs>16</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{ACB00D92-8A3C-90A7-DB92-3AB4C0604945}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..3] OF BOOL</Name>
+			<BitSize>32</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>4</Elements>
+			</ArrayInfo>
+		</DataType>
+		<DataType>
 			<Name GUID="{85DC3E7A-8ADA-435B-9479-25573909A7DB}" Namespace="AX5000" TcBaseType="true">E_AX5000_P_0275_ActiveFeedbackAndMemory</Name>
 			<BitSize>8</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
@@ -1137,17 +1137,19 @@ External Setpoint Generation:
 				<Cpu CpuId="1"/>
 			</Settings>
 			<Licenses CacheOrCheckLicensesOnStartup="true">
-				<Target BkhfOrder="01490800">
+				<Target BkhfOrder="01639279">
 					<ManualSelect>{92583661-35AE-45CE-BD4F-C35BFE16F07E}</ManualSelect>
+					<ManualSelect>{BDCC0070-42D5-49AE-ABF1-1D4434813D60}</ManualSelect>
 					<ManualSelect>{6952449D-F68C-49A2-ADE4-8639D85B33A4}</ManualSelect>
 					<ManualSelect>{A1AF8A04-C08D-4853-A5A0-0E6C3A278A8C}</ManualSelect>
 					<TargetSelect TargetId="2">{BF78CFC7-2E63-42C3-8C07-BB6C346BFB8B}</TargetSelect>
-					<TargetSelect TargetId="2">{66689887-CCBD-452C-AC9A-039D997C6E66}</TargetSelect>
 					<TargetSelect TargetId="2">{92583661-35AE-45CE-BD4F-C35BFE16F07E}</TargetSelect>
+					<TargetSelect TargetId="2">{BDCC0070-42D5-49AE-ABF1-1D4434813D60}</TargetSelect>
+					<TargetSelect TargetId="2">{66689887-CCBD-452C-AC9A-039D997C6E66}</TargetSelect>
 					<TargetSelect TargetId="2">{6952449D-F68C-49A2-ADE4-8639D85B33A4}</TargetSelect>
-					<TargetSelect TargetId="2">{520DE751-9DB6-47CB-8240-BD5C466E7E64}</TargetSelect>
 					<TargetSelect TargetId="2">{A1AF8A04-C08D-4853-A5A0-0E6C3A278A8C}</TargetSelect>
-					<LicenseDevice DongleHardwareId="2" DongleDevice="#x0302001a" DongleLevel="90" DongleSystemId="{8EFCB5A3-D53D-C9F9-359D-880014B01900}" DongleSerialNumber="0100069988"/>
+					<TargetSelect TargetId="2">{520DE751-9DB6-47CB-8240-BD5C466E7E64}</TargetSelect>
+					<LicenseDevice DongleHardwareId="2" DongleDevice="#x0302001a" DongleLevel="40" DongleSystemId="{E3103F76-3B3D-EBC6-C946-7D277F141827}" DongleSerialNumber="0100069988"/>
 				</Target>
 			</Licenses>
 			<Tasks>
@@ -1170,7 +1172,7 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{1A289FD8-2FC0-4B29-B34F-E4BF25DBB957}" Name="LWLine" PrjFilePath="LWLine\LWLine.plcproj" TmcFilePath="LWLine\LWLine.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{540C0077-EC74-B421-3269-0A05000E5CA7}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{A929F282-AA6F-59A5-25EE-5F8F4FDF2AE6}">
 					<Name>LWLine Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1" ContextId="2" AreaNo="32">
@@ -1238,823 +1240,6 @@ External Setpoint Generation:
 						<Var>
 							<Name>MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.uiPosAdj_ScoreMin</Name>
 							<Type>UINT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iConnectionState</Name>
-							<Comment><![CDATA[Inputs]]></Comment>
-							<Type>UDINT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iActualWorkStep</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iGoodPartsAmountHighByte</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iGoodPartsAmountLowByte</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iBadPartsAmountHighByte</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iBadPartsAmountLowByte</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iCycleTime</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iPartsCreatedInOneTime</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iErrorCode</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iLifeBitMachine</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iWorkInProgress</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iCycleEnd</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iError</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iAlarm</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iConnectionState</Name>
-							<Comment><![CDATA[Inputs]]></Comment>
-							<Type>UDINT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iActualWorkStep</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iGoodPartsAmountHighByte</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iGoodPartsAmountLowByte</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iBadPartsAmountHighByte</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iBadPartsAmountLowByte</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iCycleTime</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iPartsCreatedInOneTime</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iErrorCode</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iLifeBitMachine</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iWorkInProgress</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iCycleEnd</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iError</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iAlarm</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iConnectionState</Name>
-							<Comment><![CDATA[Inputs]]></Comment>
-							<Type>UDINT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iActualWorkStep</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iGoodPartsAmountHighByte</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iGoodPartsAmountLowByte</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iBadPartsAmountHighByte</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iBadPartsAmountLowByte</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iCycleTime</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iPartsCreatedInOneTime</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iErrorCode</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iLifeBitMachine</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iWorkInProgress</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iCycleEnd</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iError</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iAlarm</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iConnectionState</Name>
-							<Comment><![CDATA[Inputs]]></Comment>
-							<Type>UDINT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iActualWorkStep</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iGoodPartsAmountHighByte</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iGoodPartsAmountLowByte</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iBadPartsAmountHighByte</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iBadPartsAmountLowByte</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iCycleTime</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iPartsCreatedInOneTime</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iErrorCode</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iLifeBitMachine</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iWorkInProgress</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iCycleEnd</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iError</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iAlarm</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iConnectionState</Name>
-							<Comment><![CDATA[Inputs]]></Comment>
-							<Type>UDINT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iActualWorkStep</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iGoodPartsAmountHighByte</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iGoodPartsAmountLowByte</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iBadPartsAmountHighByte</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iBadPartsAmountLowByte</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iCycleTime</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iPartsCreatedInOneTime</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iErrorCode</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iLifeBitMachine</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iWorkInProgress</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iCycleEnd</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iError</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iAlarm</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>SafetyBackupRestore.wSafetyProjectCRC</Name>
-							<Type>WORD</Type>
-						</Var>
-						<Var>
-							<Name>SafetyBackupRestore.wEL6910port</Name>
-							<Type>WORD</Type>
-						</Var>
-						<Var>
-							<Name>SafetyBackupRestore.udiSafetyPLCSerialNb</Name>
-							<Type>UDINT</Type>
-						</Var>
-						<Var>
-							<Name>SafetyBackupRestore.abEL6910AmsNetID</Name>
-							<Type GUID="{12E80FF5-6251-C867-A464-3036E21E986D}">ARRAY [0..5] OF BYTE</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bCompressedAirFlowImpulse</Name>
-							<Comment><![CDATA[ Impuls co 30L]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bCompressedAirFlowAlarmHigh</Name>
-							<Comment><![CDATA[ Alarm gdy przekroczony przepływ 300L/min]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bCompressedAirFlowImpulsePreAssembly</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bCompressedAirFlowImpulseFilling</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bCompressedAirFlowImpulseHotPlate</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bS01_EnergyConsumptionImp</Name>
-							<Comment><![CDATA[ Komunikacja RS485
- S01]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS01_1_BearingPress_IO.bHomePosSensor</Name>
-							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS01_1_BearingPress_IO.b2HandStart</Name>
-							<Comment><![CDATA[ Sygnał o gotowości do wykonania kolejnego zgrzewu]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS01_1_BearingPress_IO.bSafetyStatus</Name>
-							<Comment><![CDATA[ Aktywna generacja ultradźwięków]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS01_1_BearingPress_IO.bResetSignal</Name>
-							<Comment><![CDATA[ Aktywny błąd zgrzewarki ultradźwiękowej]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS01_1_BearingPress_IO.bPowerSupplyStatus</Name>
-							<Comment><![CDATA[ Sygnał z wyjścia na dodatkowy siłownik - nowy zgrzew]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS01_1_BearingPress_IO.iPosition</Name>
-							<Comment><![CDATA[ Sygnały analogowe]]></Comment>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS01_1_BearingPress_IO.wPositionStat</Name>
-							<Type>WORD</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS01_1_BearingPress_IO.iPressureSens</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS01_1_BearingPress_IO.wPressureSensStat</Name>
-							<Type>WORD</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bS01_Result</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bS01_Ready</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bS02_EnergyConsumptionImp</Name>
-							<Comment><![CDATA[ S02	- ]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bS03_EnergyConsumptionImp</Name>
-							<Comment><![CDATA[ S03 - ]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS02_1_BearingPress_IO.bHomePosSensor</Name>
-							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS02_1_BearingPress_IO.b2HandStart</Name>
-							<Comment><![CDATA[ Sygnał o gotowości do wykonania kolejnego zgrzewu]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS02_1_BearingPress_IO.bSafetyStatus</Name>
-							<Comment><![CDATA[ Aktywna generacja ultradźwięków]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS02_1_BearingPress_IO.bResetSignal</Name>
-							<Comment><![CDATA[ Aktywny błąd zgrzewarki ultradźwiękowej]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS02_1_BearingPress_IO.bPowerSupplyStatus</Name>
-							<Comment><![CDATA[ Sygnał z wyjścia na dodatkowy siłownik - nowy zgrzew]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS02_1_BearingPress_IO.iPosition</Name>
-							<Comment><![CDATA[ Sygnały analogowe]]></Comment>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS02_1_BearingPress_IO.wPositionStat</Name>
-							<Type>WORD</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS02_1_BearingPress_IO.iPressureSens</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS02_1_BearingPress_IO.wPressureSensStat</Name>
-							<Type>WORD</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS03_1_BearingPress_IO.bHomePosSensor</Name>
-							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS03_1_BearingPress_IO.b2HandStart</Name>
-							<Comment><![CDATA[ Sygnał o gotowości do wykonania kolejnego zgrzewu]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS03_1_BearingPress_IO.bSafetyStatus</Name>
-							<Comment><![CDATA[ Aktywna generacja ultradźwięków]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS03_1_BearingPress_IO.bResetSignal</Name>
-							<Comment><![CDATA[ Aktywny błąd zgrzewarki ultradźwiękowej]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS03_1_BearingPress_IO.bPowerSupplyStatus</Name>
-							<Comment><![CDATA[ Sygnał z wyjścia na dodatkowy siłownik - nowy zgrzew]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS03_1_BearingPress_IO.iPosition</Name>
-							<Comment><![CDATA[ Sygnały analogowe]]></Comment>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS03_1_BearingPress_IO.wPositionStat</Name>
-							<Type>WORD</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS03_1_BearingPress_IO.iPressureSens</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS03_1_BearingPress_IO.wPressureSensStat</Name>
-							<Type>WORD</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bS04_EnergyConsumptionImp</Name>
-							<Comment><![CDATA[ S04 - ]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bSxxA_EnergyConsumptionImp</Name>
-							<Comment><![CDATA[ Sxx Plug A - ]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS04_1_BearingPress_IO.bHomePosSensor</Name>
-							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS04_1_BearingPress_IO.b2HandStart</Name>
-							<Comment><![CDATA[ Sygnał o gotowości do wykonania kolejnego zgrzewu]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS04_1_BearingPress_IO.bSafetyStatus</Name>
-							<Comment><![CDATA[ Aktywna generacja ultradźwięków]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS04_1_BearingPress_IO.bResetSignal</Name>
-							<Comment><![CDATA[ Aktywny błąd zgrzewarki ultradźwiękowej]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS04_1_BearingPress_IO.bPowerSupplyStatus</Name>
-							<Comment><![CDATA[ Sygnał z wyjścia na dodatkowy siłownik - nowy zgrzew]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS04_1_BearingPress_IO.iPosition</Name>
-							<Comment><![CDATA[ Sygnały analogowe]]></Comment>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS04_1_BearingPress_IO.wPositionStat</Name>
-							<Type>WORD</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS04_1_BearingPress_IO.iPressureSens</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS04_1_BearingPress_IO.wPressureSensStat</Name>
-							<Type>WORD</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stSxxA_1_PlugAWelder_IO.bWeld_OK</Name>
-							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stSxxA_1_PlugAWelder_IO.bReadyToWelding</Name>
-							<Comment><![CDATA[ Sygnał o gotowości do wykonania kolejnego zgrzewu]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stSxxA_1_PlugAWelder_IO.bWeldingActive</Name>
-							<Comment><![CDATA[ Aktywna generacja ultradźwięków]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stSxxA_1_PlugAWelder_IO.bErrorActive</Name>
-							<Comment><![CDATA[ Aktywny błąd zgrzewarki ultradźwiękowej]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stSxxA_1_PlugAWelder_IO.bStartInput</Name>
-							<Comment><![CDATA[ Sygnał z wyjścia na dodatkowy siłownik - nowy zgrzew]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bSxxB_EnergyConsumptionImp</Name>
-							<Comment><![CDATA[ Sxx Plug B - ]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stSxxB_1_PlugAWelder_IO.bWeld_OK</Name>
-							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stSxxB_1_PlugAWelder_IO.bReadyToWelding</Name>
-							<Comment><![CDATA[ Sygnał o gotowości do wykonania kolejnego zgrzewu]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stSxxB_1_PlugAWelder_IO.bWeldingActive</Name>
-							<Comment><![CDATA[ Aktywna generacja ultradźwięków]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stSxxB_1_PlugAWelder_IO.bErrorActive</Name>
-							<Comment><![CDATA[ Aktywny błąd zgrzewarki ultradźwiękowej]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stSxxB_1_PlugAWelder_IO.bStartInput</Name>
-							<Comment><![CDATA[ Sygnał z wyjścia na dodatkowy siłownik - nowy zgrzew]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.b_1_SonicTech_EnergyConsumptionImp</Name>
-							<Comment><![CDATA[	Bottle filling line
-S02]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.st_1_SonicTech_WeldingMachine_IO.bWeld_OK</Name>
-							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.st_1_SonicTech_WeldingMachine_IO.bReadyToWelding</Name>
-							<Comment><![CDATA[ Sygnał o gotowości do wykonania kolejnego zgrzewu]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.st_1_SonicTech_WeldingMachine_IO.bWeldingActive</Name>
-							<Comment><![CDATA[ Aktywna generacja ultradźwięków]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.st_1_SonicTech_WeldingMachine_IO.bErrorActive</Name>
-							<Comment><![CDATA[ Aktywny błąd zgrzewarki ultradźwiękowej]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.st_1_SonicTech_WeldingMachine_IO.bStartInput</Name>
-							<Comment><![CDATA[ Sygnał z wyjścia na dodatkowy siłownik - nowy zgrzew]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.b_2_SonicTech_EnergyConsumptionImp</Name>
-							<Comment><![CDATA[S04]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60</Name>
-							<Comment><![CDATA[ linked to the EL6002 in the TwinCAT System Manager ]]></Comment>
-							<Type GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom">EL6inData22B</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.st_2_SonicTech_WeldingMachine_IO.bWeld_OK</Name>
-							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.st_2_SonicTech_WeldingMachine_IO.bReadyToWelding</Name>
-							<Comment><![CDATA[ Sygnał o gotowości do wykonania kolejnego zgrzewu]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.st_2_SonicTech_WeldingMachine_IO.bWeldingActive</Name>
-							<Comment><![CDATA[ Aktywna generacja ultradźwięków]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.st_2_SonicTech_WeldingMachine_IO.bErrorActive</Name>
-							<Comment><![CDATA[ Aktywny błąd zgrzewarki ultradźwiękowej]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.st_2_SonicTech_WeldingMachine_IO.bStartInput</Name>
-							<Comment><![CDATA[ Sygnał z wyjścia na dodatkowy siłownik - nowy zgrzew]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPreserInOuts.i_aEK1818InputBit</Name>
-							<Comment><![CDATA[Bity wej modulu EK1818]]></Comment>
-							<Type GUID="{481A0C15-D2DB-59F6-F498-C30AA9C1998C}">ARRAY [0..7] OF BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPreserInOuts.i_aEL3702ChValue</Name>
-							<Comment><![CDATA[Warotsci z wejsc analogowych]]></Comment>
-							<Type GUID="{2982B12D-8728-3DC7-15E9-7EFAACC33702}">ARRAY [0..1] OF INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTransporterInOuts.bEntraceSensor</Name>
-							<Comment><![CDATA[Sensor on parts entrace station]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTransporterInOuts.bBlockerEntryUp</Name>
-							<Comment><![CDATA[Sensor on blocker is in up position]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTransporterInOuts.bBlockerEntryDown</Name>
-							<Comment><![CDATA[Sensor on blocker is in down position]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTransporterInOuts.bEscapeSensor</Name>
-							<Comment><![CDATA[Sensor on parts exit station]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTransporterInOuts.bBlockerEscapeUp</Name>
-							<Comment><![CDATA[Sensor on blocker is in up position]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTransporterInOuts.bBlockerEscapeDown</Name>
-							<Comment><![CDATA[Sensor on blocker is in down position]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTransporterInOuts.bEntraceCarriage</Name>
-							<Comment><![CDATA[Sensor entrace carriage]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTransporterInOuts.bPartsEntraceCarriage</Name>
-							<Comment><![CDATA[Sensor of parts under the carrdrige near chamber]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTransporterInOuts.bEntraceChamber</Name>
-							<Comment><![CDATA[Sensor entrace chamber]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTransporterInOuts.bPartsEntraceChamber</Name>
-							<Comment><![CDATA[Sensor of parts under the carrdrige near chamber]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTransporterInOuts.bDorsOpened</Name>
-							<Comment><![CDATA[Dors open sensor]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPressureInOuts_V2.bSwitchOnOff</Name>
-							<Comment><![CDATA[Przelacznik ON/OFF]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPressureInOuts_V2.bStopButtonNC</Name>
-							<Comment><![CDATA[Przycisk Stop (NC)]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPressureInOuts_V2.bPhaseControlRelay</Name>
-							<Comment><![CDATA[Kontrola faz OK]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPressureInOuts_V2.bLockSens</Name>
-							<Comment><![CDATA[Czujnik drzwi]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPressureInOuts_V2.bSafetyOK</Name>
-							<Comment><![CDATA[Uklad bezpieczenstwa OK]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPressureInOuts_V2.bVaccumOK</Name>
-							<Comment><![CDATA[Sygnal DQ z czujnika podcisnienia]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPressureInOuts_V2.bSafetyDiag</Name>
-							<Comment><![CDATA[Sygnal diagnostyczny z przekznika bezpieczenstwa]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPressureInOuts_V2.iVacuumLevel</Name>
-							<Comment><![CDATA[Wartość odczytywana przez przetwornik ciśnienia]]></Comment>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.bBottleIncomming</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.bBottleInput</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.bActuatorHome</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.bActuatorTestLoad</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.bActuatorPush</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.bActuatorConvoyerHome</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.bActuatorConvoyerPush</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.stLoadCell.wStatus</Name>
-							<Comment><![CDATA[ .1-Overrange, .3-Data invalid, .6-Error, .7-Calib in progress, .9-Steady state, .13-SyncErr, .15-TxPDO_Toggle]]></Comment>
-							<Type>WORD</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.stLoadCell.rValue</Name>
-							<Comment><![CDATA[ Wartość siły w [N]]]></Comment>
-							<Type>REAL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.bDorsClosedNO</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.bDorsClosedNC</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.stCognex.bIn0</Name>
-							<Comment><![CDATA[ Sygnał w In-Sight Out0 - zwykle używane jako sygnał Busy]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.stCognex.bIn1</Name>
-							<Comment><![CDATA[ Sygnał w In-Sight Out1 - Wejście detekcji 1]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.stCognex.bInOut2</Name>
-							<Comment><![CDATA[ Sygnał w In-Sight Out2 - Wejście detekcji 2]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.stCognex.bInOut3</Name>
-							<Comment><![CDATA[ Sygnał w In-Sight Out3 - Wejście detekcji 3]]></Comment>
-							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbHotPlate_G1_M1.stInOuts.bI_ResetButton</Name>
@@ -4552,6 +3737,828 @@ S02]]></Comment>
 							<Comment><![CDATA[ Wartość prądu odczytana z zasilania grzałek]]></Comment>
 							<Type>INT</Type>
 						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iConnectionState</Name>
+							<Comment><![CDATA[Inputs]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iActualWorkStep</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iGoodPartsAmountHighByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iGoodPartsAmountLowByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iBadPartsAmountHighByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iBadPartsAmountLowByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iCycleTime</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iPartsCreatedInOneTime</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iErrorCode</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iLifeBitMachine</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iWorkInProgress</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iCycleEnd</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iAlarm</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iConnectionState</Name>
+							<Comment><![CDATA[Inputs]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iActualWorkStep</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iGoodPartsAmountHighByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iGoodPartsAmountLowByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iBadPartsAmountHighByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iBadPartsAmountLowByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iCycleTime</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iPartsCreatedInOneTime</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iErrorCode</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iLifeBitMachine</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iWorkInProgress</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iCycleEnd</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iAlarm</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iConnectionState</Name>
+							<Comment><![CDATA[Inputs]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iActualWorkStep</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iGoodPartsAmountHighByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iGoodPartsAmountLowByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iBadPartsAmountHighByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iBadPartsAmountLowByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iCycleTime</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iPartsCreatedInOneTime</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iErrorCode</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iLifeBitMachine</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iWorkInProgress</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iCycleEnd</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iAlarm</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iConnectionState</Name>
+							<Comment><![CDATA[Inputs]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iActualWorkStep</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iGoodPartsAmountHighByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iGoodPartsAmountLowByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iBadPartsAmountHighByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iBadPartsAmountLowByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iCycleTime</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iPartsCreatedInOneTime</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iErrorCode</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iLifeBitMachine</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iWorkInProgress</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iCycleEnd</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iAlarm</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iConnectionState</Name>
+							<Comment><![CDATA[Inputs]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iActualWorkStep</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iGoodPartsAmountHighByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iGoodPartsAmountLowByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iBadPartsAmountHighByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iBadPartsAmountLowByte</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iCycleTime</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iPartsCreatedInOneTime</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iErrorCode</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iLifeBitMachine</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iWorkInProgress</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iCycleEnd</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iAlarm</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>SafetyBackupRestore.wSafetyProjectCRC</Name>
+							<Type>WORD</Type>
+						</Var>
+						<Var>
+							<Name>SafetyBackupRestore.udiSafetyPLCSerialNb</Name>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>SafetyBackupRestore.abEL6910AmsNetID</Name>
+							<Type GUID="{12E80FF5-6251-C867-A464-3036E21E986D}">ARRAY [0..5] OF BYTE</Type>
+						</Var>
+						<Var>
+							<Name>SafetyBackupRestore.wEL6910port</Name>
+							<Type>WORD</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bCompressedAirFlowImpulse</Name>
+							<Comment><![CDATA[ Impuls co 30L]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bCompressedAirFlowAlarmHigh</Name>
+							<Comment><![CDATA[ Alarm gdy przekroczony przepływ 300L/min]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bCompressedAirFlowImpulsePreAssembly</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bCompressedAirFlowImpulseFilling</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bCompressedAirFlowImpulseHotPlate</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bS01_EnergyConsumptionImp</Name>
+							<Comment><![CDATA[ Komunikacja RS485
+ S01]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS01_1_BearingPress_IO.bHomePosSensor</Name>
+							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS01_1_BearingPress_IO.b2HandStart</Name>
+							<Comment><![CDATA[ Sygnał o gotowości do wykonania kolejnego zgrzewu]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS01_1_BearingPress_IO.bSafetyStatus</Name>
+							<Comment><![CDATA[ Aktywna generacja ultradźwięków]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS01_1_BearingPress_IO.bResetSignal</Name>
+							<Comment><![CDATA[ Aktywny błąd zgrzewarki ultradźwiękowej]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS01_1_BearingPress_IO.bPowerSupplyStatus</Name>
+							<Comment><![CDATA[ Sygnał z wyjścia na dodatkowy siłownik - nowy zgrzew]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS01_1_BearingPress_IO.iPosition</Name>
+							<Comment><![CDATA[ Sygnały analogowe]]></Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS01_1_BearingPress_IO.wPositionStat</Name>
+							<Type>WORD</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS01_1_BearingPress_IO.iPressureSens</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS01_1_BearingPress_IO.wPressureSensStat</Name>
+							<Type>WORD</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bS01_Result</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bS01_Ready</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bS02_EnergyConsumptionImp</Name>
+							<Comment><![CDATA[ S02	- ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bS03_EnergyConsumptionImp</Name>
+							<Comment><![CDATA[ S03 - ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS02_1_BearingPress_IO.bHomePosSensor</Name>
+							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS02_1_BearingPress_IO.b2HandStart</Name>
+							<Comment><![CDATA[ Sygnał o gotowości do wykonania kolejnego zgrzewu]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS02_1_BearingPress_IO.bSafetyStatus</Name>
+							<Comment><![CDATA[ Aktywna generacja ultradźwięków]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS02_1_BearingPress_IO.bResetSignal</Name>
+							<Comment><![CDATA[ Aktywny błąd zgrzewarki ultradźwiękowej]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS02_1_BearingPress_IO.bPowerSupplyStatus</Name>
+							<Comment><![CDATA[ Sygnał z wyjścia na dodatkowy siłownik - nowy zgrzew]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS02_1_BearingPress_IO.iPosition</Name>
+							<Comment><![CDATA[ Sygnały analogowe]]></Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS02_1_BearingPress_IO.wPositionStat</Name>
+							<Type>WORD</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS02_1_BearingPress_IO.iPressureSens</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS02_1_BearingPress_IO.wPressureSensStat</Name>
+							<Type>WORD</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS03_1_BearingPress_IO.bHomePosSensor</Name>
+							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS03_1_BearingPress_IO.b2HandStart</Name>
+							<Comment><![CDATA[ Sygnał o gotowości do wykonania kolejnego zgrzewu]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS03_1_BearingPress_IO.bSafetyStatus</Name>
+							<Comment><![CDATA[ Aktywna generacja ultradźwięków]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS03_1_BearingPress_IO.bResetSignal</Name>
+							<Comment><![CDATA[ Aktywny błąd zgrzewarki ultradźwiękowej]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS03_1_BearingPress_IO.bPowerSupplyStatus</Name>
+							<Comment><![CDATA[ Sygnał z wyjścia na dodatkowy siłownik - nowy zgrzew]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS03_1_BearingPress_IO.iPosition</Name>
+							<Comment><![CDATA[ Sygnały analogowe]]></Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS03_1_BearingPress_IO.wPositionStat</Name>
+							<Type>WORD</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS03_1_BearingPress_IO.iPressureSens</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS03_1_BearingPress_IO.wPressureSensStat</Name>
+							<Type>WORD</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bS04_EnergyConsumptionImp</Name>
+							<Comment><![CDATA[ S04 - ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bSxxA_EnergyConsumptionImp</Name>
+							<Comment><![CDATA[ Sxx Plug A - ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS04_1_BearingPress_IO.bHomePosSensor</Name>
+							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS04_1_BearingPress_IO.b2HandStart</Name>
+							<Comment><![CDATA[ Sygnał o gotowości do wykonania kolejnego zgrzewu]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS04_1_BearingPress_IO.bSafetyStatus</Name>
+							<Comment><![CDATA[ Aktywna generacja ultradźwięków]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS04_1_BearingPress_IO.bResetSignal</Name>
+							<Comment><![CDATA[ Aktywny błąd zgrzewarki ultradźwiękowej]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS04_1_BearingPress_IO.bPowerSupplyStatus</Name>
+							<Comment><![CDATA[ Sygnał z wyjścia na dodatkowy siłownik - nowy zgrzew]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS04_1_BearingPress_IO.iPosition</Name>
+							<Comment><![CDATA[ Sygnały analogowe]]></Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS04_1_BearingPress_IO.wPositionStat</Name>
+							<Type>WORD</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS04_1_BearingPress_IO.iPressureSens</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS04_1_BearingPress_IO.wPressureSensStat</Name>
+							<Type>WORD</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stSxxA_1_PlugAWelder_IO.bWeld_OK</Name>
+							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stSxxA_1_PlugAWelder_IO.bReadyToWelding</Name>
+							<Comment><![CDATA[ Sygnał o gotowości do wykonania kolejnego zgrzewu]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stSxxA_1_PlugAWelder_IO.bWeldingActive</Name>
+							<Comment><![CDATA[ Aktywna generacja ultradźwięków]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stSxxA_1_PlugAWelder_IO.bErrorActive</Name>
+							<Comment><![CDATA[ Aktywny błąd zgrzewarki ultradźwiękowej]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stSxxA_1_PlugAWelder_IO.bStartInput</Name>
+							<Comment><![CDATA[ Sygnał z wyjścia na dodatkowy siłownik - nowy zgrzew]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bSxxB_EnergyConsumptionImp</Name>
+							<Comment><![CDATA[ Sxx Plug B - ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stSxxB_1_PlugAWelder_IO.bWeld_OK</Name>
+							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stSxxB_1_PlugAWelder_IO.bReadyToWelding</Name>
+							<Comment><![CDATA[ Sygnał o gotowości do wykonania kolejnego zgrzewu]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stSxxB_1_PlugAWelder_IO.bWeldingActive</Name>
+							<Comment><![CDATA[ Aktywna generacja ultradźwięków]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stSxxB_1_PlugAWelder_IO.bErrorActive</Name>
+							<Comment><![CDATA[ Aktywny błąd zgrzewarki ultradźwiękowej]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stSxxB_1_PlugAWelder_IO.bStartInput</Name>
+							<Comment><![CDATA[ Sygnał z wyjścia na dodatkowy siłownik - nowy zgrzew]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.b_1_SonicTech_EnergyConsumptionImp</Name>
+							<Comment><![CDATA[	Bottle filling line
+S02]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_1_SonicTech_WeldingMachine_IO.bWeld_OK</Name>
+							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_1_SonicTech_WeldingMachine_IO.bReadyToWelding</Name>
+							<Comment><![CDATA[ Sygnał o gotowości do wykonania kolejnego zgrzewu]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_1_SonicTech_WeldingMachine_IO.bWeldingActive</Name>
+							<Comment><![CDATA[ Aktywna generacja ultradźwięków]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_1_SonicTech_WeldingMachine_IO.bErrorActive</Name>
+							<Comment><![CDATA[ Aktywny błąd zgrzewarki ultradźwiękowej]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_1_SonicTech_WeldingMachine_IO.bStartInput</Name>
+							<Comment><![CDATA[ Sygnał z wyjścia na dodatkowy siłownik - nowy zgrzew]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.b_2_SonicTech_EnergyConsumptionImp</Name>
+							<Comment><![CDATA[S04]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60</Name>
+							<Comment><![CDATA[ linked to the EL6002 in the TwinCAT System Manager ]]></Comment>
+							<Type GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom">EL6inData22B</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_2_SonicTech_WeldingMachine_IO.bWeld_OK</Name>
+							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_2_SonicTech_WeldingMachine_IO.bReadyToWelding</Name>
+							<Comment><![CDATA[ Sygnał o gotowości do wykonania kolejnego zgrzewu]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_2_SonicTech_WeldingMachine_IO.bWeldingActive</Name>
+							<Comment><![CDATA[ Aktywna generacja ultradźwięków]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_2_SonicTech_WeldingMachine_IO.bErrorActive</Name>
+							<Comment><![CDATA[ Aktywny błąd zgrzewarki ultradźwiękowej]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_2_SonicTech_WeldingMachine_IO.bStartInput</Name>
+							<Comment><![CDATA[ Sygnał z wyjścia na dodatkowy siłownik - nowy zgrzew]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60</Name>
+							<Comment><![CDATA[ linked to the EL6002 in the TwinCAT System Manager ]]></Comment>
+							<Type GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom">EL6inData22B</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPreserInOuts.i_aEK1818InputBit</Name>
+							<Comment><![CDATA[Bity wej modulu EK1818]]></Comment>
+							<Type GUID="{481A0C15-D2DB-59F6-F498-C30AA9C1998C}">ARRAY [0..7] OF BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPreserInOuts.i_aEL3702ChValue</Name>
+							<Comment><![CDATA[Warotsci z wejsc analogowych]]></Comment>
+							<Type GUID="{2982B12D-8728-3DC7-15E9-7EFAACC33702}">ARRAY [0..1] OF INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTransporterInOuts.bEntraceSensor</Name>
+							<Comment><![CDATA[Sensor on parts entrace station]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTransporterInOuts.bBlockerEntryUp</Name>
+							<Comment><![CDATA[Sensor on blocker is in up position]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTransporterInOuts.bBlockerEntryDown</Name>
+							<Comment><![CDATA[Sensor on blocker is in down position]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTransporterInOuts.bEscapeSensor</Name>
+							<Comment><![CDATA[Sensor on parts exit station]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTransporterInOuts.bBlockerEscapeUp</Name>
+							<Comment><![CDATA[Sensor on blocker is in up position]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTransporterInOuts.bBlockerEscapeDown</Name>
+							<Comment><![CDATA[Sensor on blocker is in down position]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTransporterInOuts.bEntraceCarriage</Name>
+							<Comment><![CDATA[Sensor entrace carriage]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTransporterInOuts.bPartsEntraceCarriage</Name>
+							<Comment><![CDATA[Sensor of parts under the carrdrige near chamber]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTransporterInOuts.bEntraceChamber</Name>
+							<Comment><![CDATA[Sensor entrace chamber]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTransporterInOuts.bPartsEntraceChamber</Name>
+							<Comment><![CDATA[Sensor of parts under the carrdrige near chamber]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTransporterInOuts.bDorsOpened</Name>
+							<Comment><![CDATA[Dors open sensor]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPressureInOuts_V2.bSwitchOnOff</Name>
+							<Comment><![CDATA[Przelacznik ON/OFF]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPressureInOuts_V2.bStopButtonNC</Name>
+							<Comment><![CDATA[Przycisk Stop (NC)]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPressureInOuts_V2.bPhaseControlRelay</Name>
+							<Comment><![CDATA[Kontrola faz OK]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPressureInOuts_V2.bLockSens</Name>
+							<Comment><![CDATA[Czujnik drzwi]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPressureInOuts_V2.bSafetyOK</Name>
+							<Comment><![CDATA[Uklad bezpieczenstwa OK]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPressureInOuts_V2.bVaccumOK</Name>
+							<Comment><![CDATA[Sygnal DQ z czujnika podcisnienia]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPressureInOuts_V2.bSafetyDiag</Name>
+							<Comment><![CDATA[Sygnal diagnostyczny z przekznika bezpieczenstwa]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPressureInOuts_V2.iVacuumLevel</Name>
+							<Comment><![CDATA[Wartość odczytywana przez przetwornik ciśnienia]]></Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.bBottleIncomming</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.bBottleInput</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.bActuatorHome</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.bActuatorTestLoad</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.bActuatorPush</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.bActuatorConvoyerHome</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.bActuatorConvoyerPush</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.stLoadCell.wStatus</Name>
+							<Comment><![CDATA[ .1-Overrange, .3-Data invalid, .6-Error, .7-Calib in progress, .9-Steady state, .13-SyncErr, .15-TxPDO_Toggle]]></Comment>
+							<Type>WORD</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.stLoadCell.rValue</Name>
+							<Comment><![CDATA[ Wartość siły w [N]]]></Comment>
+							<Type>REAL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.bDorsClosedNO</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.bDorsClosedNC</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.stCognex.bIn0</Name>
+							<Comment><![CDATA[ Sygnał w In-Sight Out0 - zwykle używane jako sygnał Busy]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.stCognex.bIn1</Name>
+							<Comment><![CDATA[ Sygnał w In-Sight Out1 - Wejście detekcji 1]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.stCognex.bInOut2</Name>
+							<Comment><![CDATA[ Sygnał w In-Sight Out2 - Wejście detekcji 2]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.stCognex.bInOut3</Name>
+							<Comment><![CDATA[ Sygnał w In-Sight Out3 - Wejście detekcji 3]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
 					</Vars>
 					<Vars VarGrpType="2" ContextId="2" AreaNo="33">
 						<Name>PlcTask Outputs</Name>
@@ -4562,434 +4569,6 @@ S02]]></Comment>
 						<Var>
 							<Name>MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.uiProgNbToSet</Name>
 							<Type>UINT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iConnectionControl</Name>
-							<Comment><![CDATA[Outputs]]></Comment>
-							<Type>UDINT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iProductID</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iLifeBitPLC</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iWorkAllow</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iResetError</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iConfirmError</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iTestMode</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iStopPerform</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iWaitWithWork</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iOfflineWorkAllow</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iConnectionControl</Name>
-							<Comment><![CDATA[Outputs]]></Comment>
-							<Type>UDINT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iProductID</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iLifeBitPLC</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iWorkAllow</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iResetError</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iConfirmError</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iTestMode</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iStopPerform</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iWaitWithWork</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iOfflineWorkAllow</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iConnectionControl</Name>
-							<Comment><![CDATA[Outputs]]></Comment>
-							<Type>UDINT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iProductID</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iLifeBitPLC</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iWorkAllow</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iResetError</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iConfirmError</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iTestMode</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iStopPerform</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iWaitWithWork</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iOfflineWorkAllow</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iConnectionControl</Name>
-							<Comment><![CDATA[Outputs]]></Comment>
-							<Type>UDINT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iProductID</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iLifeBitPLC</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iWorkAllow</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iResetError</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iConfirmError</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iTestMode</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iStopPerform</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iWaitWithWork</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iOfflineWorkAllow</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iConnectionControl</Name>
-							<Comment><![CDATA[Outputs]]></Comment>
-							<Type>UDINT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iProductID</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iLifeBitPLC</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iWorkAllow</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iResetError</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iConfirmError</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iTestMode</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iStopPerform</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iWaitWithWork</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iOfflineWorkAllow</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bS01_Trigger</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS01_1_BearingPress_IO.bPressGoDown_Q</Name>
-							<Comment><![CDATA[ Zezwolenie systemu na pracę zgrzewarki ultradźwiękoiwej]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS01_1_BearingPress_IO.bAirCutOffValve</Name>
-							<Comment><![CDATA[ Sterowanie zaworem odcinającym powietrze ]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS01_1_BearingPress_IO.iPressureToSet</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS02_1_BearingPress_IO.bPressGoDown_Q</Name>
-							<Comment><![CDATA[ Zezwolenie systemu na pracę zgrzewarki ultradźwiękoiwej]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS02_1_BearingPress_IO.bAirCutOffValve</Name>
-							<Comment><![CDATA[ Sterowanie zaworem odcinającym powietrze ]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS02_1_BearingPress_IO.iPressureToSet</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS03_1_BearingPress_IO.bPressGoDown_Q</Name>
-							<Comment><![CDATA[ Zezwolenie systemu na pracę zgrzewarki ultradźwiękoiwej]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS03_1_BearingPress_IO.bAirCutOffValve</Name>
-							<Comment><![CDATA[ Sterowanie zaworem odcinającym powietrze ]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS03_1_BearingPress_IO.iPressureToSet</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS04_1_BearingPress_IO.bPressGoDown_Q</Name>
-							<Comment><![CDATA[ Zezwolenie systemu na pracę zgrzewarki ultradźwiękoiwej]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS04_1_BearingPress_IO.bAirCutOffValve</Name>
-							<Comment><![CDATA[ Sterowanie zaworem odcinającym powietrze ]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stS04_1_BearingPress_IO.iPressureToSet</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stSxxA_1_PlugAWelder_IO.bWorkPermit</Name>
-							<Comment><![CDATA[ Zezwolenie systemu na pracę zgrzewarki ultradźwiękoiwej]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stSxxA_1_PlugAWelder_IO.bResetError</Name>
-							<Comment><![CDATA[ Resetowanie błędu zgrzewarki ultradźwiękowej]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stSxxB_1_PlugAWelder_IO.bWorkPermit</Name>
-							<Comment><![CDATA[ Zezwolenie systemu na pracę zgrzewarki ultradźwiękoiwej]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stSxxB_1_PlugAWelder_IO.bResetError</Name>
-							<Comment><![CDATA[ Resetowanie błędu zgrzewarki ultradźwiękowej]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.st_1_SonicTech_WeldingMachine_IO.bWorkPermit</Name>
-							<Comment><![CDATA[ Zezwolenie systemu na pracę zgrzewarki ultradźwiękoiwej]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.st_1_SonicTech_WeldingMachine_IO.bResetError</Name>
-							<Comment><![CDATA[ Resetowanie błędu zgrzewarki ultradźwiękowej]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60</Name>
-							<Comment><![CDATA[ linked to the EL6002 in the TwinCAT System Manager ]]></Comment>
-							<Type GUID="{D6B0A42D-897A-4B90-95E8-3C741C3CE3EE}" Namespace="Tc2_SerialCom">EL6outData22B</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.st_2_SonicTech_WeldingMachine_IO.bWorkPermit</Name>
-							<Comment><![CDATA[ Zezwolenie systemu na pracę zgrzewarki ultradźwiękoiwej]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.st_2_SonicTech_WeldingMachine_IO.bResetError</Name>
-							<Comment><![CDATA[ Resetowanie błędu zgrzewarki ultradźwiękowej]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPreserInOuts.o_aEK1818OutputBit</Name>
-							<Comment><![CDATA[Bity wyjsciowe modulu EK1818]]></Comment>
-							<Type GUID="{ACB00D92-8A3C-90A7-DB92-3AB4C0604945}">ARRAY [0..3] OF BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPreserInOuts.o_aEL2008OutputBit</Name>
-							<Comment><![CDATA[Bity wyjsciowe modulu EL2008]]></Comment>
-							<Type GUID="{481A0C15-D2DB-59F6-F498-C30AA9C1998C}">ARRAY [0..7] OF BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTransporterInOuts.bEntraceBlocker</Name>
-							<Comment><![CDATA[Blocking actuator on entrace of station]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTransporterInOuts.bEscapeBlocker</Name>
-							<Comment><![CDATA[Blocking actuator on exit of station]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTransporterInOuts.bCarriageBlockerEntrace</Name>
-							<Comment><![CDATA[Block Carriage near entrace             		]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTransporterInOuts.bCarriageBlockerChamber</Name>
-							<Comment><![CDATA[Block Carriage near chamber]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPressureInOuts_V2.bLEDBlue</Name>
-							<Comment><![CDATA[Kolumna switlan LED ]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPressureInOuts_V2.bLEDGreen</Name>
-							<Comment><![CDATA[Kolumna switlan LED ]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPressureInOuts_V2.bLEDYellow</Name>
-							<Comment><![CDATA[Kolumna switlan LED ]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPressureInOuts_V2.bLEDRed</Name>
-							<Comment><![CDATA[Kolumna switlan LED ]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPressureInOuts_V2.bLEDReset</Name>
-							<Comment><![CDATA[Podswietlenie przycisku reset]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPressureInOuts_V2.bPumpRly</Name>
-							<Comment><![CDATA[Stcznik silnika pompy]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPressureInOuts_V2.bLight</Name>
-							<Comment><![CDATA[Oswietlenie komory]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPressureInOuts_V2.bEValve</Name>
-							<Comment><![CDATA[Elektrozawor odpowietrzenia]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stUnderPressureInOuts_V2.bTimer</Name>
-							<Comment><![CDATA[Licznik motogodzin]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.stLoadCell.wControl</Name>
-							<Comment><![CDATA[ .0-Start calibration, .1-Disable calib., .2-InputFreeze, .4-Tara]]></Comment>
-							<Type>WORD</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.iBeltVolocity</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.bBeltDirection</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.bActuatorPositioning</Name>
-							<Comment><![CDATA[Big actuator bottle tare position perform]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.bActuatorDropBottle</Name>
-							<Comment><![CDATA[Big actuator bottle drop position perform]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.bActuatorPerformBack</Name>
-							<Comment><![CDATA[Big actuator bottle home position perform]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.bActuatorPushConvoyer</Name>
-							<Comment><![CDATA[Smal conveyor actuator push bottle perform]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.stCognex.bOut0_Trigger</Name>
-							<Comment><![CDATA[ Sygnał w In-Sight In0 - Wyjście wyzowlenia detekcji]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stTunelInOuts.stCognex.bOut1</Name>
-							<Comment><![CDATA[ Sygnał w In-Sight In1 - Wyjście zwykle nie używane]]></Comment>
-							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbHotPlate_G1_M1.stInOuts.bQ_ResetButtonLight</Name>
@@ -6299,6 +5878,439 @@ S02]]></Comment>
 							<Comment><![CDATA[ Sygnał do zaworu zamykania]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iConnectionControl</Name>
+							<Comment><![CDATA[Outputs]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iProductID</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iLifeBitPLC</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iWorkAllow</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iResetError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iConfirmError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iTestMode</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iStopPerform</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iWaitWithWork</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_A_Machine.stEthernetCommunication.iOfflineWorkAllow</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iConnectionControl</Name>
+							<Comment><![CDATA[Outputs]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iProductID</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iLifeBitPLC</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iWorkAllow</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iResetError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iConfirmError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iTestMode</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iStopPerform</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iWaitWithWork</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Cork_Machine.stEthernetCommunication.iOfflineWorkAllow</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iConnectionControl</Name>
+							<Comment><![CDATA[Outputs]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iProductID</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iLifeBitPLC</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iWorkAllow</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iResetError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iConfirmError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iTestMode</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iStopPerform</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iWaitWithWork</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Filler_B_Machine.stEthernetCommunication.iOfflineWorkAllow</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iConnectionControl</Name>
+							<Comment><![CDATA[Outputs]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iProductID</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iLifeBitPLC</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iWorkAllow</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iResetError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iConfirmError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iTestMode</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iStopPerform</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iWaitWithWork</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Sticker_Machine.stEthernetCommunication.iOfflineWorkAllow</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iConnectionControl</Name>
+							<Comment><![CDATA[Outputs]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iProductID</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iLifeBitPLC</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iWorkAllow</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iResetError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iConfirmError</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iTestMode</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iStopPerform</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iWaitWithWork</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_Laser_Machine.stEthernetCommunication.iOfflineWorkAllow</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bS01_Trigger</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS01_1_BearingPress_IO.bPressGoDown_Q</Name>
+							<Comment><![CDATA[ Zezwolenie systemu na pracę zgrzewarki ultradźwiękoiwej]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS01_1_BearingPress_IO.bAirCutOffValve</Name>
+							<Comment><![CDATA[ Sterowanie zaworem odcinającym powietrze ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS01_1_BearingPress_IO.iPressureToSet</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS02_1_BearingPress_IO.bPressGoDown_Q</Name>
+							<Comment><![CDATA[ Zezwolenie systemu na pracę zgrzewarki ultradźwiękoiwej]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS02_1_BearingPress_IO.bAirCutOffValve</Name>
+							<Comment><![CDATA[ Sterowanie zaworem odcinającym powietrze ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS02_1_BearingPress_IO.iPressureToSet</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS03_1_BearingPress_IO.bPressGoDown_Q</Name>
+							<Comment><![CDATA[ Zezwolenie systemu na pracę zgrzewarki ultradźwiękoiwej]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS03_1_BearingPress_IO.bAirCutOffValve</Name>
+							<Comment><![CDATA[ Sterowanie zaworem odcinającym powietrze ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS03_1_BearingPress_IO.iPressureToSet</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS04_1_BearingPress_IO.bPressGoDown_Q</Name>
+							<Comment><![CDATA[ Zezwolenie systemu na pracę zgrzewarki ultradźwiękoiwej]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS04_1_BearingPress_IO.bAirCutOffValve</Name>
+							<Comment><![CDATA[ Sterowanie zaworem odcinającym powietrze ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stS04_1_BearingPress_IO.iPressureToSet</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stSxxA_1_PlugAWelder_IO.bWorkPermit</Name>
+							<Comment><![CDATA[ Zezwolenie systemu na pracę zgrzewarki ultradźwiękoiwej]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stSxxA_1_PlugAWelder_IO.bResetError</Name>
+							<Comment><![CDATA[ Resetowanie błędu zgrzewarki ultradźwiękowej]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stSxxB_1_PlugAWelder_IO.bWorkPermit</Name>
+							<Comment><![CDATA[ Zezwolenie systemu na pracę zgrzewarki ultradźwiękoiwej]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stSxxB_1_PlugAWelder_IO.bResetError</Name>
+							<Comment><![CDATA[ Resetowanie błędu zgrzewarki ultradźwiękowej]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_1_SonicTech_WeldingMachine_IO.bWorkPermit</Name>
+							<Comment><![CDATA[ Zezwolenie systemu na pracę zgrzewarki ultradźwiękoiwej]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_1_SonicTech_WeldingMachine_IO.bResetError</Name>
+							<Comment><![CDATA[ Resetowanie błędu zgrzewarki ultradźwiękowej]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60</Name>
+							<Comment><![CDATA[ linked to the EL6002 in the TwinCAT System Manager ]]></Comment>
+							<Type GUID="{D6B0A42D-897A-4B90-95E8-3C741C3CE3EE}" Namespace="Tc2_SerialCom">EL6outData22B</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_2_SonicTech_WeldingMachine_IO.bWorkPermit</Name>
+							<Comment><![CDATA[ Zezwolenie systemu na pracę zgrzewarki ultradźwiękoiwej]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_2_SonicTech_WeldingMachine_IO.bResetError</Name>
+							<Comment><![CDATA[ Resetowanie błędu zgrzewarki ultradźwiękowej]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60</Name>
+							<Comment><![CDATA[ linked to the EL6002 in the TwinCAT System Manager ]]></Comment>
+							<Type GUID="{D6B0A42D-897A-4B90-95E8-3C741C3CE3EE}" Namespace="Tc2_SerialCom">EL6outData22B</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPreserInOuts.o_aEK1818OutputBit</Name>
+							<Comment><![CDATA[Bity wyjsciowe modulu EK1818]]></Comment>
+							<Type GUID="{ACB00D92-8A3C-90A7-DB92-3AB4C0604945}">ARRAY [0..3] OF BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPreserInOuts.o_aEL2008OutputBit</Name>
+							<Comment><![CDATA[Bity wyjsciowe modulu EL2008]]></Comment>
+							<Type GUID="{481A0C15-D2DB-59F6-F498-C30AA9C1998C}">ARRAY [0..7] OF BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTransporterInOuts.bEntraceBlocker</Name>
+							<Comment><![CDATA[Blocking actuator on entrace of station]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTransporterInOuts.bEscapeBlocker</Name>
+							<Comment><![CDATA[Blocking actuator on exit of station]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTransporterInOuts.bCarriageBlockerEntrace</Name>
+							<Comment><![CDATA[Block Carriage near entrace             		]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTransporterInOuts.bCarriageBlockerChamber</Name>
+							<Comment><![CDATA[Block Carriage near chamber]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPressureInOuts_V2.bLEDBlue</Name>
+							<Comment><![CDATA[Kolumna switlan LED ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPressureInOuts_V2.bLEDGreen</Name>
+							<Comment><![CDATA[Kolumna switlan LED ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPressureInOuts_V2.bLEDYellow</Name>
+							<Comment><![CDATA[Kolumna switlan LED ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPressureInOuts_V2.bLEDRed</Name>
+							<Comment><![CDATA[Kolumna switlan LED ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPressureInOuts_V2.bLEDReset</Name>
+							<Comment><![CDATA[Podswietlenie przycisku reset]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPressureInOuts_V2.bPumpRly</Name>
+							<Comment><![CDATA[Stcznik silnika pompy]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPressureInOuts_V2.bLight</Name>
+							<Comment><![CDATA[Oswietlenie komory]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPressureInOuts_V2.bEValve</Name>
+							<Comment><![CDATA[Elektrozawor odpowietrzenia]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stUnderPressureInOuts_V2.bTimer</Name>
+							<Comment><![CDATA[Licznik motogodzin]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.stLoadCell.wControl</Name>
+							<Comment><![CDATA[ .0-Start calibration, .1-Disable calib., .2-InputFreeze, .4-Tara]]></Comment>
+							<Type>WORD</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.iBeltVolocity</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.bBeltDirection</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.bActuatorPositioning</Name>
+							<Comment><![CDATA[Big actuator bottle tare position perform]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.bActuatorDropBottle</Name>
+							<Comment><![CDATA[Big actuator bottle drop position perform]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.bActuatorPerformBack</Name>
+							<Comment><![CDATA[Big actuator bottle home position perform]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.bActuatorPushConvoyer</Name>
+							<Comment><![CDATA[Smal conveyor actuator push bottle perform]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.stCognex.bOut0_Trigger</Name>
+							<Comment><![CDATA[ Sygnał w In-Sight In0 - Wyjście wyzowlenia detekcji]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.stTunelInOuts.stCognex.bOut1</Name>
+							<Comment><![CDATA[ Sygnał w In-Sight In1 - Wyjście zwykle nie używane]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
 					</Vars>
 					<Contexts>
 						<Context>
@@ -6441,7 +6453,7 @@ S02]]></Comment>
 							<Type>UINT</Type>
 						</Var>
 					</Vars>
-					<EthernetIp NewSlavePara="cd00000046696c6c65722041202854432045746865724e65742f495020536c61766529000c0000006c000000fc190000010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000105a2347ca00da8c000feffff010ca8c00000800001001e000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000">
+					<EthernetIp NewSlavePara="cd00000046696c6c65722041202854432045746865724e65742f495020536c61766529000c0000006c000000fc190000010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a00da8c000feffff010ca8c00000800001001e000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000">
 						<SlaveConnection Id="1" ConnectionPara="d5802b00000000000000000055aaffd5d5d5ffaa5500000000000000000055aaffd5802b0000002b80d5ffffaaaaaaffaa550000000000000000000000000000000000002b80d5d5802b0000000055aaffd5802b00000000000000000000000055aaffd5802b00000000000055aaffd5802b00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002b80d5ffffaa5500000000000000002b80805500000000000000002b80d5d5aaaad5d5802b00000000000000000000000055aaffd5802b0000000000002b80d5d5802b0000000000000000000000000000002b80d5ffffaaaaaaffaa550000000055aaffd5802b000000000000000000000000000000002b80d5d5802b2b80d5d5802b000000000000000055aaffd5805580d5d5802b0000000000000055aaffd5802b00000000000000000055aaffaa5500000000000000000000000000000000002b80d5d5802b000000000055aaffd5802b00000000000000000000000055aaffd5802b00000000000055aaffd5802b0000" AssemblyPara="010000000000000000000000000000000000000081000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001600000000000000000000000000000082000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001e0000000000000000000000000000008800000000000000890000000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" ConnectionType="1073741867">
 							<Name>Connection 1 (Input/Output)</Name>
 							<ImageId>24</ImageId>
@@ -6624,7 +6636,7 @@ S02]]></Comment>
 							<BitOffs>192</BitOffs>
 						</Var>
 					</Vars>
-					<EthernetIp NewSlavePara="ce000000436f726b202854432045746865724e65742f495020536c6176652900000000000c0000006c000000fc1900000101000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200cea2347ca10da8c000feffff010ca8c00000800001001e000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000">
+					<EthernetIp NewSlavePara="ce000000436f726b202854432045746865724e65742f495020536c6176652900000000000c0000006c000000fc1900000101000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200ce000000a10da8c000feffff010ca8c00000800001001e000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000">
 						<SlaveConnection Id="2" ConnectionPara="d5802b00000000000000000055aaffd5d5d5ffaa5500000000000000000055aaffd5802b0000002b80d5ffffaaaaaaffaa550000000000000000000000000000000000002b80d5d5802b0000000055aaffd5802b00000000000000000000000055aaffd5802b00000000000055aaffd5802b00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002b80d5ffffaa5500000000000000002b80805500000000000000002b80d5d5aaaad5d5802b00000000000000000000000055aaffd5802b0000000000002b80d5d5802b0000000000000000000000000000002b80d5ffffaaaaaaffaa550000000055aaffd5802b000000000000000000000000000000002b80d5d5802b2b80d5d5802b000000000000000055aaffd5805580d5d5802b0000000000000055aaffd5802b00000000000000000055aaffaa5500000000000000000000000000000000002b80d5d5802b000000000055aaffd5802b00000000000000000000000055aaffd5802b00000000000055aaffd5802b0000" AssemblyPara="020000000000000000000000000000000000000081000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001600000000000000000000000000000082000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001e0000000000000000000000000000008800000000000000890000000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" ConnectionType="1073741867">
 							<Name>Connection 1 (Input/Output)</Name>
 							<ImageId>24</ImageId>
@@ -6819,7 +6831,7 @@ S02]]></Comment>
 							<Type>UINT</Type>
 						</Var>
 					</Vars>
-					<EthernetIp NewSlavePara="cf00000046696c6c65725f42202854432045746865724e65742f495020536c61766529000c0000006c000000fc190000010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000105a23473a20da8c000feffff010ca8c00000800001001e000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000">
+					<EthernetIp NewSlavePara="cf00000046696c6c65725f42202854432045746865724e65742f495020536c61766529000c0000006c000000fc190000010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a20da8c000feffff010ca8c00000800001001e000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000">
 						<SlaveConnection Id="3" ConnectionPara="d5802b00000000000000000055aaffd5d5d5ffaa5500000000000000000055aaffd5802b0000002b80d5ffffaaaaaaffaa550000000000000000000000000000000000002b80d5d5802b0000000055aaffd5802b00000000000000000000000055aaffd5802b00000000000055aaffd5802b00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002b80d5ffffaa5500000000000000002b80805500000000000000002b80d5d5aaaad5d5802b00000000000000000000000055aaffd5802b0000000000002b80d5d5802b0000000000000000000000000000002b80d5ffffaaaaaaffaa550000000055aaffd5802b000000000000000000000000000000002b80d5d5802b2b80d5d5802b000000000000000055aaffd5805580d5d5802b0000000000000055aaffd5802b00000000000000000055aaffaa5500000000000000000000000000000000002b80d5d5802b000000000055aaffd5802b00000000000000000000000055aaffd5802b00000000000055aaffd5802b0000" AssemblyPara="030000000000000000000000000000000000000081000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001600000000000000000000000000000082000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001e0000000000000000000000000000008800000000000000890000000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" ConnectionType="1073741867">
 							<Name>Connection 1 (Input/Output)</Name>
 							<ImageId>24</ImageId>
@@ -7014,7 +7026,7 @@ S02]]></Comment>
 							<Type>UINT</Type>
 						</Var>
 					</Vars>
-					<EthernetIp NewSlavePara="d0000000537469636b6572202854432045746865724e65742f495020536c6176652900000c0000006c000000fc190000010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000105a2346da30da8c000feffff010ca8c00000800001001e000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000">
+					<EthernetIp NewSlavePara="d0000000537469636b6572202854432045746865724e65742f495020536c6176652900000c0000006c000000fc190000010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a30da8c000feffff010ca8c00000800001001e000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000">
 						<SlaveConnection Id="4" ConnectionPara="d5802b00000000000000000055aaffd5d5d5ffaa5500000000000000000055aaffd5802b0000002b80d5ffffaaaaaaffaa550000000000000000000000000000000000002b80d5d5802b0000000055aaffd5802b00000000000000000000000055aaffd5802b00000000000055aaffd5802b00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002b80d5ffffaa5500000000000000002b80805500000000000000002b80d5d5aaaad5d5802b00000000000000000000000055aaffd5802b0000000000002b80d5d5802b0000000000000000000000000000002b80d5ffffaaaaaaffaa550000000055aaffd5802b000000000000000000000000000000002b80d5d5802b2b80d5d5802b000000000000000055aaffd5805580d5d5802b0000000000000055aaffd5802b00000000000000000055aaffaa5500000000000000000000000000000000002b80d5d5802b000000000055aaffd5802b00000000000000000000000055aaffd5802b00000000000055aaffd5802b0000" AssemblyPara="040000000000000000000000000000000000000081000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001600000000000000000000000000000082000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001e0000000000000000000000000000008800000000000000890000000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" ConnectionType="1073741867">
 							<Name>Connection 1 (Input/Output)</Name>
 							<ImageId>24</ImageId>
@@ -7197,7 +7209,7 @@ S02]]></Comment>
 							<BitOffs>192</BitOffs>
 						</Var>
 					</Vars>
-					<EthernetIp NewSlavePara="d10000004c61736572202854432045746865724e65742f495020536c61766529000000000c0000006c000000fc1900000101000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200d1a2346da40da8c000feffff010ca8c00000800001001e000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000">
+					<EthernetIp NewSlavePara="d10000004c61736572202854432045746865724e65742f495020536c61766529000000000c0000006c000000fc1900000101000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200d1000000a40da8c000feffff010ca8c00000800001001e000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000">
 						<SlaveConnection Id="5" ConnectionPara="d5802b00000000000000000055aaffd5d5d5ffaa5500000000000000000055aaffd5802b0000002b80d5ffffaaaaaaffaa550000000000000000000000000000000000002b80d5d5802b0000000055aaffd5802b00000000000000000000000055aaffd5802b00000000000055aaffd5802b00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002b80d5ffffaa5500000000000000002b80805500000000000000002b80d5d5aaaad5d5802b00000000000000000000000055aaffd5802b0000000000002b80d5d5802b0000000000000000000000000000002b80d5ffffaaaaaaffaa550000000055aaffd5802b000000000000000000000000000000002b80d5d5802b2b80d5d5802b000000000000000055aaffd5805580d5d5802b0000000000000055aaffd5802b00000000000000000055aaffaa5500000000000000000000000000000000002b80d5d5802b000000000055aaffd5802b00000000000000000000000055aaffd5802b00000000000055aaffd5802b0000" AssemblyPara="050000000000000000000000000000000000000081000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001600000000000000000000000000000082000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001e0000000000000000000000000000008800000000000000890000000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" ConnectionType="1073741867">
 							<Name>Connection 1 (Input/Output)</Name>
 							<ImageId>24</ImageId>
@@ -7439,6 +7451,54 @@ S02]]></Comment>
 				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldingMachine_IO.bWeldingActive" VarB="Channel 3^Input"/>
 				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldingMachine_IO.bResetError" VarB="Channel 10^Output"/>
 				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldingMachine_IO.bWorkPermit" VarB="Channel 9^Output"/>
+			</OwnerB>
+			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S04_SonicTech (EK1818)^Term 212 (EL6021)">
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 0" Size="8" OffsA="16"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 1" Size="8" OffsA="24"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 10" Size="8" OffsA="96"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 11" Size="8" OffsA="104"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 12" Size="8" OffsA="112"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 13" Size="8" OffsA="120"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 14" Size="8" OffsA="128"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 15" Size="8" OffsA="136"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 16" Size="8" OffsA="144"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 17" Size="8" OffsA="152"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 18" Size="8" OffsA="160"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 19" Size="8" OffsA="168"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 2" Size="8" OffsA="32"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 20" Size="8" OffsA="176"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 21" Size="8" OffsA="184"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 3" Size="8" OffsA="40"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 4" Size="8" OffsA="48"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 5" Size="8" OffsA="56"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 6" Size="8" OffsA="64"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 7" Size="8" OffsA="72"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 8" Size="8" OffsA="80"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 9" Size="8" OffsA="88"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Status"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Ctrl"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 0" Size="8" OffsA="16"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 1" Size="8" OffsA="24"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 10" Size="8" OffsA="96"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 11" Size="8" OffsA="104"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 12" Size="8" OffsA="112"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 13" Size="8" OffsA="120"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 14" Size="8" OffsA="128"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 15" Size="8" OffsA="136"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 16" Size="8" OffsA="144"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 17" Size="8" OffsA="152"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 18" Size="8" OffsA="160"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 19" Size="8" OffsA="168"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 2" Size="8" OffsA="32"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 20" Size="8" OffsA="176"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 21" Size="8" OffsA="184"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 3" Size="8" OffsA="40"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 4" Size="8" OffsA="48"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 5" Size="8" OffsA="56"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 6" Size="8" OffsA="64"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 7" Size="8" OffsA="72"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 8" Size="8" OffsA="80"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 9" Size="8" OffsA="88"/>
 			</OwnerB>
 			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S05_Transpoerter (EK1818)">
 				<Link VarA="PlcTask Inputs^GVL_IO.stTransporterInOuts.bBlockerEntryDown" VarB="Channel 5^Input"/>

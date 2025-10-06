@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
   <POU Name="MAIN" Id="{086fc6ba-1790-4ec6-a004-db460bd84f28}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR	
@@ -454,7 +454,7 @@ fb_2_SonicTech_SonictechUSW(
 	I_SerialCom := fb_2_SonicTech_SonicTechCom,
 	stMachineSettings:= GVL.st_2_SonicTech_USWelderSettings);
 
-fb_2_SonicTech_SonicTechCom(stData:=GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO,tTimeout:=T#1S);]]></ST>
+fb_2_SonicTech_SonicTechCom(stData:=GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO,tTimeout:=T#1S);]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_6_UnderPressure_Tester" Id="{0f42a32e-adb5-4984-95ac-324a900398af}">

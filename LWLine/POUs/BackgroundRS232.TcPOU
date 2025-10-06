@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
   <POU Name="BackgroundRS232" Id="{9a20473f-0d3f-4584-b429-33e10587a848}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM BackgroundRS232
 VAR
@@ -22,7 +22,14 @@ GVL_IO.stS12_1_HiosScrewdriver_IO.stSerialCom.fbSerialCom(RxBufferEL := GVL_IO.s
 
 GVL_IO.stS21_DTL_InOuts.stGrblComm.fbSerialCom(RxBufferEL := GVL_IO.stS21_DTL_InOuts.stGrblComm.RxBufferEL, TxBufferEL := GVL_IO.stS21_DTL_InOuts.stGrblComm.TxBufferEL);
 GVL_IO.stS21_DTL_InOuts.stDmReaderComComm.fbSerialCom(RxBufferEL := GVL_IO.stS21_DTL_InOuts.stDmReaderComComm.RxBufferEL, TxBufferEL := GVL_IO.stS21_DTL_InOuts.stDmReaderComComm.TxBufferEL);
-*)]]></ST>
+*)
+GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom(RxBufferEL:=GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.RxBufferEL,TxBufferEL:=GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.TxBufferEL);
+GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom(RxBufferEL:=GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.RxBufferEL,TxBufferEL:=GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.TxBufferEL);]]></ST>
     </Implementation>
+    <LineIds Name="BackgroundRS232">
+      <LineId Id="3" Count="15" />
+      <LineId Id="2" Count="0" />
+      <LineId Id="22" Count="1" />
+    </LineIds>
   </POU>
 </TcPlcObject>

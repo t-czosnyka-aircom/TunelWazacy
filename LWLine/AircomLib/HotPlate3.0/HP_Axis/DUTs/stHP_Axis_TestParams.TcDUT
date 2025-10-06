@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
   <DUT Name="stHP_Axis_TestParams" Id="{e7a0598f-5f84-4d30-a439-aee0104a0658}">
     <Declaration><![CDATA[TYPE stHP_Axis_TestParams :
 STRUCT
@@ -26,7 +26,11 @@ STRUCT
 	rConnectingMinForce_N			: REAL	:= 5.0;			// Min force which must be ahcieve during connecting parts
 	rConnectingForce_N				: REAL	:= 20.0;		// Max force when connecting parts
 	rConnectingTimeout_s			: REAL	:= 5.0;			// Max time for achieve connection point when connecting parts
+	rStabilForceConnectingTime		: REAL	:= 10.0;		// Time for stabil force connecting ---
 	rCoolingDownTime_s				: REAL	:= 6.0;			// Time to wait after achieve connection position (cooling down)
+	bAllowCoolingForceAquire		: BOOL	:= FALSE;		// Apply force after axis stop during cooling ---
+	rFirstCoolingForceSetUp			: REAL	:= 50;			// First force of cooling ---
+	rSecondCoolingforceSetUp		: REAL	:= 20;			// Second steop of cooling force ---
 //	{attribute 'hide'}                            
 //	rReserve						: REAL;		// 
 END_STRUCT
