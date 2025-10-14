@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <DUT Name="stHMI_Laser" Id="{424e97bd-5b8e-4698-8c89-9bcbbcae0cea}">
+    <Declaration><![CDATA[TYPE stHMI_Laser :
+STRUCT
+	bEnableLaserTCPCOmmunication: BOOL;
+	bReqSetPosition: BOOL;
+	bReqSetIntensity: BOOL;
+	bReqRefreshParams: BOOL;
+	bSetIntensityOK: BOOL;
+	bRefreshError: BOOL;
+	bSetPositionOK:BOOL;
+	iSelectMarking: USINT;
+	iPositionX_OUT : UDINT;
+	iPositionY_OUT : UDINT;
+	iIntensity_OUT : USINT;
+	iIntensity_IN  :USINT;
+	iPositionX_IN : UDINT;
+	iPositionY_IN : UDINT;
+	sCurrentDateText:STRING;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <DUT Name="ST_TCP_SendRequest" Id="{fd56b5ef-e1af-4ddc-b30b-7d70edd35cc9}">
+    <Declaration><![CDATA[TYPE ST_TCP_SendRequest :
+STRUCT
+	//IN
+	sIP:STRING;
+	nPort:UDINT;
+	sDataToSend:STRING;
+	sSuffix:STRING;
+	bExpectResponse:BOOL;
+	sACK_Response:STRING;
+	iId: UDINT;
+	//OUT 
+	bError: BOOL;
+	bSent: BOOL;
+	bProcesseingInProgress:BOOL; 
+	bDone:BOOL;
+	bResponseReceived:BOOL;
+	sResponse:STRING;
+	bResponseACK:BOOL;
+	
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="F_Date_Addition" Id="{0b3227cc-85c4-4b62-80ca-c16387844a2c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_Date_Addition : BOOL
+VAR_INPUT
+	dtCurrent: DATE_AND_TIME;
+	addYears:INT;
+	addMonths:INT;
+	addWeeks:INT;
+	
+END_VAR
+VAR
+	stCurrent: TIMESTRUCT;
+	stCurrentWeek:TIMESTRUCT;
+	dtResultDateWeek : DATE_AND_TIME;
+	iWeek:INT;
+	iWeeksThisYear:INT;
+	sYear_Five_Month:STRING;
+	sYear_Five_Week:STRING;
+	stNew: TIMESTRUCT;
+	i : INT;
+	sPadding:STRING;
+END_VAR
+VAR_OUTPUT
+	sDateYearMonth :STRING;
+	sDateYearWeek:STRING;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//2025-9-30 -> Month 2030-12 , week 2031-W1
+//WEEKS 
+dtResultDateWeek:= dtCurrent;
+WHILE addWeeks >= 7 DO
+	dtResultDateWeek := dtResultDateWeek +T#49D;
+	addWeeks := addWeeks - 7;
+END_WHILE
+WHILE addWeeks >= 1 DO
+	dtResultDateWeek := dtResultDateWeek +T#7D;
+	addWeeks := addWeeks - 1;
+END_WHILE
+stCurrentWeek:=DT_TO_SYSTEMTIME(dtResultDateWeek);
+iWeek:=F_GetWeekOfTheYear(dtResultDateWeek);
+
+IF stCurrentWeek.wMonth = 12 AND iWeek = 1 THEN
+	stCurrentWeek.wYear:=stCurrentWeek.wYear+1;
+ELSIF stCurrentWeek.wMonth = 1 AND iWeek > 50 THEN
+	stCurrentWeek.wYear:=stCurrentWeek.wYear-1;
+END_IF
+sPadding := '-W';
+IF iWeek < 10 THEN
+	sPadding:= '-W0';
+END_IF
+sYear_Five_Week:=WORD_TO_STRING(stCurrentWeek.wYear);
+sDateYearWeek:=CONCAT(sYear_Five_Week,CONCAT(sPadding,INT_TO_STRING(iWeek)));
+
+//MONTHS
+stCurrent:=DT_TO_SYSTEMTIME(dtCurrent);
+stNew.wYear:=stCurrent.wYear+addYears;
+stNew.wMonth:=stCurrent.wMonth+addMonths;
+IF stNew.wMonth >= 13 THEN
+	stNew.wYear := stNew.wYear + 1;
+	stNew.wMonth := stNew.wMonth MOD 12;
+END_IF
+sPadding := '-';
+IF stNew.wMonth < 10 THEN
+	sPadding:= '-0';
+END_IF
+sYear_Five_Month:=WORD_TO_STRING(stNew.wYear);
+sDateYearMonth:=CONCAT(sYear_Five_Month,CONCAT(sPadding,WORD_TO_STRING(stNew.wMonth)));
+	
+]]></ST>
+    </Implementation>
+    <LineIds Name="F_Date_Addition">
+      <LineId Id="54" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="110" Count="2" />
+      <LineId Id="109" Count="0" />
+      <LineId Id="113" Count="0" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="65" Count="1" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="116" Count="2" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="22" Count="3" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="120" Count="2" />
+      <LineId Id="119" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="28" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

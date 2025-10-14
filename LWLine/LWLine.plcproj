@@ -222,7 +222,14 @@
     <Compile Include="AircomLib\ModbusTCP\ModbusTCP_Slaves\00_ChiniseMachines\POUs\fbChiniseMachine_v2.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AircomLib\ModbusTCP\ModbusTCP_Slaves\00_ChiniseMachines\POUs\fbChiniseMachine_v2_Laser.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="AircomLib\ModbusTCP\ModbusTCP_Slaves\00_ChiniseMachines\VISUs\vChiniseMachineStatus_v2.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="AircomLib\ModbusTCP\ModbusTCP_Slaves\00_ChiniseMachines\VISUs\vChiniseMachineStatus_v2_Laser.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
@@ -431,6 +438,37 @@
     <Compile Include="POUs\Checks\CheckRangeUnsigned.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\FunctionsBlocks\15 Laser TCP\nLaser_ErrorCodes.TcTLEO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\15 Laser TCP\stHMI_Laser.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\15 Laser TCP\TCP\FB_LaserControl.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\15 Laser TCP\TCP\FB_TCP_SendString.TcPOU">
+      <SubType>Code</SubType>
+      <AdditionalAllocation>1000</AdditionalAllocation>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\15 Laser TCP\TCP\FB_TCP_SendStringManualTest.TcPOU">
+      <SubType>Code</SubType>
+      <AdditionalAllocation>1000</AdditionalAllocation>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\15 Laser TCP\TCP\F_Date_Addition.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\15 Laser TCP\TCP\ST_TCP_SendRequest.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\15 Laser TCP\vLaserControl_old.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\15 Laser TCP\vLaserControl.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
     <Compile Include="POUs\FunctionsBlocks\18_ManometerLabel\DUTs\stManometerLabelSticking_TestData.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -593,6 +631,8 @@
     <Folder Include="POUs\FunctionsBlocks" />
     <Folder Include="POUs\Checks" />
     <Folder Include="POUs\FunctionsBlocks\04_BearingsPress" />
+    <Folder Include="POUs\FunctionsBlocks\15 Laser TCP" />
+    <Folder Include="POUs\FunctionsBlocks\15 Laser TCP\TCP" />
     <Folder Include="POUs\FunctionsBlocks\18_ManometerLabel" />
     <Folder Include="POUs\FunctionsBlocks\18_ManometerLabel\DUTs" />
     <Folder Include="VISUs">
@@ -670,6 +710,10 @@
     <PlaceholderReference Include="Tc2_SerialCom">
       <DefaultResolution>Tc2_SerialCom, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_SerialCom</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_TcpIp">
+      <DefaultResolution>Tc2_TcpIp, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_TcpIp</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Database">
       <DefaultResolution>Tc3_Database, * (Beckhoff Automation GmbH)</DefaultResolution>

@@ -150,6 +150,8 @@ VAR
 			stStation_LBA02PL_SBA02PL06_M2: stPIM_ServiceInOuts;
 			fb_Laser_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Laser_Machine);
 			fb_Laser_Machine : fbChiniseMachine_v2(I_Pim := fb_Laser_Station,I_ModbusCore := fbModbusTcpCore);
+			fb_Laser_TCP: FB_TCP_SendString;
+			fb_Laser_TCP_Manual: FB_TCP_SendStringManualTest;
 		//ACT_9_Tunel
 				stStation_LBA02PL_SBA02PL07: stPIM_ServiceInOuts;
 				fb_Tunel_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Tunel_Machine);
@@ -547,7 +549,11 @@ fb_Laser_Station(
 					bNextMachineWork:= TRUE);
 GVL.st_Laser_MachineParams.bPartsCount := TRUE;*)
 
-fb_Laser_Machine(stSlaveParms:=GVL.st_Laser_Parameters,bNextMachineWork := fb_Tunel_Machine.I_PimSystem.prWorkPermission);]]></ST>
+fb_Laser_Machine(stSlaveParms:=GVL.st_Laser_Parameters,bNextMachineWork := fb_Tunel_Machine.I_PimSystem.prWorkPermission);
+
+fb_Laser_TCP_Manual.bExecute;
+fb_Laser_TCP_Manual(sRemoteHostIP:='192.168.1.234',nRemotePort:=45678,sDataToSend:='OpenDoc,MERCEDES.bpd',sSuffix:=';;');
+fb_Laser_TCP();]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_9_Tunel" Id="{1c00eae3-0be1-4ab8-8ed3-070e2bcadbb0}">
@@ -1016,6 +1022,10 @@ fbHotPlateAir_PulseCounter(
       <LineId Id="1" Count="0" />
       <LineId Id="14" Count="0" />
       <LineId Id="13" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="31" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_9_Tunel">
       <LineId Id="2" Count="11" />

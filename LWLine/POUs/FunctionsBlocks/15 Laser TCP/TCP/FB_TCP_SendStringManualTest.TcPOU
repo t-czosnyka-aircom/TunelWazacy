@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="FB_TCP_SendStringManualTest" Id="{a568e333-287c-4343-af7b-5b5c0ced92ca}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_TCP_SendStringManualTest
+VAR_INPUT
+	sRemoteHostIP:STRING;
+	nRemotePort:UDINT;
+	sDataToSend:STRING;
+	sSuffix:STRING;
+	sACK_Response:STRING;
+	bExecute: BOOL;
+END_VAR
+VAR_OUTPUT
+	bError: BOOL;
+	bDone:BOOL; //Pulse
+	bResponseReceived:BOOL;
+	sResponse:STRING;
+	bResponseACK:BOOL;
+END_VAR
+VAR
+	fbSocketConnect: FB_SocketConnect;
+	fbSocketSend: FB_SocketSend;
+	fbSocketReceive: FB_SocketReceive;
+	fbSocketClose: FB_SocketClose;
+	hSocket: T_HSOCKET;
+	sData:STRING:='GetVersion;';
+	sRecieved:STRING;
+	sRespLeft:STRING;
+	nRecBytes:UDINT;
+	eStep:(WAIT,CONNECT, WAIT_CONNECT, SEND,WAIT_SEND,WAIT_RESPONSE,CLOSE,WAIT_CLOSE,DONE,ERROR);
+	fbExecute_RTRIG:R_TRIG;
+	fbReceieve_TON: TON;
+	fbResponseTimeout_TON: TON;
+	fbSequenceTimeout_TON: TON;
+	bNotBusy:BOOL;
+
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[bNotBusy:=NOT fbSocketConnect.bBusy AND NOT fbSocketSend.bBusy AND NOT fbSocketReceive.bBusy AND NOT fbSocketClose.bBusy;
+CASE eStep OF
+	WAIT:
+		fbSocketConnect.bExecute:=FALSE;
+		fbSocketReceive.bExecute :=FALSE;
+		fbSocketSend.bExecute:=FALSE;
+		fbSocketClose.bExecute:=FALSE;
+		bDone:=FALSE;
+		IF fbExecute_RTRIG.Q AND bNotBusy THEN
+			eStep:=CONNECT;
+			bResponseReceived:=FALSE;
+			bResponseACK:=FALSE;
+			bError:=FALSE;
+			bExecute:=FALSE;
+		END_IF
+
+	CONNECT:
+		fbSocketConnect.bExecute:=TRUE;
+		IF fbSocketConnect.bBusy THEN
+			eStep:=WAIT_CONNECT;
+		END_IF
+		
+	WAIT_CONNECT:
+		fbSocketConnect.bExecute:=FALSE;
+		IF NOT fbSocketConnect.bBusy THEN
+			IF NOT fbSocketConnect.bError THEN
+				eStep:=SEND;
+			ELSE
+				eStep:=ERROR;
+			END_IF
+		END_IF
+	
+	SEND:	
+		sData:=CONCAT(sDataToSend,sSuffix);
+		fbSocketSend.bExecute:=TRUE;
+		IF fbSocketSend.bBusy THEN
+			eStep:= WAIT_SEND;
+		END_IF
+		
+	WAIT_SEND:
+		fbSocketSend.bExecute:=FALSE;
+		IF NOT fbSocketSend.bBusy THEN
+			IF NOT fbSocketSend.bError THEN
+				sRecieved:='';
+				eStep:= WAIT_RESPONSE;
+			ELSE
+				eStep:=ERROR;
+			END_IF
+		END_IF
+		
+	WAIT_RESPONSE:
+		IF sRecieved<>'' AND nRecBytes > 0 THEN
+			sResponse:=LEFT(sRecieved,UDINT_TO_INT(nRecBytes));
+			bResponseReceived:=TRUE;
+			sRespLeft:=LEFT(sResponse,7);
+			IF  sRespLeft=sACK_Response THEN
+				bResponseACK:=TRUE;
+			END_IF
+
+			eStep:= CLOSE;
+			
+		ELSIF fbResponseTimeout_TON.Q THEN
+			eStep:= CLOSE;
+		END_IF
+	
+	CLOSE:
+		fbSocketClose.bExecute:=TRUE;
+		IF fbSocketClose.bBusy THEN
+			eStep:= WAIT_CLOSE;
+		END_IF
+		
+	WAIT_CLOSE:
+		IF NOT fbSocketClose.bBusy THEN
+			eStep:= DONE;
+		END_IF
+		
+	ERROR:
+		bError:=TRUE;
+		eStep := DONE;
+		
+	DONE:
+		bDone:=TRUE;
+		eStep := WAIT;
+
+END_CASE
+fbResponseTimeout_TON(IN:=eStep=WAIT_RESPONSE,PT:=T#10S);
+fbSequenceTimeout_TON(IN:=eStep<>WAIT AND eStep<>DONE,PT:=T#30S);
+fbReceieve_TON(IN:=NOT fbReceieve_TON.Q AND eStep=WAIT_RESPONSE, PT:=T#100MS);
+fbExecute_RTRIG(CLK:=bExecute);
+
+IF fbSequenceTimeout_TON.Q THEN
+	eStep:=ERROR;
+END_IF
+
+fbSocketConnect(
+	sRemoteHost:= sRemoteHostIP, 
+	nRemotePort:= nRemotePort, 
+	hSocket=>hSocket );
+	
+fbSocketSend(
+	hSocket:=hSocket , 
+	cbLen:= LEN(sData), 
+	pSrc:= ADR(sData));
+	
+
+fbSocketReceive(
+	hSocket:=hSocket, 
+	cbLen:=255, 
+	pDest:=ADR(sRecieved) , 
+	bExecute:= fbReceieve_TON.Q,
+	tTimeout:=T#5S , 
+	nRecBytes=> nRecBytes);
+	
+fbSocketClose(
+	hSocket:=hSocket);
+	]]></ST>
+    </Implementation>
+    <LineIds Name="FB_TCP_SendStringManualTest">
+      <LineId Id="294" Count="10" />
+      <LineId Id="404" Count="0" />
+      <LineId Id="305" Count="14" />
+      <LineId Id="474" Count="1" />
+      <LineId Id="320" Count="12" />
+      <LineId Id="476" Count="0" />
+      <LineId Id="333" Count="1" />
+      <LineId Id="477" Count="2" />
+      <LineId Id="335" Count="5" />
+      <LineId Id="405" Count="0" />
+      <LineId Id="341" Count="0" />
+      <LineId Id="402" Count="1" />
+      <LineId Id="401" Count="0" />
+      <LineId Id="400" Count="0" />
+      <LineId Id="399" Count="0" />
+      <LineId Id="342" Count="53" />
+      <LineId Id="174" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

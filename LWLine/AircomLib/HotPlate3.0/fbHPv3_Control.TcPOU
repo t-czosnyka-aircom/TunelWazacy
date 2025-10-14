@@ -124,6 +124,10 @@ VAR
 	//Sekcja sprawdzania grzałki
 	fbWeldingPlateHeaterChecker	: fbHP_WeldPlateHeaterChecker;
 	bHpInWork	: BOOL;
+	bNewPidSetUps 		: BOOL := FALSE;
+	rProportionalValue 	: REAL := 6.067;
+	rIntergralValue 	: REAL := 1367.45;
+	rDifferentialValue 	: REAL := 9.434;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -995,15 +999,15 @@ fbHP_HeaterON(IN:= bHeatedPlate_HeatON AND NOT stInOuts.bI_HeatedPlateTempMeasur
 fbHP_PID(		// Regulacja temperatury grzałki płyty grzejnej
 	ACTUAL:= rHeatedPlateTemperature_Mean, 
 	SET_POINT:= stTestData.rHeatedPlateSetTemperature, 
-	KP:= 5.2,//4.2, 		//5.2,
-	TN:= 280,//220,		//280, 
-	TV:= 1.45,//0,			//1.45,
-	Y_MANUAL:= 20.0, 
-	Y_OFFSET:= 0.0, 
+	KP:= SEL(bNewPidSetUps,5.2,rProportionalValue),//4.2, 		//5.2,
+	TN:= SEL(bNewPidSetUps,280,rIntergralValue),//220,		//280, 
+	TV:= SEL(bNewPidSetUps,1.45,rDifferentialValue),//0,			//1.45,
+	Y_MANUAL:= SEL(bNewPidSetUps,20,20), 
+	Y_OFFSET:= SEL(bNewPidSetUps,0,17), 
 	Y_MIN:= 00.0, 
 	Y_MAX:= 100.0, 
 	MANUAL:= NOT fbHP_HeaterON.Q, 
-	RESET:= bUpdateHPPidParams, 
+	RESET:= SEL(bNewPidSetUps , bUpdateHPPidParams ,((fbHP_PID.OVERFLOW OR ((rHPHeaterPower - 2) > fbHP_PID.Y_OFFSET) ) AND ((rHeatedPlateTemperature_Mean ) > stTestData.rHeatedPlateSetTemperature))), 
 	Y=> rHPHeaterPower);
 bUpdateHPPidParams := FALSE;
 fbHP_TempStable(IN:= ABS(stTestData.rHeatedPlateSetTemperature-rHeatedPlateTemperature_Mean)< stTestData.rHeatedPlateAllowDeviation,
