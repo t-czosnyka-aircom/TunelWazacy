@@ -149,7 +149,7 @@ VAR
 		//ACT_8_Laser
 			stStation_LBA02PL_SBA02PL06_M2: stPIM_ServiceInOuts;
 			fb_Laser_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Laser_Machine);
-			fb_Laser_Machine : fbChiniseMachine_v2(I_Pim := fb_Laser_Station,I_ModbusCore := fbModbusTcpCore);
+			fb_Laser_Machine : fbChiniseMachine_v2_Laser(I_Pim := fb_Laser_Station,I_ModbusCore := fbModbusTcpCore);
 			fb_Laser_TCP: FB_TCP_SendString;
 			fb_Laser_TCP_Manual: FB_TCP_SendStringManualTest;
 		//ACT_9_Tunel
@@ -549,7 +549,7 @@ fb_Laser_Station(
 					bNextMachineWork:= TRUE);
 GVL.st_Laser_MachineParams.bPartsCount := TRUE;*)
 
-fb_Laser_Machine(stSlaveParms:=GVL.st_Laser_Parameters,bNextMachineWork := fb_Tunel_Machine.I_PimSystem.prWorkPermission);
+fb_Laser_Machine(stSlaveParms:=GVL.st_Laser_Parameters,bNextMachineWork := fb_Tunel_Machine.I_PimSystem.prWorkPermission,fbTCP_Send:=fb_Laser_TCP);
 
 fb_Laser_TCP_Manual.bExecute;
 fb_Laser_TCP_Manual(sRemoteHostIP:='192.168.1.234',nRemotePort:=45678,sDataToSend:='OpenDoc,MERCEDES.bpd',sSuffix:=';;');

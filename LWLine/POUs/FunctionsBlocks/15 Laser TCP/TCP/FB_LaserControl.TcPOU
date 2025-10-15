@@ -35,7 +35,9 @@ VAR PERSISTENT
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[stSendRequest.sIP:='192.168.1.234';
+      <ST><![CDATA[stHMI_Laser.bEnableLaserTCPCOmmunication:=FALSE;
+
+stSendRequest.sIP:='192.168.1.234';
 stSendRequest.nPort:= 45678;
 stSendRequest.sSuffix:=';;';
 stSendRequest.bExpectResponse:=TRUE;
@@ -57,6 +59,7 @@ fbEnableTCP_RTRIG(CLK:=stHMI_Laser.bEnableLaserTCPCOmmunication);
 //Wybieranie template z lasera
 IF  fbEnableTCP_RTRIG.Q OR iSelectMarkingSave <> stHMI_Laser.iSelectMarking THEN
 	mRequestJobRefresh();
+	bJobRefreshed:=FALSE;
 END_IF
 
 
@@ -411,10 +414,13 @@ END_VAR]]></Declaration>
       </Implementation>
     </Method>
     <LineIds Name="FB_LaserControl">
+      <LineId Id="1757" Count="1" />
       <LineId Id="1488" Count="14" />
       <LineId Id="1722" Count="1" />
       <LineId Id="1721" Count="0" />
-      <LineId Id="1568" Count="55" />
+      <LineId Id="1568" Count="3" />
+      <LineId Id="1756" Count="0" />
+      <LineId Id="1572" Count="51" />
       <LineId Id="1625" Count="8" />
       <LineId Id="1715" Count="1" />
       <LineId Id="1718" Count="2" />

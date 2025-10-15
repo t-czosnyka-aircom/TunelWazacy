@@ -148,7 +148,7 @@ CASE eStep OF
 
 END_CASE
 fbResponseTimeout_TON(IN:=eStep=WAIT_RESPONSE,PT:=T#3S);
-fbSequenceTimeout_TON(IN:=eStep<>WAIT AND eStep<>DONE,PT:=T#10S);
+fbSequenceTimeout_TON(IN:=eStep<>WAIT AND eStep<>DONE,PT:=T#5S);
 fbReceieve_TON(IN:=NOT fbReceieve_TON.Q AND eStep=WAIT_RESPONSE, PT:=T#20MS);
 
 
