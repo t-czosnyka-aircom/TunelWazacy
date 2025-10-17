@@ -13,7 +13,7 @@
     <Implicit_KindOfTask>{92d94782-1672-4878-a336-c52c336b7bb6}</Implicit_KindOfTask>
     <Implicit_Jitter_Distribution>{54cc3109-5caa-4b62-b412-29c57be49dee}</Implicit_Jitter_Distribution>
     <LibraryReferences>{379fc779-8f2d-40c7-83c4-3c1bd446bd50}</LibraryReferences>
-    <CompilerDefines>VISU_USEWSTRING</CompilerDefines>
+    <CompilerDefines>VISU_USEWSTRING,VISU_USEPROPERTYINFO</CompilerDefines>
     <Company>Aircom Automotive</Company>
     <Released>false</Released>
     <Title>LINE_LJ</Title>
@@ -478,6 +478,55 @@
     <Compile Include="POUs\FunctionsBlocks\KomoraSC.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\DUTs\nTableBottlePlaceState.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\DUTs\ST_TableBottlePlace.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\DUTs\ST_TableControl_HMI.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\DUTs\tlTableBottlePlaceState.TcTLO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\FB_TableAxis.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\FB_LoadingStation.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\FB_TableControl.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\FB_TablePlace.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\FB_UnloadingStation.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\FB_WeighingStation.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\I_WorkingStation.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\VISUs\vTableFrame.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\VISUs\vTableFrameControl.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\VISUs\vTableFrameDialog.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\VISUs\vWeighingTunnel.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -635,6 +684,9 @@
     <Folder Include="POUs\FunctionsBlocks\15 Laser TCP\TCP" />
     <Folder Include="POUs\FunctionsBlocks\18_ManometerLabel" />
     <Folder Include="POUs\FunctionsBlocks\18_ManometerLabel\DUTs" />
+    <Folder Include="POUs\FunctionsBlocks\WeighingTunnel" />
+    <Folder Include="POUs\FunctionsBlocks\WeighingTunnel\DUTs" />
+    <Folder Include="POUs\FunctionsBlocks\WeighingTunnel\VISUs" />
     <Folder Include="VISUs">
       <ExcludeFromBuild>false</ExcludeFromBuild>
     </Folder>
@@ -804,8 +856,8 @@
   <ProjectExtensions>
     <PlcProjectOptions>
       <XmlArchive>
-        <Data>
-          <o xml:space="preserve" t="OptionKey">
+  <Data>
+    <o xml:space="preserve" t="OptionKey">
       <v n="Name">"&lt;ProjectRoot&gt;"</v>
       <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
         <v>{8F99A816-E488-41E4-9FA3-846536012284}</v>
@@ -869,21 +921,21 @@
             <v>GlobalVisuImageFilePath</v>
             <v>"%APPLICATIONPATH%\"</v>
             <v>GeneralPropertySupport</v>
-            <v>false</v>
+            <v>true</v>
           </d>
         </o>
       </d>
       <d n="Values" t="Hashtable" />
     </o>
-        </Data>
-        <TypeList>
-          <Type n="Boolean">System.Boolean</Type>
-          <Type n="Hashtable">System.Collections.Hashtable</Type>
-          <Type n="Int32">System.Int32</Type>
-          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
-          <Type n="String">System.String</Type>
-        </TypeList>
-      </XmlArchive>
+  </Data>
+  <TypeList>
+    <Type n="Boolean">System.Boolean</Type>
+    <Type n="Hashtable">System.Collections.Hashtable</Type>
+    <Type n="Int32">System.Int32</Type>
+    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+    <Type n="String">System.String</Type>
+  </TypeList>
+</XmlArchive>
     </PlcProjectOptions>
   </ProjectExtensions>
 </Project>

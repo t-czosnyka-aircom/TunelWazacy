@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="FB_WeighingStation" Id="{44fe5b5a-0f0b-4511-b67e-0a0f72747565}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_WeighingStation IMPLEMENTS I_WorkingStation
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="prTableRotationInterlock" Id="{a3bd4f2e-7fc9-48a1-a0b6-851ef9873feb}">
+      <Declaration><![CDATA[{warning 'add property implementation'}
+PROPERTY prTableRotationInterlock : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{43e5f169-a4d0-4c8e-91de-42b275f24a50}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{76b95d3b-5bcf-4249-9d73-08c145522c05}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="prTableRotationRequest" Id="{9ba3f7f5-258e-4771-a282-88d0ed0f827d}">
+      <Declaration><![CDATA[{warning 'add property implementation'}
+PROPERTY prTableRotationRequest : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{6fac5f09-d7bd-4453-b0f2-ad728a049eaf}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{6f2e0132-c59b-475b-ac07-1e59a09efec3}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="FB_WeighingStation">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WeighingStation.prTableRotationInterlock.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WeighingStation.prTableRotationInterlock.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WeighingStation.prTableRotationRequest.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WeighingStation.prTableRotationRequest.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

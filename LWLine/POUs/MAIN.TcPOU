@@ -162,6 +162,13 @@ VAR
 		fbFillingLineAir_PulseCounter	: fbPulseCounterPIM;
 		fbHotPlateAir_PulseCounter		: fbPulseCounterPIM;
 		fbPreAssembyAir_PulseCounter	: fbPulseCounterPIM;
+		
+		//Weighing Tunnel
+		fbTableControl: FB_TableControl;
+		fbLoadingStation: FB_LoadingStation;
+		fbWeighingStation: FB_WeighingStation;
+		fbUnloadingStation:  FB_UnloadingStation;
+		fbTableAxis:	FB_TableAxis;
 END_VAR
 VAR PERSISTENT
 	bKeepSQLConnected: BOOL := TRUE;
@@ -214,6 +221,7 @@ ACT_6_UnderPressure_Tester();
 ACT_7_Sticker();
 ACT_8_Laser();
 ACT_9_Tunel();
+ACT_WeighingTunnel();
 
 
 
@@ -944,13 +952,25 @@ fbHotPlateAir_PulseCounter(
 	bCtrType_0Elec_1Air := TRUE);]]></ST>
       </Implementation>
     </Action>
+    <Action Name="ACT_WeighingTunnel" Id="{5e38a3e4-a5ca-4e14-ac89-eb5f90d1af2a}">
+      <Implementation>
+        <ST><![CDATA[fbTableControl(	fbLoadingStation:=fbLoadingStation,
+		fbWeighingStation:=fbWeighingStation,
+		fbUnloadingStation:=fbUnloadingStation,
+		fbTableAxis:=fbTableAxis);
+		
+fbTableAxis();]]></ST>
+      </Implementation>
+    </Action>
     <LineIds Name="MAIN">
       <LineId Id="3" Count="5" />
       <LineId Id="15" Count="16" />
       <LineId Id="404" Count="0" />
       <LineId Id="32" Count="0" />
       <LineId Id="405" Count="0" />
-      <LineId Id="33" Count="25" />
+      <LineId Id="33" Count="18" />
+      <LineId Id="748" Count="0" />
+      <LineId Id="52" Count="6" />
       <LineId Id="243" Count="0" />
       <LineId Id="59" Count="23" />
       <LineId Id="578" Count="0" />
@@ -1086,6 +1106,11 @@ fbHotPlateAir_PulseCounter(
       <LineId Id="14" Count="0" />
       <LineId Id="16" Count="4" />
       <LineId Id="15" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_WeighingTunnel">
+      <LineId Id="2" Count="1" />
+      <LineId Id="1" Count="0" />
+      <LineId Id="4" Count="2" />
     </LineIds>
   </POU>
 </TcPlcObject>

@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="FB_TablePlace" Id="{265b384e-c169-4e44-874d-ccc78b9ed3f4}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_TablePlace
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	stPlace: ST_TableBottlePlace;
+	itfWorkingStation: I_WorkingStation;
+	bRotationInterlock:BOOL;
+	bRotationRequest: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF stPlace.nState = nTableBottlePlaceState.Empty THEN
+	stPlace.iProductType:=0;
+	stPlace.sProductName :='';
+END_IF
+
+IF itfWorkingStation = 0 THEN
+	bRotationInterlock := TRUE;
+	bRotationRequest := TRUE;
+ELSE
+	bRotationInterlock := itfWorkingStation.prTableRotationInterlock;
+	bRotationRequest := itfWorkingStation.prTableRotationRequest;
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="mClearWorkingStation" Id="{596c1c0d-7109-4b79-96a8-9dcefd06f95c}">
+      <Declaration><![CDATA[METHOD mClearWorkingStation : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[itfWorkingStation := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mMakeEmpty" Id="{ca40ada9-4135-4273-bf5c-545dda9a8893}">
+      <Declaration><![CDATA[METHOD mMakeEmpty : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stPlace.nState:=nTableBottlePlaceState.Empty;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mNewBottle" Id="{0e51995b-61d3-4d5c-9d79-3d4ce30af29a}">
+      <Declaration><![CDATA[METHOD mNewBottle : BOOL
+VAR_INPUT
+	iProductType: UINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stPlace.nState:=nTableBottlePlaceState.BeforeWeighing;
+stPlace.iProductType:=iProductType;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="prCurrentPosition" Id="{a591398c-db6a-47a5-a1b9-1fc16684ff4f}">
+      <Declaration><![CDATA[{attribue 'monitoring':= call}
+PROPERTY prCurrentPosition : USINT]]></Declaration>
+      <Get Name="Get" Id="{1aa8cdb1-493e-4214-b67a-9d66cba99e49}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prCurrentPosition := stPlace.iCurrentPosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{98f3d7e6-effe-4813-a325-574167bd8b3d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[stPlace.iCurrentPosition := prCurrentPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="prPlaceNumber" Id="{7935c5e2-73d5-45fc-b6fd-9b8d28dbb8a1}">
+      <Declaration><![CDATA[{attribue 'monitoring':= call}
+PROPERTY prPlaceNumber : USINT]]></Declaration>
+      <Get Name="Get" Id="{82ddc4e6-e54d-4d5d-999c-fb8a41ab6951}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prPlaceNumber := stPlace.iPlaceNumber;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{7adaf66a-cc0e-4f34-a3ee-212285cd5fc5}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[stPlace.iPlaceNumber := prPlaceNumber;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="prTableRotationInterlock" Id="{294c7375-f490-4e19-8180-0f73a52a88e1}">
+      <Declaration><![CDATA[{attribue 'monitoring':= call}
+PROPERTY prTableRotationInterlock : BOOL]]></Declaration>
+      <Get Name="Get" Id="{6f7f66c3-b6d2-460f-9b0e-c2638fe9ae18}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="prTableRotationRequest" Id="{7c83dcbf-0e28-497b-9f6e-109f400d7f6c}">
+      <Declaration><![CDATA[{attribue 'monitoring':= call}
+PROPERTY prTableRotationRequest : BOOL]]></Declaration>
+      <Get Name="Get" Id="{a27aa4c2-9571-4e96-bf1a-f7e87f67c113}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="pWorkingStation" Id="{a880ebf4-8ac0-4f02-aadc-ac1b7bc377ec}">
+      <Declaration><![CDATA[{attribue 'monitoring':= call}
+PROPERTY pWorkingStation : I_WorkingStation]]></Declaration>
+      <Get Name="Get" Id="{fe8ca71b-91c3-405b-b7fe-d8e6f8ad29ff}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[pWorkingStation:=itfWorkingStation;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{30faeb23-cb76-460c-9989-0b0d18edc710}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[itfWorkingStation:=pWorkingStation;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="FB_TablePlace">
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="30" Count="3" />
+      <LineId Id="27" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.mClearWorkingStation">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.mMakeEmpty">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.mNewBottle">
+      <LineId Id="5" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.prCurrentPosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.prCurrentPosition.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.prPlaceNumber.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.prPlaceNumber.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.prTableRotationInterlock.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.prTableRotationRequest.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.pWorkingStation.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.pWorkingStation.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
