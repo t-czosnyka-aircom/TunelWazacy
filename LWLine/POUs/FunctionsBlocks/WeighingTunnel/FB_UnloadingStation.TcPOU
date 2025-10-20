@@ -12,6 +12,25 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Property Name="prTableInPosition" Id="{63da9327-87a5-4a03-ae22-c0f060ca43e6}">
+      <Declaration><![CDATA[PROPERTY prTableInPosition : BOOL]]></Declaration>
+      <Get Name="Get" Id="{e46b5cea-1647-4955-8397-cc47a30d7c58}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{5628a0ff-352c-4a08-8a21-2f99bb324a06}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="prTableRotationInterlock" Id="{88e14835-694a-42c6-83c2-cd76547a82a6}">
       <Declaration><![CDATA[{attribue 'monitoring':= call}
 PROPERTY prTableRotationInterlock : BOOL
@@ -56,6 +75,12 @@ END_VAR
     </Property>
     <LineIds Name="FB_UnloadingStation">
       <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_UnloadingStation.prTableInPosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_UnloadingStation.prTableInPosition.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_UnloadingStation.prTableRotationInterlock.Get">
       <LineId Id="2" Count="0" />

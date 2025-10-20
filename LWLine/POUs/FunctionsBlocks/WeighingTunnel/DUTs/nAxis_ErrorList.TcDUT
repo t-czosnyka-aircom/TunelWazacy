@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <DUT Name="nAxis_ErrorList" Id="{95ac6216-0b65-43ad-bbab-b33360fa8030}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+{attribute 'to_string'}
+TYPE nAxis_ErrorList :
+(
+	NoError								:= 0,
+	ProgramError						:= 37,
+	ServoDrive_Error					:= 602,
+	BasePosSearchTimeout				:= 644,
+	AxisResetError						:= 645,
+	STO_SignalActive					:= 684,
+	MotionFB_Error						:= 687,
+	MotionWorkStepTimeout				:= 688
+	
+)UDINT;
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

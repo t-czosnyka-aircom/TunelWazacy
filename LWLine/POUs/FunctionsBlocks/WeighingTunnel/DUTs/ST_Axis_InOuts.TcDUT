@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <DUT Name="ST_Axis_InOuts" Id="{574d86d0-6751-4526-a886-fb667ad466df}">
+    <Declaration><![CDATA[TYPE ST_Axis_InOuts:
+STRUCT
+// Fizyczne wejścia
+	bHomingSensor					AT %I* 	: BOOL;						// Part sensor in Drivesystem
+	stLoadCell_Data							: stLoadCell_InOutsData;	// Force sensor data                         
+	bQ_PartLockPiston				AT %Q* 	: BOOL;						// Three-jaw valve locking the part
+	wI_DriveInfodata				AT %I* 	: UINT;						// Auxiliary axis data - Digital inputs
+	stAxis_Data								: AXIS_REF;	//Os A gorna	// Main axis data
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

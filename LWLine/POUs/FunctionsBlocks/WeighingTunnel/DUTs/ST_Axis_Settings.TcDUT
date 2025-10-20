@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <DUT Name="ST_Axis_Settings" Id="{28db1a1f-3db2-45b3-b483-66c2edcefb3a}">
+    <Declaration><![CDATA[// Settings dedicated to chosen machine - measurement scalling and other indyvidual settings
+TYPE ST_Axis_Settings :
+STRUCT	
+	bEN_QuickHoming				: BOOL:=TRUE;	
+	bEN_CircularPositions		: BOOL:=TRUE;			
+	rSlowSpeed_mm_s				: REAL	:= 2;			// Slow movement speed - during fitting to plate or connection of parts
+	rFastSpeed_mm_s				: REAL	:= 250.0;		// Fast movement speed
+	rAcceleration				: REAL	:= 1000;		// Acceleration rate mm/s2
+	rDeceleration				: REAL	:= 1000;		// Deceleration rate mm/s2
+	arrPositions				: ARRAY[0..20] OF LREAL; //Set Positions
+	lrMax_Pos					: LREAL:=360.0;	
+	lrPositionTolerance 		: LREAL:=1;
+
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

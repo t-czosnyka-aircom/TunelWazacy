@@ -11,6 +11,7 @@ VAR
 	itfWorkingStation: I_WorkingStation;
 	bRotationInterlock:BOOL;
 	bRotationRequest: BOOL;
+	bTableInPosition: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -25,6 +26,7 @@ IF itfWorkingStation = 0 THEN
 ELSE
 	bRotationInterlock := itfWorkingStation.prTableRotationInterlock;
 	bRotationRequest := itfWorkingStation.prTableRotationRequest;
+	itfWorkingStation.prTableInPosition := prTableInPosition;
 END_IF]]></ST>
     </Implementation>
     <Method Name="mClearWorkingStation" Id="{596c1c0d-7109-4b79-96a8-9dcefd06f95c}">
@@ -96,6 +98,25 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Property Name="prTableInPosition" Id="{1b9542f5-b1b7-456b-b3c1-401cda04a1e0}">
+      <Declaration><![CDATA[PROPERTY prTableInPosition : BOOL]]></Declaration>
+      <Get Name="Get" Id="{74242f0a-f248-428f-82b1-d392f8f5b487}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prTableInPosition:=bTableInPosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{8a1aeb97-ba36-4484-ba3b-0620d9c1eeae}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[bTableInPosition:=prTableInPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="prTableRotationInterlock" Id="{294c7375-f490-4e19-8180-0f73a52a88e1}">
       <Declaration><![CDATA[{attribue 'monitoring':= call}
 PROPERTY prTableRotationInterlock : BOOL]]></Declaration>
@@ -149,6 +170,7 @@ END_VAR
       <LineId Id="24" Count="0" />
       <LineId Id="26" Count="0" />
       <LineId Id="30" Count="3" />
+      <LineId Id="45" Count="0" />
       <LineId Id="27" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.mClearWorkingStation">
@@ -171,6 +193,12 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.prPlaceNumber.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.prTableInPosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.prTableInPosition.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.prTableRotationInterlock.Get">
