@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="FB_LoadingStation" Id="{0739b0e9-6a0b-43e8-b760-d31010e6020e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_LoadingStation EXTENDS FB_BaseStation
+VAR_INPUT
+	stSettings: ST_LoadingStation_Settings;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+
+	bSensWasEmpty: BOOL;
+	fbPartPresentTON:TON;
+	fbPartPresentErrorTON: TON;
+END_VAR
+VAR_IN_OUT
+	stInOuts :ST_LoadingStation_InOuts;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[bRotationInterlock:=TRUE;
+bRotationRequest:=FALSE;
+
+fbPartPresentTON(IN:=stInOuts.bBottleDetectedSensor AND prTableInPosition,PT:=UINT_TO_TIME(stSettings.iBottleDetectionDelayMS));
+bSensWasEmpty S=  NOT stInOuts.bBottleDetectedSensor;
+
+
+IF __ISVALIDREF(fbTablePlace) THEN
+	IF fbPartPresentTON.Q AND bSensWasEmpty AND fbTablePlace.prStateIsEmpty AND fbTablePlace.pWorkPermission  THEN
+		fbTablePlace.mBottleBeforeWeighing(1);
+		bSensWasEmpty := FALSE; 
+	END_IF
+	bRotationRequest:=fbPartPresentTON.Q AND fbTablePlace.pCurrentState = nTableBottlePlaceState.BeforeWeighing;
+	fbPartPresentErrorTON(IN:= fbPartPresentTON.Q AND fbTablePlace.pCurrentState = nTableBottlePlaceState.Empty AND fbTablePlace.pWorkPermission, PT:=UINT_TO_TIME(stSettings.iSensorErrorDelayMS));
+	IF fbPartPresentErrorTON.Q THEN
+		mError(nTable_ErrorList.LoadingSensorError);
+	END_IF
+ELSE
+	prTableInPosition := FALSE;
+END_IF
+	]]></ST>
+    </Implementation>
+    <LineIds Name="FB_LoadingStation">
+      <LineId Id="62" Count="16" />
+      <LineId Id="95" Count="1" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="26" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

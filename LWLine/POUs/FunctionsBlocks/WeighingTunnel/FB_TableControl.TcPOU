@@ -14,6 +14,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	
 	arrPlaces : ARRAY[0..TOTAL_TABLE_PLACES] OF FB_TablePlace;
 	arrPlacePositions : ARRAY[0..TOTAL_TABLE_PLACES] OF POINTER TO FB_TablePlace;
 	i : USINT;
@@ -22,8 +23,12 @@ VAR
 	bRotationRequest: BOOL;
 	bRotationInterlock: BOOL;
 	bStationsCleared: BOOL;
-	fbTableInPositionTON:TON;
 	iCurrentPositionNumberSave:INT;
+	iLastValidPosition: USINT:=1;
+	iNextPos:USINT;
+	bWorkPermission:BOOL;
+	bStationError:BOOL;
+	udiErrorNumber:UDINT;
 END_VAR
 
 VAR CONSTANT
@@ -36,37 +41,53 @@ END_VAR
 
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[//iCurrentPositionNumber := 1 + iCurrentPositionNumber MOD TOTAL_TABLE_PLACES;
-
+      <ST><![CDATA[
 bRotationRequest := TRUE;
 bRotationInterlock := TRUE;
 bStationsCleared := TRUE;
+bStationError := FALSE;
+udiErrorNumber := 0;
+IF fbTableAxis.pPositionValid THEN
+	iLastValidPosition:=prTablePositionNumber;
+END_IF
+
 FOR i:=1 TO TOTAL_TABLE_PLACES DO
 	arrPlaces[i]();
 	arrPlaces[i].prPlaceNumber:=i;
-	arrPlaces[i].prCurrentPosition:=((arrPlaces[i].stPlace.iPlaceNumber+prTablePositionNumber-2) MOD TOTAL_TABLE_PLACES +1);
+	arrPlaces[i].prCurrentPosition:=((arrPlaces[i].stPlace.iPlaceNumber+iLastValidPosition-2) MOD TOTAL_TABLE_PLACES +1);
 	arrPlacePositions[arrPlaces[i].prCurrentPosition]:=ADR(arrPlaces[i]);
 	bRotationRequest := bRotationRequest AND arrPlaces[i].prTableRotationRequest;
 	bStationsCleared := bStationsCleared AND arrPlaces[i].pWorkingStation=0;
-	arrPlaces[i].prTableInPosition := fbTableInPositionTON.Q;
+	arrPlaces[i].prTableInPosition := fbTableAxis.pPositionValid;
+	arrPlaces[i].pWorkPermission:=bWorkPermission;
+	IF arrPlaces[i].pStationError THEN
+		bStationError := TRUE;
+		udiErrorNumber := arrPlaces[i].pStationErrorNumber;
+	END_IF
 END_FOR
 
 bRotationInterlock := fbLoadingStation.prTableRotationInterlock AND fbWeighingStation.prTableRotationInterlock AND fbUnloadingStation.prTableRotationInterlock;
+fbTableAxis.pMovementExternalInterlock := bRotationInterlock;
 
-fbTableInPositionTON(IN:=fbTableAxis.pCurrentPositionNumber >= 1 AND  fbTableAxis.pCurrentPositionNumber <= TOTAL_TABLE_PLACES AND fbTableAxis.pIsInTargetPosition AND fbTableAxis.pIsNotMoving,PT:=T#300MS);
 
 //Assign station pointers
-IF fbTableInPositionTON.Q  AND bStationsCleared THEN
+IF fbTableAxis.pPositionValid  AND bStationsCleared THEN
 	arrPlacePositions[1]^.pWorkingStation:=fbLoadingStation;
 	arrPlacePositions[3]^.pWorkingStation:=fbWeighingStation;
 	arrPlacePositions[5]^.pWorkingStation:=fbUnloadingStation;
+	arrPlacePositions[1]^.pWorkingStation.pTablePlace REF= arrPlacePositions[1]^;
+	arrPlacePositions[3]^.pWorkingStation.pTablePlace REF= arrPlacePositions[3]^;
+	arrPlacePositions[5]^.pWorkingStation.pTablePlace REF= arrPlacePositions[5]^;
 END_IF
 
-//Clear station pointerst
-IF NOT bStationsCleared AND fbTableAxis.IsMoving OR (NOT fbTableAxis.IsHomed AND FALSE) OR iCurrentPositionNumberSave <> prTablePositionNumber THEN 
+//Clear station pointers
+IF NOT bStationsCleared AND fbTableAxis.IsMoving OR iCurrentPositionNumberSave <> prTablePositionNumber THEN 
 	FOR i:=1 TO TOTAL_TABLE_PLACES DO
 		arrPlaces[i].mClearWorkingStation();
 	END_FOR
+	fbLoadingStation.pTablePlace REF= 0;
+	fbUnloadingStation.pTablePlace REF= 0;
+	fbWeighingStation.pTablePlace REF= 0;
 END_IF;
 
 CASE iWorkStep OF 
@@ -79,17 +100,28 @@ CASE iWorkStep OF
 		IF bRotationRequest AND bRotationInterlock THEN
 			iWorkStep := 20;
 		END_IF
+		IF bStationError THEN
+			//newevent
+		END_IF
 	
 	20: //Clear stations
 		FOR i:=1 TO TOTAL_TABLE_PLACES DO
 			arrPlaces[i].mClearWorkingStation();
 		END_FOR
 		IF bStationsCleared THEN
-			iWorkStep := 30;			
+			iWorkStep := 30;
+			iNextPos:= (iLastValidPosition+1) MOD 9;	
 		END_IF
 	
 	30: //Table rotation
 		
+		IF fbTableAxis.mMoveModuloToPosition(iNextPos,bFast:=FALSE) THEN
+			IF fbTableAxis.IsErrorActive THEN
+				//Newevent
+			ELSE
+				iWorkStep:=40;
+			END_IF
+		END_IF
 
 	40: 
 
@@ -105,22 +137,18 @@ CASE iWorkStep OF
 	
 	
 	95: //Error reset
+		FOR i:=1 TO TOTAL_TABLE_PLACES DO
+			IF arrPlaces[i].pStationError THEN
+				arrPlaces[i].mErrorReset();
+			END_IF
+		END_FOR
 
 END_CASE
 
 iCurrentPositionNumberSave := prTablePositionNumber;]]></ST>
     </Implementation>
-    <Method Name="mRotateForward" Id="{8d3d6612-ff5e-47e0-9237-4b4c49f259ea}">
-      <Declaration><![CDATA[METHOD mRotateForward : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
     <Property Name="prTablePositionNumber" Id="{60756daa-6c95-4115-b5b7-4d2036c9f419}">
-      <Declaration><![CDATA[{attribue 'monitoring':= call}
+      <Declaration><![CDATA[{attribue 'monitoring':= 'call'}
 PROPERTY prTablePositionNumber : USINT]]></Declaration>
       <Get Name="Get" Id="{36388db3-ba02-4d7c-9acc-fe593ec419cb}">
         <Declaration><![CDATA[VAR
@@ -133,11 +161,15 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="FB_TableControl">
-      <LineId Id="43" Count="0" />
       <LineId Id="75" Count="0" />
       <LineId Id="74" Count="0" />
       <LineId Id="76" Count="0" />
       <LineId Id="143" Count="0" />
+      <LineId Id="257" Count="0" />
+      <LineId Id="269" Count="0" />
+      <LineId Id="254" Count="1" />
+      <LineId Id="209" Count="0" />
+      <LineId Id="256" Count="0" />
       <LineId Id="47" Count="0" />
       <LineId Id="52" Count="0" />
       <LineId Id="45" Count="1" />
@@ -145,6 +177,11 @@ END_VAR
       <LineId Id="77" Count="0" />
       <LineId Id="79" Count="0" />
       <LineId Id="205" Count="0" />
+      <LineId Id="265" Count="0" />
+      <LineId Id="268" Count="0" />
+      <LineId Id="270" Count="0" />
+      <LineId Id="272" Count="0" />
+      <LineId Id="271" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="116" Count="0" />
       <LineId Id="81" Count="0" />
@@ -153,6 +190,7 @@ END_VAR
       <LineId Id="128" Count="1" />
       <LineId Id="133" Count="1" />
       <LineId Id="132" Count="0" />
+      <LineId Id="258" Count="2" />
       <LineId Id="135" Count="0" />
       <LineId Id="130" Count="0" />
       <LineId Id="152" Count="0" />
@@ -160,6 +198,7 @@ END_VAR
       <LineId Id="157" Count="0" />
       <LineId Id="156" Count="0" />
       <LineId Id="154" Count="0" />
+      <LineId Id="261" Count="2" />
       <LineId Id="153" Count="0" />
       <LineId Id="82" Count="0" />
       <LineId Id="80" Count="0" />
@@ -171,24 +210,35 @@ END_VAR
       <LineId Id="87" Count="0" />
       <LineId Id="94" Count="0" />
       <LineId Id="101" Count="1" />
+      <LineId Id="273" Count="2" />
       <LineId Id="95" Count="0" />
       <LineId Id="97" Count="0" />
       <LineId Id="145" Count="1" />
       <LineId Id="144" Count="0" />
       <LineId Id="98" Count="0" />
-      <LineId Id="103" Count="1" />
+      <LineId Id="103" Count="0" />
+      <LineId Id="253" Count="0" />
+      <LineId Id="104" Count="0" />
       <LineId Id="99" Count="1" />
-      <LineId Id="92" Count="1" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="210" Count="1" />
+      <LineId Id="213" Count="0" />
+      <LineId Id="215" Count="1" />
+      <LineId Id="214" Count="0" />
+      <LineId Id="212" Count="0" />
+      <LineId Id="93" Count="0" />
       <LineId Id="91" Count="0" />
       <LineId Id="109" Count="1" />
       <LineId Id="158" Count="10" />
+      <LineId Id="277" Count="0" />
+      <LineId Id="286" Count="0" />
+      <LineId Id="290" Count="0" />
+      <LineId Id="289" Count="0" />
+      <LineId Id="276" Count="0" />
       <LineId Id="85" Count="0" />
       <LineId Id="84" Count="0" />
       <LineId Id="204" Count="0" />
       <LineId Id="203" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_TableControl.mRotateForward">
-      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TableControl.prTablePositionNumber.Get">
       <LineId Id="2" Count="0" />

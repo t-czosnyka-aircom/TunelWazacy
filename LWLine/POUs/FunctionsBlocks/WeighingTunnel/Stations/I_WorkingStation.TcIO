@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <Itf Name="I_WorkingStation" Id="{4fc3fe90-c1e8-40cd-ba9f-deea71f0ae85}">
+    <Declaration><![CDATA[INTERFACE I_WorkingStation
+]]></Declaration>
+    <Method Name="mErrorReset" Id="{f1df3791-fffd-46bd-a138-b8731344e2cf}">
+      <Declaration><![CDATA[METHOD mErrorReset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="pError" Id="{341f54d4-cb33-4e29-9291-db8b8afe04b9}">
+      <Declaration><![CDATA[PROPERTY pError : BOOL]]></Declaration>
+      <Get Name="Get" Id="{dbc2c9cd-1825-4cc1-850f-d37b416451ca}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="pErrorNumber" Id="{3ad9980e-dc87-4b73-aca5-009facae308e}">
+      <Declaration><![CDATA[PROPERTY pErrorNumber : UDINT]]></Declaration>
+      <Get Name="Get" Id="{d2af7160-dedf-446b-8cc9-0b9c6dee0edc}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="prTableInPosition" Id="{00874bb4-5315-48b6-982f-041445a42ad3}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY prTableInPosition : BOOL]]></Declaration>
+      <Get Name="Get" Id="{0fd855f9-d38b-458c-aa01-78c18a4213c2}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{e5e8235a-c12d-4d2a-bcf8-2a22cd4c1480}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="prTableRotationInterlock" Id="{36e7e1ef-3eca-4e02-9d42-157e2e1fc858}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY prTableRotationInterlock : BOOL]]></Declaration>
+      <Get Name="Get" Id="{01bd09b6-9f54-4c2d-b79d-742c5fdb82f3}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{dd8d538d-614e-475f-a33a-115fd16c76f1}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="prTableRotationRequest" Id="{ad483de5-b236-4c2c-82fd-5d0976a0b1c1}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY prTableRotationRequest : BOOL]]></Declaration>
+      <Get Name="Get" Id="{add0ad2f-100e-4e6f-9dce-4eb57c7d81e1}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="pTablePlace" Id="{dfd52d25-5a09-44cb-bdb3-a50f7756e0ee}">
+      <Declaration><![CDATA[PROPERTY pTablePlace : REFERENCE TO FB_TablePlace]]></Declaration>
+      <Get Name="Get" Id="{3d238b09-2f8f-44c4-9ef4-69991e9b0500}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{57812a8e-8d13-421a-bfd6-20c58ef44f42}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+  </Itf>
+</TcPlcObject>

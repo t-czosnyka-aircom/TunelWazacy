@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="FB_WeighingStation" Id="{44fe5b5a-0f0b-4511-b67e-0a0f72747565}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_WeighingStation EXTENDS FB_BaseStation
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+
+END_VAR
+VAR_IN_OUT
+	stInOuts :ST_WeighingStation_InOuts;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[bRotationInterlock:=TRUE;]]></ST>
+    </Implementation>
+    <LineIds Name="FB_WeighingStation">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

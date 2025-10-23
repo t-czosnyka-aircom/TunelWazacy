@@ -959,7 +959,12 @@ fbHotPlateAir_PulseCounter(
 		fbUnloadingStation:=fbUnloadingStation,
 		fbTableAxis:=fbTableAxis);
 		
-fbTableAxis();]]></ST>
+fbTableAxis(bEmergencyStop:=TRUE, bSTO_Signal:=TRUE);
+
+fbLoadingStation(stInOuts:=stLoadingStationInOuts);
+fbWeighingStation(stInOuts:=stWeighingStationInOuts);
+fbUnloadingStation(stInOuts:=stUnloadingStationInOuts);
+]]></ST>
       </Implementation>
     </Action>
     <LineIds Name="MAIN">
@@ -1111,6 +1116,10 @@ fbTableAxis();]]></ST>
       <LineId Id="2" Count="1" />
       <LineId Id="1" Count="0" />
       <LineId Id="4" Count="2" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="9" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

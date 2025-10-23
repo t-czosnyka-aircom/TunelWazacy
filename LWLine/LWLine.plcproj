@@ -478,16 +478,22 @@
     <Compile Include="POUs\FunctionsBlocks\KomoraSC.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\DUTs\nAxis_ErrorList.TcDUT">
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Actuator\FB_ActuatorOOP_TC.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Actuator\FB_GeneralError.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Actuator\fMeanFilter.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Actuator\ST_ActuatorInOut_TC.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\DUTs\nTableBottlePlaceState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\DUTs\ST_Axis_Settings.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\DUTs\ST_Axis_InOuts.TcDUT">
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\DUTs\nTable_ErrorList.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\DUTs\ST_TableBottlePlace.TcDUT">
@@ -499,25 +505,70 @@
     <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\DUTs\tlTableBottlePlaceState.TcTLO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\FB_LoadingStation.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\FB_ServoAxis.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\FB_TableControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\FB_TablePlace.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\FB_UnloadingStation.TcPOU">
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Servo\FB_ServoAxis.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\FB_WeighingStation.TcPOU">
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Servo\nAxis_ErrorList.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\I_WorkingStation.TcIO">
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Servo\ST_AxisHMI.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Servo\ST_Axis_InOuts.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Servo\ST_Axis_Settings.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Servo\vAxisBrakeControl.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Servo\vAxisMachineSub_Service.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Servo\vAxisMainParamsDisplay.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Stations\FB_BaseStation.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Stations\FB_LoadingStation.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Stations\FB_UnloadingStation.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Stations\FB_WeighingStation.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Stations\I_WorkingStation.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Stations\ST_LoadingStation_InOuts.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Stations\ST_LoadingStation_Settings.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Stations\ST_UnloadingStation_InOuts.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Stations\ST_UnloadingStation_Settings.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Stations\ST_WeighingStation_InOuts.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Stations\ST_WeighingStaton_Settings.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\VISUs\vTableFrame.TcVIS">
@@ -694,7 +745,10 @@
     <Folder Include="POUs\FunctionsBlocks\18_ManometerLabel" />
     <Folder Include="POUs\FunctionsBlocks\18_ManometerLabel\DUTs" />
     <Folder Include="POUs\FunctionsBlocks\WeighingTunnel" />
+    <Folder Include="POUs\FunctionsBlocks\WeighingTunnel\Actuator" />
     <Folder Include="POUs\FunctionsBlocks\WeighingTunnel\DUTs" />
+    <Folder Include="POUs\FunctionsBlocks\WeighingTunnel\Servo" />
+    <Folder Include="POUs\FunctionsBlocks\WeighingTunnel\Stations" />
     <Folder Include="POUs\FunctionsBlocks\WeighingTunnel\VISUs" />
     <Folder Include="VISUs">
       <ExcludeFromBuild>false</ExcludeFromBuild>
@@ -865,8 +919,8 @@
   <ProjectExtensions>
     <PlcProjectOptions>
       <XmlArchive>
-  <Data>
-    <o xml:space="preserve" t="OptionKey">
+        <Data>
+          <o xml:space="preserve" t="OptionKey">
       <v n="Name">"&lt;ProjectRoot&gt;"</v>
       <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
         <v>{8F99A816-E488-41E4-9FA3-846536012284}</v>
@@ -936,15 +990,15 @@
       </d>
       <d n="Values" t="Hashtable" />
     </o>
-  </Data>
-  <TypeList>
-    <Type n="Boolean">System.Boolean</Type>
-    <Type n="Hashtable">System.Collections.Hashtable</Type>
-    <Type n="Int32">System.Int32</Type>
-    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
-    <Type n="String">System.String</Type>
-  </TypeList>
-</XmlArchive>
+        </Data>
+        <TypeList>
+          <Type n="Boolean">System.Boolean</Type>
+          <Type n="Hashtable">System.Collections.Hashtable</Type>
+          <Type n="Int32">System.Int32</Type>
+          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+          <Type n="String">System.String</Type>
+        </TypeList>
+      </XmlArchive>
     </PlcProjectOptions>
   </ProjectExtensions>
 </Project>

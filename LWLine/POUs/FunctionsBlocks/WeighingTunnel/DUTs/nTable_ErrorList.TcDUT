@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <DUT Name="nTable_ErrorList" Id="{25f26f73-edf5-42f1-939e-aecf182b8e40}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE nTable_ErrorList :
+(
+	LoadingSensorError:= 1400,
+	
+	BottleWeighError:=1500,
+	
+	
+	UnloadingBottleDetectionNotOn:=1600,
+	UnloadingBottleDetectionNotOff:=1601,
+	UnloadingActuatorBackwardError:=1602,
+	UnloadingActuatorForwardError:=1603
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -5,7 +5,8 @@
 TYPE ST_Axis_Settings :
 STRUCT	
 	bEN_QuickHoming				: BOOL:=TRUE;	
-	bEN_CircularPositions		: BOOL:=TRUE;			
+	bEN_CircularPositions		: BOOL:=TRUE;	
+	bEN_HW_LimitSwitches		: BOOL:=FALSE;		
 	rSlowSpeed_mm_s				: REAL	:= 2;			// Slow movement speed - during fitting to plate or connection of parts
 	rFastSpeed_mm_s				: REAL	:= 250.0;		// Fast movement speed
 	rAcceleration				: REAL	:= 1000;		// Acceleration rate mm/s2

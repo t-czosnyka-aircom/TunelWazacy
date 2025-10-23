@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="fMeanFilter" Id="{31274a27-acb0-4bbe-8c53-61018b8909fd}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION fMeanFilter : REAL
+VAR_INPUT
+	rInputValue:REAL;
+	rDelta:REAL;
+END_VAR
+VAR_IN_OUT
+	rMeanValue:REAL;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[rDelta := LIMIT(1,rDelta,100);
+IF ABS(0.20*rMeanValue) < ABS( (rMeanValue - rInputValue)/rDelta) THEN
+	rMeanValue := rInputValue;
+END_IF
+rMeanValue := rMeanValue - (rMeanValue - rInputValue)/rDelta; ]]></ST>
+    </Implementation>
+    <LineIds Name="fMeanFilter">
+      <LineId Id="15" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="16" Count="1" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

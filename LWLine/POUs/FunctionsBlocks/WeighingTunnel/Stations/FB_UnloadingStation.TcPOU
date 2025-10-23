@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="FB_UnloadingStation" Id="{296f6eb6-2953-417c-abf3-86065ed0eed9}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_UnloadingStation EXTENDS FB_BaseStation
+VAR_INPUT
+	stSettings: ST_UnloadingStation_Settings;
+	bSimulationON:BOOL;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	fbUnloadingActuator: FB_ActuatorOOP_TC;
+	fbTimeOutTON:TON;
+	
+END_VAR
+VAR_IN_OUT
+	stInOuts :ST_UnloadingStation_InOuts;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF bSimulationON THEN
+	//
+END_IF
+
+bRotationInterlock:=TRUE;
+bRotationRequest:= FALSE;
+fbUnloadingActuator(stDigInOut:=stInOuts.stUnloadingActuator, bI_Control_Ready:=TRUE, bManualMode:=bManualMode, 
+					bI_HomeInterlock:= prTableInPosition, bI_WorkInterlock:=prTableInPosition,
+					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0,bSimulationOn:=bSimulationON);
+									
+					
+CASE iWorkStep OF
+	0: //Initialisation
+		IF fbUnloadingActuator.mGoToHome(bManualMode) THEN
+			iWorkStep := 5;
+		ELSIF fbUnloadingActuator.pGoToHomeError THEN 
+			mError(nTable_ErrorList.UnloadingActuatorBackwardError);
+		END_IF
+		fbTimeOutTON(IN:=FALSE);
+	
+	5: //Wait for bottle
+		bRotationRequest := fbUnloadingActuator.pInHomePosition AND __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.prStateIsEmpty ;
+		IF __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.prTableInPosition AND fbTablePlace.pWorkPermission AND fbTablePlace.prStateIsAfterWeighing THEN
+			iWorkStep := 10;
+		END_IF
+		
+	10:	//Eject Bottle
+		IF fbUnloadingActuator.mGoToWork(bManualMode) THEN
+			iWorkStep:=20;
+		ELSIF fbUnloadingActuator.pGoToWorkError THEN 
+			mError(nTable_ErrorList.UnloadingActuatorForwardError);
+		END_IF
+		
+	20: //Wait for sensor ON
+		fbTimeOutTON(IN:=TRUE,PT:=UINT_TO_TIME(stSettings.iBottleDetectionON_TimeoutMS));
+		IF stInOuts.bBottleDetectionSensor THEN
+			iWorkStep := 30;
+			fbTimeOutTON(IN:=FALSE);
+		ELSIF fbTimeOutTON.Q THEN
+			mError(nTable_ErrorList.UnloadingBottleDetectionNotOn);
+		END_IF
+	
+	30: //Wait for sensor OFF
+		fbTimeOutTON(IN:=TRUE,PT:=UINT_TO_TIME(stSettings.iBottleDetectionOFF_TimeoutMS));
+		IF NOT stInOuts.bBottleDetectionSensor THEN
+			IF __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.mBottleEmpty() THEN
+				iWorkStep := 0;
+			END_IF
+		ELSIF fbTimeOutTON.Q THEN
+			mError(nTable_ErrorList.UnloadingBottleDetectionNotOff);
+		END_IF
+		
+	90: //Error 
+
+
+	91: //Error Reset
+		iWorkStep := 0;
+		fbUnloadingActuator.mErrorReset();
+	
+	
+END_CASE]]></ST>
+    </Implementation>
+    <LineIds Name="FB_UnloadingStation">
+      <LineId Id="106" Count="0" />
+      <LineId Id="110" Count="1" />
+      <LineId Id="109" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="52" Count="2" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="86" Count="1" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="95" Count="0" />
+      <LineId Id="39" Count="1" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="32" Count="2" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="77" Count="1" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="63" Count="1" />
+      <LineId Id="96" Count="0" />
+      <LineId Id="99" Count="1" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="60" Count="1" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="66" Count="1" />
+      <LineId Id="103" Count="1" />
+      <LineId Id="101" Count="1" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="80" Count="1" />
+      <LineId Id="90" Count="1" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="82" Count="2" />
+      <LineId Id="28" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <DUT Name="ST_AxisHMI" Id="{1d2bd63d-b066-475d-80f6-d97080daf4a6}">
+    <Declaration><![CDATA[TYPE ST_AxisHMI :
+STRUCT
+	bJogForwardButton			:BOOL;
+	bJogBackwardButton			:BOOL;
+	bManualModeRequest			:BOOL;	
+	bRequestHoming				:BOOL;
+	bIsReady					:BOOL;
+	bIsHomed					:BOOL;
+	bIsMoving					:BOOL;
+	iManualPositionSelected		:USINT:=1;
+	bGoToSelectedPosition		:BOOL;
+	bRequestStopAxis			:BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="FB_ActuatorOOP_TC" Id="{01e1d07e-99bf-4b53-a424-5fa263d2e198}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ActuatorOOP_TC
+VAR_IN_OUT
+	stDigInOut: ST_ActuatorInOut_TC;
+END_VAR
+VAR_INPUT
+	bI_Control_Ready:BOOL;					// Sygnał gotowości sterowania, sygnały otwórz/zamknij ustawiane tylko gdy jest gotowość
+	bManualMode:BOOL;						// Sygnał o ręcznym trybie sterowania
+	bI_HomeInterlock:BOOL;					// Sygnał blokady otwierania zaworu/napędu (kolizja z innymi elementami) - powiązane z bI_RespectInterlockInMAN FALSE = możliwość ruchu
+	bI_WorkInterlock:BOOL;					// Sygnał blokady zamykania zaworu/napędu (kolizja z innymi elementami) - powiązane z bI_RespectInterlockInMAN FALSE = możliwość ruchu
+	bI_SusteinHomePos:BOOL:=TRUE;					// Po dojściu do pozycji zadanej podtrzymaj sygnał sterujący - stosować np. dla zaworów 5/2 w celu podtrzymania zamknięcia
+	bI_SusteinWorkPos:BOOL:=TRUE;				// Po dojściu do pozycji zadanej podtrzymaj sygnał sterujący - stosować np. dla zaworów 5/2 w celu podtrzymania zamknięcia
+	bI_RespectInterlockInMAN:BOOL:= TRUE;	// W trybie manualnym uwzględniaj interlocki czy nie
+	bAllowOverCrossPosition:BOOL:= FALSE;			// Ustawiaj sygnał otwórz/zamknij gdy ustawi się odpowiednia krańcówka oraz gdy aktywny sygnał sterujący (zejście z krańcówki przy podtrzymaniu nie powoduje zaniku sygnału otwarcia/zamknięcia)
+	bEnPossLossAlarm:BOOL:= FALSE;
+	rI_HomeTime_S:REAL:=1.0;
+	rI_WorkTime_S:REAL:=1.0;
+	rI_HomePositionDelayMS:REAL;
+	rI_WorkPositionDelayMS:REAL;
+	sActuatorId:STRING(30):= 'fbAct';
+	sLangId:STRING(2);
+	bSimulationON:BOOL;
+END_VAR
+VAR_OUTPUT
+	bInMovement:BOOL;
+END_VAR
+VAR
+	fbTON_HomeTimer:TON;
+	fbTON_WorkTimer:TON;	
+	fbRTrig_Ctr_Home:R_TRIG;
+	fbRTrig_Ctr_Work:R_TRIG;	
+	fbFTRIG_HomePosition: F_TRIG;
+	fbFTRIG_WorkPosition: F_TRIG;
+	bHomeCmd: BOOL;
+	bWorkCmd: BOOL;
+	fbFTrigHomePosition: F_TRIG;
+	fbFTrigWorkPosition: F_TRIG;
+	rHomeMeanTime: REAL;
+	rWorkMeanTime: REAL;
+	fbTON_HomePositionDelayed:TON;
+	fbTON_WorkPositionDelayed:TON;
+	fbTON_controlReady: TON;
+	fbWorkPositionNotReachedError:FB_GeneralError;
+	fbHomePositionNotReachedError:FB_GeneralError;
+	fbHomePositionLostError:FB_GeneralError;
+	fbWorkPositionLostError:FB_GeneralError;
+	fbDoubleSwitchesError:FB_GeneralError;
+	bError:BOOL;
+	bErrorReset:BOOL;
+	bManualSave: BOOL;   
+	bWorkPosSim :BOOL;
+	bHomePosSim :BOOL;
+END_VAR
+
+VAR PERSISTENT
+	diNbOfOperations:DINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF bSimulationON THEN
+	bWorkPosSim S=bWorkCmd AND (fbTON_WorkTimer.ET > fbTON_WorkTimer.PT/2 OR fbTON_WorkTimer.PT=T#0S);
+	bHomePosSim S=bHomeCmd AND (fbTON_HomeTimer.ET > fbTON_HomeTimer.PT/2 OR fbTON_HomeTimer.PT=T#0S);
+	bWorkPosSim R= bHomeCmd;
+	bHomePosSim R= bWorkCmd;
+	stDigInOut.bI_WorkPosition := bWorkPosSim;
+	stDigInOut.bI_HomePosition := bHomePosSim;
+ELSE
+	bWorkPosSim := bHomePosSim := FALSE;
+END_IF
+
+fbTON_WorkPositionDelayed(IN:=stDigInOut.bI_WorkPosition,PT:=REAL_TO_TIME(rI_WorkPositionDelayMS));
+fbTON_HomePositionDelayed(IN:=stDigInOut.bI_HomePosition,PT:=REAL_TO_TIME(rI_HomePositionDelayMS));
+
+// Wsuń/zamknij
+bWorkCmd R= ( (pInWorkPosition OR fbTON_WorkTimer.Q) AND NOT bI_SusteinWorkPos) OR NOT bI_Control_Ready;
+stDigInOut.bQ_Work := bWorkCmd;
+stDigInOut.bQ_Home R= stDigInOut.bQ_Work;
+
+// Wysuń/otwórz
+bHomeCmd R= ( (pInHomePosition OR fbTON_HomeTimer.Q) AND NOT bI_SusteinHomePos) OR NOT bI_Control_Ready;
+stDigInOut.bQ_Home := bHomeCmd;
+stDigInOut.bQ_Work R= stDigInOut.bQ_Home;
+
+// Określenie sygnałów zamknięcia/otwarcia
+fbFTrigHomePosition (CLK := stDigInOut.bI_HomePosition);
+fbFTrigWorkPosition (CLK := stDigInOut.bI_WorkPosition);
+
+
+// Kontrola czasu pracy siłownika
+IF fbTON_HomeTimer.IN AND NOT fbTON_HomeTimer.Q THEN
+	fMeanFilter(rInputValue := TIME_TO_REAL(fbTON_HomeTimer.ET), rDelta := 10.0, rMeanValue := rHomeMeanTime);
+END_IF
+fbTON_HomeTimer(IN := stDigInOut.bQ_Home AND NOT stDigInOut.bI_HomePosition, PT:= REAL_TO_TIME(1000.0*rI_HomeTime_S));
+
+IF fbTON_WorkTimer.IN AND NOT fbTON_WorkTimer.Q THEN
+	fMeanFilter(rInputValue := TIME_TO_REAL(fbTON_WorkTimer.ET), rDelta := 10.0, rMeanValue := rWorkMeanTime);
+END_IF
+fbTON_WorkTimer(IN := stDigInOut.bQ_Work AND NOT stDigInOut.bI_WorkPosition , PT:= REAL_TO_TIME(1000.0*rI_WorkTime_S));
+
+bInMovement:= fbTON_HomeTimer.IN OR fbTON_WorkTimer.IN;
+
+// Kontrola błędów w pracy
+fbTON_controlReady(IN:= bI_Control_Ready, PT:= T#5S);		// Alarmuj tylko po powrocie sygnału gotowości napędów
+bError:=FALSE;
+// Błąd osiągnięcia pozycji otwórz w odpowiednim czasie
+fbHomePositionNotReachedError(bActivate:=bHomeCmd AND fbTON_controlReady.Q, bDeactive:=pInHomePosition, bReset:=bErrorReset, bResetRequired:=TRUE, rErrorDelayMS:=1000.0*rI_HomeTime_S, bCommonError:=bError, sActuatorId:=sActuatorId, sErrorDescription:='Open time exceeded, open position not achieved');
+
+// Błąd osiągnięcia pozycji zamknij w odpowiednim czasie
+fbWorkPositionNotReachedError(bActivate:=bWorkCmd AND fbTON_controlReady.Q, bDeactive:=pInWorkPosition,  bReset:=bErrorReset, bResetRequired:=TRUE, rErrorDelayMS:=1000.0*rI_WorkTime_S, bCommonError:=bError, sActuatorId:=sActuatorId, sErrorDescription:='Close time exceeded, close position not achieved');
+
+// Utracenie pozycji otwarcia
+fbFTRIG_HomePosition(CLK:= stDigInOut.bI_HomePosition);
+fbHomePositionLostError(bActivate:=fbFTRIG_HomePosition.Q AND NOT stDigInOut.bQ_Home AND NOT stDigInOut.bQ_Work AND fbTON_controlReady.Q AND bEnPossLossAlarm, bReset:=bErrorReset, bResetRequired:=TRUE, bCommonError:=bError, sActuatorId:=sActuatorId, sErrorDescription:='Loss open position');
+
+// Utracenie pozycji zamknięcia
+fbFTRIG_WorkPosition(CLK:= stDigInOut.bI_WorkPosition);
+fbWorkPositionLostError(bActivate:=fbFTRIG_WorkPosition.Q AND NOT stDigInOut.bQ_Home AND NOT stDigInOut.bQ_Work AND fbTON_controlReady.Q AND bEnPossLossAlarm, bReset:=bErrorReset, bResetRequired:=TRUE, bCommonError:=bError, sActuatorId:=sActuatorId,  sErrorDescription:='Loss close position');
+
+// Kontrola pracy krańcówek
+fbDoubleSwitchesError(bActivate:=stDigInOut.bI_HomePosition AND stDigInOut.bI_WorkPosition AND fbTON_controlReady.Q, bReset:=bErrorReset, bResetRequired:=TRUE, rErrorDelayMS:=200.0, bCommonError:=bError, sActuatorId:=sActuatorId,  sErrorDescription:='End stops error');
+
+// Ilość cykli pracy
+fbRTrig_Ctr_Home (CLK := stDigInOut.bQ_Home);
+fbRTrig_Ctr_Work (CLK := stDigInOut.bQ_Work);
+IF fbRTrig_Ctr_Home.Q OR fbRTrig_Ctr_Work.Q THEN
+	diNbOfOperations := diNbOfOperations+1;
+END_IF
+
+//Sprawdzenie zmiany trybu pracy
+IF bManualMode <> bManualSave THEN
+	mStop();
+END_IF
+bManualSave:= bManualMode;
+
+bErrorReset :=FALSE;
+]]></ST>
+    </Implementation>
+    <Method Name="mErrorReset" Id="{b195c47d-fee7-45c2-96ed-2f7ff3ae8f75}">
+      <Declaration><![CDATA[METHOD PUBLIC mErrorReset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Reset błędów 
+bErrorReset :=TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mGoToHome" Id="{da149dc0-d96d-420a-bcc3-bc4aea0b8e69}">
+      <Declaration><![CDATA[METHOD mGoToHome : BOOL
+VAR_INPUT
+	bManCmd:BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bManCmd = bManualMode THEN
+	bHomeCmd S= pAllowHome;
+	bWorkCmd R= pAllowHome;
+END_IF
+mGoToHome := pInHomePosition;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mGoToWork" Id="{e9e8ce84-8137-44aa-acd9-52f0058d56fe}">
+      <Declaration><![CDATA[METHOD mGoToWork : BOOL
+VAR_INPUT
+	bManCmd:BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bManCmd = bManualMode THEN
+	bWorkCmd S= pAllowWork;
+	bHomeCmd R= pAllowWork;
+END_IF
+mGoToWork := pInWorkPosition;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mStop" Id="{a971c75a-f6f8-4dc2-8084-ef7763c0811c}">
+      <Declaration><![CDATA[METHOD mStop : BOOL
+VAR_INPUT
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bHomeCmd := bWorkCmd := FALSE;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="pAllowHome" Id="{30232894-62da-4e74-a78b-135ab7ef6e25}">
+      <Declaration><![CDATA[PROPERTY pAllowHome : BOOL]]></Declaration>
+      <Get Name="Get" Id="{3f4f9926-6c27-49f1-bdcf-a98d010e67d5}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[pAllowHome:=fbTON_controlReady.Q AND SEL(bManualMode, bI_HomeInterlock, bI_HomeInterlock OR NOT bI_RespectInterlockInMAN);]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="pAllowWork" Id="{aa9c03af-799f-4f50-a51e-40b9bde924a5}">
+      <Declaration><![CDATA[PROPERTY pAllowWork : BOOL]]></Declaration>
+      <Get Name="Get" Id="{500f7a22-a3dd-4ee7-971b-8d12aa967afc}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[pAllowWork :=fbTON_controlReady.Q AND SEL(bManualMode, bI_WorkInterlock, bI_WorkInterlock OR NOT bI_RespectInterlockInMAN);]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="pError" Id="{9ac24586-18e0-440d-8a66-4a17ded41e6c}">
+      <Declaration><![CDATA[PROPERTY PUBLIC pError : BOOL]]></Declaration>
+      <Get Name="Get" Id="{0255984d-28ed-461f-bb27-fa213634bfef}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[pError:=bError;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="pGoToHomeError" Id="{2164f17b-8c99-4b0e-a5ca-46a188278bb8}">
+      <Declaration><![CDATA[{attribute 'monitoring':= 'variable'}
+PROPERTY pGoToHomeError : BOOL]]></Declaration>
+      <Get Name="Get" Id="{899d8f7a-6c47-4dad-8eb1-aa17ac53a7eb}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[pGoToHomeError:=fbHomePositionNotReachedError.bActive;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="pGoToWorkError" Id="{23301b5d-da09-4be9-b69c-6adfda66c9f6}">
+      <Declaration><![CDATA[{attribute 'monitoring':= 'variable'}
+PROPERTY pGoToWorkError : BOOL]]></Declaration>
+      <Get Name="Get" Id="{92e4daac-7965-4004-98e7-2291d3fa2416}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[pGoToWorkError:=fbWorkPositionNotReachedError.bActive;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="pInHomePosition" Id="{02eeb034-2309-40b5-9246-68565a606cab}">
+      <Declaration><![CDATA[{attribute 'monitoring':= 'variable'}
+PROPERTY PUBLIC pInHomePosition : BOOL]]></Declaration>
+      <Get Name="Get" Id="{094d91f9-aeca-48a0-9e6a-f02b8c43dc87}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[pInHomePosition:=fbTON_HomePositionDelayed.Q;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="pInWorkPosition" Id="{5a5d9879-4af0-47c9-93a0-84fbf54a6b8c}">
+      <Declaration><![CDATA[{attribute 'monitoring':= 'variable'}
+PROPERTY PUBLIC pInWorkPosition : BOOL]]></Declaration>
+      <Get Name="Get" Id="{dc8a8c74-9f04-47f2-b477-b4e736041d25}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[pInWorkPosition:=fbTON_WorkPositionDelayed.Q;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="FB_ActuatorOOP_TC">
+      <LineId Id="4757" Count="0" />
+      <LineId Id="4766" Count="1" />
+      <LineId Id="4770" Count="0" />
+      <LineId Id="4768" Count="0" />
+      <LineId Id="4761" Count="0" />
+      <LineId Id="4763" Count="0" />
+      <LineId Id="4771" Count="1" />
+      <LineId Id="4762" Count="0" />
+      <LineId Id="4760" Count="0" />
+      <LineId Id="4691" Count="64" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ActuatorOOP_TC.mErrorReset">
+      <LineId Id="9" Count="0" />
+      <LineId Id="23" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ActuatorOOP_TC.mGoToHome">
+      <LineId Id="50" Count="3" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ActuatorOOP_TC.mGoToWork">
+      <LineId Id="59" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ActuatorOOP_TC.mStop">
+      <LineId Id="7" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ActuatorOOP_TC.pAllowHome.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ActuatorOOP_TC.pAllowWork.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ActuatorOOP_TC.pError.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ActuatorOOP_TC.pGoToHomeError.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ActuatorOOP_TC.pGoToWorkError.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ActuatorOOP_TC.pInHomePosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ActuatorOOP_TC.pInWorkPosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

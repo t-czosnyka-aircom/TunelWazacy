@@ -7,15 +7,24 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	stPlace: ST_TableBottlePlace;
 	itfWorkingStation: I_WorkingStation;
 	bRotationInterlock:BOOL;
 	bRotationRequest: BOOL;
 	bTableInPosition: BOOL;
+	bWorkPermission: BOOL;
+	bStationError: BOOL;
+	udiErrorNumber: UDINT;
+END_VAR
+VAR PERSISTENT
+	stPlace: ST_TableBottlePlace;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF stPlace.nState = nTableBottlePlaceState.Empty THEN
+      <ST><![CDATA[
+bStationError := FALSE;
+udiErrorNumber := 0;
+
+IF prStateIsEmpty THEN
 	stPlace.iProductType:=0;
 	stPlace.sProductName :='';
 END_IF
@@ -27,8 +36,61 @@ ELSE
 	bRotationInterlock := itfWorkingStation.prTableRotationInterlock;
 	bRotationRequest := itfWorkingStation.prTableRotationRequest;
 	itfWorkingStation.prTableInPosition := prTableInPosition;
+	bStationError := itfWorkingStation.pError;
+	udiErrorNumber :=  itfWorkingStation.pErrorNumber;
 END_IF]]></ST>
     </Implementation>
+    <Method Name="mBottleAfterWeighing" Id="{9720bd92-134b-4b68-80c2-6a2cc402d47b}">
+      <Declaration><![CDATA[METHOD mBottleAfterWeighing : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF stPlace.nState=nTableBottlePlaceState.Processing THEN
+	stPlace.nState:=nTableBottlePlaceState.AfterWeighing;
+END_IF;
+mBottleAfterWeighing := stPlace.nState=nTableBottlePlaceState.AfterWeighing;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mBottleBeforeWeighing" Id="{0e51995b-61d3-4d5c-9d79-3d4ce30af29a}">
+      <Declaration><![CDATA[METHOD mBottleBeforeWeighing : BOOL
+VAR_INPUT
+	iProductType: UINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF stPlace.nState=nTableBottlePlaceState.Empty THEN
+	stPlace.nState:=nTableBottlePlaceState.BeforeWeighing;
+	stPlace.iProductType:=iProductType;
+END_IF;
+mBottleBeforeWeighing := stPlace.nState=nTableBottlePlaceState.BeforeWeighing;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mBottleEmpty" Id="{ca40ada9-4135-4273-bf5c-545dda9a8893}">
+      <Declaration><![CDATA[METHOD mBottleEmpty : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF stPlace.nState=nTableBottlePlaceState.Processing OR  stPlace.nState=nTableBottlePlaceState.AfterWeighing THEN
+	stPlace.nState:=nTableBottlePlaceState.Empty;
+END_IF;
+mBottleEmpty := stPlace.nState=nTableBottlePlaceState.Empty;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mBottleProcessing" Id="{78fece03-d3c1-4513-b438-a2dda4dd1d85}">
+      <Declaration><![CDATA[METHOD mBottleProcessing : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF stPlace.nState=nTableBottlePlaceState.BeforeWeighing THEN
+	stPlace.nState:=nTableBottlePlaceState.Processing;
+END_IF;
+mBottleProcessing := stPlace.nState=nTableBottlePlaceState.Processing;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="mClearWorkingStation" Id="{596c1c0d-7109-4b79-96a8-9dcefd06f95c}">
       <Declaration><![CDATA[METHOD mClearWorkingStation : BOOL
 VAR_INPUT
@@ -38,26 +100,28 @@ END_VAR
         <ST><![CDATA[itfWorkingStation := 0;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="mMakeEmpty" Id="{ca40ada9-4135-4273-bf5c-545dda9a8893}">
-      <Declaration><![CDATA[METHOD mMakeEmpty : BOOL
+    <Method Name="mErrorReset" Id="{f81092d1-2e8f-4f01-8d86-b3405151cafb}">
+      <Declaration><![CDATA[METHOD mErrorReset : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[stPlace.nState:=nTableBottlePlaceState.Empty;]]></ST>
+        <ST><![CDATA[IF itfWorkingStation <>0 THEN
+	itfWorkingStation.mErrorReset();
+END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="mNewBottle" Id="{0e51995b-61d3-4d5c-9d79-3d4ce30af29a}">
-      <Declaration><![CDATA[METHOD mNewBottle : BOOL
-VAR_INPUT
-	iProductType: UINT;
+    <Property Name="pCurrentState" Id="{d551517b-b62f-46c5-9d0d-b7f371e0d162}">
+      <Declaration><![CDATA[PROPERTY pCurrentState : nTableBottlePlaceState]]></Declaration>
+      <Get Name="Get" Id="{4c6e54f6-27c3-4729-a897-f5ba85736deb}">
+        <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[stPlace.nState:=nTableBottlePlaceState.BeforeWeighing;
-stPlace.iProductType:=iProductType;]]></ST>
-      </Implementation>
-    </Method>
+        <Implementation>
+          <ST><![CDATA[pCurrentState:=stPlace.nState;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="prCurrentPosition" Id="{a591398c-db6a-47a5-a1b9-1fc16684ff4f}">
       <Declaration><![CDATA[{attribue 'monitoring':= call}
 PROPERTY prCurrentPosition : USINT]]></Declaration>
@@ -97,6 +161,50 @@ END_VAR
           <ST><![CDATA[stPlace.iPlaceNumber := prPlaceNumber;]]></ST>
         </Implementation>
       </Set>
+    </Property>
+    <Property Name="prStateIsAfterWeighing" Id="{ebec9ad5-df36-4242-88ed-d5c1d697457e}">
+      <Declaration><![CDATA[PROPERTY prStateIsAfterWeighing : BOOL]]></Declaration>
+      <Get Name="Get" Id="{575bcb67-28b6-48cd-87b4-1c0e88c9ec46}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prStateIsAfterWeighing := stPlace.nState = nTableBottlePlaceState.AfterWeighing;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="prStateIsBeforWeighing" Id="{481ad8af-6a50-49bb-aca4-2a9f22a0e63f}">
+      <Declaration><![CDATA[PROPERTY prStateIsBeforWeighing : BOOL]]></Declaration>
+      <Get Name="Get" Id="{6f2377f6-3f48-4441-aebe-9ea63c399cdb}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prStateIsBeforWeighing := stPlace.nState = nTableBottlePlaceState.BeforeWeighing;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="prStateIsEmpty" Id="{1ee73aaa-35be-4134-bcd5-1ba73af556b8}">
+      <Declaration><![CDATA[PROPERTY prStateIsEmpty : BOOL]]></Declaration>
+      <Get Name="Get" Id="{aaccb4bb-77bb-4e85-945a-35d2b23bde3a}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prStateIsEmpty := stPlace.nState = nTableBottlePlaceState.Empty;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="prStateIsProcessing" Id="{fbf96f1f-e4c1-44c9-9f56-2a2fdadc3610}">
+      <Declaration><![CDATA[PROPERTY prStateIsProcessing : BOOL]]></Declaration>
+      <Get Name="Get" Id="{b206eed4-5a9c-4058-964a-88ec02de02dc}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prStateIsProcessing := stPlace.nState = nTableBottlePlaceState.Processing;]]></ST>
+        </Implementation>
+      </Get>
     </Property>
     <Property Name="prTableInPosition" Id="{1b9542f5-b1b7-456b-b3c1-401cda04a1e0}">
       <Declaration><![CDATA[PROPERTY prTableInPosition : BOOL]]></Declaration>
@@ -141,6 +249,28 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="pStationError" Id="{4dcbc91d-6863-4971-8544-e42f158575af}">
+      <Declaration><![CDATA[PROPERTY pStationError : BOOL]]></Declaration>
+      <Get Name="Get" Id="{57d881c3-0d86-457a-b750-08512ba28f82}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="pStationErrorNumber" Id="{e28a9be7-72a6-4f54-abe8-edac28fc0c82}">
+      <Declaration><![CDATA[PROPERTY pStationErrorNumber : UDINT]]></Declaration>
+      <Get Name="Get" Id="{1a3ae16b-fbea-40d0-8a74-00ba99f1b76e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="pWorkingStation" Id="{a880ebf4-8ac0-4f02-aadc-ac1b7bc377ec}">
       <Declaration><![CDATA[{attribue 'monitoring':= call}
 PROPERTY pWorkingStation : I_WorkingStation]]></Declaration>
@@ -161,7 +291,28 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Property Name="pWorkPermission" Id="{0bb59bc8-611c-4b90-b0ad-89dc6e00dbab}">
+      <Declaration><![CDATA[PROPERTY pWorkPermission : BOOL]]></Declaration>
+      <Get Name="Get" Id="{9064da1d-0dd6-476d-baee-1ceb5ef4bafd}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[pWorkPermission:= bWorkPermission;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{5fc785ed-e886-42d7-a244-dbb9786ecc1d}">
+        <Declaration><![CDATA[
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[bWorkPermission:= pWorkPermission;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <LineIds Name="FB_TablePlace">
+      <LineId Id="66" Count="3" />
       <LineId Id="9" Count="0" />
       <LineId Id="11" Count="0" />
       <LineId Id="14" Count="0" />
@@ -171,17 +322,39 @@ END_VAR
       <LineId Id="26" Count="0" />
       <LineId Id="30" Count="3" />
       <LineId Id="45" Count="0" />
+      <LineId Id="64" Count="1" />
       <LineId Id="27" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.mBottleAfterWeighing">
+      <LineId Id="15" Count="2" />
+      <LineId Id="11" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.mBottleBeforeWeighing">
+      <LineId Id="12" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="18" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.mBottleEmpty">
+      <LineId Id="10" Count="1" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.mBottleProcessing">
+      <LineId Id="6" Count="1" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="11" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.mClearWorkingStation">
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_TablePlace.mMakeEmpty">
-      <LineId Id="5" Count="0" />
+    <LineIds Name="FB_TablePlace.mErrorReset">
+      <LineId Id="5" Count="2" />
     </LineIds>
-    <LineIds Name="FB_TablePlace.mNewBottle">
-      <LineId Id="5" Count="0" />
-      <LineId Id="7" Count="0" />
+    <LineIds Name="FB_TablePlace.pCurrentState.Get">
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.prCurrentPosition.Get">
       <LineId Id="2" Count="0" />
@@ -193,6 +366,18 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.prPlaceNumber.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.prStateIsAfterWeighing.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.prStateIsBeforWeighing.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.prStateIsEmpty.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.prStateIsProcessing.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.prTableInPosition.Get">
@@ -207,10 +392,22 @@ END_VAR
     <LineIds Name="FB_TablePlace.prTableRotationRequest.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
+    <LineIds Name="FB_TablePlace.pStationError.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.pStationErrorNumber.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
     <LineIds Name="FB_TablePlace.pWorkingStation.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.pWorkingStation.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.pWorkPermission.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.pWorkPermission.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
