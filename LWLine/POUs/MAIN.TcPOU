@@ -954,16 +954,19 @@ fbHotPlateAir_PulseCounter(
     </Action>
     <Action Name="ACT_WeighingTunnel" Id="{5e38a3e4-a5ca-4e14-ac89-eb5f90d1af2a}">
       <Implementation>
-        <ST><![CDATA[fbTableControl(	fbLoadingStation:=fbLoadingStation,
-		fbWeighingStation:=fbWeighingStation,
-		fbUnloadingStation:=fbUnloadingStation,
-		fbTableAxis:=fbTableAxis);
+        <ST><![CDATA[GVL.bWeighingTunelSim:=TRUE;
+
+
+fbTableControl.arrStations[1]:=fbLoadingStation;
+fbTableControl.arrStations[3]:=fbWeighingStation;
+fbTableControl.arrStations[5]:=fbUnloadingStation;
+fbTableControl(fbTableAxis:=fbTableAxis);
 		
 fbTableAxis(bEmergencyStop:=TRUE, bSTO_Signal:=TRUE);
 
-fbLoadingStation(stInOuts:=stLoadingStationInOuts);
-fbWeighingStation(stInOuts:=stWeighingStationInOuts);
-fbUnloadingStation(stInOuts:=stUnloadingStationInOuts);
+fbLoadingStation(fbTableControl:=fbTableControl,stInOuts:=stLoadingStationInOuts, bSimulationOn:= GVL.bWeighingTunelSim);
+fbWeighingStation(fbTableControl:=fbTableControl,stInOuts:=stWeighingStationInOuts);
+fbUnloadingStation(fbTableControl:=fbTableControl,stInOuts:=stUnloadingStationInOuts, bSimulationOn:= GVL.bWeighingTunelSim);
 ]]></ST>
       </Implementation>
     </Action>
@@ -1113,9 +1116,12 @@ fbUnloadingStation(stInOuts:=stUnloadingStationInOuts);
       <LineId Id="15" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_WeighingTunnel">
-      <LineId Id="2" Count="1" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="14" Count="1" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="16" Count="1" />
       <LineId Id="1" Count="0" />
-      <LineId Id="4" Count="2" />
+      <LineId Id="5" Count="1" />
       <LineId Id="8" Count="0" />
       <LineId Id="7" Count="0" />
       <LineId Id="10" Count="1" />

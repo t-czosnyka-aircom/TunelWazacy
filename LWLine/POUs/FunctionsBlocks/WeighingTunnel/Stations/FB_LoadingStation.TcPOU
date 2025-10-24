@@ -8,10 +8,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-
-	bSensWasEmpty: BOOL;
-	fbPartPresentTON:TON;
-	fbPartPresentErrorTON: TON;
+	fbLoadingSensor: FB_Sensor;
 END_VAR
 VAR_IN_OUT
 	stInOuts :ST_LoadingStation_InOuts;
@@ -21,29 +18,51 @@ END_VAR
       <ST><![CDATA[bRotationInterlock:=TRUE;
 bRotationRequest:=FALSE;
 
-fbPartPresentTON(IN:=stInOuts.bBottleDetectedSensor AND prTableInPosition,PT:=UINT_TO_TIME(stSettings.iBottleDetectionDelayMS));
-bSensWasEmpty S=  NOT stInOuts.bBottleDetectedSensor;
+fbLoadingSensor(bSensorSignal:=stInOuts.bBottleDetectedSensor,bSimulationON:=bSimulationON,uiSensorOnDelay_MS:=stSettings.iBottleDetectionDelayMS,uiErrorOffDelay_MS:=stSettings.iSensorErrorDelayMS);
 
+CASE iWorkStep OF
+	0: //Initialization
+		iWorkStep:=10;
+		
+	10://Wait For Sensor ON
+	fbLoadingSensor.bRequestedState := TRUE;
+	IF __ISVALIDREF(fbTablePlace) THEN
+		IF fbLoadingSensor.prSensorOnOK AND fbTableControl.prWorkPermission AND_THEN fbTablePlace.mBottleBeforeWeighing(1) THEN
+			iWorkStep:= 20;
+		END_IF
+	END_IF
+	
+	20: //Wait For Table Movement
+	IF __ISVALIDREF(fbTablePlace) THEN
+		bRotationRequest:= fbLoadingSensor.prSensorOnOK AND fbTablePlace.prStateIsBeforeWeighing;
+		IF fbTablePlace.prStateIsEmpty  THEN //Table Movement
+			iWorkStep:= 30;
+		END_IF
+	ELSIF  fbTableControl.prTableIsMoving THEN
+		iWorkStep:= 30;
+	END_IF
+		
+		
+	30: //Wait For Sensor OFF	
+		fbLoadingSensor.bRequestedState := FALSE;
+		fbLoadingSensor.bCheckState := TRUE;
+		IF fbLoadingSensor.prSensorOffOK THEN
+			iWorkStep:= 0;
+		ELSIF fbLoadingSensor.prSensorOffError THEN
+			mSetError(nTable_ErrorList.LoadingSensorError);
+		END_IF
+		
+	90: //Error
+	
+	91: //Error Reset
+		iWorkStep:= 0;
+	
+END_CASE
 
-IF __ISVALIDREF(fbTablePlace) THEN
-	IF fbPartPresentTON.Q AND bSensWasEmpty AND fbTablePlace.prStateIsEmpty AND fbTablePlace.pWorkPermission  THEN
-		fbTablePlace.mBottleBeforeWeighing(1);
-		bSensWasEmpty := FALSE; 
-	END_IF
-	bRotationRequest:=fbPartPresentTON.Q AND fbTablePlace.pCurrentState = nTableBottlePlaceState.BeforeWeighing;
-	fbPartPresentErrorTON(IN:= fbPartPresentTON.Q AND fbTablePlace.pCurrentState = nTableBottlePlaceState.Empty AND fbTablePlace.pWorkPermission, PT:=UINT_TO_TIME(stSettings.iSensorErrorDelayMS));
-	IF fbPartPresentErrorTON.Q THEN
-		mError(nTable_ErrorList.LoadingSensorError);
-	END_IF
-ELSE
-	prTableInPosition := FALSE;
-END_IF
 	]]></ST>
     </Implementation>
     <LineIds Name="FB_LoadingStation">
-      <LineId Id="62" Count="16" />
-      <LineId Id="95" Count="1" />
-      <LineId Id="79" Count="0" />
+      <LineId Id="179" Count="43" />
       <LineId Id="26" Count="0" />
     </LineIds>
   </POU>

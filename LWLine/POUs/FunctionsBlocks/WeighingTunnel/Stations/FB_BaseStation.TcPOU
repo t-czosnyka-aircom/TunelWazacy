@@ -2,7 +2,11 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
   <POU Name="FB_BaseStation" Id="{9cbe06d4-36ed-4e19-8636-f06f6ed53125}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_BaseStation IMPLEMENTS I_WorkingStation
+VAR_IN_OUT
+	fbTableControl: FB_TableControl;
+END_VAR
 VAR_INPUT
+	bSimulationON:BOOL;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -12,7 +16,6 @@ VAR
 	fbTablePlace: REFERENCE TO FB_TablePlace;
 	bError: BOOL;
 	udiErrorNumber:UDINT;
-	bTableInPosition: BOOL;
 	bManualMode: BOOL;
 	iWorkStep: INT;
 END_VAR
@@ -20,18 +23,6 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="mError" Id="{fb83016a-aaa2-4dd7-8f9c-2795ee415507}">
-      <Declaration><![CDATA[METHOD mError : BOOL
-VAR_INPUT
-	udiErrorNumberSet: UDINT;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[udiErrorNumber := udiErrorNumberSet;
-bError := TRUE;
-iWorkStep:=90;]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="mErrorReset" Id="{307c245a-308f-4b3e-a89f-a5e87dd8cc62}">
       <Declaration><![CDATA[METHOD mErrorReset : BOOL
 VAR_INPUT
@@ -41,6 +32,18 @@ END_VAR
         <ST><![CDATA[bError := FALSE;
 udiErrorNumber := 0;
 iWorkStep:=91;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mSetError" Id="{fb83016a-aaa2-4dd7-8f9c-2795ee415507}">
+      <Declaration><![CDATA[METHOD mSetError : BOOL
+VAR_INPUT
+	udiErrorNumberSet: UDINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[udiErrorNumber := udiErrorNumberSet;
+bError := TRUE;
+iWorkStep:=90;]]></ST>
       </Implementation>
     </Method>
     <Property Name="pError" Id="{b0d60995-960d-478b-b068-43a1eebae1e8}">
@@ -64,26 +67,6 @@ END_VAR
           <ST><![CDATA[pErrorNumber:= udiErrorNumber;]]></ST>
         </Implementation>
       </Get>
-    </Property>
-    <Property Name="prTableInPosition" Id="{592cf85c-3254-4812-b020-5d141833f6ab}">
-      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
-PROPERTY prTableInPosition : BOOL]]></Declaration>
-      <Get Name="Get" Id="{217c66a4-f5be-4f35-b16e-a6b86af79b22}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[prTableInPosition:=bTableInPosition;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{bb7ede60-fba5-4c19-8c00-ebcefea92104}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[bTableInPosition:=prTableInPosition;]]></ST>
-        </Implementation>
-      </Set>
     </Property>
     <Property Name="prTableRotationInterlock" Id="{e5fc254a-5609-4be3-84a7-f8c244dac0b1}">
       <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
@@ -141,26 +124,20 @@ END_VAR
     <LineIds Name="FB_BaseStation">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_BaseStation.mError">
-      <LineId Id="5" Count="0" />
-      <LineId Id="7" Count="0" />
-      <LineId Id="12" Count="0" />
-    </LineIds>
     <LineIds Name="FB_BaseStation.mErrorReset">
       <LineId Id="11" Count="0" />
       <LineId Id="6" Count="0" />
       <LineId Id="10" Count="0" />
     </LineIds>
+    <LineIds Name="FB_BaseStation.mSetError">
+      <LineId Id="5" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="12" Count="0" />
+    </LineIds>
     <LineIds Name="FB_BaseStation.pError.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_BaseStation.pErrorNumber.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_BaseStation.prTableInPosition.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_BaseStation.prTableInPosition.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_BaseStation.prTableRotationInterlock.Get">

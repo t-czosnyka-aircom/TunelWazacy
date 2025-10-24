@@ -35,7 +35,6 @@ IF itfWorkingStation = 0 THEN
 ELSE
 	bRotationInterlock := itfWorkingStation.prTableRotationInterlock;
 	bRotationRequest := itfWorkingStation.prTableRotationRequest;
-	itfWorkingStation.prTableInPosition := prTableInPosition;
 	bStationError := itfWorkingStation.pError;
 	udiErrorNumber :=  itfWorkingStation.pErrorNumber;
 END_IF]]></ST>
@@ -49,7 +48,7 @@ END_VAR
         <ST><![CDATA[IF stPlace.nState=nTableBottlePlaceState.Processing THEN
 	stPlace.nState:=nTableBottlePlaceState.AfterWeighing;
 END_IF;
-mBottleAfterWeighing := stPlace.nState=nTableBottlePlaceState.AfterWeighing;]]></ST>
+mBottleAfterWeighing :=prStateIsAfterWeighing;]]></ST>
       </Implementation>
     </Method>
     <Method Name="mBottleBeforeWeighing" Id="{0e51995b-61d3-4d5c-9d79-3d4ce30af29a}">
@@ -63,7 +62,7 @@ END_VAR
 	stPlace.nState:=nTableBottlePlaceState.BeforeWeighing;
 	stPlace.iProductType:=iProductType;
 END_IF;
-mBottleBeforeWeighing := stPlace.nState=nTableBottlePlaceState.BeforeWeighing;]]></ST>
+mBottleBeforeWeighing := prStateIsBeforeWeighing;]]></ST>
       </Implementation>
     </Method>
     <Method Name="mBottleEmpty" Id="{ca40ada9-4135-4273-bf5c-545dda9a8893}">
@@ -72,10 +71,23 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF stPlace.nState=nTableBottlePlaceState.Processing OR  stPlace.nState=nTableBottlePlaceState.AfterWeighing THEN
+        <ST><![CDATA[IF stPlace.nState=nTableBottlePlaceState.NOK OR  stPlace.nState=nTableBottlePlaceState.AfterWeighing THEN
 	stPlace.nState:=nTableBottlePlaceState.Empty;
 END_IF;
-mBottleEmpty := stPlace.nState=nTableBottlePlaceState.Empty;
+mBottleEmpty := prStateIsEmpty;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mBottleNOK" Id="{8efc58f1-e306-405d-8f2e-c3151afc8a3a}">
+      <Declaration><![CDATA[METHOD mBottleNOK : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF stPlace.nState=nTableBottlePlaceState.Processing THEN
+	stPlace.nState:=nTableBottlePlaceState.NOK;
+END_IF;
+mBottleNOK := prStateIsNOK;
 ]]></ST>
       </Implementation>
     </Method>
@@ -173,14 +185,14 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Property Name="prStateIsBeforWeighing" Id="{481ad8af-6a50-49bb-aca4-2a9f22a0e63f}">
-      <Declaration><![CDATA[PROPERTY prStateIsBeforWeighing : BOOL]]></Declaration>
+    <Property Name="prStateIsBeforeWeighing" Id="{481ad8af-6a50-49bb-aca4-2a9f22a0e63f}">
+      <Declaration><![CDATA[PROPERTY prStateIsBeforeWeighing : BOOL]]></Declaration>
       <Get Name="Get" Id="{6f2377f6-3f48-4441-aebe-9ea63c399cdb}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[prStateIsBeforWeighing := stPlace.nState = nTableBottlePlaceState.BeforeWeighing;]]></ST>
+          <ST><![CDATA[prStateIsBeforeWeighing := stPlace.nState = nTableBottlePlaceState.BeforeWeighing;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -195,6 +207,17 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="prStateIsNOK" Id="{5c9ec95c-c0f5-4133-ab9e-4e8c2e271bfa}">
+      <Declaration><![CDATA[PROPERTY prStateIsNOK : BOOL]]></Declaration>
+      <Get Name="Get" Id="{8c142683-8479-46ca-8ee4-398522b8b640}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prStateIsNOK := stPlace.nState = nTableBottlePlaceState.NOK;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="prStateIsProcessing" Id="{fbf96f1f-e4c1-44c9-9f56-2a2fdadc3610}">
       <Declaration><![CDATA[PROPERTY prStateIsProcessing : BOOL]]></Declaration>
       <Get Name="Get" Id="{b206eed4-5a9c-4058-964a-88ec02de02dc}">
@@ -205,25 +228,6 @@ END_VAR
           <ST><![CDATA[prStateIsProcessing := stPlace.nState = nTableBottlePlaceState.Processing;]]></ST>
         </Implementation>
       </Get>
-    </Property>
-    <Property Name="prTableInPosition" Id="{1b9542f5-b1b7-456b-b3c1-401cda04a1e0}">
-      <Declaration><![CDATA[PROPERTY prTableInPosition : BOOL]]></Declaration>
-      <Get Name="Get" Id="{74242f0a-f248-428f-82b1-d392f8f5b487}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[prTableInPosition:=bTableInPosition;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{8a1aeb97-ba36-4484-ba3b-0620d9c1eeae}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[bTableInPosition:=prTableInPosition;]]></ST>
-        </Implementation>
-      </Set>
     </Property>
     <Property Name="prTableRotationInterlock" Id="{294c7375-f490-4e19-8180-0f73a52a88e1}">
       <Declaration><![CDATA[{attribue 'monitoring':= call}
@@ -241,28 +245,6 @@ END_VAR
       <Declaration><![CDATA[{attribue 'monitoring':= call}
 PROPERTY prTableRotationRequest : BOOL]]></Declaration>
       <Get Name="Get" Id="{a27aa4c2-9571-4e96-bf1a-f7e87f67c113}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="pStationError" Id="{4dcbc91d-6863-4971-8544-e42f158575af}">
-      <Declaration><![CDATA[PROPERTY pStationError : BOOL]]></Declaration>
-      <Get Name="Get" Id="{57d881c3-0d86-457a-b750-08512ba28f82}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="pStationErrorNumber" Id="{e28a9be7-72a6-4f54-abe8-edac28fc0c82}">
-      <Declaration><![CDATA[PROPERTY pStationErrorNumber : UDINT]]></Declaration>
-      <Get Name="Get" Id="{1a3ae16b-fbea-40d0-8a74-00ba99f1b76e}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -291,26 +273,6 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Property Name="pWorkPermission" Id="{0bb59bc8-611c-4b90-b0ad-89dc6e00dbab}">
-      <Declaration><![CDATA[PROPERTY pWorkPermission : BOOL]]></Declaration>
-      <Get Name="Get" Id="{9064da1d-0dd6-476d-baee-1ceb5ef4bafd}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[pWorkPermission:= bWorkPermission;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{5fc785ed-e886-42d7-a244-dbb9786ecc1d}">
-        <Declaration><![CDATA[
-VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[bWorkPermission:= pWorkPermission;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
     <LineIds Name="FB_TablePlace">
       <LineId Id="66" Count="3" />
       <LineId Id="9" Count="0" />
@@ -321,7 +283,6 @@ END_VAR
       <LineId Id="24" Count="0" />
       <LineId Id="26" Count="0" />
       <LineId Id="30" Count="3" />
-      <LineId Id="45" Count="0" />
       <LineId Id="64" Count="1" />
       <LineId Id="27" Count="0" />
     </LineIds>
@@ -340,6 +301,11 @@ END_VAR
       <LineId Id="10" Count="1" />
       <LineId Id="9" Count="0" />
       <LineId Id="15" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.mBottleNOK">
+      <LineId Id="10" Count="2" />
+      <LineId Id="9" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.mBottleProcessing">
@@ -371,19 +337,16 @@ END_VAR
     <LineIds Name="FB_TablePlace.prStateIsAfterWeighing.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_TablePlace.prStateIsBeforWeighing.Get">
+    <LineIds Name="FB_TablePlace.prStateIsBeforeWeighing.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.prStateIsEmpty.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
+    <LineIds Name="FB_TablePlace.prStateIsNOK.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
     <LineIds Name="FB_TablePlace.prStateIsProcessing.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_TablePlace.prTableInPosition.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_TablePlace.prTableInPosition.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.prTableRotationInterlock.Get">
@@ -392,22 +355,10 @@ END_VAR
     <LineIds Name="FB_TablePlace.prTableRotationRequest.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_TablePlace.pStationError.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_TablePlace.pStationErrorNumber.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
     <LineIds Name="FB_TablePlace.pWorkingStation.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.pWorkingStation.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_TablePlace.pWorkPermission.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_TablePlace.pWorkPermission.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

@@ -1138,18 +1138,18 @@ External Setpoint Generation:
 			</Settings>
 			<Licenses CacheOrCheckLicensesOnStartup="true">
 				<Target BkhfOrder="01639279">
-					<ManualSelect>{BDCC0070-42D5-49AE-ABF1-1D4434813D60}</ManualSelect>
 					<ManualSelect>{92583661-35AE-45CE-BD4F-C35BFE16F07E}</ManualSelect>
+					<ManualSelect>{BDCC0070-42D5-49AE-ABF1-1D4434813D60}</ManualSelect>
 					<ManualSelect>{3EBB9639-5FF3-42B6-8847-35C70DC013C8}</ManualSelect>
 					<ManualSelect>{6952449D-F68C-49A2-ADE4-8639D85B33A4}</ManualSelect>
 					<ManualSelect>{A1AF8A04-C08D-4853-A5A0-0E6C3A278A8C}</ManualSelect>
 					<TargetSelect TargetId="2">{BF78CFC7-2E63-42C3-8C07-BB6C346BFB8B}</TargetSelect>
-					<TargetSelect TargetId="2">{66689887-CCBD-452C-AC9A-039D997C6E66}</TargetSelect>
-					<TargetSelect TargetId="2">{BDCC0070-42D5-49AE-ABF1-1D4434813D60}</TargetSelect>
 					<TargetSelect TargetId="2">{92583661-35AE-45CE-BD4F-C35BFE16F07E}</TargetSelect>
+					<TargetSelect TargetId="2">{BDCC0070-42D5-49AE-ABF1-1D4434813D60}</TargetSelect>
+					<TargetSelect TargetId="2">{66689887-CCBD-452C-AC9A-039D997C6E66}</TargetSelect>
 					<TargetSelect TargetId="2">{6952449D-F68C-49A2-ADE4-8639D85B33A4}</TargetSelect>
-					<TargetSelect TargetId="2">{520DE751-9DB6-47CB-8240-BD5C466E7E64}</TargetSelect>
 					<TargetSelect TargetId="2">{A1AF8A04-C08D-4853-A5A0-0E6C3A278A8C}</TargetSelect>
+					<TargetSelect TargetId="2">{520DE751-9DB6-47CB-8240-BD5C466E7E64}</TargetSelect>
 					<LicenseDevice DongleHardwareId="2" DongleDevice="#x0302001a" DongleLevel="40" DongleSystemId="{E3103F76-3B3D-EBC6-C946-7D277F141827}" DongleSerialNumber="0100069988"/>
 				</Target>
 			</Licenses>
@@ -1173,7 +1173,7 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{1A289FD8-2FC0-4B29-B34F-E4BF25DBB957}" Name="LWLine" PrjFilePath="LWLine\LWLine.plcproj" TmcFilePath="LWLine\LWLine.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{7A96CF22-D048-4577-E3E9-9C62A4C83878}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{3ACCAAEF-2E46-0CFF-3C52-932159FCD67B}">
 					<Name>LWLine Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1" ContextId="2" AreaNo="32">
@@ -4024,35 +4024,6 @@ External Setpoint Generation:
 							<Type>INT</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbTableAxis.stInOuts.bHomingSensor</Name>
-							<Comment><![CDATA[ Part sensor in Drivesystem]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableAxis.stInOuts.stLoadCell_Data.wStatus</Name>
-							<Comment><![CDATA[ .1-Overrange, .3-Data invalid, .6-Error, .7-Calib in progress, .9-Steady state, .13-SyncErr, .15-TxPDO_Toggle]]></Comment>
-							<Type>WORD</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableAxis.stInOuts.stLoadCell_Data.rValue</Name>
-							<Comment><![CDATA[ Wartość siły w [N]]]></Comment>
-							<Type>REAL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableAxis.stInOuts.wI_DriveInfodata</Name>
-							<Comment><![CDATA[ Auxiliary axis data - Digital inputs]]></Comment>
-							<Type>UINT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableAxis.stInOuts.stAxis_Data.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableAxis.McTorqueMonitor.iTorque</Name>
-							<Comment><![CDATA[ Raw data ]]></Comment>
-							<Type>INT</Type>
-						</Var>
-						<Var>
 							<Name>SafetyBackupRestore.wSafetyProjectCRC</Name>
 							<Type>WORD</Type>
 						</Var>
@@ -4596,6 +4567,35 @@ S02]]></Comment>
 						<Var>
 							<Name>GVL_IO.stUnloadingStationInOuts.bBottleDetectionSensor</Name>
 							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableAxis.stInOuts.bHomingSensor</Name>
+							<Comment><![CDATA[ Part sensor in Drivesystem]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableAxis.stInOuts.stLoadCell_Data.wStatus</Name>
+							<Comment><![CDATA[ .1-Overrange, .3-Data invalid, .6-Error, .7-Calib in progress, .9-Steady state, .13-SyncErr, .15-TxPDO_Toggle]]></Comment>
+							<Type>WORD</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableAxis.stInOuts.stLoadCell_Data.rValue</Name>
+							<Comment><![CDATA[ Wartość siły w [N]]]></Comment>
+							<Type>REAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableAxis.stInOuts.wI_DriveInfodata</Name>
+							<Comment><![CDATA[ Auxiliary axis data - Digital inputs]]></Comment>
+							<Type>UINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableAxis.stInOuts.stAxis_Data.NcToPlc</Name>
+							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableAxis.McTorqueMonitor.iTorque</Name>
+							<Comment><![CDATA[ Raw data ]]></Comment>
+							<Type>INT</Type>
 						</Var>
 					</Vars>
 					<Vars VarGrpType="2" ContextId="2" AreaNo="33">
@@ -6122,25 +6122,6 @@ S02]]></Comment>
 							<Type>INT</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbTableAxis.stInOuts.stLoadCell_Data.wControl</Name>
-							<Comment><![CDATA[ .0-Start calibration, .1-Disable calib., .2-InputFreeze, .4-Tara]]></Comment>
-							<Type>WORD</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableAxis.stInOuts.bQ_PartLockPiston</Name>
-							<Comment><![CDATA[ Three-jaw valve locking the part]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableAxis.stInOuts.stAxis_Data.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableAxis.McTorqueMonitor.iTorqueLimitValue</Name>
-							<Comment><![CDATA[ Raw dara]]></Comment>
-							<Type>INT</Type>
-						</Var>
-						<Var>
 							<Name>GVL_IO.stS01_1_BearingPress_IO.bPressGoDown_Q</Name>
 							<Comment><![CDATA[ Zezwolenie systemu na pracę zgrzewarki ultradźwiękoiwej]]></Comment>
 							<Type>BOOL</Type>
@@ -6367,6 +6348,25 @@ S02]]></Comment>
 							<Name>GVL_IO.stTunelInOuts.stCognex.bOut1</Name>
 							<Comment><![CDATA[ Sygnał w In-Sight In1 - Wyjście zwykle nie używane]]></Comment>
 							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableAxis.stInOuts.stLoadCell_Data.wControl</Name>
+							<Comment><![CDATA[ .0-Start calibration, .1-Disable calib., .2-InputFreeze, .4-Tara]]></Comment>
+							<Type>WORD</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableAxis.stInOuts.bQ_PartLockPiston</Name>
+							<Comment><![CDATA[ Three-jaw valve locking the part]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableAxis.stInOuts.stAxis_Data.PlcToNc</Name>
+							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableAxis.McTorqueMonitor.iTorqueLimitValue</Name>
+							<Comment><![CDATA[ Raw dara]]></Comment>
+							<Type>INT</Type>
 						</Var>
 					</Vars>
 					<Contexts>

@@ -18,7 +18,7 @@ VAR_OUTPUT
 	bBasePosRefreshWarning		: BOOL;
 END_VAR
 VAR
-
+	stInOuts					: st_Axis_InOuts;
 	fbHomeSensorRTRIG			:R_TRIG;
 	iCurrentPositionNumber		:USINT;
 	bMoveAbsDone				:BOOL;
@@ -35,7 +35,7 @@ VAR
 	fbPositionValidTON:TON;
 	tPositionValidDelay:TIME:=T#300ms;
 	//OLD
-	stInOuts					: st_Axis_InOuts;
+	
 	bEnableMotion				: BOOL;		// When TRUE - try to enable axis, when FALSE disable power - safeState
 	McPower 					: MC_Power;
 	McReset 					: MC_Reset;

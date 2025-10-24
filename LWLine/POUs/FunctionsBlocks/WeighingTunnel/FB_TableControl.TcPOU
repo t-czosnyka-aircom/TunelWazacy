@@ -4,11 +4,9 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_TableControl
 VAR_INPUT
 	bReleaseFromSafety: BOOL;
+	arrStations : ARRAY[0..TOTAL_TABLE_PLACES] OF I_WorkingStation;
 END_VAR
 VAR_IN_OUT
-	fbLoadingStation: FB_LoadingStation;
-	fbWeighingStation: FB_WeighingStation;
-	fbUnloadingStation:  FB_UnloadingStation;
 	fbTableAxis:	FB_ServoAxis;
 END_VAR
 VAR_OUTPUT
@@ -41,7 +39,10 @@ END_VAR
 
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
+      <ST><![CDATA[//SIMULATION//
+bWorkPermission :=TRUE;
+/////
+
 bRotationRequest := TRUE;
 bRotationInterlock := TRUE;
 bStationsCleared := TRUE;
@@ -52,42 +53,45 @@ IF fbTableAxis.pPositionValid THEN
 END_IF
 
 FOR i:=1 TO TOTAL_TABLE_PLACES DO
+	//Places
 	arrPlaces[i]();
 	arrPlaces[i].prPlaceNumber:=i;
 	arrPlaces[i].prCurrentPosition:=((arrPlaces[i].stPlace.iPlaceNumber+iLastValidPosition-2) MOD TOTAL_TABLE_PLACES +1);
 	arrPlacePositions[arrPlaces[i].prCurrentPosition]:=ADR(arrPlaces[i]);
 	bRotationRequest := bRotationRequest AND arrPlaces[i].prTableRotationRequest;
 	bStationsCleared := bStationsCleared AND arrPlaces[i].pWorkingStation=0;
-	arrPlaces[i].prTableInPosition := fbTableAxis.pPositionValid;
-	arrPlaces[i].pWorkPermission:=bWorkPermission;
-	IF arrPlaces[i].pStationError THEN
-		bStationError := TRUE;
-		udiErrorNumber := arrPlaces[i].pStationErrorNumber;
+	//Stations
+	IF arrStations[i] <> 0 THEN
+		IF arrStations[i].pError THEN
+			bStationError := TRUE;
+			udiErrorNumber := arrStations[i].pErrorNumber;
+		END_IF
+		bRotationInterlock := bRotationInterlock AND arrStations[i].prTableRotationInterlock;
 	END_IF
 END_FOR
 
-bRotationInterlock := fbLoadingStation.prTableRotationInterlock AND fbWeighingStation.prTableRotationInterlock AND fbUnloadingStation.prTableRotationInterlock;
+
 fbTableAxis.pMovementExternalInterlock := bRotationInterlock;
 
 
 //Assign station pointers
 IF fbTableAxis.pPositionValid  AND bStationsCleared THEN
-	arrPlacePositions[1]^.pWorkingStation:=fbLoadingStation;
-	arrPlacePositions[3]^.pWorkingStation:=fbWeighingStation;
-	arrPlacePositions[5]^.pWorkingStation:=fbUnloadingStation;
-	arrPlacePositions[1]^.pWorkingStation.pTablePlace REF= arrPlacePositions[1]^;
-	arrPlacePositions[3]^.pWorkingStation.pTablePlace REF= arrPlacePositions[3]^;
-	arrPlacePositions[5]^.pWorkingStation.pTablePlace REF= arrPlacePositions[5]^;
+	FOR i:=1 TO TOTAL_TABLE_PLACES DO
+		IF arrStations[i] <> 0 THEN
+			arrPlacePositions[i]^.pWorkingStation := arrStations[i];
+			arrStations[i].pTablePlace REF= arrPlacePositions[i]^;
+		END_IF
+	END_FOR	
 END_IF
 
 //Clear station pointers
 IF NOT bStationsCleared AND fbTableAxis.IsMoving OR iCurrentPositionNumberSave <> prTablePositionNumber THEN 
 	FOR i:=1 TO TOTAL_TABLE_PLACES DO
 		arrPlaces[i].mClearWorkingStation();
+		IF arrStations[i] <> 0 THEN
+			arrStations[i].pTablePlace REF= 0;
+		END_IF
 	END_FOR
-	fbLoadingStation.pTablePlace REF= 0;
-	fbUnloadingStation.pTablePlace REF= 0;
-	fbWeighingStation.pTablePlace REF= 0;
 END_IF;
 
 CASE iWorkStep OF 
@@ -138,8 +142,8 @@ CASE iWorkStep OF
 	
 	95: //Error reset
 		FOR i:=1 TO TOTAL_TABLE_PLACES DO
-			IF arrPlaces[i].pStationError THEN
-				arrPlaces[i].mErrorReset();
+			IF arrStations[i] <> 0 AND_THEN arrStations[i].pError THEN
+				arrStations[i].mErrorReset();
 			END_IF
 		END_FOR
 
@@ -147,6 +151,28 @@ END_CASE
 
 iCurrentPositionNumberSave := prTablePositionNumber;]]></ST>
     </Implementation>
+    <Property Name="prTableInPosition" Id="{1b9542f5-b1b7-456b-b3c1-401cda04a1e0}">
+      <Declaration><![CDATA[PROPERTY prTableInPosition : BOOL]]></Declaration>
+      <Get Name="Get" Id="{74242f0a-f248-428f-82b1-d392f8f5b487}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prTableInPosition:= fbTableAxis.pPositionValid;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="prTableIsMoving" Id="{c158f184-6806-4712-8fe3-97b763dbaee2}">
+      <Declaration><![CDATA[PROPERTY prTableIsMoving : BOOL]]></Declaration>
+      <Get Name="Get" Id="{aece0678-aed4-4260-99bb-b51f3af0bdd4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prTableIsMoving:=fbTableAxis.IsMoving;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="prTablePositionNumber" Id="{60756daa-6c95-4115-b5b7-4d2036c9f419}">
       <Declaration><![CDATA[{attribue 'monitoring':= 'call'}
 PROPERTY prTablePositionNumber : USINT]]></Declaration>
@@ -160,8 +186,30 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="prWorkPermission" Id="{0d7b8f91-6784-4597-9945-b0aada6f376d}">
+      <Declaration><![CDATA[{attribue 'monitoring':= 'call'}
+PROPERTY prWorkPermission : BOOL]]></Declaration>
+      <Get Name="Get" Id="{7ccb89d0-c21b-4fcd-bae2-5e2b448afb3d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prWorkPermission := bWorkPermission;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{78f89997-1120-46b6-917d-3838fcac50d1}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[bWorkPermission := prWorkPermission;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <LineIds Name="FB_TableControl">
       <LineId Id="75" Count="0" />
+      <LineId Id="333" Count="1" />
+      <LineId Id="332" Count="0" />
       <LineId Id="74" Count="0" />
       <LineId Id="76" Count="0" />
       <LineId Id="143" Count="0" />
@@ -171,34 +219,40 @@ END_VAR
       <LineId Id="209" Count="0" />
       <LineId Id="256" Count="0" />
       <LineId Id="47" Count="0" />
+      <LineId Id="340" Count="0" />
       <LineId Id="52" Count="0" />
       <LineId Id="45" Count="1" />
       <LineId Id="51" Count="0" />
       <LineId Id="77" Count="0" />
       <LineId Id="79" Count="0" />
-      <LineId Id="205" Count="0" />
-      <LineId Id="265" Count="0" />
+      <LineId Id="339" Count="0" />
+      <LineId Id="337" Count="0" />
       <LineId Id="268" Count="0" />
       <LineId Id="270" Count="0" />
       <LineId Id="272" Count="0" />
       <LineId Id="271" Count="0" />
+      <LineId Id="336" Count="0" />
+      <LineId Id="338" Count="0" />
       <LineId Id="13" Count="0" />
-      <LineId Id="116" Count="0" />
+      <LineId Id="329" Count="0" />
       <LineId Id="81" Count="0" />
       <LineId Id="138" Count="1" />
       <LineId Id="136" Count="0" />
       <LineId Id="128" Count="1" />
-      <LineId Id="133" Count="1" />
-      <LineId Id="132" Count="0" />
-      <LineId Id="258" Count="2" />
+      <LineId Id="349" Count="2" />
+      <LineId Id="353" Count="0" />
+      <LineId Id="352" Count="0" />
+      <LineId Id="346" Count="0" />
       <LineId Id="135" Count="0" />
       <LineId Id="130" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="155" Count="0" />
       <LineId Id="157" Count="0" />
       <LineId Id="156" Count="0" />
+      <LineId Id="342" Count="0" />
+      <LineId Id="341" Count="0" />
+      <LineId Id="343" Count="0" />
       <LineId Id="154" Count="0" />
-      <LineId Id="261" Count="2" />
       <LineId Id="153" Count="0" />
       <LineId Id="82" Count="0" />
       <LineId Id="80" Count="0" />
@@ -231,8 +285,7 @@ END_VAR
       <LineId Id="109" Count="1" />
       <LineId Id="158" Count="10" />
       <LineId Id="277" Count="0" />
-      <LineId Id="286" Count="0" />
-      <LineId Id="290" Count="0" />
+      <LineId Id="344" Count="1" />
       <LineId Id="289" Count="0" />
       <LineId Id="276" Count="0" />
       <LineId Id="85" Count="0" />
@@ -240,9 +293,21 @@ END_VAR
       <LineId Id="204" Count="0" />
       <LineId Id="203" Count="0" />
     </LineIds>
+    <LineIds Name="FB_TableControl.prTableInPosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TableControl.prTableIsMoving.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
     <LineIds Name="FB_TableControl.prTablePositionNumber.Get">
       <LineId Id="2" Count="0" />
       <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TableControl.prWorkPermission.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TableControl.prWorkPermission.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

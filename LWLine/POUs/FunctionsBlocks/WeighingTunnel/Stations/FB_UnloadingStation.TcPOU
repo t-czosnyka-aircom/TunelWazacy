@@ -4,69 +4,67 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_UnloadingStation EXTENDS FB_BaseStation
 VAR_INPUT
 	stSettings: ST_UnloadingStation_Settings;
-	bSimulationON:BOOL;
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
 	fbUnloadingActuator: FB_ActuatorOOP_TC;
-	fbTimeOutTON:TON;
-	
+	fbUnloadingSensor: FB_Sensor;
 END_VAR
 VAR_IN_OUT
 	stInOuts :ST_UnloadingStation_InOuts;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF bSimulationON THEN
-	//
-END_IF
+      <ST><![CDATA[
 
-bRotationInterlock:=TRUE;
+bRotationInterlock:=fbUnloadingActuator.pInHomePosition;
 bRotationRequest:= FALSE;
 fbUnloadingActuator(stDigInOut:=stInOuts.stUnloadingActuator, bI_Control_Ready:=TRUE, bManualMode:=bManualMode, 
-					bI_HomeInterlock:= prTableInPosition, bI_WorkInterlock:=prTableInPosition,
-					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0,bSimulationOn:=bSimulationON);
-									
+					bI_HomeInterlock:= TRUE, bI_WorkInterlock:=fbTableControl.prTableInPosition,
+					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0,bSimulationOn:=bSimulationON, bManualMode:= bManualMode);
+
+fbUnloadingSensor(bSensorSignal:=stInOuts.bBottleDetectionSensor,bSimulationON:=bSimulationON,uiSensorOnDelay_MS:=0);									
 					
 CASE iWorkStep OF
 	0: //Initialisation
-		IF fbUnloadingActuator.mGoToHome(bManualMode) THEN
+		IF fbUnloadingActuator.mGoToHome(FALSE) THEN
 			iWorkStep := 5;
 		ELSIF fbUnloadingActuator.pGoToHomeError THEN 
-			mError(nTable_ErrorList.UnloadingActuatorBackwardError);
+			mSetError(nTable_ErrorList.UnloadingActuatorBackwardError);
 		END_IF
-		fbTimeOutTON(IN:=FALSE);
 	
 	5: //Wait for bottle
 		bRotationRequest := fbUnloadingActuator.pInHomePosition AND __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.prStateIsEmpty ;
-		IF __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.prTableInPosition AND fbTablePlace.pWorkPermission AND fbTablePlace.prStateIsAfterWeighing THEN
+		IF __ISVALIDREF(fbTablePlace) AND_THEN fbTableControl.prTableInPosition AND_THEN fbTableControl.prWorkPermission AND_THEN fbTablePlace.prStateIsAfterWeighing THEN
 			iWorkStep := 10;
 		END_IF
 		
 	10:	//Eject Bottle
-		IF fbUnloadingActuator.mGoToWork(bManualMode) THEN
+		IF fbUnloadingActuator.mGoToWork(FALSE) THEN
 			iWorkStep:=20;
 		ELSIF fbUnloadingActuator.pGoToWorkError THEN 
-			mError(nTable_ErrorList.UnloadingActuatorForwardError);
+			mSetError(nTable_ErrorList.UnloadingActuatorForwardError);
 		END_IF
 		
 	20: //Wait for sensor ON
-		fbTimeOutTON(IN:=TRUE,PT:=UINT_TO_TIME(stSettings.iBottleDetectionON_TimeoutMS));
-		IF stInOuts.bBottleDetectionSensor THEN
+
+		fbUnloadingSensor.bRequestedState:=TRUE;
+		fbUnloadingSensor.bCheckState:=TRUE;
+		IF fbUnloadingSensor.prSensorOnOK THEN
 			iWorkStep := 30;
-			fbTimeOutTON(IN:=FALSE);
-		ELSIF fbTimeOutTON.Q THEN
-			mError(nTable_ErrorList.UnloadingBottleDetectionNotOn);
+		ELSIF fbUnloadingSensor.prSensorOnError THEN
+			mSetError(nTable_ErrorList.UnloadingBottleDetectionNotOn);
 		END_IF
 	
 	30: //Wait for sensor OFF
-		fbTimeOutTON(IN:=TRUE,PT:=UINT_TO_TIME(stSettings.iBottleDetectionOFF_TimeoutMS));
-		IF NOT stInOuts.bBottleDetectionSensor THEN
+		fbUnloadingSensor.bRequestedState:=FALSE;
+		fbUnloadingSensor.bCheckState:=TRUE;
+		IF fbUnloadingSensor.prSensorOffOK THEN
 			IF __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.mBottleEmpty() THEN
 				iWorkStep := 0;
 			END_IF
-		ELSIF fbTimeOutTON.Q THEN
-			mError(nTable_ErrorList.UnloadingBottleDetectionNotOff);
+		ELSIF fbUnloadingSensor.prSensorOffError THEN
+			mSetError(nTable_ErrorList.UnloadingBottleDetectionNotOff);
 		END_IF
 		
 	90: //Error 
@@ -80,12 +78,12 @@ CASE iWorkStep OF
 END_CASE]]></ST>
     </Implementation>
     <LineIds Name="FB_UnloadingStation">
-      <LineId Id="106" Count="0" />
-      <LineId Id="110" Count="1" />
+      <LineId Id="111" Count="0" />
       <LineId Id="109" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="26" Count="0" />
       <LineId Id="52" Count="2" />
+      <LineId Id="127" Count="0" />
       <LineId Id="70" Count="0" />
       <LineId Id="72" Count="0" />
       <LineId Id="25" Count="0" />
@@ -94,7 +92,6 @@ END_CASE]]></ST>
       <LineId Id="68" Count="0" />
       <LineId Id="86" Count="1" />
       <LineId Id="69" Count="0" />
-      <LineId Id="95" Count="0" />
       <LineId Id="39" Count="1" />
       <LineId Id="37" Count="0" />
       <LineId Id="32" Count="2" />
@@ -107,12 +104,14 @@ END_CASE]]></ST>
       <LineId Id="59" Count="0" />
       <LineId Id="36" Count="0" />
       <LineId Id="97" Count="0" />
+      <LineId Id="128" Count="0" />
+      <LineId Id="130" Count="0" />
       <LineId Id="63" Count="1" />
-      <LineId Id="96" Count="0" />
       <LineId Id="99" Count="1" />
       <LineId Id="65" Count="0" />
       <LineId Id="60" Count="1" />
-      <LineId Id="98" Count="0" />
+      <LineId Id="129" Count="0" />
+      <LineId Id="131" Count="0" />
       <LineId Id="66" Count="1" />
       <LineId Id="103" Count="1" />
       <LineId Id="101" Count="1" />

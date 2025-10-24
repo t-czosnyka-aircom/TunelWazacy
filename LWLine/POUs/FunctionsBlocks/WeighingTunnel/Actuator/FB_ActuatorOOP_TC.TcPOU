@@ -186,7 +186,8 @@ END_VAR]]></Declaration>
       </Implementation>
     </Method>
     <Property Name="pAllowHome" Id="{30232894-62da-4e74-a78b-135ab7ef6e25}">
-      <Declaration><![CDATA[PROPERTY pAllowHome : BOOL]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring':= 'call'}
+PROPERTY pAllowHome : BOOL]]></Declaration>
       <Get Name="Get" Id="{3f4f9926-6c27-49f1-bdcf-a98d010e67d5}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -197,7 +198,8 @@ END_VAR
       </Get>
     </Property>
     <Property Name="pAllowWork" Id="{aa9c03af-799f-4f50-a51e-40b9bde924a5}">
-      <Declaration><![CDATA[PROPERTY pAllowWork : BOOL]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring':= 'call'}
+PROPERTY pAllowWork : BOOL]]></Declaration>
       <Get Name="Get" Id="{500f7a22-a3dd-4ee7-971b-8d12aa967afc}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -208,7 +210,8 @@ END_VAR
       </Get>
     </Property>
     <Property Name="pError" Id="{9ac24586-18e0-440d-8a66-4a17ded41e6c}">
-      <Declaration><![CDATA[PROPERTY PUBLIC pError : BOOL]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring':= 'call'}
+PROPERTY PUBLIC pError : BOOL]]></Declaration>
       <Get Name="Get" Id="{0255984d-28ed-461f-bb27-fa213634bfef}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -219,7 +222,7 @@ END_VAR
       </Get>
     </Property>
     <Property Name="pGoToHomeError" Id="{2164f17b-8c99-4b0e-a5ca-46a188278bb8}">
-      <Declaration><![CDATA[{attribute 'monitoring':= 'variable'}
+      <Declaration><![CDATA[{attribute 'monitoring':= 'call'}
 PROPERTY pGoToHomeError : BOOL]]></Declaration>
       <Get Name="Get" Id="{899d8f7a-6c47-4dad-8eb1-aa17ac53a7eb}">
         <Declaration><![CDATA[VAR
@@ -231,7 +234,7 @@ END_VAR
       </Get>
     </Property>
     <Property Name="pGoToWorkError" Id="{23301b5d-da09-4be9-b69c-6adfda66c9f6}">
-      <Declaration><![CDATA[{attribute 'monitoring':= 'variable'}
+      <Declaration><![CDATA[{attribute 'monitoring':= 'call'}
 PROPERTY pGoToWorkError : BOOL]]></Declaration>
       <Get Name="Get" Id="{92e4daac-7965-4004-98e7-2291d3fa2416}">
         <Declaration><![CDATA[VAR
@@ -243,7 +246,7 @@ END_VAR
       </Get>
     </Property>
     <Property Name="pInHomePosition" Id="{02eeb034-2309-40b5-9246-68565a606cab}">
-      <Declaration><![CDATA[{attribute 'monitoring':= 'variable'}
+      <Declaration><![CDATA[{attribute 'monitoring':= 'call'}
 PROPERTY PUBLIC pInHomePosition : BOOL]]></Declaration>
       <Get Name="Get" Id="{094d91f9-aeca-48a0-9e6a-f02b8c43dc87}">
         <Declaration><![CDATA[VAR
@@ -255,7 +258,7 @@ END_VAR
       </Get>
     </Property>
     <Property Name="pInWorkPosition" Id="{5a5d9879-4af0-47c9-93a0-84fbf54a6b8c}">
-      <Declaration><![CDATA[{attribute 'monitoring':= 'variable'}
+      <Declaration><![CDATA[{attribute 'monitoring':= 'call'}
 PROPERTY PUBLIC pInWorkPosition : BOOL]]></Declaration>
       <Get Name="Get" Id="{dc8a8c74-9f04-47f2-b477-b4e736041d25}">
         <Declaration><![CDATA[VAR
