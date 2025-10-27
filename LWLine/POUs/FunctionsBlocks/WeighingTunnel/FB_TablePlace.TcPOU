@@ -229,6 +229,26 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="prTableInPosition" Id="{e89e4850-00f9-481f-8561-f2be797aad18}">
+      <Declaration><![CDATA[PROPERTY prTableInPosition : BOOL]]></Declaration>
+      <Get Name="Get" Id="{0b833c6d-0098-4be4-b16c-f8cbee68f653}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prTableInPosition:= bTableInPosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{5a6baea0-075a-4e4f-92cf-9ed15f17ea2f}">
+        <Declaration><![CDATA[
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[bTableInPosition:= prTableInPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="prTableRotationInterlock" Id="{294c7375-f490-4e19-8180-0f73a52a88e1}">
       <Declaration><![CDATA[{attribue 'monitoring':= call}
 PROPERTY prTableRotationInterlock : BOOL]]></Declaration>
@@ -237,7 +257,7 @@ PROPERTY prTableRotationInterlock : BOOL]]></Declaration>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[]]></ST>
+          <ST><![CDATA[prTableRotationInterlock:=bRotationInterlock;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -249,7 +269,7 @@ PROPERTY prTableRotationRequest : BOOL]]></Declaration>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[]]></ST>
+          <ST><![CDATA[prTableRotationRequest:=bRotationRequest;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -347,6 +367,12 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.prStateIsProcessing.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.prTableInPosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.prTableInPosition.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.prTableRotationInterlock.Get">

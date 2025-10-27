@@ -15,10 +15,13 @@ VAR_IN_OUT
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[bRotationInterlock:=TRUE;
-bRotationRequest:=FALSE;
+      <ST><![CDATA[//Call FB_BaseStation
+bRefError:=FALSE;
+SUPER^(fbTableControl:=fbTableControl);
 
-fbLoadingSensor(bSensorSignal:=stInOuts.bBottleDetectedSensor,bSimulationON:=bSimulationON,uiSensorOnDelay_MS:=stSettings.iBottleDetectionDelayMS,uiErrorOffDelay_MS:=stSettings.iSensorErrorDelayMS);
+bRotationInterlock:=TRUE;
+fbLoadingSensor(bSensorSignal:=stInOuts.bBottleDetectedSensor,bSimulationON:=bSimulationON,
+uiSensorOnDelay_MS:=stSettings.iBottleDetectionDelayMS,uiErrorOffDelay_MS:=stSettings.iSensorErrorDelayMS);
 
 CASE iWorkStep OF
 	0: //Initialization
@@ -62,7 +65,13 @@ END_CASE
 	]]></ST>
     </Implementation>
     <LineIds Name="FB_LoadingStation">
-      <LineId Id="179" Count="43" />
+      <LineId Id="238" Count="1" />
+      <LineId Id="237" Count="0" />
+      <LineId Id="236" Count="0" />
+      <LineId Id="179" Count="0" />
+      <LineId Id="182" Count="0" />
+      <LineId Id="223" Count="0" />
+      <LineId Id="183" Count="39" />
       <LineId Id="26" Count="0" />
     </LineIds>
   </POU>

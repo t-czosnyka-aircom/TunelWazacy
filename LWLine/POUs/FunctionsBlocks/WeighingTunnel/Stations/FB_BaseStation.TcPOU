@@ -18,10 +18,25 @@ VAR
 	udiErrorNumber:UDINT;
 	bManualMode: BOOL;
 	iWorkStep: INT;
+	fbStepTON:TON;
+	iLastStep: INT;
+	bRefError:BOOL:=TRUE;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[//Step Timer		
+IF iLastStep <> iWorkStep THEN
+	fbStepTON(IN:=FALSE,PT:=T#0S);
+END_IF
+fbStepTON(IN:=fbStepTON.PT >T#0S);
+iLastStep := iWorkStep;
+
+//Brak referencji - błąd pozycji
+IF bRefError AND iWorkStep > 10 AND iWorkStep < 90 AND NOT __ISVALIDREF(fbTablePlace) THEN
+	mSetError(nTable_ErrorList.TablePositionError);	
+END_IF
+
+bRotationRequest := FALSE;]]></ST>
     </Implementation>
     <Method Name="mErrorReset" Id="{307c245a-308f-4b3e-a89f-a5e87dd8cc62}">
       <Declaration><![CDATA[METHOD mErrorReset : BOOL
@@ -122,7 +137,10 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="FB_BaseStation">
+      <LineId Id="30" Count="9" />
       <LineId Id="9" Count="0" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="40" Count="0" />
     </LineIds>
     <LineIds Name="FB_BaseStation.mErrorReset">
       <LineId Id="11" Count="0" />

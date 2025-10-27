@@ -15,10 +15,10 @@ VAR_IN_OUT
 	stInOuts :ST_UnloadingStation_InOuts;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
+      <ST><![CDATA[//Call FB_BaseStation
+SUPER^(fbTableControl:=fbTableControl);
 
 bRotationInterlock:=fbUnloadingActuator.pInHomePosition;
-bRotationRequest:= FALSE;
 fbUnloadingActuator(stDigInOut:=stInOuts.stUnloadingActuator, bI_Control_Ready:=TRUE, bManualMode:=bManualMode, 
 					bI_HomeInterlock:= TRUE, bI_WorkInterlock:=fbTableControl.prTableInPosition,
 					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0,bSimulationOn:=bSimulationON, bManualMode:= bManualMode);
@@ -28,35 +28,35 @@ fbUnloadingSensor(bSensorSignal:=stInOuts.bBottleDetectionSensor,bSimulationON:=
 CASE iWorkStep OF
 	0: //Initialisation
 		IF fbUnloadingActuator.mGoToHome(FALSE) THEN
-			iWorkStep := 5;
+			iWorkStep := 10;
 		ELSIF fbUnloadingActuator.pGoToHomeError THEN 
 			mSetError(nTable_ErrorList.UnloadingActuatorBackwardError);
 		END_IF
 	
-	5: //Wait for bottle
+	10: //Wait for bottle
 		bRotationRequest := fbUnloadingActuator.pInHomePosition AND __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.prStateIsEmpty ;
 		IF __ISVALIDREF(fbTablePlace) AND_THEN fbTableControl.prTableInPosition AND_THEN fbTableControl.prWorkPermission AND_THEN fbTablePlace.prStateIsAfterWeighing THEN
-			iWorkStep := 10;
+			iWorkStep := 20;
 		END_IF
 		
-	10:	//Eject Bottle
+	20:	//Eject Bottle
 		IF fbUnloadingActuator.mGoToWork(FALSE) THEN
-			iWorkStep:=20;
+			iWorkStep:=30;
 		ELSIF fbUnloadingActuator.pGoToWorkError THEN 
 			mSetError(nTable_ErrorList.UnloadingActuatorForwardError);
 		END_IF
 		
-	20: //Wait for sensor ON
+	30: //Wait for sensor ON
 
 		fbUnloadingSensor.bRequestedState:=TRUE;
 		fbUnloadingSensor.bCheckState:=TRUE;
 		IF fbUnloadingSensor.prSensorOnOK THEN
-			iWorkStep := 30;
+			iWorkStep := 40;
 		ELSIF fbUnloadingSensor.prSensorOnError THEN
 			mSetError(nTable_ErrorList.UnloadingBottleDetectionNotOn);
 		END_IF
 	
-	30: //Wait for sensor OFF
+	40: //Wait for sensor OFF
 		fbUnloadingSensor.bRequestedState:=FALSE;
 		fbUnloadingSensor.bCheckState:=TRUE;
 		IF fbUnloadingSensor.prSensorOffOK THEN
@@ -78,10 +78,10 @@ CASE iWorkStep OF
 END_CASE]]></ST>
     </Implementation>
     <LineIds Name="FB_UnloadingStation">
+      <LineId Id="144" Count="0" />
       <LineId Id="111" Count="0" />
       <LineId Id="109" Count="0" />
       <LineId Id="9" Count="0" />
-      <LineId Id="26" Count="0" />
       <LineId Id="52" Count="2" />
       <LineId Id="127" Count="0" />
       <LineId Id="70" Count="0" />
