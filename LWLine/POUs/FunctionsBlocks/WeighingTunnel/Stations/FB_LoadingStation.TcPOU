@@ -17,6 +17,8 @@ END_VAR
     <Implementation>
       <ST><![CDATA[//Call FB_BaseStation
 bRefError:=FALSE;
+iStationId:=200;
+sStationName :='Loading Station';
 SUPER^(fbTableControl:=fbTableControl);
 
 bRotationInterlock:=TRUE;
@@ -33,6 +35,11 @@ CASE iWorkStep OF
 		IF fbLoadingSensor.prSensorOnOK AND fbTableControl.prWorkPermission AND_THEN fbTablePlace.mBottleBeforeWeighing(1) THEN
 			iWorkStep:= 20;
 		END_IF
+	ELSE
+		bRotationRequest:= TRUE;
+	END_IF
+	IF bManualModeRequest THEN
+		iWorkStep:= 80;
 	END_IF
 	
 	20: //Wait For Table Movement
@@ -55,6 +62,11 @@ CASE iWorkStep OF
 			mSetError(nTable_ErrorList.LoadingSensorError);
 		END_IF
 		
+	80: //Manual Mode
+		IF NOT bManualModeRequest THEN
+			iWorkStep:=0;
+		END_IF
+		
 	90: //Error
 	
 	91: //Error Reset
@@ -66,12 +78,20 @@ END_CASE
     </Implementation>
     <LineIds Name="FB_LoadingStation">
       <LineId Id="238" Count="1" />
+      <LineId Id="269" Count="1" />
       <LineId Id="237" Count="0" />
       <LineId Id="236" Count="0" />
       <LineId Id="179" Count="0" />
       <LineId Id="182" Count="0" />
       <LineId Id="223" Count="0" />
-      <LineId Id="183" Count="39" />
+      <LineId Id="183" Count="10" />
+      <LineId Id="267" Count="1" />
+      <LineId Id="194" Count="0" />
+      <LineId Id="263" Count="1" />
+      <LineId Id="260" Count="0" />
+      <LineId Id="195" Count="19" />
+      <LineId Id="252" Count="4" />
+      <LineId Id="215" Count="7" />
       <LineId Id="26" Count="0" />
     </LineIds>
   </POU>

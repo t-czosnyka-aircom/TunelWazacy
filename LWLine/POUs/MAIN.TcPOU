@@ -960,7 +960,7 @@ fbHotPlateAir_PulseCounter(
 fbTableControl.arrStations[1]:=fbLoadingStation;
 fbTableControl.arrStations[3]:=fbWeighingStation;
 fbTableControl.arrStations[5]:=fbUnloadingStation;
-fbTableControl(fbTableAxis:=fbTableAxis);
+fbTableControl(fbTableAxis:=fbTableAxis,bReleaseFromSafety:=TRUE);
 		
 fbTableAxis(bEmergencyStop:=TRUE, bSTO_Signal:=TRUE);
 

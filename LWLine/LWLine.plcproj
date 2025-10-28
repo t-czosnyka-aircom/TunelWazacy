@@ -478,6 +478,10 @@
     <Compile Include="POUs\FunctionsBlocks\KomoraSC.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Actuator\vActuator_Frame.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
     <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Actuator\FB_ActuatorOOP_TC.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -492,6 +496,10 @@
     </Compile>
     <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Actuator\ST_ActuatorInOut_TC.TcDUT">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Actuator\vSensorFrame.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
     <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\DUTs\nTableBottlePlaceState.TcDUT">
       <SubType>Code</SubType>
@@ -574,6 +582,26 @@
     <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Stations\ST_WeighingStation_Settings.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\VISUs\Stations\vTableBaseStationInfo.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\VISUs\Stations\vTableBaseStation.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\VISUs\Stations\vTableLoadingDetail.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\VISUs\Stations\vTableUnoadingDetail.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\VISUs\Stations\vTableWeighingDetail.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
     <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\VISUs\vTableFrame.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
@@ -583,6 +611,10 @@
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
     <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\VISUs\vTableFrameDialog.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\VISUs\vTableState.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
@@ -602,6 +634,9 @@
     <Compile Include="Visualization Manager.TcVMO">
       <SubType>Code</SubType>
       <ExcludeFromBuild>false</ExcludeFromBuild>
+    </Compile>
+    <Compile Include="VISUs\tlActuatorNames.TcTLO">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="VISUs\Common\PIM_Confirm.TcVIS">
       <SubType>Code</SubType>
@@ -686,6 +721,9 @@
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
+    <Compile Include="VISUs\tlSensorNames.TcTLO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="VISU_TASK.TcTTO">
       <SubType>Code</SubType>
     </Compile>
@@ -753,6 +791,7 @@
     <Folder Include="POUs\FunctionsBlocks\WeighingTunnel\Servo" />
     <Folder Include="POUs\FunctionsBlocks\WeighingTunnel\Stations" />
     <Folder Include="POUs\FunctionsBlocks\WeighingTunnel\VISUs" />
+    <Folder Include="POUs\FunctionsBlocks\WeighingTunnel\VISUs\Stations" />
     <Folder Include="VISUs">
       <ExcludeFromBuild>false</ExcludeFromBuild>
     </Folder>

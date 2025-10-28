@@ -17,11 +17,12 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[//Call FB_BaseStation
 SUPER^(fbTableControl:=fbTableControl);
-
+iStationId:=202;
+sStationName :='Unloading Station';
 bRotationInterlock:=fbUnloadingActuator.pInHomePosition;
-fbUnloadingActuator(stDigInOut:=stInOuts.stUnloadingActuator, bI_Control_Ready:=TRUE, bManualMode:=bManualMode, 
+fbUnloadingActuator(stDigInOut:=stInOuts.stUnloadingActuator, bI_Control_Ready:=TRUE, bManualMode:=bManualModeActive, 
 					bI_HomeInterlock:= TRUE, bI_WorkInterlock:=fbTableControl.prTableInPosition,
-					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0,bSimulationOn:=bSimulationON, bManualMode:= bManualMode);
+					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0,bSimulationOn:=bSimulationON, bManualMode:= bManualModeActive);
 
 fbUnloadingSensor(bSensorSignal:=stInOuts.bBottleDetectionSensor,bSimulationON:=bSimulationON,uiSensorOnDelay_MS:=0);									
 					
@@ -33,10 +34,17 @@ CASE iWorkStep OF
 			mSetError(nTable_ErrorList.UnloadingActuatorBackwardError);
 		END_IF
 	
-	10: //Wait for bottle
-		bRotationRequest := fbUnloadingActuator.pInHomePosition AND __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.prStateIsEmpty ;
-		IF __ISVALIDREF(fbTablePlace) AND_THEN fbTableControl.prTableInPosition AND_THEN fbTableControl.prWorkPermission AND_THEN fbTablePlace.prStateIsAfterWeighing THEN
-			iWorkStep := 20;
+	10: //Wait for bottle - Table Rotation
+		IF __ISVALIDREF(fbTablePlace)THEN
+			bRotationRequest := fbTablePlace.prStateIsEmpty;
+			IF fbTableControl.prWorkPermission AND_THEN fbTablePlace.prStateIsAfterWeighing THEN
+				iWorkStep := 20;
+			END_IF;
+		ELSE
+			bRotationRequest := TRUE;
+		END_IF
+		IF bManualModeRequest THEN
+			iWorkStep:= 80;
 		END_IF
 		
 	20:	//Eject Bottle
@@ -66,6 +74,11 @@ CASE iWorkStep OF
 		ELSIF fbUnloadingSensor.prSensorOffError THEN
 			mSetError(nTable_ErrorList.UnloadingBottleDetectionNotOff);
 		END_IF
+	
+	80: //Manual Mode
+		IF NOT bManualModeRequest THEN
+			iWorkStep:=0;
+		END_IF
 		
 	90: //Error 
 
@@ -81,6 +94,7 @@ END_CASE]]></ST>
       <LineId Id="144" Count="0" />
       <LineId Id="111" Count="0" />
       <LineId Id="109" Count="0" />
+      <LineId Id="174" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="52" Count="2" />
       <LineId Id="127" Count="0" />
@@ -93,8 +107,15 @@ END_CASE]]></ST>
       <LineId Id="86" Count="1" />
       <LineId Id="69" Count="0" />
       <LineId Id="39" Count="1" />
-      <LineId Id="37" Count="0" />
-      <LineId Id="32" Count="2" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="173" Count="0" />
+      <LineId Id="171" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="172" Count="0" />
+      <LineId Id="169" Count="1" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="167" Count="1" />
+      <LineId Id="162" Count="0" />
       <LineId Id="58" Count="0" />
       <LineId Id="31" Count="0" />
       <LineId Id="35" Count="0" />
@@ -116,6 +137,9 @@ END_CASE]]></ST>
       <LineId Id="103" Count="1" />
       <LineId Id="101" Count="1" />
       <LineId Id="62" Count="0" />
+      <LineId Id="157" Count="0" />
+      <LineId Id="159" Count="2" />
+      <LineId Id="158" Count="0" />
       <LineId Id="80" Count="1" />
       <LineId Id="90" Count="1" />
       <LineId Id="89" Count="0" />

@@ -520,7 +520,7 @@ PROPERTY IsReady : BOOL]]></Declaration>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[IsReady := stInOuts.stAxis_Data.Status.Operational AND NOT stInOuts.stAxis_Data.Status.Error AND McPower.Status AND iWorkStep_Axis = 10 AND pMovementExternalInterlock;]]></ST>
+          <ST><![CDATA[IsReady := stInOuts.stAxis_Data.Status.Operational AND NOT stInOuts.stAxis_Data.Status.Error AND McPower.Status AND iWorkStep_Axis = 10 AND pMovementExternalInterlock AND IsHomed;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -633,6 +633,7 @@ END_VAR
 VAR_OUTPUT
 	bBusy		: BOOL;
 	bError		: BOOL;
+	bNotReady	: BOOL;
 	udiErrorId	: UDINT;
 END_VAR]]></Declaration>
       <Implementation>
@@ -647,9 +648,13 @@ IF IsReady THEN
 		McMoveModulo.Velocity := LIMIT(0.5, stSettings.rSlowSpeed_mm_s, 20);
 	END_IF
 	iWorkStep_Axis := 50;	
-ELSIF McMoveModulo.Error OR iWorkStep_Axis <50 OR iWorkStep_Axis >51  THEN
+ELSIF McMoveModulo.Error THEN
 	mMoveModuloToPosition := TRUE;
 	bError := TRUE;
+	udiErrorId :=McMoveModulo.ErrorID;	
+ELSIF iWorkStep_Axis <50 OR iWorkStep_Axis >51 THEN
+	mMoveModuloToPosition := TRUE;
+	bNotReady := TRUE;
 	udiErrorId := INT_TO_UINT(iWorkStep_Axis);	
 END_IF
 
@@ -1027,7 +1032,11 @@ END_VAR
       <LineId Id="17" Count="0" />
       <LineId Id="67" Count="2" />
       <LineId Id="18" Count="0" />
-      <LineId Id="55" Count="4" />
+      <LineId Id="55" Count="3" />
+      <LineId Id="100" Count="0" />
+      <LineId Id="102" Count="1" />
+      <LineId Id="101" Count="0" />
+      <LineId Id="59" Count="0" />
       <LineId Id="79" Count="0" />
       <LineId Id="25" Count="0" />
       <LineId Id="61" Count="0" />

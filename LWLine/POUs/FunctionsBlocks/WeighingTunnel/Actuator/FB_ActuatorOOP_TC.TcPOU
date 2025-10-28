@@ -22,6 +22,7 @@ VAR_INPUT
 	sActuatorId:STRING(30):= 'fbAct';
 	sLangId:STRING(2);
 	bSimulationON:BOOL;
+	bAllowWork:BOOL;
 END_VAR
 VAR_OUTPUT
 	bInMovement:BOOL;
@@ -135,7 +136,7 @@ END_IF
 bManualSave:= bManualMode;
 
 bErrorReset :=FALSE;
-]]></ST>
+bAllowWork := pAllowWork;]]></ST>
     </Implementation>
     <Method Name="mErrorReset" Id="{b195c47d-fee7-45c2-96ed-2f7ff3ae8f75}">
       <Declaration><![CDATA[METHOD PUBLIC mErrorReset : BOOL

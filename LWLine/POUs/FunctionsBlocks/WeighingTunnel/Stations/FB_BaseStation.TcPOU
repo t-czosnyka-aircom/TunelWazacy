@@ -16,13 +16,21 @@ VAR
 	fbTablePlace: REFERENCE TO FB_TablePlace;
 	bError: BOOL;
 	udiErrorNumber:UDINT;
-	bManualMode: BOOL;
-	iWorkStep: INT;
+	bManualModeRequest: BOOL;
+	bManualModeActive: BOOL;
+	iWorkStep: UINT;
 	fbStepTON:TON;
 	iLastStep: INT;
 	bRefError:BOOL:=TRUE;
+	iStationId:USINT;
+	sStationName:STRING;
 END_VAR
-]]></Declaration>
+
+VAR CONSTANT
+	WAIT_STEP:UINT:=10;
+	ERROR_STEP:UINT:=90;
+	MANUAL_STEP:UINT:=80;
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[//Step Timer		
 IF iLastStep <> iWorkStep THEN
@@ -32,11 +40,12 @@ fbStepTON(IN:=fbStepTON.PT >T#0S);
 iLastStep := iWorkStep;
 
 //Brak referencji - błąd pozycji
-IF bRefError AND iWorkStep > 10 AND iWorkStep < 90 AND NOT __ISVALIDREF(fbTablePlace) THEN
+IF bRefError AND iWorkStep > WAIT_STEP AND iWorkStep < ERROR_STEP AND iWorkStep <> MANUAL_STEP AND NOT __ISVALIDREF(fbTablePlace) THEN
 	mSetError(nTable_ErrorList.TablePositionError);	
 END_IF
 
-bRotationRequest := FALSE;]]></ST>
+bRotationRequest R= iWorkStep<>WAIT_STEP;
+bManualModeActive := iWorkStep=MANUAL_STEP;]]></ST>
     </Implementation>
     <Method Name="mErrorReset" Id="{307c245a-308f-4b3e-a89f-a5e87dd8cc62}">
       <Declaration><![CDATA[METHOD mErrorReset : BOOL
@@ -141,6 +150,7 @@ END_VAR
       <LineId Id="9" Count="0" />
       <LineId Id="41" Count="0" />
       <LineId Id="40" Count="0" />
+      <LineId Id="85" Count="0" />
     </LineIds>
     <LineIds Name="FB_BaseStation.mErrorReset">
       <LineId Id="11" Count="0" />
