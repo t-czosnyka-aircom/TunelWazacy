@@ -4,11 +4,13 @@
     <Declaration><![CDATA[TYPE ST_Axis_InOuts:
 STRUCT
 // Fizyczne wejścia
-	bHomingSensor					AT %I* 	: BOOL;						// Part sensor in Drivesystem
-	stLoadCell_Data							: stLoadCell_InOutsData;	// Force sensor data                         
-	bQ_PartLockPiston				AT %Q* 	: BOOL;						// Three-jaw valve locking the part
+	bHomingSensor					AT %I* 	: BOOL;						// Part sensor in Drivesystem 
 	wI_DriveInfodata				AT %I* 	: UINT;						// Auxiliary axis data - Digital inputs
-	stAxis_Data								: AXIS_REF;	//Os A gorna	// Main axis data
+	stAxis_Data								: AXIS_REF;					// Main axis data
+
+//Safety Signals
+	bQ_SafetyRun AT %Q*: BOOL;
+	bQ_SafetyErrorAck AT %Q*: BOOL;
 END_STRUCT
 END_TYPE]]></Declaration>
   </DUT>

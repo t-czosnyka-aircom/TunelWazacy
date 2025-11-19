@@ -2,6 +2,15 @@
 <TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.68">
 	<DataTypes>
 		<DataType>
+			<Name GUID="{9D91652B-C8E4-41A6-CD95-26FD945B8161}" IecBaseType="true" AutoDeleteType="true">ARRAY [1..20] OF REAL</Name>
+			<BitSize>640</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-00000000000D}">REAL</BaseType>
+			<ArrayInfo>
+				<LBound>1</LBound>
+				<Elements>20</Elements>
+			</ArrayInfo>
+		</DataType>
+		<DataType>
 			<Name GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom" AutoDeleteType="true">EL6inData22B</Name>
 			<Comment><![CDATA[ This data type is corresponding to the
    EL-6xxx data structure used in the
@@ -1130,27 +1139,19 @@ External Setpoint Generation:
 			<BaseType GUID="{FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF}"/>
 		</DataType>
 	</DataTypes>
-	<Project ProjectGUID="{47A695EF-D762-4449-A557-69A8CDE38A13}" Target64Bit="true" ShowHideConfigurations="#x106">
+	<Project ProjectGUID="{47A695EF-D762-4449-A557-69A8CDE38A13}" TargetNetId="192.168.1.31.1.1" Target64Bit="true" ShowHideConfigurations="#x106">
 		<System>
 			<Settings MaxCpus="2" RouterMemory="268435456" MaxStackSize="1024">
 				<Cpu/>
 				<Cpu CpuId="1"/>
 			</Settings>
-			<Licenses CacheOrCheckLicensesOnStartup="true">
+			<Licenses>
 				<Target BkhfOrder="01639279">
-					<ManualSelect>{BDCC0070-42D5-49AE-ABF1-1D4434813D60}</ManualSelect>
 					<ManualSelect>{92583661-35AE-45CE-BD4F-C35BFE16F07E}</ManualSelect>
+					<ManualSelect>{BDCC0070-42D5-49AE-ABF1-1D4434813D60}</ManualSelect>
 					<ManualSelect>{3EBB9639-5FF3-42B6-8847-35C70DC013C8}</ManualSelect>
 					<ManualSelect>{6952449D-F68C-49A2-ADE4-8639D85B33A4}</ManualSelect>
 					<ManualSelect>{A1AF8A04-C08D-4853-A5A0-0E6C3A278A8C}</ManualSelect>
-					<TargetSelect TargetId="2">{BF78CFC7-2E63-42C3-8C07-BB6C346BFB8B}</TargetSelect>
-					<TargetSelect TargetId="2">{66689887-CCBD-452C-AC9A-039D997C6E66}</TargetSelect>
-					<TargetSelect TargetId="2">{BDCC0070-42D5-49AE-ABF1-1D4434813D60}</TargetSelect>
-					<TargetSelect TargetId="2">{92583661-35AE-45CE-BD4F-C35BFE16F07E}</TargetSelect>
-					<TargetSelect TargetId="2">{6952449D-F68C-49A2-ADE4-8639D85B33A4}</TargetSelect>
-					<TargetSelect TargetId="2">{520DE751-9DB6-47CB-8240-BD5C466E7E64}</TargetSelect>
-					<TargetSelect TargetId="2">{A1AF8A04-C08D-4853-A5A0-0E6C3A278A8C}</TargetSelect>
-					<LicenseDevice DongleHardwareId="2" DongleDevice="#x0302001a" DongleLevel="40" DongleSystemId="{E3103F76-3B3D-EBC6-C946-7D277F141827}" DongleSerialNumber="0100069988"/>
 				</Target>
 			</Licenses>
 			<Tasks>
@@ -1173,11 +1174,15 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{1A289FD8-2FC0-4B29-B34F-E4BF25DBB957}" Name="LWLine" PrjFilePath="LWLine\LWLine.plcproj" TmcFilePath="LWLine\LWLine.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{164F8BDE-251D-17A6-26C5-61674BCFC525}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{BCFD0204-D365-D0CE-E9C1-2A3A0596365E}">
 					<Name>LWLine Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1" ContextId="1" AreaNo="16">
 						<Name>FastTask Inputs</Name>
+						<Var>
+							<Name>MAIN.fbWeighingStation.fbWeighing.arrSamples</Name>
+							<Type GUID="{9D91652B-C8E4-41A6-CD95-26FD945B8161}">ARRAY [1..20] OF REAL</Type>
+						</Var>
 						<Var>
 							<Name>GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60</Name>
 							<Comment><![CDATA[ linked to the EL6002 in the TwinCAT System Manager ]]></Comment>
@@ -1204,6 +1209,10 @@ External Setpoint Generation:
 					</Vars>
 					<Vars VarGrpType="1" ContextId="2" AreaNo="32">
 						<Name>PlcTask Inputs</Name>
+						<Var>
+							<Name>MAIN.bEstopRel</Name>
+							<Type>BOOL</Type>
+						</Var>
 						<Var>
 							<Name>MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.uiPnIOBoxState</Name>
 							<Type>UINT</Type>
@@ -4050,33 +4059,48 @@ External Setpoint Generation:
 							<Type>INT</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbTableAxis.stInOuts.bHomingSensor</Name>
-							<Comment><![CDATA[ Part sensor in Drivesystem]]></Comment>
+							<Name>MAIN.fbLoadingStation.stInOuts.bBottleDetectedSensor</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbTableAxis.stInOuts.stLoadCell_Data.wStatus</Name>
-							<Comment><![CDATA[ .1-Overrange, .3-Data invalid, .6-Error, .7-Calib in progress, .9-Steady state, .13-SyncErr, .15-TxPDO_Toggle]]></Comment>
-							<Type>WORD</Type>
+							<Name>MAIN.fbLoadingStation.stInOuts.bConveyorIsWorking</Name>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbTableAxis.stInOuts.stLoadCell_Data.rValue</Name>
-							<Comment><![CDATA[ Wartość siły w [N]]]></Comment>
-							<Type>REAL</Type>
+							<Name>MAIN.fbWeighingStation.stInOuts.stWeighingActuator.bI_HomePosition</Name>
+							<Comment><![CDATA[ Sygnał z krańcówki otwarcia]]></Comment>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbTableAxis.stInOuts.wI_DriveInfodata</Name>
-							<Comment><![CDATA[ Auxiliary axis data - Digital inputs]]></Comment>
-							<Type>UINT</Type>
+							<Name>MAIN.fbWeighingStation.stInOuts.stWeighingActuator.bI_WorkPosition</Name>
+							<Comment><![CDATA[ Sygnał z krańcówki zamknięcia]]></Comment>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbTableAxis.stInOuts.stAxis_Data.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+							<Name>MAIN.fbWeighingStation.stInOuts.stPusherActuator.bI_HomePosition</Name>
+							<Comment><![CDATA[ Sygnał z krańcówki otwarcia]]></Comment>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbTableAxis.McTorqueMonitor.iTorque</Name>
-							<Comment><![CDATA[ Raw data ]]></Comment>
-							<Type>INT</Type>
+							<Name>MAIN.fbWeighingStation.stInOuts.stPusherActuator.bI_WorkPosition</Name>
+							<Comment><![CDATA[ Sygnał z krańcówki zamknięcia]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.stInOuts.stDrawerLock.bLocked</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.stInOuts.stDrawerLock.bClosed</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.stInOuts.bBottleDetectionSensor</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.stInOuts.bBottleDrawerSensor</Name>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>SafetyBackupRestore.wSafetyProjectCRC</Name>
@@ -4123,10 +4147,6 @@ External Setpoint Generation:
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_IO.bS01_Result</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
 							<Name>GVL_IO.stS01_1_BearingPress_IO.bHomePosSensor</Name>
 							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
 							<Type>BOOL</Type>
@@ -4169,12 +4189,21 @@ External Setpoint Generation:
 							<Type>WORD</Type>
 						</Var>
 						<Var>
+							<Name>GVL_IO.bS01_Result</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>GVL_IO.bS01_Ready</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bS02_EnergyConsumptionImp</Name>
 							<Comment><![CDATA[ S02	- ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bS03_EnergyConsumptionImp</Name>
+							<Comment><![CDATA[ S03 - ]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -4220,16 +4249,6 @@ External Setpoint Generation:
 							<Type>WORD</Type>
 						</Var>
 						<Var>
-							<Name>GVL_IO.bS03_EnergyConsumptionImp</Name>
-							<Comment><![CDATA[ S03 - ]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bS04_EnergyConsumptionImp</Name>
-							<Comment><![CDATA[ S04 - ]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
 							<Name>GVL_IO.stS03_1_BearingPress_IO.bHomePosSensor</Name>
 							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
 							<Type>BOOL</Type>
@@ -4272,6 +4291,16 @@ External Setpoint Generation:
 							<Type>WORD</Type>
 						</Var>
 						<Var>
+							<Name>GVL_IO.bS04_EnergyConsumptionImp</Name>
+							<Comment><![CDATA[ S04 - ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bSxxA_EnergyConsumptionImp</Name>
+							<Comment><![CDATA[ Sxx Plug A - ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>GVL_IO.stS04_1_BearingPress_IO.bHomePosSensor</Name>
 							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
 							<Type>BOOL</Type>
@@ -4312,11 +4341,6 @@ External Setpoint Generation:
 						<Var>
 							<Name>GVL_IO.stS04_1_BearingPress_IO.wPressureSensStat</Name>
 							<Type>WORD</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.bSxxA_EnergyConsumptionImp</Name>
-							<Comment><![CDATA[ Sxx Plug A - ]]></Comment>
-							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.stSxxA_1_PlugAWelder_IO.bWeld_OK</Name>
@@ -4500,10 +4524,6 @@ S02]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_IO.stLoadingStationInOuts.bBottleDetectedSensor</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
 							<Name>GVL_IO.stUnderPressureInOuts_V2.bSwitchOnOff</Name>
 							<Comment><![CDATA[Przelacznik ON/OFF]]></Comment>
 							<Type>BOOL</Type>
@@ -4610,24 +4630,70 @@ S02]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_IO.stUnloadingStationInOuts.bBottleDetectionSensor</Name>
+							<Name>MAIN.fbUnloadingStation.stInOuts.bBottleDetectionSensor</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_IO.stWeighingStationInOuts.bBottleDetectionSensor</Name>
+							<Name>MAIN.fbUnloadingStation.stInOuts.stUnloadingActuator.bI_HomePosition</Name>
+							<Comment><![CDATA[ Sygnał z krańcówki otwarcia]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_IO.stWeighingStationInOuts.bDrawerIsLocked</Name>
+							<Name>MAIN.fbUnloadingStation.stInOuts.stUnloadingActuator.bI_WorkPosition</Name>
+							<Comment><![CDATA[ Sygnał z krańcówki zamknięcia]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_IO.stWeighingStationInOuts.bDrawerIsClosed</Name>
+							<Name>MAIN.fbUnloadingStation.fbConveyor.bI_ConveyorOnFeedback</Name>
 							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyReset_1</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyReset_2</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyEstopOK</Name>
+							<Comment><![CDATA[Safety Signals]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyGateOK</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableAxis.stInOuts.bHomingSensor</Name>
+							<Comment><![CDATA[ Part sensor in Drivesystem ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableAxis.stInOuts.wI_DriveInfodata</Name>
+							<Comment><![CDATA[ Auxiliary axis data - Digital inputs]]></Comment>
+							<Type>UINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableAxis.stInOuts.stAxis_Data.NcToPlc</Name>
+							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableAxis.McTorqueMonitor.iTorque</Name>
+							<Comment><![CDATA[ Raw data ]]></Comment>
+							<Type>INT</Type>
 						</Var>
 					</Vars>
 					<Vars VarGrpType="2" ContextId="2" AreaNo="33">
 						<Name>PlcTask Outputs</Name>
+						<Var>
+							<Name>MAIN.bSafetyStart</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.bSafetyReset</Name>
+							<Type>BOOL</Type>
+						</Var>
 						<Var>
 							<Name>MAIN.fbS01_KeyencePNVisSens.fbVisionSensor.wCmdControl_Reg0</Name>
 							<Type>WORD</Type>
@@ -6150,23 +6216,32 @@ S02]]></Comment>
 							<Type>INT</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbTableAxis.stInOuts.stLoadCell_Data.wControl</Name>
-							<Comment><![CDATA[ .0-Start calibration, .1-Disable calib., .2-InputFreeze, .4-Tara]]></Comment>
-							<Type>WORD</Type>
+							<Name>MAIN.fbLoadingStation.stInOuts.rConveyorSpeedControl</Name>
+							<Type>REAL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbTableAxis.stInOuts.bQ_PartLockPiston</Name>
-							<Comment><![CDATA[ Three-jaw valve locking the part]]></Comment>
+							<Name>MAIN.fbWeighingStation.stInOuts.stWeighingActuator.bQ_Home</Name>
+							<Comment><![CDATA[ Sygnał do zaworu otwierania (w przypadku zaworu jednocewkowego podłączyć tylko to wyjście)]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbTableAxis.stInOuts.stAxis_Data.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+							<Name>MAIN.fbWeighingStation.stInOuts.stWeighingActuator.bQ_Work</Name>
+							<Comment><![CDATA[ Sygnał do zaworu zamykania]]></Comment>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbTableAxis.McTorqueMonitor.iTorqueLimitValue</Name>
-							<Comment><![CDATA[ Raw dara]]></Comment>
-							<Type>INT</Type>
+							<Name>MAIN.fbWeighingStation.stInOuts.stPusherActuator.bQ_Home</Name>
+							<Comment><![CDATA[ Sygnał do zaworu otwierania (w przypadku zaworu jednocewkowego podłączyć tylko to wyjście)]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.stInOuts.stPusherActuator.bQ_Work</Name>
+							<Comment><![CDATA[ Sygnał do zaworu zamykania]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.stInOuts.stDrawerLock.bOpen</Name>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bS01_Trigger</Name>
@@ -6387,10 +6462,69 @@ S02]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_IO.stWeighingStationInOuts.bDrawerLockOpen</Name>
+							<Name>MAIN.fbUnloadingStation.stInOuts.stUnloadingActuator.bQ_Home</Name>
+							<Comment><![CDATA[ Sygnał do zaworu otwierania (w przypadku zaworu jednocewkowego podłączyć tylko to wyjście)]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
+						<Var>
+							<Name>MAIN.fbUnloadingStation.stInOuts.stUnloadingActuator.bQ_Work</Name>
+							<Comment><![CDATA[ Sygnał do zaworu zamykania]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbUnloadingStation.fbConveyor.rQ_ConveyorSpeedOut</Name>
+							<Type>REAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_SafetyRun</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_SafetyErrorAck</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableAxis.bQ_SafetyRun</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableAxis.bQ_SafetyErrorAck</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableAxis.stInOuts.stAxis_Data.PlcToNc</Name>
+							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableAxis.stInOuts.bQ_SafetyRun</Name>
+							<Comment><![CDATA[Safety Signals]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableAxis.stInOuts.bQ_SafetyErrorAck</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableAxis.McTorqueMonitor.iTorqueLimitValue</Name>
+							<Comment><![CDATA[ Raw dara]]></Comment>
+							<Type>INT</Type>
+						</Var>
 					</Vars>
+					<UnrestoredVarLinks ImportTime="2025-10-29T15:38:47">
+						<OwnerA Name="InputDst" Prefix="TIPC^LWLine^LWLine Instance" Type="1">
+							<OwnerB Name="TIID^LAN1 (EtherCAT)^Term 223 (EK1818)">
+								<Link VarA="GVL_IO.stWeighingStationInOuts.bDrawerIsClosed" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="Channel 1^Input" Size="1" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<UnrestoredVarLinks ImportTime="2025-11-19T09:54:13">
+						<OwnerA Name="OutputSrc" Prefix="TIPC^LWLine^LWLine Instance" Type="2">
+							<OwnerB Name="TIID^LAN1 (EtherCAT)^Term 3 (EK1818)^Term 10 (EL6910)">
+								<Link VarA="MAIN.fbTableControl.bQ_SafetyErrorAck" TypeA="BOOL" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="StandardOutputs^Standard In Var 2" Size="1" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fbTableControl.bQ_SafetyRun" TypeA="BOOL" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="StandardOutputs^Standard In Var 1" Size="1" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
 					<Contexts>
 						<Context>
 							<Id>0</Id>
@@ -6439,19 +6573,9 @@ S02]]></Comment>
 			</Project>
 		</Plc>
 		<Safety>
-			<Project File="SafeBottle2K.xti"/>
-			<Project File="HP1_M1_MC.xti"/>
-			<Project File="HP1_M2_MC.xti"/>
-			<Project File="HP1_M3_MC.xti"/>
-			<Project File="HP2_M1_MC.xti"/>
-			<Project File="HP2_M2_MC.xti"/>
-			<Project File="HP2_M3_MC.xti"/>
-			<Project File="HP3_M2_MC.xti"/>
-			<Project File="HP3_M3_MC.xti"/>
-			<Project File="HP3_M1_MC.xti"/>
-			<Project GUID="{853ED3CD-74B3-4138-BA57-80313F255342}" Name="HP4_M2_MC" PrjFilePath="HP4_M2_MC\HP4_M2_MC.splcproj" TmcFilePath="HP4_M2_MC\HP4_M2_MC.tmc" GeneralArchiveSettings="#x000f" TargetArchiveSettings="#x0007" FileArchiveSettings="#x000e">
-				<Instance Id="#x010100c0" KeepUnrestoredLinks="2">
-					<Name>HP4_M2_MC Instance</Name>
+			<Project GUID="{401EC401-3CE3-4F33-A272-BDDB665C9B27}" Name="S07_TableRotation" PrjFilePath="S07_TableRotation\S07_TableRotation.splcproj" TmcFilePath="S07_TableRotation\S07_TableRotation.tmc" GeneralArchiveSettings="#x000f" TargetArchiveSettings="#x0007" FileArchiveSettings="#x000e">
+				<Instance Id="#x01010020" KeepUnrestoredLinks="2">
+					<Name>S07_TableRotation Instance</Name>
 					<TmcDesc GUID="{72A6D5B8-E98C-4604-8B90-09D1F8AB38A9}">
 						<Name>Safety</Name>
 						<InitSequence>PO</InitSequence>
@@ -6464,24 +6588,9 @@ S02]]></Comment>
 					</TmcDesc>
 				</Instance>
 			</Project>
-			<Project GUID="{6C043FDF-7ED8-4E4D-ADDE-C98DC88F6010}" Name="HP4_M3_MC" PrjFilePath="HP4_M3_MC\HP4_M3_MC.splcproj" TmcFilePath="HP4_M3_MC\HP4_M3_MC.tmc" GeneralArchiveSettings="#x000f" TargetArchiveSettings="#x0007" FileArchiveSettings="#x000e">
-				<Instance Id="#x010100d0" KeepUnrestoredLinks="2">
-					<Name>HP4_M3_MC Instance</Name>
-					<TmcDesc GUID="{72A6D5B8-E98C-4604-8B90-09D1F8AB38A9}">
-						<Name>Safety</Name>
-						<InitSequence>PO</InitSequence>
-						<Contexts>
-							<Context>
-								<Id>1</Id>
-								<Name>Default</Name>
-							</Context>
-						</Contexts>
-					</TmcDesc>
-				</Instance>
-			</Project>
-			<Project GUID="{F86D8289-F7F3-4922-BE3B-85513A19ECF2}" Name="HP4_M1_MC" PrjFilePath="HP4_M1_MC\HP4_M1_MC.splcproj" TmcFilePath="HP4_M1_MC\HP4_M1_MC.tmc" GeneralArchiveSettings="#x000f" TargetArchiveSettings="#x0007" FileArchiveSettings="#x000e">
-				<Instance Id="#x010100b0" KeepUnrestoredLinks="2">
-					<Name>HP4_M1_MC Instance</Name>
+			<Project GUID="{776C2C8B-9B66-4F07-8B00-3830775703A3}" Name="Safety" PrjFilePath="Safety\Safety.splcproj" TmcFilePath="Safety\Safety.tmc" GeneralArchiveSettings="#x000f" TargetArchiveSettings="#x0007" FileArchiveSettings="#x000e">
+				<Instance Id="#x01010030" KeepUnrestoredLinks="2">
+					<Name>Safety Instance</Name>
 					<TmcDesc GUID="{72A6D5B8-E98C-4604-8B90-09D1F8AB38A9}">
 						<Name>Safety</Name>
 						<InitSequence>PO</InitSequence>
@@ -6498,12 +6607,11 @@ S02]]></Comment>
 		<Io>
 			<Device File="LAN1 (EtherCAT).xti" Id="3"/>
 			<Device File="ProfiNet (EL6631).xti" Id="1"/>
-			<Device Id="2" DevType="145" AmsPort="28928" AmsNetId="192.168.1.31.4.1" RemoteName="S01_CM1 (ECAT EIP Adapter (EL6652-0010))">
+			<Device Id="2" Disabled="true" DevType="145" AmsPort="28928" AmsNetId="192.168.1.31.4.1" RemoteName="S01_CM1 (ECAT EIP Adapter (EL6652-0010))">
 				<Name>S01_CM1 (ECAT EIP Adapter (EL6652-0010))</Name>
 				<AddressInfo>
 					<Ecat>
-						<EtherCATDeviceId>202</EtherCATDeviceId>
-						<EtherCATDeviceName>TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S01_Filler_A (EK1818)^S01_CM1 (EL6652-0010)</EtherCATDeviceName>
+						<EtherCATDeviceId>0</EtherCATDeviceId>
 					</Ecat>
 				</AddressInfo>
 				<Image Id="6" AddrType="4" ImageType="3">
@@ -6876,12 +6984,11 @@ S02]]></Comment>
 				<Ethernet DeviceDesc="EL6652-0010 EtherNet/IP Adapter (Slave)"/>
 				<EtherNetIPSlaveDev/>
 			</Device>
-			<Device Id="4" DevType="145" AmsPort="28676" AmsNetId="192.168.1.31.5.1" RemoteName="S03_CM1 (ECAT EIP Adapter (EL6652-0010))">
+			<Device Id="4" Disabled="true" DevType="145" AmsPort="28676" AmsNetId="192.168.1.31.5.1" RemoteName="S03_CM1 (ECAT EIP Adapter (EL6652-0010))">
 				<Name>S03_CM1 (ECAT EIP Adapter (EL6652-0010))</Name>
 				<AddressInfo>
 					<Ecat>
-						<EtherCATDeviceId>203</EtherCATDeviceId>
-						<EtherCATDeviceName>TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S03_Filler_B (EK1818)^S03_CM1 (EL6652-0010)</EtherCATDeviceName>
+						<EtherCATDeviceId>0</EtherCATDeviceId>
 					</Ecat>
 				</AddressInfo>
 				<Image Id="7" AddrType="4" ImageType="3">
@@ -7071,12 +7178,11 @@ S02]]></Comment>
 				<Ethernet DeviceDesc="EL6652-0010 EtherNet/IP Adapter (Slave)"/>
 				<EtherNetIPSlaveDev/>
 			</Device>
-			<Device Id="5" DevType="145" AmsPort="28677" AmsNetId="192.168.1.31.6.1" RemoteName="S06_CM1 (ECAT EIP Adapter (EL6652-0010))">
+			<Device Id="5" Disabled="true" DevType="145" AmsPort="28677" AmsNetId="192.168.1.31.6.1" RemoteName="S06_CM1 (ECAT EIP Adapter (EL6652-0010))">
 				<Name>S06_CM1 (ECAT EIP Adapter (EL6652-0010))</Name>
 				<AddressInfo>
 					<Ecat>
-						<EtherCATDeviceId>204</EtherCATDeviceId>
-						<EtherCATDeviceName>TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S06_Sticker (EK1818)^S06_CM1 (EL6652-0010)</EtherCATDeviceName>
+						<EtherCATDeviceId>0</EtherCATDeviceId>
 					</Ecat>
 				</AddressInfo>
 				<Image Id="8" AddrType="4" ImageType="3">
@@ -7452,1236 +7558,21 @@ S02]]></Comment>
 		</Io>
 	</Project>
 	<Mappings>
-		<MappingInfo Identifier="{00000000-2002-0850-0220-500810000403}" Id="#x02030070"/>
-		<MappingInfo Identifier="{00000000-2002-0850-0220-500860000403}" Id="#x02030090"/>
-		<MappingInfo Identifier="{00000000-2002-0850-0220-500870000403}" Id="#x020300b0"/>
-		<MappingInfo Identifier="{00000000-2002-0850-0220-500880000403}" Id="#x020300a0"/>
+		<MappingInfo Identifier="{00000000-2002-0850-0220-500841000403}" Id="#x02030030"/>
+		<MappingInfo Identifier="{00000000-0030-0304-2000-040330000403}" Id="#x02030010"/>
+		<MappingInfo Identifier="{00000000-0050-0304-2000-040352000403}" Id="#x02030040"/>
 		<MappingInfo Identifier="{05000010-2002-0850-2000-040302205008}" Id="#x02030080" Watchdog="14000000040000000400000004000000"/>
+		<MappingInfo Identifier="{03040040-0040-0304-4000-040340000403}" Id="#x02030020" Watchdog="04000000040000000400000004000000"/>
 		<OwnerA Name="TIPC^LWLine^LWLine Instance">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S02_SonicTech (EK1818)">
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldingMachine_IO.bErrorActive" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldingMachine_IO.bReadyToWelding" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldingMachine_IO.bStartInput" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldingMachine_IO.bWeld_OK" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldingMachine_IO.bWeldingActive" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldingMachine_IO.bResetError" VarB="Channel 10^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldingMachine_IO.bWorkPermit" VarB="Channel 9^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S02_SonicTech (EK1818)^CM_1 (EL6021)">
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 0" Size="8" OffsA="16"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 1" Size="8" OffsA="24"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 10" Size="8" OffsA="96"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 11" Size="8" OffsA="104"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 12" Size="8" OffsA="112"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 13" Size="8" OffsA="120"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 14" Size="8" OffsA="128"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 15" Size="8" OffsA="136"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 16" Size="8" OffsA="144"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 17" Size="8" OffsA="152"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 18" Size="8" OffsA="160"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 19" Size="8" OffsA="168"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 2" Size="8" OffsA="32"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 20" Size="8" OffsA="176"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 21" Size="8" OffsA="184"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 3" Size="8" OffsA="40"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 4" Size="8" OffsA="48"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 5" Size="8" OffsA="56"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 6" Size="8" OffsA="64"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 7" Size="8" OffsA="72"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 8" Size="8" OffsA="80"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 9" Size="8" OffsA="88"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Status"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Ctrl"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 0" Size="8" OffsA="16"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 1" Size="8" OffsA="24"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 10" Size="8" OffsA="96"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 11" Size="8" OffsA="104"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 12" Size="8" OffsA="112"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 13" Size="8" OffsA="120"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 14" Size="8" OffsA="128"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 15" Size="8" OffsA="136"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 16" Size="8" OffsA="144"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 17" Size="8" OffsA="152"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 18" Size="8" OffsA="160"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 19" Size="8" OffsA="168"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 2" Size="8" OffsA="32"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 20" Size="8" OffsA="176"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 21" Size="8" OffsA="184"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 3" Size="8" OffsA="40"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 4" Size="8" OffsA="48"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 5" Size="8" OffsA="56"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 6" Size="8" OffsA="64"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 7" Size="8" OffsA="72"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 8" Size="8" OffsA="80"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 9" Size="8" OffsA="88"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S04_SonicTech (EK1818)">
-				<Link VarA="PlcTask Inputs^GVL_IO.bCompressedAirFlowImpulseFilling" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldingMachine_IO.bErrorActive" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldingMachine_IO.bReadyToWelding" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldingMachine_IO.bStartInput" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldingMachine_IO.bWeld_OK" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_2_SonicTech_WeldingMachine_IO.bWeldingActive" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldingMachine_IO.bResetError" VarB="Channel 10^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_2_SonicTech_WeldingMachine_IO.bWorkPermit" VarB="Channel 9^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S04_SonicTech (EK1818)^Term 212 (EL6021)">
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 0" Size="8" OffsA="16"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 1" Size="8" OffsA="24"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 10" Size="8" OffsA="96"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 11" Size="8" OffsA="104"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 12" Size="8" OffsA="112"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 13" Size="8" OffsA="120"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 14" Size="8" OffsA="128"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 15" Size="8" OffsA="136"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 16" Size="8" OffsA="144"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 17" Size="8" OffsA="152"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 18" Size="8" OffsA="160"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 19" Size="8" OffsA="168"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 2" Size="8" OffsA="32"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 20" Size="8" OffsA="176"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 21" Size="8" OffsA="184"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 3" Size="8" OffsA="40"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 4" Size="8" OffsA="48"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 5" Size="8" OffsA="56"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 6" Size="8" OffsA="64"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 7" Size="8" OffsA="72"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 8" Size="8" OffsA="80"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 9" Size="8" OffsA="88"/>
-				<Link VarA="FastTask Inputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Status"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Ctrl"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 0" Size="8" OffsA="16"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 1" Size="8" OffsA="24"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 10" Size="8" OffsA="96"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 11" Size="8" OffsA="104"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 12" Size="8" OffsA="112"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 13" Size="8" OffsA="120"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 14" Size="8" OffsA="128"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 15" Size="8" OffsA="136"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 16" Size="8" OffsA="144"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 17" Size="8" OffsA="152"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 18" Size="8" OffsA="160"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 19" Size="8" OffsA="168"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 2" Size="8" OffsA="32"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 20" Size="8" OffsA="176"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 21" Size="8" OffsA="184"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 3" Size="8" OffsA="40"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 4" Size="8" OffsA="48"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 5" Size="8" OffsA="56"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 6" Size="8" OffsA="64"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 7" Size="8" OffsA="72"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 8" Size="8" OffsA="80"/>
-				<Link VarA="FastTask Outputs^GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 9" Size="8" OffsA="88"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S05_Transpoerter (EK1818)">
-				<Link VarA="PlcTask Inputs^GVL_IO.stTransporterInOuts.bBlockerEntryDown" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stTransporterInOuts.bBlockerEntryUp" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stTransporterInOuts.bBlockerEscapeDown" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stTransporterInOuts.bBlockerEscapeUp" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stTransporterInOuts.bEntraceSensor" VarB="Channel 7^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stTransporterInOuts.bEscapeSensor" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stTransporterInOuts.bPartsEntraceChamber" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stTransporterInOuts.bCarriageBlockerChamber" VarB="Channel 10^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stTransporterInOuts.bCarriageBlockerEntrace" VarB="Channel 9^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stTransporterInOuts.bEntraceBlocker" VarB="Channel 11^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stTransporterInOuts.bEscapeBlocker" VarB="Channel 12^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S05_Transpoerter (EK1818)^S05_DI1 (EL1008)">
-				<Link VarA="PlcTask Inputs^GVL_IO.stTransporterInOuts.bDorsOpened" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stTransporterInOuts.bEntraceCarriage" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stTransporterInOuts.bEntraceChamber" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stTransporterInOuts.bPartsEntraceCarriage" VarB="Channel 4^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S05_Vacum (EK1818)">
-				<Link VarA="PlcTask Inputs^GVL_IO.stUnderPressureInOuts_V2.bLockSens" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stUnderPressureInOuts_V2.bPhaseControlRelay" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stUnderPressureInOuts_V2.bSafetyDiag" VarB="Channel 7^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stUnderPressureInOuts_V2.bSafetyOK" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stUnderPressureInOuts_V2.bStopButtonNC" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stUnderPressureInOuts_V2.bSwitchOnOff" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stUnderPressureInOuts_V2.bVaccumOK" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stUnderPressureInOuts_V2.bTimer" VarB="Channel 9^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S05_Vacum (EK1818)^SA0x_AI1 (EL3702)">
-				<Link VarA="PlcTask Inputs^GVL_IO.stUnderPressureInOuts_V2.iVacuumLevel" VarB="Ch1 Sample 0^Ch1 Value"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S05_Vacum (EK1818)^SA0x_DO1 (EL2008)">
-				<Link VarA="PlcTask Outputs^GVL_IO.stUnderPressureInOuts_V2.bEValve" VarB="Channel 8^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stUnderPressureInOuts_V2.bLEDBlue" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stUnderPressureInOuts_V2.bLEDGreen" VarB="Channel 2^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stUnderPressureInOuts_V2.bLEDRed" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stUnderPressureInOuts_V2.bLEDReset" VarB="Channel 5^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stUnderPressureInOuts_V2.bLEDYellow" VarB="Channel 3^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stUnderPressureInOuts_V2.bLight" VarB="Channel 7^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stUnderPressureInOuts_V2.bPumpRly" VarB="Channel 6^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S07_Tunel (EK1818)">
-				<Link VarA="PlcTask Inputs^GVL_IO.stTunelInOuts.bActuatorConvoyerHome" VarB="Channel 7^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stTunelInOuts.bActuatorConvoyerPush" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stTunelInOuts.bActuatorHome" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stTunelInOuts.bActuatorPush" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stTunelInOuts.bActuatorTestLoad" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stTunelInOuts.bBottleIncomming" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stTunelInOuts.bBottleInput" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stTunelInOuts.bActuatorDropBottle" VarB="Channel 10^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stTunelInOuts.bActuatorPositioning" VarB="Channel 9^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stTunelInOuts.bActuatorPushConvoyer" VarB="Channel 11^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stTunelInOuts.bBeltDirection" VarB="Channel 12^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S07_Tunel (EK1818)^S07_AI1 (EL3356)">
-				<Link VarA="PlcTask Inputs^GVL_IO.stTunelInOuts.stLoadCell.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stTunelInOuts.stLoadCell.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stTunelInOuts.stLoadCell.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S07_Tunel (EK1818)^S07_AO1 (EL4002)">
-				<Link VarA="PlcTask Outputs^GVL_IO.stTunelInOuts.iBeltVolocity" VarB="AO Outputs Channel 1^Analog output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S07_Tunel (EK1818)^S07_DI1 (EL1008)">
-				<Link VarA="PlcTask Inputs^GVL_IO.stTunelInOuts.bDorsClosedNO" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stTunelInOuts.stCognex.bIn0" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stTunelInOuts.stCognex.bIn1" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stTunelInOuts.stCognex.bInOut2" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stTunelInOuts.stCognex.bInOut3" VarB="Channel 4^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S07_Tunel (EK1818)^S07_DO1 (EL2008)">
-				<Link VarA="PlcTask Outputs^GVL_IO.stTunelInOuts.stCognex.bOut0_Trigger" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stTunelInOuts.stCognex.bOut1" VarB="Channel 2^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Bayonet (EK1914)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_EStopPressed_Front" VarB="Module 2 (DIO)^DIO Inputs^Input 2"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_EStopPressed_Rear" VarB="Module 2 (DIO)^DIO Inputs^Input 3"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_ResetButton" VarB="Module 2 (DIO)^DIO Inputs^Input 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.stInOuts.bQ_LedTower_Green" VarB="Module 2 (DIO)^DIO Outputs^Output 2"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.stInOuts.bQ_LedTower_Yellow" VarB="Module 2 (DIO)^DIO Outputs^Output 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.stInOuts.bQ_ResetButtonLight" VarB="Module 2 (DIO)^DIO Outputs^Output 0"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.stInOuts.bQ_VentilationFan_En" VarB="Module 2 (DIO)^DIO Outputs^Output 1"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Bayonet (EK1914)^HP1 Bayonet DI1 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.fbAxisDn.stInOuts.bI_PartPresenceSensor" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.fbAxisUp.stInOuts.bI_PartPresenceSensor" VarB="Channel 7^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.fbHeatedPlate_Actuator.stInOuts.bI_Closed" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.fbHeatedPlate_Actuator.stInOuts.bI_Opened" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_CleanSwitchON" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_HeaterCurrentSensor" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_WorkCoverLocked" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_WorkCoverOpened" VarB="Channel 4^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Bayonet (EK1914)^HP1 Bayonet DI2 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_HeatStampPistonBasePos" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_ManCtrl_Fast" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_ManCtrl_GoDown_Dn" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_ManCtrl_GoDown_Up" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_ManCtrl_GoUp_Dn" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_ManCtrl_GoUp_Up" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_ManCtrl_Slow" VarB="Channel 5^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Bayonet (EK1914)^HP1 Bayonet DO1 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.fbAxisDn.stInOuts.bQ_PartLockPiston" VarB="Channel 5^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.fbAxisUp.stInOuts.bQ_PartLockPiston" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.stInOuts.bQ_LedTower_Blue" VarB="Channel 2^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.stInOuts.bQ_LedTower_Red" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.stInOuts.bQ_WorkCoverUnlock" VarB="Channel 3^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Bayonet (EK1914)^HP1 Bayonet DO2 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.fbHeatedPlate_Actuator.stInOuts.bQ_Close" VarB="Channel 3^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.fbHeatedPlate_Actuator.stInOuts.bQ_Open" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.stInOuts.bQ_HeatStampHeater_ON" VarB="Channel 8^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.stInOuts.bQ_HeatStampPistonOpen" VarB="Channel 7^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.stInOuts.bQ_HeatedPlateHeater_En" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.stInOuts.bQ_WorkCoverLift" VarB="Channel 2^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Bayonet (EK1914)^HP1 Bayonet MC1 (ELM7212-9016)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.fbAxisDn.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 2^Info data 1"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.fbAxisUp.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 1^Info data 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.fbAxisDn.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 2^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.fbAxisUp.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 1^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.stInOuts.bQ_Sft_ErrAck" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.stInOuts.bQ_Sft_Run" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 2"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Bayonet (EK1914)^HP1 Bayonet TC (EL3312)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_HeatStampTempMeasureError" VarB="TC Inputs Channel 2^Status^Error"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_HeatedPlateTempMeasureError" VarB="TC Inputs Channel 1^Status^Error"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.iI_HeatStampTemperature" VarB="TC Inputs Channel 2^Value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.iI_HeatedPlateTemperature" VarB="TC Inputs Channel 1^Value"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Bayonet (EK1914)^HP1 Bayonet Tension A (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.fbAxisUp.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.fbAxisUp.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.fbAxisUp.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Bayonet (EK1914)^HP1 Bayonet Tension B (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.fbAxisDn.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.fbAxisDn.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.fbAxisDn.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Iner_OuterCup (EK1914)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_EStopPressed_Front" VarB="Module 2 (DIO)^DIO Inputs^Input 2"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_EStopPressed_Rear" VarB="Module 2 (DIO)^DIO Inputs^Input 3"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_ResetButton" VarB="Module 2 (DIO)^DIO Inputs^Input 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.stInOuts.bQ_LedTower_Green" VarB="Module 2 (DIO)^DIO Outputs^Output 2"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.stInOuts.bQ_LedTower_Yellow" VarB="Module 2 (DIO)^DIO Outputs^Output 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.stInOuts.bQ_ResetButtonLight" VarB="Module 2 (DIO)^DIO Outputs^Output 0"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.stInOuts.bQ_VentilationFan_En" VarB="Module 2 (DIO)^DIO Outputs^Output 1"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Iner_OuterCup (EK1914)^HP1 Iner_OuterCup DI1 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.fbAxisDn.stInOuts.bI_PartPresenceSensor" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.fbAxisUp.stInOuts.bI_PartPresenceSensor" VarB="Channel 7^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.fbHeatedPlate_Actuator.stInOuts.bI_Closed" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.fbHeatedPlate_Actuator.stInOuts.bI_Opened" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_CleanSwitchON" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_HeaterCurrentSensor" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_WorkCoverLocked" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_WorkCoverOpened" VarB="Channel 4^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Iner_OuterCup (EK1914)^HP1 Iner_OuterCup DI2 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_HeatStampPistonBasePos" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_ManCtrl_Fast" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_ManCtrl_GoDown_Dn" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_ManCtrl_GoDown_Up" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_ManCtrl_GoUp_Dn" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_ManCtrl_GoUp_Up" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_ManCtrl_Slow" VarB="Channel 5^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Iner_OuterCup (EK1914)^HP1 Iner_OuterCup DO1 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.fbAxisDn.stInOuts.bQ_PartLockPiston" VarB="Channel 5^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.fbAxisUp.stInOuts.bQ_PartLockPiston" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.stInOuts.bQ_LedTower_Blue" VarB="Channel 2^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.stInOuts.bQ_LedTower_Red" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.stInOuts.bQ_WorkCoverUnlock" VarB="Channel 3^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Iner_OuterCup (EK1914)^HP1 Iner_OuterCup DO2 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.fbHeatedPlate_Actuator.stInOuts.bQ_Close" VarB="Channel 3^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.fbHeatedPlate_Actuator.stInOuts.bQ_Open" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.stInOuts.bQ_HeatStampHeater_ON" VarB="Channel 8^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.stInOuts.bQ_HeatStampPistonOpen" VarB="Channel 7^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.stInOuts.bQ_HeatedPlateHeater_En" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.stInOuts.bQ_WorkCoverLift" VarB="Channel 2^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Iner_OuterCup (EK1914)^HP1 Iner_OuterCup MC1 (ELM7212-9016)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.fbAxisDn.McTorqueMonitor.iTorque" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.fbAxisDn.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 2^Info data 1"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.fbAxisUp.McTorqueMonitor.iTorque" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.fbAxisUp.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 1^Info data 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.fbAxisDn.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 2^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.fbAxisUp.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 1^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.stInOuts.bQ_Sft_ErrAck" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.stInOuts.bQ_Sft_Run" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 2"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Iner_OuterCup (EK1914)^HP1 Iner_OuterCup TC (EL3312)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_HeatStampTempMeasureError" VarB="TC Inputs Channel 2^Status^Error"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_HeatedPlateTempMeasureError" VarB="TC Inputs Channel 1^Status^Error"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.iI_HeatStampTemperature" VarB="TC Inputs Channel 2^Value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.iI_HeatedPlateTemperature" VarB="TC Inputs Channel 1^Value"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Iner_OuterCup (EK1914)^HP1 Iner_OuterCup Tension A (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.fbAxisUp.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.fbAxisUp.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.fbAxisUp.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Iner_OuterCup (EK1914)^HP1 Iner_OuterCup Tension B (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.fbAxisDn.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.fbAxisDn.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.fbAxisDn.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Mug (EK1914)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_EStopPressed_Front" VarB="Module 2 (DIO)^DIO Inputs^Input 2"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_EStopPressed_Rear" VarB="Module 2 (DIO)^DIO Inputs^Input 3"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_ResetButton" VarB="Module 2 (DIO)^DIO Inputs^Input 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.stInOuts.bQ_LedTower_Green" VarB="Module 2 (DIO)^DIO Outputs^Output 2"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.stInOuts.bQ_LedTower_Yellow" VarB="Module 2 (DIO)^DIO Outputs^Output 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.stInOuts.bQ_ResetButtonLight" VarB="Module 2 (DIO)^DIO Outputs^Output 0"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.stInOuts.bQ_VentilationFan_En" VarB="Module 2 (DIO)^DIO Outputs^Output 1"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Mug (EK1914)^HP1 Mug DI1 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.fbAxisDn.stInOuts.bI_PartPresenceSensor" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.fbAxisUp.stInOuts.bI_PartPresenceSensor" VarB="Channel 7^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.fbHeatedPlate_Actuator.stInOuts.bI_Closed" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.fbHeatedPlate_Actuator.stInOuts.bI_Opened" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_CleanSwitchON" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_HeaterCurrentSensor" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_WorkCoverLocked" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_WorkCoverOpened" VarB="Channel 4^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Mug (EK1914)^HP1 Mug DI2 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_HeatStampPistonBasePos" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_ManCtrl_Fast" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_ManCtrl_GoDown_Dn" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_ManCtrl_GoDown_Up" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_ManCtrl_GoUp_Dn" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_ManCtrl_GoUp_Up" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_ManCtrl_Slow" VarB="Channel 5^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Mug (EK1914)^HP1 Mug DO1 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.fbAxisDn.stInOuts.bQ_PartLockPiston" VarB="Channel 5^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.fbAxisUp.stInOuts.bQ_PartLockPiston" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.stInOuts.bQ_LedTower_Blue" VarB="Channel 2^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.stInOuts.bQ_LedTower_Red" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.stInOuts.bQ_WorkCoverUnlock" VarB="Channel 3^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Mug (EK1914)^HP1 Mug DO2 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.fbHeatedPlate_Actuator.stInOuts.bQ_Close" VarB="Channel 3^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.fbHeatedPlate_Actuator.stInOuts.bQ_Open" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.stInOuts.bQ_HeatStampHeater_ON" VarB="Channel 8^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.stInOuts.bQ_HeatStampPistonOpen" VarB="Channel 7^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.stInOuts.bQ_HeatedPlateHeater_En" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.stInOuts.bQ_WorkCoverLift" VarB="Channel 2^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Mug (EK1914)^HP1 Mug MC1 (ELM7212-9016)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.fbAxisDn.McTorqueMonitor.iTorque" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.fbAxisDn.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 2^Info data 1"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.fbAxisUp.McTorqueMonitor.iTorque" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.fbAxisUp.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 1^Info data 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.fbAxisDn.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 2^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.fbAxisUp.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 1^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.stInOuts.bQ_Sft_ErrAck" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.stInOuts.bQ_Sft_Run" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 2"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Mug (EK1914)^HP1 Mug TC (EL3312)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_HeatStampTempMeasureError" VarB="TC Inputs Channel 2^Status^Error"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_HeatedPlateTempMeasureError" VarB="TC Inputs Channel 1^Status^Error"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.iI_HeatStampTemperature" VarB="TC Inputs Channel 2^Value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.iI_HeatedPlateTemperature" VarB="TC Inputs Channel 1^Value"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Mug (EK1914)^HP1 Mug Tension A (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.fbAxisUp.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.fbAxisUp.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.fbAxisUp.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Mug (EK1914)^HP1 Mug Tension B (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.fbAxisDn.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.fbAxisDn.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.fbAxisDn.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Bayonet (EK1914)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_EStopPressed_Front" VarB="Module 2 (DIO)^DIO Inputs^Input 2"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_EStopPressed_Rear" VarB="Module 2 (DIO)^DIO Inputs^Input 3"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_ResetButton" VarB="Module 2 (DIO)^DIO Inputs^Input 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.stInOuts.bQ_LedTower_Green" VarB="Module 2 (DIO)^DIO Outputs^Output 2"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.stInOuts.bQ_LedTower_Yellow" VarB="Module 2 (DIO)^DIO Outputs^Output 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.stInOuts.bQ_ResetButtonLight" VarB="Module 2 (DIO)^DIO Outputs^Output 0"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.stInOuts.bQ_VentilationFan_En" VarB="Module 2 (DIO)^DIO Outputs^Output 1"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Bayonet (EK1914)^HP2 Bayonet DI1 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.fbAxisDn.stInOuts.bI_PartPresenceSensor" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.fbAxisUp.stInOuts.bI_PartPresenceSensor" VarB="Channel 7^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.fbHeatedPlate_Actuator.stInOuts.bI_Closed" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.fbHeatedPlate_Actuator.stInOuts.bI_Opened" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_CleanSwitchON" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_HeaterCurrentSensor" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_WorkCoverLocked" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_WorkCoverOpened" VarB="Channel 4^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Bayonet (EK1914)^HP2 Bayonet DI2 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_HeatStampPistonBasePos" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_ManCtrl_Fast" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_ManCtrl_GoDown_Dn" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_ManCtrl_GoDown_Up" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_ManCtrl_GoUp_Dn" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_ManCtrl_GoUp_Up" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_ManCtrl_Slow" VarB="Channel 5^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Bayonet (EK1914)^HP2 Bayonet DO1 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.fbAxisDn.stInOuts.bQ_PartLockPiston" VarB="Channel 5^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.fbAxisUp.stInOuts.bQ_PartLockPiston" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.stInOuts.bQ_LedTower_Blue" VarB="Channel 2^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.stInOuts.bQ_LedTower_Red" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.stInOuts.bQ_WorkCoverUnlock" VarB="Channel 3^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Bayonet (EK1914)^HP2 Bayonet DO2 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.fbHeatedPlate_Actuator.stInOuts.bQ_Close" VarB="Channel 3^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.fbHeatedPlate_Actuator.stInOuts.bQ_Open" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.stInOuts.bQ_HeatStampHeater_ON" VarB="Channel 8^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.stInOuts.bQ_HeatStampPistonOpen" VarB="Channel 7^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.stInOuts.bQ_HeatedPlateHeater_En" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.stInOuts.bQ_WorkCoverLift" VarB="Channel 2^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Bayonet (EK1914)^HP2 Bayonet MC1 (ELM7212-9016)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.fbAxisDn.McTorqueMonitor.iTorque" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.fbAxisDn.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 2^Info data 1"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.fbAxisUp.McTorqueMonitor.iTorque" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.fbAxisUp.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 1^Info data 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.fbAxisDn.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 2^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.fbAxisUp.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 1^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.stInOuts.bQ_Sft_ErrAck" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.stInOuts.bQ_Sft_Run" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 2"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Bayonet (EK1914)^HP2 Bayonet TC (EL3312)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_HeatStampTempMeasureError" VarB="TC Inputs Channel 2^Status^Error"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_HeatedPlateTempMeasureError" VarB="TC Inputs Channel 1^Status^Error"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.iI_HeatStampTemperature" VarB="TC Inputs Channel 2^Value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.iI_HeatedPlateTemperature" VarB="TC Inputs Channel 1^Value"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Bayonet (EK1914)^HP2 Bayonet Tension A (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.fbAxisUp.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.fbAxisUp.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.fbAxisUp.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Bayonet (EK1914)^HP2 Bayonet Tension B (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.fbAxisDn.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.fbAxisDn.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.fbAxisDn.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Iner_OuterCup (EK1914)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_EStopPressed_Front" VarB="Module 2 (DIO)^DIO Inputs^Input 2"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_EStopPressed_Rear" VarB="Module 2 (DIO)^DIO Inputs^Input 3"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_ResetButton" VarB="Module 2 (DIO)^DIO Inputs^Input 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.stInOuts.bQ_LedTower_Green" VarB="Module 2 (DIO)^DIO Outputs^Output 2"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.stInOuts.bQ_LedTower_Yellow" VarB="Module 2 (DIO)^DIO Outputs^Output 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.stInOuts.bQ_ResetButtonLight" VarB="Module 2 (DIO)^DIO Outputs^Output 0"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.stInOuts.bQ_VentilationFan_En" VarB="Module 2 (DIO)^DIO Outputs^Output 1"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Iner_OuterCup (EK1914)^HP2 Iner_OuterCup DI1 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.fbAxisDn.stInOuts.bI_PartPresenceSensor" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.fbAxisUp.stInOuts.bI_PartPresenceSensor" VarB="Channel 7^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.fbHeatedPlate_Actuator.stInOuts.bI_Closed" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.fbHeatedPlate_Actuator.stInOuts.bI_Opened" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_CleanSwitchON" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_HeaterCurrentSensor" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_WorkCoverLocked" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_WorkCoverOpened" VarB="Channel 4^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Iner_OuterCup (EK1914)^HP2 Iner_OuterCup DI2 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_HeatStampPistonBasePos" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_ManCtrl_Fast" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_ManCtrl_GoDown_Dn" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_ManCtrl_GoDown_Up" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_ManCtrl_GoUp_Dn" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_ManCtrl_GoUp_Up" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_ManCtrl_Slow" VarB="Channel 5^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Iner_OuterCup (EK1914)^HP2 Iner_OuterCup DO1 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.fbAxisDn.stInOuts.bQ_PartLockPiston" VarB="Channel 5^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.fbAxisUp.stInOuts.bQ_PartLockPiston" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.stInOuts.bQ_LedTower_Blue" VarB="Channel 2^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.stInOuts.bQ_LedTower_Red" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.stInOuts.bQ_WorkCoverUnlock" VarB="Channel 3^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Iner_OuterCup (EK1914)^HP2 Iner_OuterCup DO2 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.fbHeatedPlate_Actuator.stInOuts.bQ_Close" VarB="Channel 3^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.fbHeatedPlate_Actuator.stInOuts.bQ_Open" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.stInOuts.bQ_HeatStampHeater_ON" VarB="Channel 8^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.stInOuts.bQ_HeatStampPistonOpen" VarB="Channel 7^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.stInOuts.bQ_HeatedPlateHeater_En" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.stInOuts.bQ_WorkCoverLift" VarB="Channel 2^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Iner_OuterCup (EK1914)^HP2 Iner_OuterCup MC1 (ELM7212-9016)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.fbAxisDn.McTorqueMonitor.iTorque" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.fbAxisDn.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 2^Info data 1"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.fbAxisUp.McTorqueMonitor.iTorque" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.fbAxisUp.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 1^Info data 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.fbAxisDn.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 2^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.fbAxisUp.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 1^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.stInOuts.bQ_Sft_ErrAck" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.stInOuts.bQ_Sft_Run" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 2"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Iner_OuterCup (EK1914)^HP2 Iner_OuterCup TC (EL3312)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_HeatStampTempMeasureError" VarB="TC Inputs Channel 2^Status^Error"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_HeatedPlateTempMeasureError" VarB="TC Inputs Channel 1^Status^Error"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.iI_HeatStampTemperature" VarB="TC Inputs Channel 2^Value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.iI_HeatedPlateTemperature" VarB="TC Inputs Channel 1^Value"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Iner_OuterCup (EK1914)^HP2 Iner_OuterCup Tension A (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.fbAxisUp.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.fbAxisUp.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.fbAxisUp.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Iner_OuterCup (EK1914)^HP2 Iner_OuterCup Tension B (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.fbAxisDn.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.fbAxisDn.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.fbAxisDn.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Mug (EK1914)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_EStopPressed_Front" VarB="Module 2 (DIO)^DIO Inputs^Input 2"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_EStopPressed_Rear" VarB="Module 2 (DIO)^DIO Inputs^Input 3"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_ResetButton" VarB="Module 2 (DIO)^DIO Inputs^Input 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.stInOuts.bQ_LedTower_Green" VarB="Module 2 (DIO)^DIO Outputs^Output 2"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.stInOuts.bQ_LedTower_Yellow" VarB="Module 2 (DIO)^DIO Outputs^Output 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.stInOuts.bQ_ResetButtonLight" VarB="Module 2 (DIO)^DIO Outputs^Output 0"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.stInOuts.bQ_VentilationFan_En" VarB="Module 2 (DIO)^DIO Outputs^Output 1"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Mug (EK1914)^HP2 Mug DI1 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.fbAxisDn.stInOuts.bI_PartPresenceSensor" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.fbAxisUp.stInOuts.bI_PartPresenceSensor" VarB="Channel 7^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.fbHeatedPlate_Actuator.stInOuts.bI_Closed" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.fbHeatedPlate_Actuator.stInOuts.bI_Opened" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_CleanSwitchON" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_HeaterCurrentSensor" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_WorkCoverLocked" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_WorkCoverOpened" VarB="Channel 4^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Mug (EK1914)^HP2 Mug DI2 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_HeatStampPistonBasePos" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_ManCtrl_Fast" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_ManCtrl_GoDown_Dn" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_ManCtrl_GoDown_Up" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_ManCtrl_GoUp_Dn" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_ManCtrl_GoUp_Up" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_ManCtrl_Slow" VarB="Channel 5^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Mug (EK1914)^HP2 Mug DO1 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.fbAxisDn.stInOuts.bQ_PartLockPiston" VarB="Channel 5^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.fbAxisUp.stInOuts.bQ_PartLockPiston" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.stInOuts.bQ_LedTower_Blue" VarB="Channel 2^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.stInOuts.bQ_LedTower_Red" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.stInOuts.bQ_WorkCoverUnlock" VarB="Channel 3^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Mug (EK1914)^HP2 Mug DO2 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.fbHeatedPlate_Actuator.stInOuts.bQ_Close" VarB="Channel 3^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.fbHeatedPlate_Actuator.stInOuts.bQ_Open" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.stInOuts.bQ_HeatStampHeater_ON" VarB="Channel 8^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.stInOuts.bQ_HeatStampPistonOpen" VarB="Channel 7^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.stInOuts.bQ_HeatedPlateHeater_En" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.stInOuts.bQ_WorkCoverLift" VarB="Channel 2^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Mug (EK1914)^HP2 Mug MC1 (ELM7212-9016)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.fbAxisDn.McTorqueMonitor.iTorque" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.fbAxisDn.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 2^Info data 1"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.fbAxisUp.McTorqueMonitor.iTorque" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.fbAxisUp.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 1^Info data 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.fbAxisDn.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 2^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.fbAxisUp.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 1^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.stInOuts.bQ_Sft_ErrAck" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.stInOuts.bQ_Sft_Run" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 2"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Mug (EK1914)^HP2 Mug TC (EL3312)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_HeatStampTempMeasureError" VarB="TC Inputs Channel 2^Status^Error"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_HeatedPlateTempMeasureError" VarB="TC Inputs Channel 1^Status^Error"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.iI_HeatStampTemperature" VarB="TC Inputs Channel 2^Value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.iI_HeatedPlateTemperature" VarB="TC Inputs Channel 1^Value"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Mug (EK1914)^HP2 Mug Tension A (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.fbAxisUp.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.fbAxisUp.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.fbAxisUp.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Mug (EK1914)^HP2 Mug Tension B (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.fbAxisDn.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.fbAxisDn.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.fbAxisDn.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Bayonet (EK1914)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_EStopPressed_Front" VarB="Module 2 (DIO)^DIO Inputs^Input 2"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_EStopPressed_Rear" VarB="Module 2 (DIO)^DIO Inputs^Input 3"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_ResetButton" VarB="Module 2 (DIO)^DIO Inputs^Input 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.stInOuts.bQ_LedTower_Green" VarB="Module 2 (DIO)^DIO Outputs^Output 2"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.stInOuts.bQ_LedTower_Yellow" VarB="Module 2 (DIO)^DIO Outputs^Output 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.stInOuts.bQ_ResetButtonLight" VarB="Module 2 (DIO)^DIO Outputs^Output 0"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.stInOuts.bQ_VentilationFan_En" VarB="Module 2 (DIO)^DIO Outputs^Output 1"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Bayonet (EK1914)^HP3 Bayonet DI1 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.fbAxisDn.stInOuts.bI_PartPresenceSensor" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.fbAxisUp.stInOuts.bI_PartPresenceSensor" VarB="Channel 7^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.fbHeatedPlate_Actuator.stInOuts.bI_Closed" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.fbHeatedPlate_Actuator.stInOuts.bI_Opened" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_CleanSwitchON" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_HeaterCurrentSensor" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_WorkCoverLocked" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_WorkCoverOpened" VarB="Channel 4^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Bayonet (EK1914)^HP3 Bayonet DI2 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_HeatStampPistonBasePos" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_ManCtrl_Fast" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_ManCtrl_GoDown_Dn" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_ManCtrl_GoDown_Up" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_ManCtrl_GoUp_Dn" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_ManCtrl_GoUp_Up" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_ManCtrl_Slow" VarB="Channel 5^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Bayonet (EK1914)^HP3 Bayonet DO1 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.fbAxisDn.stInOuts.bQ_PartLockPiston" VarB="Channel 5^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.fbAxisUp.stInOuts.bQ_PartLockPiston" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.stInOuts.bQ_LedTower_Blue" VarB="Channel 2^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.stInOuts.bQ_LedTower_Red" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.stInOuts.bQ_WorkCoverUnlock" VarB="Channel 3^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Bayonet (EK1914)^HP3 Bayonet DO2 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.fbHeatedPlate_Actuator.stInOuts.bQ_Close" VarB="Channel 3^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.fbHeatedPlate_Actuator.stInOuts.bQ_Open" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.stInOuts.bQ_HeatStampHeater_ON" VarB="Channel 8^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.stInOuts.bQ_HeatStampPistonOpen" VarB="Channel 7^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.stInOuts.bQ_HeatedPlateHeater_En" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.stInOuts.bQ_WorkCoverLift" VarB="Channel 2^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Bayonet (EK1914)^HP3 Bayonet MC1 (ELM7212-9016)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.fbAxisDn.McTorqueMonitor.iTorque" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.fbAxisDn.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 2^Info data 1"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.fbAxisUp.McTorqueMonitor.iTorque" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.fbAxisUp.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 1^Info data 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.fbAxisDn.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 2^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.fbAxisUp.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 1^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.stInOuts.bQ_Sft_ErrAck" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.stInOuts.bQ_Sft_Run" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 2"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Bayonet (EK1914)^HP3 Bayonet TC (EL3312)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_HeatStampTempMeasureError" VarB="TC Inputs Channel 2^Status^Error"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_HeatedPlateTempMeasureError" VarB="TC Inputs Channel 1^Status^Error"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.iI_HeatStampTemperature" VarB="TC Inputs Channel 2^Value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.iI_HeatedPlateTemperature" VarB="TC Inputs Channel 1^Value"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Bayonet (EK1914)^HP3 Bayonet Tension A (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.fbAxisUp.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.fbAxisUp.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.fbAxisUp.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Bayonet (EK1914)^HP3 Bayonet Tension B (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.fbAxisDn.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.fbAxisDn.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.fbAxisDn.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Iner_OuterCup (EK1914)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_EStopPressed_Front" VarB="Module 2 (DIO)^DIO Inputs^Input 2"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_EStopPressed_Rear" VarB="Module 2 (DIO)^DIO Inputs^Input 3"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_ResetButton" VarB="Module 2 (DIO)^DIO Inputs^Input 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.stInOuts.bQ_LedTower_Green" VarB="Module 2 (DIO)^DIO Outputs^Output 2"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.stInOuts.bQ_LedTower_Yellow" VarB="Module 2 (DIO)^DIO Outputs^Output 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.stInOuts.bQ_ResetButtonLight" VarB="Module 2 (DIO)^DIO Outputs^Output 0"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.stInOuts.bQ_VentilationFan_En" VarB="Module 2 (DIO)^DIO Outputs^Output 1"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Iner_OuterCup (EK1914)^HP3 Iner_OuterCup Analog In/Out 1(EL4374)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.fbWeldingPlateHeaterChecker.iRawCurrentValue" VarB="AI Standard (INT16) Channel 1^Value"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Iner_OuterCup (EK1914)^HP3 Iner_OuterCup DI1 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.fbAxisDn.stInOuts.bI_PartPresenceSensor" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.fbAxisUp.stInOuts.bI_PartPresenceSensor" VarB="Channel 7^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.fbHeatedPlate_Actuator.stInOuts.bI_Closed" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.fbHeatedPlate_Actuator.stInOuts.bI_Opened" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_CleanSwitchON" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_HeaterCurrentSensor" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_WorkCoverLocked" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_WorkCoverOpened" VarB="Channel 4^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Iner_OuterCup (EK1914)^HP3 Iner_OuterCup DI2 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_HeatStampPistonBasePos" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_ManCtrl_Fast" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_ManCtrl_GoDown_Dn" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_ManCtrl_GoDown_Up" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_ManCtrl_GoUp_Dn" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_ManCtrl_GoUp_Up" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_ManCtrl_Slow" VarB="Channel 5^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Iner_OuterCup (EK1914)^HP3 Iner_OuterCup DO1 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.fbAxisDn.stInOuts.bQ_PartLockPiston" VarB="Channel 5^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.fbAxisUp.stInOuts.bQ_PartLockPiston" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.stInOuts.bQ_LedTower_Blue" VarB="Channel 2^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.stInOuts.bQ_LedTower_Red" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.stInOuts.bQ_WorkCoverUnlock" VarB="Channel 3^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Iner_OuterCup (EK1914)^HP3 Iner_OuterCup DO2 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.fbHeatedPlate_Actuator.stInOuts.bQ_Close" VarB="Channel 3^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.fbHeatedPlate_Actuator.stInOuts.bQ_Open" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.stInOuts.bQ_HeatStampHeater_ON" VarB="Channel 8^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.stInOuts.bQ_HeatStampPistonOpen" VarB="Channel 7^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.stInOuts.bQ_HeatedPlateHeater_En" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.stInOuts.bQ_WorkCoverLift" VarB="Channel 2^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Iner_OuterCup (EK1914)^HP3 Iner_OuterCup MC1 (ELM7212-9016)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.fbAxisDn.McTorqueMonitor.iTorque" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.fbAxisDn.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 2^Info data 1"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.fbAxisUp.McTorqueMonitor.iTorque" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.fbAxisUp.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 1^Info data 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.fbAxisDn.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 2^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.fbAxisUp.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 1^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.stInOuts.bQ_Sft_ErrAck" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.stInOuts.bQ_Sft_Run" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 2"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Iner_OuterCup (EK1914)^HP3 Iner_OuterCup TC (EL3312)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_HeatStampTempMeasureError" VarB="TC Inputs Channel 2^Status^Error"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_HeatedPlateTempMeasureError" VarB="TC Inputs Channel 1^Status^Error"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.iI_HeatStampTemperature" VarB="TC Inputs Channel 2^Value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.iI_HeatedPlateTemperature" VarB="TC Inputs Channel 1^Value"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Iner_OuterCup (EK1914)^HP3 Iner_OuterCup Tension A (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.fbAxisUp.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.fbAxisUp.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.fbAxisUp.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Iner_OuterCup (EK1914)^HP3 Iner_OuterCup Tension B (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.fbAxisDn.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.fbAxisDn.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.fbAxisDn.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Mug (EK1914)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_EStopPressed_Front" VarB="Module 2 (DIO)^DIO Inputs^Input 2"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_EStopPressed_Rear" VarB="Module 2 (DIO)^DIO Inputs^Input 3"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_ResetButton" VarB="Module 2 (DIO)^DIO Inputs^Input 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.stInOuts.bQ_LedTower_Green" VarB="Module 2 (DIO)^DIO Outputs^Output 2"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.stInOuts.bQ_LedTower_Yellow" VarB="Module 2 (DIO)^DIO Outputs^Output 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.stInOuts.bQ_ResetButtonLight" VarB="Module 2 (DIO)^DIO Outputs^Output 0"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.stInOuts.bQ_VentilationFan_En" VarB="Module 2 (DIO)^DIO Outputs^Output 1"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Mug (EK1914)^HP3 Mug DI1 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.fbAxisDn.stInOuts.bI_PartPresenceSensor" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.fbAxisUp.stInOuts.bI_PartPresenceSensor" VarB="Channel 7^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.fbHeatedPlate_Actuator.stInOuts.bI_Closed" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.fbHeatedPlate_Actuator.stInOuts.bI_Opened" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_CleanSwitchON" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_HeaterCurrentSensor" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_WorkCoverLocked" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_WorkCoverOpened" VarB="Channel 4^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Mug (EK1914)^HP3 Mug DI2 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_HeatStampPistonBasePos" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_ManCtrl_Fast" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_ManCtrl_GoDown_Dn" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_ManCtrl_GoDown_Up" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_ManCtrl_GoUp_Dn" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_ManCtrl_GoUp_Up" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_ManCtrl_Slow" VarB="Channel 5^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Mug (EK1914)^HP3 Mug DO1 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.fbAxisDn.stInOuts.bQ_PartLockPiston" VarB="Channel 5^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.fbAxisUp.stInOuts.bQ_PartLockPiston" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.stInOuts.bQ_LedTower_Blue" VarB="Channel 2^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.stInOuts.bQ_LedTower_Red" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.stInOuts.bQ_WorkCoverUnlock" VarB="Channel 3^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Mug (EK1914)^HP3 Mug DO2 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.fbHeatedPlate_Actuator.stInOuts.bQ_Close" VarB="Channel 3^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.fbHeatedPlate_Actuator.stInOuts.bQ_Open" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.stInOuts.bQ_HeatStampHeater_ON" VarB="Channel 8^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.stInOuts.bQ_HeatStampPistonOpen" VarB="Channel 7^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.stInOuts.bQ_HeatedPlateHeater_En" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.stInOuts.bQ_WorkCoverLift" VarB="Channel 2^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Mug (EK1914)^HP3 Mug MC1 (ELM7212-9016)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.fbAxisDn.McTorqueMonitor.iTorque" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.fbAxisDn.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 2^Info data 1"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.fbAxisUp.McTorqueMonitor.iTorque" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.fbAxisUp.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 1^Info data 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.fbAxisDn.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 2^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.fbAxisUp.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 1^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.stInOuts.bQ_Sft_ErrAck" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.stInOuts.bQ_Sft_Run" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 2"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Mug (EK1914)^HP3 Mug TC (EL3312)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_HeatStampTempMeasureError" VarB="TC Inputs Channel 2^Status^Error"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_HeatedPlateTempMeasureError" VarB="TC Inputs Channel 1^Status^Error"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.iI_HeatStampTemperature" VarB="TC Inputs Channel 2^Value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.iI_HeatedPlateTemperature" VarB="TC Inputs Channel 1^Value"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Mug (EK1914)^HP3 Mug Tension A (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.fbAxisUp.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.fbAxisUp.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.fbAxisUp.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Mug (EK1914)^HP3 Mug Tension B (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.fbAxisDn.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.fbAxisDn.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.fbAxisDn.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Bayonet (EK1914)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_EStopPressed_Front" VarB="Module 2 (DIO)^DIO Inputs^Input 2"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_EStopPressed_Rear" VarB="Module 2 (DIO)^DIO Inputs^Input 3"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_ResetButton" VarB="Module 2 (DIO)^DIO Inputs^Input 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.stInOuts.bQ_LedTower_Green" VarB="Module 2 (DIO)^DIO Outputs^Output 2"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.stInOuts.bQ_LedTower_Yellow" VarB="Module 2 (DIO)^DIO Outputs^Output 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.stInOuts.bQ_ResetButtonLight" VarB="Module 2 (DIO)^DIO Outputs^Output 0"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.stInOuts.bQ_VentilationFan_En" VarB="Module 2 (DIO)^DIO Outputs^Output 1"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Bayonet (EK1914)^HP4 Bayonet DI1 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.fbAxisDn.stInOuts.bI_PartPresenceSensor" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.fbAxisUp.stInOuts.bI_PartPresenceSensor" VarB="Channel 7^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.fbHeatedPlate_Actuator.stInOuts.bI_Closed" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.fbHeatedPlate_Actuator.stInOuts.bI_Opened" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_CleanSwitchON" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_HeaterCurrentSensor" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_WorkCoverLocked" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_WorkCoverOpened" VarB="Channel 4^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Bayonet (EK1914)^HP4 Bayonet DI2 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_HeatStampPistonBasePos" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_ManCtrl_Fast" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_ManCtrl_GoDown_Dn" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_ManCtrl_GoDown_Up" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_ManCtrl_GoUp_Dn" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_ManCtrl_GoUp_Up" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_ManCtrl_Slow" VarB="Channel 5^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Bayonet (EK1914)^HP4 Bayonet DO1 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.fbAxisDn.stInOuts.bQ_PartLockPiston" VarB="Channel 5^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.fbAxisUp.stInOuts.bQ_PartLockPiston" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.stInOuts.bQ_LedTower_Blue" VarB="Channel 2^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.stInOuts.bQ_LedTower_Red" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.stInOuts.bQ_WorkCoverUnlock" VarB="Channel 3^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Bayonet (EK1914)^HP4 Bayonet DO2 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.fbHeatedPlate_Actuator.stInOuts.bQ_Close" VarB="Channel 3^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.fbHeatedPlate_Actuator.stInOuts.bQ_Open" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.stInOuts.bQ_HeatStampHeater_ON" VarB="Channel 8^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.stInOuts.bQ_HeatStampPistonOpen" VarB="Channel 7^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.stInOuts.bQ_HeatedPlateHeater_En" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.stInOuts.bQ_WorkCoverLift" VarB="Channel 2^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Bayonet (EK1914)^HP4 Bayonet MC1 (ELM7212-9016)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.fbAxisDn.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 2^Info data 1"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.fbAxisUp.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 1^Info data 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.fbAxisDn.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 2^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.fbAxisUp.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 1^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.stInOuts.bQ_Sft_ErrAck" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.stInOuts.bQ_Sft_Run" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 2"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Bayonet (EK1914)^HP4 Bayonet TC (EL3312)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.iI_HeatStampTemperature" VarB="TC Inputs Channel 2^Value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.iI_HeatedPlateTemperature" VarB="TC Inputs Channel 1^Value"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Bayonet (EK1914)^HP4 Bayonet Tension A (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.fbAxisUp.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.fbAxisUp.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.fbAxisUp.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Bayonet (EK1914)^HP4 Bayonet Tension B (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.fbAxisDn.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.fbAxisDn.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.fbAxisDn.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Iner_OuterCup (EK1914)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_EStopPressed_Front" VarB="Module 2 (DIO)^DIO Inputs^Input 2"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_EStopPressed_Rear" VarB="Module 2 (DIO)^DIO Inputs^Input 3"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_ResetButton" VarB="Module 2 (DIO)^DIO Inputs^Input 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.stInOuts.bQ_LedTower_Green" VarB="Module 2 (DIO)^DIO Outputs^Output 2"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.stInOuts.bQ_LedTower_Yellow" VarB="Module 2 (DIO)^DIO Outputs^Output 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.stInOuts.bQ_ResetButtonLight" VarB="Module 2 (DIO)^DIO Outputs^Output 0"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.stInOuts.bQ_VentilationFan_En" VarB="Module 2 (DIO)^DIO Outputs^Output 1"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Iner_OuterCup (EK1914)^HP4 Iner_OuterCup DI1 (EL1008)">
-				<Link VarA="PlcTask Inputs^GVL_IO.bCompressedAirFlowImpulseHotPlate" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.fbAxisUp.stInOuts.bI_PartPresenceSensor" VarB="Channel 7^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.fbHeatedPlate_Actuator.stInOuts.bI_Closed" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.fbHeatedPlate_Actuator.stInOuts.bI_Opened" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_CleanSwitchON" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_HeaterCurrentSensor" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_WorkCoverLocked" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_WorkCoverOpened" VarB="Channel 4^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Iner_OuterCup (EK1914)^HP4 Iner_OuterCup DI2 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_HeatStampPistonBasePos" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_ManCtrl_Fast" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_ManCtrl_GoDown_Dn" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_ManCtrl_GoDown_Up" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_ManCtrl_GoUp_Dn" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_ManCtrl_GoUp_Up" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_ManCtrl_Slow" VarB="Channel 5^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Iner_OuterCup (EK1914)^HP4 Iner_OuterCup DO1 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.fbAxisDn.stInOuts.bQ_PartLockPiston" VarB="Channel 5^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.fbAxisUp.stInOuts.bQ_PartLockPiston" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.stInOuts.bQ_LedTower_Blue" VarB="Channel 2^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.stInOuts.bQ_LedTower_Red" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.stInOuts.bQ_WorkCoverUnlock" VarB="Channel 3^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Iner_OuterCup (EK1914)^HP4 Iner_OuterCup DO2 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.fbHeatedPlate_Actuator.stInOuts.bQ_Close" VarB="Channel 3^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.fbHeatedPlate_Actuator.stInOuts.bQ_Open" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.stInOuts.bQ_HeatStampHeater_ON" VarB="Channel 8^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.stInOuts.bQ_HeatStampPistonOpen" VarB="Channel 7^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.stInOuts.bQ_HeatedPlateHeater_En" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.stInOuts.bQ_WorkCoverLift" VarB="Channel 2^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Iner_OuterCup (EK1914)^HP4 Iner_OuterCup MC1 (ELM7212-9016)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.fbAxisDn.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 2^Info data 1"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.fbAxisUp.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 1^Info data 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.fbAxisDn.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 2^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.fbAxisUp.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 1^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.stInOuts.bQ_Sft_ErrAck" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.stInOuts.bQ_Sft_Run" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 2"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Iner_OuterCup (EK1914)^HP4 Iner_OuterCup TC (EL3312)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.iI_HeatStampTemperature" VarB="TC Inputs Channel 2^Value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.iI_HeatedPlateTemperature" VarB="TC Inputs Channel 1^Value"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Iner_OuterCup (EK1914)^HP4 Iner_OuterCup Tension A (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.fbAxisUp.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.fbAxisUp.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.fbAxisUp.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Iner_OuterCup (EK1914)^HP4 Iner_OuterCup Tension B (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.fbAxisDn.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.fbAxisDn.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.fbAxisDn.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Mug (EK1914)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_EStopPressed_Front" VarB="Module 2 (DIO)^DIO Inputs^Input 2"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_EStopPressed_Rear" VarB="Module 2 (DIO)^DIO Inputs^Input 3"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_ResetButton" VarB="Module 2 (DIO)^DIO Inputs^Input 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.stInOuts.bQ_LedTower_Green" VarB="Module 2 (DIO)^DIO Outputs^Output 2"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.stInOuts.bQ_LedTower_Yellow" VarB="Module 2 (DIO)^DIO Outputs^Output 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.stInOuts.bQ_ResetButtonLight" VarB="Module 2 (DIO)^DIO Outputs^Output 0"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.stInOuts.bQ_VentilationFan_En" VarB="Module 2 (DIO)^DIO Outputs^Output 1"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Mug (EK1914)^HP4 Mug DI1 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.fbAxisDn.stInOuts.bI_PartPresenceSensor" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.fbAxisUp.stInOuts.bI_PartPresenceSensor" VarB="Channel 7^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.fbHeatedPlate_Actuator.stInOuts.bI_Closed" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.fbHeatedPlate_Actuator.stInOuts.bI_Opened" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_CleanSwitchON" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_HeaterCurrentSensor" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_WorkCoverLocked" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_WorkCoverOpened" VarB="Channel 4^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Mug (EK1914)^HP4 Mug DI2 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_HeatStampPistonBasePos" VarB="Channel 8^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_ManCtrl_Fast" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_ManCtrl_GoDown_Dn" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_ManCtrl_GoDown_Up" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_ManCtrl_GoUp_Dn" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_ManCtrl_GoUp_Up" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_ManCtrl_Slow" VarB="Channel 5^Input"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Mug (EK1914)^HP4 Mug DO1 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.fbAxisDn.stInOuts.bQ_PartLockPiston" VarB="Channel 5^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.fbAxisUp.stInOuts.bQ_PartLockPiston" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.stInOuts.bQ_LedTower_Blue" VarB="Channel 2^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.stInOuts.bQ_LedTower_Red" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.stInOuts.bQ_WorkCoverUnlock" VarB="Channel 3^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Mug (EK1914)^HP4 Mug DO2 (EL2008-0015)">
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.fbHeatedPlate_Actuator.stInOuts.bQ_Close" VarB="Channel 3^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.fbHeatedPlate_Actuator.stInOuts.bQ_Open" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.stInOuts.bQ_HeatStampHeater_ON" VarB="Channel 8^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.stInOuts.bQ_HeatStampPistonOpen" VarB="Channel 7^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.stInOuts.bQ_HeatedPlateHeater_En" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.stInOuts.bQ_WorkCoverLift" VarB="Channel 2^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Mug (EK1914)^HP4 Mug MC1 (ELM7212-9016)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.fbAxisDn.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 2^Info data 1"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.fbAxisUp.stInOuts.wI_DriveInfodata" VarB="DRV Info data 1 Channel 1^Info data 1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.fbAxisDn.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 2^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.fbAxisUp.McTorqueMonitor.iTorqueLimitValue" VarB="DRV Torque limitation Channel 1^Torque limitation"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.stInOuts.bQ_Sft_ErrAck" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.stInOuts.bQ_Sft_Run" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 2"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Mug (EK1914)^HP4 Mug TC (EL3312)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.iI_HeatStampTemperature" VarB="TC Inputs Channel 2^Value"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.iI_HeatedPlateTemperature" VarB="TC Inputs Channel 1^Value"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Mug (EK1914)^HP4 Mug Tension A (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.fbAxisUp.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.fbAxisUp.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.fbAxisUp.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Mug (EK1914)^HP4 Mug Tension B (EL3356)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.fbAxisDn.stInOuts.stLoadCell_Data.rValue" VarB="RMB Value (Real)^Value (Real)"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.fbAxisDn.stInOuts.stLoadCell_Data.wStatus" VarB="RMB Status^Status"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.fbAxisDn.stInOuts.stLoadCell_Data.wControl" VarB="RMB Control^Ctrl"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^S01_RIO1 (EK1818)">
-				<Link VarA="PlcTask Inputs^GVL_IO.bS01_EnergyConsumptionImp" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stS01_1_BearingPress_IO.b2HandStart" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stS01_1_BearingPress_IO.bHomePosSensor" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stS01_1_BearingPress_IO.bPowerSupplyStatus" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stS01_1_BearingPress_IO.bSafetyStatus" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stS01_1_BearingPress_IO.bAirCutOffValve" VarB="Channel 10^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stS01_1_BearingPress_IO.bPressGoDown_Q" VarB="Channel 9^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^S01_RIO1 (EK1818)^S01_AIO1 (EL4374)">
-				<Link VarA="PlcTask Inputs^GVL_IO.stS01_1_BearingPress_IO.iPosition" VarB="AI Standard (INT16) Ch.2^Value"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stS01_1_BearingPress_IO.iPressureSens" VarB="AI Standard (INT16) Ch.1^Value"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stS01_1_BearingPress_IO.iPressureToSet" VarB="AO Standard (INT16) Ch.3^Value"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^S01_RIO1 (EK1818)^SafetyLogic (EL6910)">
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_Sft_ComErr" VarB="StandardInputs^TwinSafeGroup_HP1_M1.bComErr_9"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_Sft_DoorClosed" VarB="StandardInputs^TwinSafeGroup_HP1_M1.bDoorClosed_10"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_Sft_EStopRelay" VarB="StandardInputs^TwinSafeGroup_HP1_M1.bEStopRelay_12"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_Sft_EstopFbErr" VarB="StandardInputs^TwinSafeGroup_HP1_M1.bEStopErr_11"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_Sft_FbErr" VarB="StandardInputs^TwinSafeGroup_HP1_M1.bFbErr_13"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_Sft_FrontDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP1_M1.bFrontDoorClosed_14"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_Sft_RearDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP1_M1.bRearDoorClosed_15"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_Sft_STO" VarB="StandardInputs^TwinSafeGroup_HP1_M1.bSTO_16"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_Sft_STO_ELM" VarB="StandardInputs^TwinSafeGroup_HP1_M1.bSTO_ELM_167"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M1.stInOuts.bI_Sft_WorkCoverClosed" VarB="StandardInputs^TwinSafeGroup_HP1_M1.bWeldingCoverClosed_17"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_Sft_ComErr" VarB="StandardInputs^TwinSafeGroup_HP1_M2.bComErr_29"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_Sft_DoorClosed" VarB="StandardInputs^TwinSafeGroup_HP1_M2.bDoorClosed_22"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_Sft_EStopRelay" VarB="StandardInputs^TwinSafeGroup_HP1_M2.bEStopRelay_23"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_Sft_EstopFbErr" VarB="StandardInputs^TwinSafeGroup_HP1_M2.bEStopErr_21"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_Sft_FbErr" VarB="StandardInputs^TwinSafeGroup_HP1_M2.bFbErr_24"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_Sft_FrontDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP1_M2.bFrontDoorCLosed_25"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_Sft_RearDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP1_M2.bRearDoorClosed_26"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_Sft_STO" VarB="StandardInputs^TwinSafeGroup_HP1_M2.bSTO_27"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_Sft_STO_ELM" VarB="StandardInputs^TwinSafeGroup_HP1_M2.bSTO_ELM_168"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M2.stInOuts.bI_Sft_WorkCoverClosed" VarB="StandardInputs^TwinSafeGroup_HP1_M2.bWeldingCoverClosed_28"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_Sft_ComErr" VarB="StandardInputs^TwinSafeGroup_HP1_M3.bComErr_35"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_Sft_DoorClosed" VarB="StandardInputs^TwinSafeGroup_HP1_M3.bDoorClosed_36"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_Sft_EStopRelay" VarB="StandardInputs^TwinSafeGroup_HP1_M3.bEStopRelay_38"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_Sft_EstopFbErr" VarB="StandardInputs^TwinSafeGroup_HP1_M3.bEStopErr_37"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_Sft_FbErr" VarB="StandardInputs^TwinSafeGroup_HP1_M3.bFbErr_39"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_Sft_FrontDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP1_M3.bFrontDoorClosed_40"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_Sft_RearDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP1_M3.bRearDoorClosed_41"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_Sft_STO" VarB="StandardInputs^TwinSafeGroup_HP1_M3.bSTO_42"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_Sft_STO_ELM" VarB="StandardInputs^TwinSafeGroup_HP1_M3.bSTO_ELM_169"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G1_M3.stInOuts.bI_Sft_WorkCoverClosed" VarB="StandardInputs^TwinSafeGroup_HP1_M3.bWeldingCoverClosed_43"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_Sft_ComErr" VarB="StandardInputs^TwinSafeGroup_HP2_M1.bComErr_57"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_Sft_DoorClosed" VarB="StandardInputs^TwinSafeGroup_HP2_M1.bDoorClosed_59"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_Sft_EStopRelay" VarB="StandardInputs^TwinSafeGroup_HP2_M1.bEStopRelay_61"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_Sft_EstopFbErr" VarB="StandardInputs^TwinSafeGroup_HP2_M1.bEStopErr_60"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_Sft_FbErr" VarB="StandardInputs^TwinSafeGroup_HP2_M1.bFbErr_58"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_Sft_FrontDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP2_M1.bFrontDoorClosed_62"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_Sft_RearDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP2_M1.bRearDoorClosed_63"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_Sft_STO" VarB="StandardInputs^TwinSafeGroup_HP2_M1.bSTO_64"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_Sft_STO_ELM" VarB="StandardInputs^TwinSafeGroup_HP2_M1.bSTO_ELM_170"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M1.stInOuts.bI_Sft_WorkCoverClosed" VarB="StandardInputs^TwinSafeGroup_HP2_M1.bWeldingCoverCLosed_65"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_Sft_ComErr" VarB="StandardInputs^TwinSafeGroup_HP2_M2.bComErr_79"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_Sft_DoorClosed" VarB="StandardInputs^TwinSafeGroup_HP2_M2.bDoorClosed_80"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_Sft_EStopRelay" VarB="StandardInputs^TwinSafeGroup_HP2_M2.bEStopRelay_82"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_Sft_EstopFbErr" VarB="StandardInputs^TwinSafeGroup_HP2_M2.bEStopErr_81"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_Sft_FbErr" VarB="StandardInputs^TwinSafeGroup_HP2_M2.bFbErr_83"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_Sft_FrontDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP2_M2.bFrontDoorClosed_84"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_Sft_RearDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP2_M2.bRearDoorClosed_85"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_Sft_STO" VarB="StandardInputs^TwinSafeGroup_HP2_M2.bSTO_86"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_Sft_STO_ELM" VarB="StandardInputs^TwinSafeGroup_HP2_M2.bSTO_ELM_171"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M2.stInOuts.bI_Sft_WorkCoverClosed" VarB="StandardInputs^TwinSafeGroup_HP2_M2.bWeldingCoverClosed_87"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_Sft_ComErr" VarB="StandardInputs^TwinSafeGroup_HP2_M3.bComErr_68"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_Sft_DoorClosed" VarB="StandardInputs^TwinSafeGroup_HP2_M3.bDoorClosed_69"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_Sft_EStopRelay" VarB="StandardInputs^TwinSafeGroup_HP2_M3.bEStopRelay_71"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_Sft_EstopFbErr" VarB="StandardInputs^TwinSafeGroup_HP2_M3.bEStopErr_70"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_Sft_FbErr" VarB="StandardInputs^TwinSafeGroup_HP2_M3.bFbErr_72"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_Sft_FrontDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP2_M3.bFrontDoorClosed_73"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_Sft_RearDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP2_M3.bRearDoorClosed_74"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_Sft_STO" VarB="StandardInputs^TwinSafeGroup_HP2_M3.bSTO_75"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_Sft_STO_ELM" VarB="StandardInputs^TwinSafeGroup_HP2_M3.bSTO_ELM_172"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G2_M3.stInOuts.bI_Sft_WorkCoverClosed" VarB="StandardInputs^TwinSafeGroup_HP2_M3.bWeldingCoverClosed_76"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_Sft_ComErr" VarB="StandardInputs^TwinSafeGroup_HP3_M1.bComErr_99"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_Sft_DoorClosed" VarB="StandardInputs^TwinSafeGroup_HP3_M1.bDoorClosed_100"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_Sft_EStopRelay" VarB="StandardInputs^TwinSafeGroup_HP3_M1.bEStopRelay_102"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_Sft_EstopFbErr" VarB="StandardInputs^TwinSafeGroup_HP3_M1.bEStopErr_101"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_Sft_FbErr" VarB="StandardInputs^TwinSafeGroup_HP3_M1.bFbErr_103"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_Sft_FrontDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP3_M1.bFrontDoorClosed_104"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_Sft_RearDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP3_M1.bRearDoorClosed_105"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_Sft_STO" VarB="StandardInputs^TwinSafeGroup_HP3_M1.bSTO_106"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_Sft_STO_ELM" VarB="StandardInputs^TwinSafeGroup_HP3_M1.bSTO_ELM_173"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M1.stInOuts.bI_Sft_WorkCoverClosed" VarB="StandardInputs^TwinSafeGroup_HP3_M1.bWeldingCoverClosed_107"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_Sft_ComErr" VarB="StandardInputs^TwinSafeGroup_HP3_M2.bComErr_110"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_Sft_DoorClosed" VarB="StandardInputs^TwinSafeGroup_HP3_M2.bDoorClosed_111"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_Sft_EStopRelay" VarB="StandardInputs^TwinSafeGroup_HP3_M2.bEStopRelay_113"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_Sft_EstopFbErr" VarB="StandardInputs^TwinSafeGroup_HP3_M2.bEStopErr_112"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_Sft_FbErr" VarB="StandardInputs^TwinSafeGroup_HP3_M2.bFbErr_114"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_Sft_FrontDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP3_M2.bFrontDoorClosed_115"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_Sft_RearDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP3_M2.bRearDoorClosed_116"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_Sft_STO" VarB="StandardInputs^TwinSafeGroup_HP3_M2.bSTO_117"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_Sft_STO_ELM" VarB="StandardInputs^TwinSafeGroup_HP3_M2.bSTO_ELM_174"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M2.stInOuts.bI_Sft_WorkCoverClosed" VarB="StandardInputs^TwinSafeGroup_HP3_M2.bWeldingCoverClosed_118"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_Sft_ComErr" VarB="StandardInputs^TwinSafeGroup_HP3_M3.bComErr_121"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_Sft_DoorClosed" VarB="StandardInputs^TwinSafeGroup_HP3_M3.bDoorClosed_122"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_Sft_EStopRelay" VarB="StandardInputs^TwinSafeGroup_HP3_M3.bEstopRelay_124"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_Sft_EstopFbErr" VarB="StandardInputs^TwinSafeGroup_HP3_M3.bEStopErr_123"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_Sft_FbErr" VarB="StandardInputs^TwinSafeGroup_HP3_M3.bFbErr_125"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_Sft_FrontDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP3_M3.bFrontDoorClosed_126"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_Sft_RearDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP3_M3.bRearDoorClosed_127"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_Sft_STO" VarB="StandardInputs^TwinSafeGroup_HP3_M3.bSTO_128"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_Sft_STO_ELM" VarB="StandardInputs^TwinSafeGroup_HP3_M3.bSTO_ELM_175"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G3_M3.stInOuts.bI_Sft_WorkCoverClosed" VarB="StandardInputs^TwinSafeGroup_HP3_M3.bWeldingCoverClosed_129"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_Sft_ComErr" VarB="StandardInputs^TwinSafeGroup_HP4_M1.bComErr_273"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_Sft_DoorClosed" VarB="StandardInputs^TwinSafeGroup_HP4_M1.bDoorClosed_282"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_Sft_EStopRelay" VarB="StandardInputs^TwinSafeGroup_HP4_M1.bEStopRelay_275"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_Sft_EstopFbErr" VarB="StandardInputs^TwinSafeGroup_HP4_M1.bEStopErr_274"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_Sft_FbErr" VarB="StandardInputs^TwinSafeGroup_HP4_M1.bFbErr_276"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_Sft_FrontDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP4_M1.bFrontDoorClosed_277"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_Sft_RearDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP4_M1.bRearDoorClosed_278"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_Sft_STO" VarB="StandardInputs^TwinSafeGroup_HP4_M1.bSTO_279"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_Sft_STO_ELM" VarB="StandardInputs^TwinSafeGroup_HP4_M1.bSTO_ELM_280"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M1.stInOuts.bI_Sft_WorkCoverClosed" VarB="StandardInputs^TwinSafeGroup_HP4_M1.bWeldingCoverClosed_281"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_Sft_ComErr" VarB="StandardInputs^TwinSafeGroup_HP4_M2.bComErr_285"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_Sft_DoorClosed" VarB="StandardInputs^TwinSafeGroup_HP4_M2.bDoorClosed_294"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_Sft_EStopRelay" VarB="StandardInputs^TwinSafeGroup_HP4_M2.bEStopRelay_287"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_Sft_EstopFbErr" VarB="StandardInputs^TwinSafeGroup_HP4_M2.bEStopErr_286"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_Sft_FbErr" VarB="StandardInputs^TwinSafeGroup_HP4_M2.bFbErr_288"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_Sft_FrontDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP4_M2.bFrontDoorClosed_289"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_Sft_RearDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP4_M2.bRearDoorClosed_290"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_Sft_STO" VarB="StandardInputs^TwinSafeGroup_HP4_M2.bSTO_291"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_Sft_STO_ELM" VarB="StandardInputs^TwinSafeGroup_HP4_M2.bSTO_ELM_292"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M2.stInOuts.bI_Sft_WorkCoverClosed" VarB="StandardInputs^TwinSafeGroup_HP4_M2.bWeldingCoverClosed_293"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_Sft_ComErr" VarB="StandardInputs^TwinSafeGroup_HP4_M3.bComErr_297"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_Sft_DoorClosed" VarB="StandardInputs^TwinSafeGroup_HP4_M3.bDoorClosed_306"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_Sft_EStopRelay" VarB="StandardInputs^TwinSafeGroup_HP4_M3.bEStopRelay_299"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_Sft_EstopFbErr" VarB="StandardInputs^TwinSafeGroup_HP4_M3.bEStopErr_298"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_Sft_FbErr" VarB="StandardInputs^TwinSafeGroup_HP4_M3.bFbErr_300"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_Sft_FrontDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP4_M3.bFrontDoorClosed_301"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_Sft_RearDoorClosed" VarB="StandardInputs^TwinSafeGroup_HP4_M3.bRearDoorClosed_302"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_Sft_STO" VarB="StandardInputs^TwinSafeGroup_HP4_M3.bSTO_303"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_Sft_STO_ELM" VarB="StandardInputs^TwinSafeGroup_HP4_M3.bSTO_ELM_304"/>
-				<Link VarA="PlcTask Inputs^MAIN.fbHotPlate_G4_M3.stInOuts.bI_Sft_WorkCoverClosed" VarB="StandardInputs^TwinSafeGroup_HP4_M3.bWeldingCoverClosed_305"/>
-				<Link VarA="PlcTask Inputs^SafetyBackupRestore.abEL6910AmsNetID" VarB="InfoData^AdsAddr^netId"/>
-				<Link VarA="PlcTask Inputs^SafetyBackupRestore.udiSafetyPLCSerialNb" VarB="Device Info Data^Serial Number"/>
-				<Link VarA="PlcTask Inputs^SafetyBackupRestore.wEL6910port" VarB="InfoData^AdsAddr^port"/>
-				<Link VarA="PlcTask Inputs^SafetyBackupRestore.wSafetyProjectCRC" VarB="Device Info Data^Project CRC"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.stInOuts.bQ_Sft_ErrAck" VarB="StandardOutputs^TwinSafeGroup_HP1_M1.ErrorAcknowledgement_1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.stInOuts.bQ_Sft_ManualWork" VarB="StandardOutputs^TwinSafeGroup_HP1_M1.bManualWork_7"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M1.stInOuts.bQ_Sft_Run" VarB="StandardOutputs^TwinSafeGroup_HP1_M1.bRun_8"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.stInOuts.bQ_Sft_ErrAck" VarB="StandardOutputs^TwinSafeGroup_HP1_M2.ErrorAcknowledgement_18"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.stInOuts.bQ_Sft_ManualWork" VarB="StandardOutputs^TwinSafeGroup_HP1_M2.bManualWork_20"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M2.stInOuts.bQ_Sft_Run" VarB="StandardOutputs^TwinSafeGroup_HP1_M2.bRun_19"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.stInOuts.bQ_Sft_ErrAck" VarB="StandardOutputs^TwinSafeGroup_HP1_M3.ErrorAcknowledgement_32"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.stInOuts.bQ_Sft_ManualWork" VarB="StandardOutputs^TwinSafeGroup_HP1_M3.bManualWork_33"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G1_M3.stInOuts.bQ_Sft_Run" VarB="StandardOutputs^TwinSafeGroup_HP1_M3.bRun_34"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.stInOuts.bQ_Sft_ErrAck" VarB="StandardOutputs^TwinSafeGroup_HP2_M1.ErrorAcknowledgement_46"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.stInOuts.bQ_Sft_ManualWork" VarB="StandardOutputs^TwinSafeGroup_HP2_M1.bManualWork_56"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M1.stInOuts.bQ_Sft_Run" VarB="StandardOutputs^TwinSafeGroup_HP2_M1.bRun_55"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.stInOuts.bQ_Sft_ErrAck" VarB="StandardOutputs^TwinSafeGroup_HP2_M2.ErrorAcknowledgement_47"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.stInOuts.bQ_Sft_ManualWork" VarB="StandardOutputs^TwinSafeGroup_HP2_M2.bManualWork_78"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M2.stInOuts.bQ_Sft_Run" VarB="StandardOutputs^TwinSafeGroup_HP2_M2.bRun_77"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.stInOuts.bQ_Sft_ErrAck" VarB="StandardOutputs^TwinSafeGroup_HP2_M3.ErrorAcknowledgement_48"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.stInOuts.bQ_Sft_ManualWork" VarB="StandardOutputs^TwinSafeGroup_HP2_M3.bManualWork_67"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G2_M3.stInOuts.bQ_Sft_Run" VarB="StandardOutputs^TwinSafeGroup_HP2_M3.bRun_66"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.stInOuts.bQ_Sft_ErrAck" VarB="StandardOutputs^TwinSafeGroup_HP3_M1.ErrorAcknowledgement_88"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.stInOuts.bQ_Sft_ManualWork" VarB="StandardOutputs^TwinSafeGroup_HP3_M1.bManualWork_98"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M1.stInOuts.bQ_Sft_Run" VarB="StandardOutputs^TwinSafeGroup_HP3_M1.bRun_97"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.stInOuts.bQ_Sft_ErrAck" VarB="StandardOutputs^TwinSafeGroup_HP3_M2.ErrorAcknowledgement_89"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.stInOuts.bQ_Sft_ManualWork" VarB="StandardOutputs^TwinSafeGroup_HP3_M2.bManualWork_109"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M2.stInOuts.bQ_Sft_Run" VarB="StandardOutputs^TwinSafeGroup_HP3_M2.bRun_108"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.stInOuts.bQ_Sft_ErrAck" VarB="StandardOutputs^TwinSafeGroup_HP3_M3.ErrorAcknowledgement_90"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.stInOuts.bQ_Sft_ManualWork" VarB="StandardOutputs^TwinSafeGroup_HP3_M3.bManualWork_120"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G3_M3.stInOuts.bQ_Sft_Run" VarB="StandardOutputs^TwinSafeGroup_HP3_M3.bRun_119"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.stInOuts.bQ_Sft_ErrAck" VarB="StandardOutputs^TwinSafeGroup_HP4_M1.ErrorAcknowledgement_250"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.stInOuts.bQ_Sft_ManualWork" VarB="StandardOutputs^TwinSafeGroup_HP4_M1.bManualWork_271"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M1.stInOuts.bQ_Sft_Run" VarB="StandardOutputs^TwinSafeGroup_HP4_M1.bRun_272"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.stInOuts.bQ_Sft_ErrAck" VarB="StandardOutputs^TwinSafeGroup_HP4_M2.ErrorAcknowledgement_251"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.stInOuts.bQ_Sft_ManualWork" VarB="StandardOutputs^TwinSafeGroup_HP4_M2.bManualWork_283"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M2.stInOuts.bQ_Sft_Run" VarB="StandardOutputs^TwinSafeGroup_HP4_M2.bRun_284"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.stInOuts.bQ_Sft_ErrAck" VarB="StandardOutputs^TwinSafeGroup_HP4_M3.ErrorAcknowledgement_252"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.stInOuts.bQ_Sft_ManualWork" VarB="StandardOutputs^TwinSafeGroup_HP4_M3.bManualWork_295"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbHotPlate_G4_M3.stInOuts.bQ_Sft_Run" VarB="StandardOutputs^TwinSafeGroup_HP4_M3.bRun_296"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^S02_RIO1 (EK1818)">
-				<Link VarA="PlcTask Inputs^GVL_IO.bS02_EnergyConsumptionImp" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stS02_1_BearingPress_IO.b2HandStart" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stS02_1_BearingPress_IO.bHomePosSensor" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stS02_1_BearingPress_IO.bPowerSupplyStatus" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stS02_1_BearingPress_IO.bSafetyStatus" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stS02_1_BearingPress_IO.bAirCutOffValve" VarB="Channel 10^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stS02_1_BearingPress_IO.bPressGoDown_Q" VarB="Channel 9^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^S02_RIO1 (EK1818)^S02_AIO1 (EL4374)">
-				<Link VarA="PlcTask Inputs^GVL_IO.stS02_1_BearingPress_IO.iPosition" VarB="AI Standard (INT16) Ch.2^Value"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stS02_1_BearingPress_IO.iPressureSens" VarB="AI Standard (INT16) Ch.1^Value"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stS02_1_BearingPress_IO.iPressureToSet" VarB="AO Standard (INT16) Ch.3^Value"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^S03_RIO1 (EK1818)">
-				<Link VarA="PlcTask Inputs^GVL_IO.bS03_EnergyConsumptionImp" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stS03_1_BearingPress_IO.b2HandStart" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stS03_1_BearingPress_IO.bHomePosSensor" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stS03_1_BearingPress_IO.bPowerSupplyStatus" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stS03_1_BearingPress_IO.bSafetyStatus" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stS03_1_BearingPress_IO.bAirCutOffValve" VarB="Channel 10^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stS03_1_BearingPress_IO.bPressGoDown_Q" VarB="Channel 9^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^S03_RIO1 (EK1818)^S03_AIO1 (EL4374)">
-				<Link VarA="PlcTask Inputs^GVL_IO.stS03_1_BearingPress_IO.iPosition" VarB="AI Standard (INT16) Ch.2^Value"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stS03_1_BearingPress_IO.iPressureSens" VarB="AI Standard (INT16) Ch.1^Value"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stS03_1_BearingPress_IO.iPressureToSet" VarB="AO Standard (INT16) Ch.3^Value"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^S04_RIO1 (EK1818)">
-				<Link VarA="PlcTask Inputs^GVL_IO.bCompressedAirFlowImpulsePreAssembly" VarB="Channel 6^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.bS04_EnergyConsumptionImp" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stS04_1_BearingPress_IO.b2HandStart" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stS04_1_BearingPress_IO.bHomePosSensor" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stS04_1_BearingPress_IO.bPowerSupplyStatus" VarB="Channel 5^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stS04_1_BearingPress_IO.bSafetyStatus" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stS04_1_BearingPress_IO.bAirCutOffValve" VarB="Channel 10^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stS04_1_BearingPress_IO.bPressGoDown_Q" VarB="Channel 9^Output"/>
-			</OwnerB>
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^S04_RIO1 (EK1818)^S04_AIO1  (EL4374)">
-				<Link VarA="PlcTask Inputs^GVL_IO.stS04_1_BearingPress_IO.iPosition" VarB="AI Standard (INT16) Channel 2^Value"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stS04_1_BearingPress_IO.iPressureSens" VarB="AI Standard (INT16) Channel 1^Value"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.stS04_1_BearingPress_IO.iPressureToSet" VarB="AO Standard (INT16) Channel 3^Value"/>
+			<OwnerB Name="TIID^LAN1 (EtherCAT)^Term 3 (EK1818)">
+				<Link VarA="PlcTask Inputs^GVL_IO.stTunelInOuts.bBottleIncomming" VarB="Channel 1^Input"/>
+			</OwnerB>
+			<OwnerB Name="TIID^LAN1 (EtherCAT)^Term 3 (EK1818)^Term 10 (EL6910)">
+				<Link VarA="PlcTask Outputs^MAIN.fbWeighingStation.stInOuts.stDrawerLock.bOpen" VarB="StandardOutputs^Standard In Var 6"/>
+			</OwnerB>
+			<OwnerB Name="TIID^LAN1 (EtherCAT)^Term 3 (EK1818)^Term 12 (ELM7212-9016)">
+				<Link VarA="PlcTask Outputs^MAIN.fbTableAxis.bQ_SafetyErrorAck" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 3"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbTableAxis.bQ_SafetyRun" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 2"/>
 			</OwnerB>
 			<OwnerB Name="TIID^ProfiNet (EL6631)^kc-b02pl-s01">
 				<Link VarA="PlcTask Inputs^GVL_IO.bS01_Result" VarB="API^Term 4 (Device Result Bits)^Subterm 6 (Device Result Bits)^Inputs^Device Result Bits Register0^Total_Status"/>

@@ -2,61 +2,54 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
   <POU Name="FB_WeighingStation" Id="{44fe5b5a-0f0b-4511-b67e-0a0f72747565}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_WeighingStation EXTENDS FB_BaseStation
-VAR_INPUT
-	stSettings: ST_WeighingStation_Settings;
-END_VAR
-VAR_OUTPUT
-END_VAR
 VAR
 	fbWeighingActuator: FB_ActuatorOOP_TC;
 	fbPusherActuator: FB_ActuatorOOP_TC;
 	fbBottleSensor: FB_Sensor;
-	bDrawerClosed:BOOL;
+	fbBottleDrawerSensor: FB_Sensor;
 	bDrawerUnlockRequest:BOOL;
-
-	fbDrawerOpenTON:TON;
-END_VAR
-VAR_IN_OUT
+	fbDrawerLock: FB_Lock;
+	fbWeighing : FB_WeighingOversampling;
+	bWeightCheckOK :BOOL;
+	bCameraCheckOK :BOOL;
 	stInOuts :ST_WeighingStation_InOuts;
+END_VAR
+VAR PERSISTENT
+	stSettings: ST_WeighingStation_Settings;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[//SIM/
-stInOuts.bDrawerIsClosed := TRUE;
-stInOuts.bDrawerIsLocked := TRUE;
-
-
-bDrawerClosed := stInOuts.bDrawerIsClosed;
+stInOuts.stDrawerLock.bClosed := TRUE;
+stInOuts.stDrawerLock.bLocked := TRUE;
 
 //Call FB_BaseStation
 SUPER^(fbTableControl:=fbTableControl);
 iStationId:=201;
 sStationName :='Weighing Station';
 
-bRotationInterlock:=bDrawerClosed AND fbPusherActuator.pInHomePosition AND fbWeighingActuator.pInHomePosition;
+bRotationInterlock:=fbDrawerLock.prClosedAndLocked AND fbPusherActuator.prInHomePosition AND fbWeighingActuator.prInHomePosition;
 
 
 fbWeighingActuator(stDigInOut:=stInOuts.stWeighingActuator, bI_Control_Ready:=TRUE, bManualMode:=bManualModeActive, 
-					bI_HomeInterlock:= fbPusherActuator.pInHomePosition, bI_WorkInterlock:=fbTableControl.prTableInPosition,
+					bI_HomeInterlock:= fbPusherActuator.prInHomePosition, bI_WorkInterlock:=fbTableControl.prTableInPosition,
 					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0,bSimulationOn:=bSimulationON, bManualMode:= bManualModeActive);
 					
 fbPusherActuator(stDigInOut:=stInOuts.stPusherActuator, bI_Control_Ready:=TRUE, bManualMode:=bManualModeActive, 
 					bI_HomeInterlock:= TRUE, 
-					bI_WorkInterlock:=fbTableControl.prTableInPosition AND fbWeighingActuator.pInWorkPosition,
+					bI_WorkInterlock:=fbTableControl.prTableInPosition AND fbWeighingActuator.prInWorkPosition,
 					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0,bSimulationOn:=bSimulationON, bManualMode:= bManualModeActive);
 					
 fbBottleSensor(bSensorSignal:=stInOuts.bBottleDetectionSensor,bSimulationON:=bSimulationON,
 uiSensorOnDelay_MS:=500, uiErrorOnDelay_MS:=1000,uiSensorOffDelay_MS:=500, uiErrorOffDelay_MS:=1000);
 		
-fbDrawerOpenTON(IN:=NOT bDrawerClosed, PT:=T#1S);			
-IF fbDrawerOpenTON.Q THEN
+fbDrawerLock(stInOut:=stInOuts.stDrawerLock,bReleaseManulOpening:=bManualModeActive AND fbTableControl.prTableInPosition);
+	
+IF fbDrawerLock.prNotClosed THEN
 	stSettings.iNOK_BottleCounter := 0;
 END_IF
-
-
 			
 CASE iWorkStep OF
 	0: //CheckState
-		stInOuts.bDrawerLockOpen:= FALSE;
 		IF  __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.prStateIsNOK THEN
 			iWorkStep:=50;
 		ELSIF bDrawerUnlockRequest THEN
@@ -66,11 +59,11 @@ CASE iWorkStep OF
 		END_IF
 
 	5: //HomePosition
-		IF fbWeighingActuator.mGoToHome(FALSE) AND fbPusherActuator.mGoToHome(FALSE) AND stInOuts.bDrawerIsClosed AND stInOuts.bDrawerIsLocked THEN
+		IF fbWeighingActuator.mGoToHome(FALSE) AND fbPusherActuator.mGoToHome(FALSE) AND fbDrawerLock.prClosedAndLocked THEN
 			iWorkStep:=10;
-		ELSIF fbWeighingActuator.pGoToHomeError THEN
+		ELSIF fbWeighingActuator.prGoToHomeError THEN
 			mSetError(nTable_ErrorList.WeighingActuatorError);
-		ELSIF fbPusherActuator.pGoToHomeError THEN
+		ELSIF fbPusherActuator.prGoToHomeError THEN
 			mSetError(nTable_ErrorList.WeighingPusherActuatorError);	
 		END_IF
 		
@@ -96,17 +89,29 @@ CASE iWorkStep OF
 	20: //Weighing Actuator Work
 		IF fbWeighingActuator.mGoToWork(FALSE) AND __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.mBottleProcessing() THEN
 			iWorkStep:=30;
+			bWeightCheckOK :=FALSE;
+			bCameraCheckOK :=FALSE;
 		END_IF
 	
 	30: //Weight and Camera Check
 		iWorkStep:=40;
-		IF FALSE THEN
+
+		IF stSettings.bWeightCheck AND_THEN fbWeighing.mGetMeasurement(1000) THEN
+			IF NOT fbWeighing.prSingleMeasurementError THEN
+				bWeightCheckOK := ABS(fbWeighing.prSingleMeasurement - stSettings.rRequiredWeight) <=  stSettings.rWeightTolerance;
+			END_IF
+		ELSE
+			bWeightCheckOK := TRUE;
+		END_IF
+		
+		IF bWeightCheckOK AND bCameraCheckOK THEN
+			iWorkStep:=40;
+		ELSE
 			IF  __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.mBottleNOK() THEN
 				iWorkStep:=50;
 			END_IF
 		END_IF
-	
-	
+		
 	
 	40: //ALL OK
 		IF fbWeighingActuator.mGoToHome(FALSE) AND __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.mBottleAfterWeighing() THEN
@@ -135,29 +140,29 @@ CASE iWorkStep OF
 			IF __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.mBottleEmpty() THEN
 				iWorkStep:=0;
 			END_IF
-		ELSIF fbPusherActuator.pGoToHomeError THEN
+		ELSIF fbPusherActuator.prGoToHomeError THEN
 			mSetError(nTable_ErrorList.WeighingPusherActuatorError);	
 		END_IF
 		
 	70: //Drawer Unlock
 		
-		stInOuts.bDrawerLockOpen:= TRUE;
+		fbDrawerLock.mOpen();
 		fbStepTON.PT:=T#3S;
-		IF NOT stInOuts.bDrawerIsLocked THEN
+		IF NOT fbDrawerLock.prClosedAndLocked THEN
 			iWorkStep:=71;
 		ELSIF fbStepTON.Q THEN
 			mSetError(nTable_ErrorList.WeighingDrawerOpeningError);	
 		END_IF
 	
 	71: //Wait Drawer Opened
-		IF NOT stInOuts.bDrawerIsClosed THEN
+		fbDrawerLock.mOpen();
+		IF NOT fbDrawerLock.prClosed THEN
 			bDrawerUnlockRequest:=FALSE;
-			stInOuts.bDrawerLockOpen:= FALSE;
 			iWorkStep:=72;
 		END_IF
 		
 	72: //Wait Drawer Closed
-		IF stInOuts.bDrawerIsClosed AND stInOuts.bDrawerIsLocked THEN
+		IF fbDrawerLock.prClosedAndLocked THEN
 			iWorkStep:=0;
 		END_IF
 		
@@ -182,37 +187,21 @@ END_CASE
 ]]></ST>
     </Implementation>
     <LineIds Name="FB_WeighingStation">
-      <LineId Id="228" Count="0" />
-      <LineId Id="445" Count="2" />
-      <LineId Id="444" Count="0" />
-      <LineId Id="229" Count="0" />
-      <LineId Id="411" Count="1" />
-      <LineId Id="230" Count="0" />
-      <LineId Id="414" Count="0" />
-      <LineId Id="413" Count="0" />
-      <LineId Id="443" Count="0" />
-      <LineId Id="231" Count="10" />
-      <LineId Id="384" Count="1" />
-      <LineId Id="387" Count="0" />
-      <LineId Id="242" Count="4" />
-      <LineId Id="379" Count="0" />
-      <LineId Id="374" Count="0" />
-      <LineId Id="368" Count="0" />
-      <LineId Id="248" Count="25" />
-      <LineId Id="391" Count="1" />
-      <LineId Id="275" Count="3" />
-      <LineId Id="441" Count="1" />
-      <LineId Id="279" Count="0" />
-      <LineId Id="439" Count="1" />
-      <LineId Id="438" Count="0" />
-      <LineId Id="280" Count="57" />
-      <LineId Id="339" Count="1" />
-      <LineId Id="342" Count="7" />
-      <LineId Id="432" Count="1" />
-      <LineId Id="435" Count="2" />
-      <LineId Id="434" Count="0" />
-      <LineId Id="350" Count="11" />
-      <LineId Id="367" Count="0" />
+      <LineId Id="860" Count="70" />
+      <LineId Id="1023" Count="1" />
+      <LineId Id="931" Count="3" />
+      <LineId Id="941" Count="2" />
+      <LineId Id="1043" Count="0" />
+      <LineId Id="945" Count="0" />
+      <LineId Id="1025" Count="1" />
+      <LineId Id="947" Count="0" />
+      <LineId Id="1027" Count="2" />
+      <LineId Id="1039" Count="0" />
+      <LineId Id="1041" Count="1" />
+      <LineId Id="1040" Count="0" />
+      <LineId Id="1030" Count="0" />
+      <LineId Id="1020" Count="0" />
+      <LineId Id="948" Count="71" />
       <LineId Id="180" Count="0" />
     </LineIds>
   </POU>

@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="FB_Conveyor" Id="{0a89ffbc-5ceb-4c01-b8f9-acffc29e7ab7}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Conveyor
+VAR_INPUT
+	bManualMode:BOOL;
+	bMoveRequest:BOOL;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	bI_ConveyorOnFeedback AT %I*: BOOL;
+	rQ_ConveyorSpeedOut	AT %Q*: REAL;
+	fbFeedbackErrorTON: TON;
+	bOnCmd : BOOL;
+	bManualOnCmd:BOOL;
+	rSpeedSet: REAL;
+	fbAnalogScale: fbAnalogMeasurement;
+	stMeasureScaling: stMeasurementScalingData;
+	fbMoveRequest_RTRIG: R_TRIG;
+	fbCmdOnTOF: TOF;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fbFeedbackErrorTON(IN:= prIsON XOR bOnCmd, PT:= T#10S);
+stMeasureScaling.rScalingRawValue_II:=100.0;
+stMeasureScaling.rScalingEngValue_II:=32767;
+fbAnalogScale(rIn:=rSpeedSet, stMeasureScalingData:=stMeasureScaling, tStalaCzasowa:=T#10MS);
+
+bManualOnCmd R= NOT bManualMode;
+
+fbMoveRequest_RTRIG(CLK:=bMoveRequest);
+fbCmdOnTOF(IN:=fbMoveRequest_RTRIG.Q,PT:=T#10M);
+
+
+
+IF bManualMode THEN
+	prIsOn := bManualOnCmd;
+ELSE
+	prIsOn := fbCmdOnTOF.Q;
+END_IF
+
+IF bOnCmd THEN
+	rQ_ConveyorSpeedOut := fbAnalogScale.rOutFiltered;
+ELSE
+	rQ_ConveyorSpeedOut := 0.0;
+END_IF
+
+bMoveRequest:=FALSE;]]></ST>
+    </Implementation>
+    <Property Name="prError" Id="{6211ab18-3897-447f-8a22-686b0fc90b82}">
+      <Declaration><![CDATA[PROPERTY prError : BOOL]]></Declaration>
+      <Get Name="Get" Id="{041030bb-5e4f-4475-97a0-29ce58425d9e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prError := fbFeedbackErrorTON.Q;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="prIsOn" Id="{2cd67af5-4b4f-4081-921a-ffe719d45cf6}">
+      <Declaration><![CDATA[PROPERTY prIsOn : BOOL]]></Declaration>
+      <Get Name="Get" Id="{11d81eff-1fff-4c07-8023-235abb4321ed}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prIsOn := bI_ConveyorOnFeedback;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{198b1ee6-e006-48a3-8d6e-85aec495f8ce}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[bOnCmd:=prIsOn;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="prManualOn" Id="{6a98c453-4184-41b7-aa63-942367f27205}">
+      <Declaration><![CDATA[PROPERTY prManualOn : BOOL]]></Declaration>
+      <Get Name="Get" Id="{274179ae-fc59-4459-a3cb-33732cc845e0}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{37a3c3ec-3fa8-4b08-b891-cb67d786e1f3}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="FB_Conveyor">
+      <LineId Id="9" Count="0" />
+      <LineId Id="24" Count="1" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="40" Count="1" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="46" Count="1" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="30" Count="4" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="49" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Conveyor.prError.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Conveyor.prIsOn.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Conveyor.prIsOn.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Conveyor.prManualOn.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Conveyor.prManualOn.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

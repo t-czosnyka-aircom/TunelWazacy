@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <DUT Name="ST_WeighingSettings" Id="{6e55a684-6942-401e-8510-a54d07d0e65b}">
+    <Declaration><![CDATA[TYPE ST_WeighingSettings :
+STRUCT
+	stScalling: stMeasurementScalingData;
+	iWeightStabilisationTimeMS: INT:=500;
+	bManualSingleMeasureRequest:BOOL;
+	bTareRequest:BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

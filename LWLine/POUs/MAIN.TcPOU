@@ -3,6 +3,9 @@
   <POU Name="MAIN" Id="{086fc6ba-1790-4ec6-a004-db460bd84f28}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR	
+	bEstopRel AT %I*:BOOL;
+	bSafetyStart AT%Q*: BOOL;
+	bSafetyReset AT%Q*: BOOL;
 	fbSonicTechCom_1Part: fbSonictechSerialCom;
 	 
 	//  stStation_L{nazwa linii}_S{nazwa stanowiska}[_M{numer maszyny}]
@@ -960,13 +963,14 @@ fbHotPlateAir_PulseCounter(
 fbTableControl.arrStations[1]:=fbLoadingStation;
 fbTableControl.arrStations[3]:=fbWeighingStation;
 fbTableControl.arrStations[5]:=fbUnloadingStation;
-fbTableControl(fbTableAxis:=fbTableAxis,bReleaseFromSafety:=TRUE);
+fbTableControl(fbTableAxis:=fbTableAxis);
 		
 fbTableAxis(bEmergencyStop:=TRUE, bSTO_Signal:=TRUE);
 
-fbLoadingStation(fbTableControl:=fbTableControl,stInOuts:=stLoadingStationInOuts, bSimulationOn:= GVL.bWeighingTunelSim);
-fbWeighingStation(fbTableControl:=fbTableControl,stInOuts:=stWeighingStationInOuts, bSimulationOn:= GVL.bWeighingTunelSim);
-fbUnloadingStation(fbTableControl:=fbTableControl,stInOuts:=stUnloadingStationInOuts, bSimulationOn:= GVL.bWeighingTunelSim);
+fbLoadingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim);
+fbWeighingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim);
+fbUnloadingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim);
+
 ]]></ST>
       </Implementation>
     </Action>
@@ -1125,6 +1129,7 @@ fbUnloadingStation(fbTableControl:=fbTableControl,stInOuts:=stUnloadingStationIn
       <LineId Id="8" Count="0" />
       <LineId Id="7" Count="0" />
       <LineId Id="10" Count="1" />
+      <LineId Id="18" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
   </POU>

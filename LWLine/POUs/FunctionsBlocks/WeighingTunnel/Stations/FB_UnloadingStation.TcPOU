@@ -2,35 +2,34 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
   <POU Name="FB_UnloadingStation" Id="{296f6eb6-2953-417c-abf3-86065ed0eed9}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_UnloadingStation EXTENDS FB_BaseStation
-VAR_INPUT
-	stSettings: ST_UnloadingStation_Settings;
-END_VAR
-VAR_OUTPUT
-END_VAR
 VAR
 	fbUnloadingActuator: FB_ActuatorOOP_TC;
 	fbUnloadingSensor: FB_Sensor;
-END_VAR
-VAR_IN_OUT
 	stInOuts :ST_UnloadingStation_InOuts;
+	fbConveyor : FB_Conveyor;
+END_VAR
+VAR PERSISTENT
+	stSettings: ST_UnloadingStation_Settings;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[//Call FB_BaseStation
 SUPER^(fbTableControl:=fbTableControl);
 iStationId:=202;
 sStationName :='Unloading Station';
-bRotationInterlock:=fbUnloadingActuator.pInHomePosition;
+bRotationInterlock:=fbUnloadingActuator.prInHomePosition;
 fbUnloadingActuator(stDigInOut:=stInOuts.stUnloadingActuator, bI_Control_Ready:=TRUE, bManualMode:=bManualModeActive, 
 					bI_HomeInterlock:= TRUE, bI_WorkInterlock:=fbTableControl.prTableInPosition,
 					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0,bSimulationOn:=bSimulationON, bManualMode:= bManualModeActive);
 
 fbUnloadingSensor(bSensorSignal:=stInOuts.bBottleDetectionSensor,bSimulationON:=bSimulationON,uiSensorOnDelay_MS:=0);									
-					
+	
+fbConveyor(bManualMode:=bManualModeActive);
+				
 CASE iWorkStep OF
 	0: //Initialisation
 		IF fbUnloadingActuator.mGoToHome(FALSE) THEN
 			iWorkStep := 10;
-		ELSIF fbUnloadingActuator.pGoToHomeError THEN 
+		ELSIF fbUnloadingActuator.prGoToHomeError THEN 
 			mSetError(nTable_ErrorList.UnloadingActuatorBackwardError);
 		END_IF
 	
@@ -48,9 +47,10 @@ CASE iWorkStep OF
 		END_IF
 		
 	20:	//Eject Bottle
+		fbConveyor.bMoveRequest:=TRUE;
 		IF fbUnloadingActuator.mGoToWork(FALSE) THEN
 			iWorkStep:=30;
-		ELSIF fbUnloadingActuator.pGoToWorkError THEN 
+		ELSIF fbUnloadingActuator.prGoToWorkError THEN 
 			mSetError(nTable_ErrorList.UnloadingActuatorForwardError);
 		END_IF
 		
@@ -100,6 +100,7 @@ END_CASE]]></ST>
       <LineId Id="127" Count="0" />
       <LineId Id="70" Count="0" />
       <LineId Id="72" Count="0" />
+      <LineId Id="184" Count="1" />
       <LineId Id="25" Count="0" />
       <LineId Id="27" Count="0" />
       <LineId Id="38" Count="0" />
@@ -118,6 +119,7 @@ END_CASE]]></ST>
       <LineId Id="162" Count="0" />
       <LineId Id="58" Count="0" />
       <LineId Id="31" Count="0" />
+      <LineId Id="186" Count="0" />
       <LineId Id="35" Count="0" />
       <LineId Id="55" Count="0" />
       <LineId Id="77" Count="1" />

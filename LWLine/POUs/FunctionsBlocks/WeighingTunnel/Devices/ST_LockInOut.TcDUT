@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <DUT Name="ST_LockInOut" Id="{358215c0-1298-44e2-9de3-056aa4387743}">
+    <Declaration><![CDATA[TYPE ST_LockInOut :
+STRUCT
+	bLocked AT %I* :BOOL;
+	bClosed AT %I* :BOOL;
+	bOpen 	AT %Q* :BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

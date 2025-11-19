@@ -5,10 +5,9 @@
 STRUCT
 	stWeighingActuator: ST_ActuatorInOut_TC;
 	stPusherActuator: ST_ActuatorInOut_TC;
+	stDrawerLock	:	ST_LockInOut;
 	bBottleDetectionSensor AT %I*: BOOL;
-	bDrawerLockOpen AT %Q*: BOOL;
-	bDrawerIsLocked AT %I*: BOOL;
-	bDrawerIsClosed AT %I*: BOOL;
+	bBottleDrawerSensor AT %I*: BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

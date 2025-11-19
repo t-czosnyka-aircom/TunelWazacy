@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <DUT Name="ST_TableControl_InOuts" Id="{f93da550-2ad2-4750-a2d6-69fcdb22c3e1}">
+    <Declaration><![CDATA[TYPE ST_TableControl_InOuts :
+STRUCT
+	bI_SafetyReset_1 AT%I* :BOOL;
+	bI_SafetyReset_2 AT%I* :BOOL;
+	//Safety Signals
+	bI_SafetyEstopOK AT%I* :BOOL;
+	bI_SafetyGateOK AT%I* :BOOL;
+	bQ_SafetyRun AT %Q*: BOOL;
+	bQ_SafetyErrorAck AT %Q*: BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

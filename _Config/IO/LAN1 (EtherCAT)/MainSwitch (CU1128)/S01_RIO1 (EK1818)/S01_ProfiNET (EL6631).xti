@@ -1,171 +1,18 @@
 <?xml version="1.0"?>
 <TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.68" ClassName="CFlbDeviceTermDef" SubType="9106">
-	<DataTypes>
-		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-000300000004}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..3] OF BYTE</Name>
-			<BitSize>32</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>4</Elements>
-			</ArrayInfo>
-		</DataType>
-		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-000300000010}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..15] OF BYTE</Name>
-			<BitSize>128</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>16</Elements>
-			</ArrayInfo>
-		</DataType>
-		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-00030000001C}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..27] OF BYTE</Name>
-			<BitSize>224</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>28</Elements>
-			</ArrayInfo>
-		</DataType>
-		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-000300000014}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..19] OF BYTE</Name>
-			<BitSize>160</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>20</Elements>
-			</ArrayInfo>
-		</DataType>
-		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-00030000000C}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..11] OF BYTE</Name>
-			<BitSize>96</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>12</Elements>
-			</ArrayInfo>
-		</DataType>
-	</DataTypes>
 	<Box Id="38" BoxType="9106" BoxFlags="#x00000020">
 		<Name>__FILENAME__</Name>
 		<ImageId>124</ImageId>
-		<EtherCAT SlaveType="5" AdsServerAddress="c0a8011f02010000" FixedAdsServerNetId="true" PdiType="#x0c08" ExecIo="true" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="47" FoeType="1" VendorId="#x00000002" ProductCode="#x19e73052" RevisionNo="#x00120000" InfoDataAddr="true" InfoDataNetId="true" OwnAddrExtern="true" TimeoutStateChange1="10000" TimeoutStateChange3="20000" GenerateOwnNetId="true" InitializeOwnNetId="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL6631 PROFINET IO Controller" Desc="EL6631">
+		<EtherCAT SlaveType="5" AdsServerAddress="c0a8011f04270000" FixedAdsServerNetId="true" PdiType="#x0c08" ExecIo="true" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="47" FoeType="1" VendorId="#x00000002" ProductCode="#x19e73052" RevisionNo="#x00120000" InfoDataAddr="true" InfoDataNetId="true" TimeoutStateChange1="10000" TimeoutStateChange3="20000" GenerateOwnNetId="true" InitializeOwnNetId="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL6631 PROFINET IO Controller" Desc="EL6631">
 			<SyncMan>001000042600010001000000400000040004001026010000</SyncMan>
 			<SyncMan>001400042200010002000000400000040004001422010000</SyncMan>
-			<SyncMan>001812006400010003000000000000000000001864010000</SyncMan>
-			<SyncMan>002494012000010004000000000000000000002420010000</SyncMan>
-			<Fmmu>0000000000000000001800020100000001000000000000000000000000000000</Fmmu>
-			<Fmmu>0000000000000000002400010100000002000000000000000000000000000000</Fmmu>
+			<SyncMan>001800006400000003000000000000000000001864010000</SyncMan>
+			<SyncMan>002400002000000004000000000000000000002420010000</SyncMan>
+			<Fmmu>0000000000000000000000020000000001000000000000000000000000000000</Fmmu>
+			<Fmmu>0000000000000000000000010000000002000000000000000000000000000000</Fmmu>
 			<Fmmu>00000000000000000d0800010100000003000000000000000000000000000000</Fmmu>
 			<BootStrapData>0010000400140004</BootStrapData>
 			<SuName>Profinet</SuName>
-			<Pdo Name="kc-b02pl-s01_Inputs" Index="#x1a00" Flags="#x0001" SyncMan="3">
-				<Entry Name="kc-b02pl-s01_PnIoBoxState" Index="#x6000" Sub="#x01" Flags="#x00000100">
-					<DefaultDataMask>1f001f00</DefaultDataMask>
-					<Type>UINT</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_PnIoBoxDiag" Index="#x6000" Sub="#x02" Flags="#x00000100">
-					<Type>UINT</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_1" Index="#x6001" Sub="#x01" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-000300000004}">ARRAY [0..3] OF BYTE</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_2" Index="#x6001" Sub="#x02" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-000300000004}">ARRAY [0..3] OF BYTE</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_3" Index="#x6001" Sub="#x03" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-000300000010}">ARRAY [0..15] OF BYTE</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_4" Index="#x6001" Sub="#x04" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-00030000001C}">ARRAY [0..27] OF BYTE</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_5" Index="#x6001" Sub="#x05" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-000300000014}">ARRAY [0..19] OF BYTE</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_6" Index="#x6001" Sub="#x06" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-000300000014}">ARRAY [0..19] OF BYTE</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_7" Index="#x6001" Sub="#x07" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-000300000014}">ARRAY [0..19] OF BYTE</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_8" Index="#x6001" Sub="#x08" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-000300000014}">ARRAY [0..19] OF BYTE</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_9" Index="#x6001" Sub="#x09" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-000300000014}">ARRAY [0..19] OF BYTE</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_10" Index="#x6001" Sub="#x0a" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-000300000014}">ARRAY [0..19] OF BYTE</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_11" Index="#x6001" Sub="#x0b" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-000300000014}">ARRAY [0..19] OF BYTE</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_12" Index="#x6001" Sub="#x0c" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-000300000014}">ARRAY [0..19] OF BYTE</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_13" Index="#x6001" Sub="#x0d" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-000300000014}">ARRAY [0..19] OF BYTE</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_14" Index="#x6001" Sub="#x0e" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-000300000014}">ARRAY [0..19] OF BYTE</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_15" Index="#x6001" Sub="#x0f" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-000300000014}">ARRAY [0..19] OF BYTE</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_16" Index="#x6001" Sub="#x10" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-000300000014}">ARRAY [0..19] OF BYTE</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_17" Index="#x6001" Sub="#x11" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-000300000014}">ARRAY [0..19] OF BYTE</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_18" Index="#x6001" Sub="#x12" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-000300000014}">ARRAY [0..19] OF BYTE</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_19" Index="#x6001" Sub="#x13" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-000300000014}">ARRAY [0..19] OF BYTE</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_20" Index="#x6001" Sub="#x14" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-000300000014}">ARRAY [0..19] OF BYTE</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_21" Index="#x6001" Sub="#x15" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-000300000014}">ARRAY [0..19] OF BYTE</Type>
-				</Entry>
-			</Pdo>
-			<Pdo Name="kc-b02pl-s01_Outputs" Index="#x1600" InOut="1" Flags="#x0001" SyncMan="2">
-				<Entry Name="kc-b02pl-s01_PnIoBoxCtrl" Index="#x7000" Sub="#x01" Flags="#x00000100">
-					<Type>UINT</Type>
-				</Entry>
-				<Entry Name="kc-b02pl-s01_SubmoduleData_1" Index="#x7001" Sub="#x01" Flags="#x00000100">
-					<Type GUID="{18071995-0000-0000-0000-00030000000C}">ARRAY [0..11] OF BYTE</Type>
-				</Entry>
-			</Pdo>
-			<Pdo Name="Device_1_ProtocolState" Index="#x1bfe" Flags="#x0001" SyncMan="3">
-				<Entry Name="Device_1_DevState" Index="#xf100" Sub="#x01" Flags="#x00000100">
-					<Type>UINT</Type>
-				</Entry>
-				<Entry Name="Device_1_PnIoError" Index="#xf100" Sub="#x02" Flags="#x00000100">
-					<Type>UINT</Type>
-				</Entry>
-				<Entry Name="Device_1_PnIoDiag" Index="#xf100" Sub="#x03" Flags="#x00000100">
-					<Type>UINT</Type>
-				</Entry>
-			</Pdo>
-			<Pdo Name="Device_1_ProtocolCtrl" Index="#x17fe" InOut="1" Flags="#x0001" SyncMan="2">
-				<Entry Name="Device_1_DevCtrl" Index="#xf200" Sub="#x01" Flags="#x00000100">
-					<Type>UINT</Type>
-				</Entry>
-			</Pdo>
-			<Pdo Name="ECatState" Index="#x1bff" Flags="#x0001" SyncMan="3">
-				<Entry Name="Device_1_ECatState" Index="#xf101" Sub="#x01" Flags="#x00000100">
-					<Type>UINT</Type>
-				</Entry>
-			</Pdo>
-			<Pdo Name="ECatCtrl" Index="#x17ff" InOut="1" Flags="#x0001" SyncMan="2">
-				<Entry Name="Device_1_ECatCtrl" Index="#xf201" Sub="#x01" Flags="#x00000100">
-					<Type>UINT</Type>
-				</Entry>
-			</Pdo>
 			<CoeProfile ProfileNo="5001"/>
 		</EtherCAT>
 	</Box>

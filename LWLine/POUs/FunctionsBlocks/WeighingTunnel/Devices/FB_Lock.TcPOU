@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="FB_Lock" Id="{91f523f3-f163-4763-a4e6-4ed098eaffc8}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Lock
+VAR_IN_OUT
+	stInOut: ST_LockInOut;
+
+END_VAR
+VAR_INPUT
+	bReleaseManulOpening: BOOL;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	bClosed: BOOL;
+	bClosedAndLocked :BOOL;
+	fbNotClosedTON:  TON;
+	tNotClosed: TIME:=T#500MS;
+	bReqOpen: BOOL;
+	bReqManualOpen: BOOL;
+	fbManualOpenTON: TON;
+	tManualOpen: TIME:= T#10S;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[bClosed := stInOut.bClosed;
+bClosedAndLocked := stInOut.bClosed AND stInOut.bLocked;
+fbNotClosedTON(IN:= NOT bClosed,PT:=tNotClosed);
+
+fbManualOpenTON(IN:= bReqManualOpen,PT:=tManualOpen);
+bReqManualOpen R=fbManualOpenTON.Q;
+
+stInOut.bOpen:=bReqOpen OR bReqManualOpen;
+bReqOpen := FALSE;]]></ST>
+    </Implementation>
+    <Method Name="mManualOpen" Id="{b8c17c3c-e745-4132-a0c7-08c3f6efe7a5}">
+      <Declaration><![CDATA[METHOD mManualOpen : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bReleaseManulOpening THEN
+	bReqManualOpen := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mOpen" Id="{bc298bbe-e875-4372-832b-38d27168ff1a}">
+      <Declaration><![CDATA[METHOD mOpen : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bReqOpen := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="prClosed" Id="{2e6c38c2-a5e5-4f79-a46b-a0d10e0a3133}">
+      <Declaration><![CDATA[{attribute 'monitoring':= 'call'}
+PROPERTY prClosed : BOOL]]></Declaration>
+      <Get Name="Get" Id="{62c4d0ea-cbc1-4f11-9271-059fd6ea30b5}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prClosed := bClosed;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="prClosedAndLocked" Id="{add08f49-ff33-4490-b9a5-cdf9e877035a}">
+      <Declaration><![CDATA[{attribute 'monitoring':= 'call'}
+PROPERTY prClosedAndLocked : BOOL]]></Declaration>
+      <Get Name="Get" Id="{e6280e40-c046-415f-8e5e-4b038e888555}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prClosedAndLocked := bClosedAndLocked;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="prNotClosed" Id="{c01d997c-215e-4190-8fc4-51334538e52b}">
+      <Declaration><![CDATA[PROPERTY prNotClosed : BOOL]]></Declaration>
+      <Get Name="Get" Id="{d180bb63-f443-494a-9b61-999c19447b5f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prNotClosed := fbNotClosedTON.Q;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="FB_Lock">
+      <LineId Id="9" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="24" Count="1" />
+      <LineId Id="23" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Lock.mManualOpen">
+      <LineId Id="5" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_Lock.mOpen">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Lock.prClosed.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Lock.prClosedAndLocked.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Lock.prNotClosed.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

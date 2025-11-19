@@ -3,15 +3,17 @@
   <POU Name="FB_TableControl" Id="{0a8fadd5-a89c-41a7-9596-51b884bfe728}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_TableControl
 VAR_INPUT
-	bReleaseFromSafety: BOOL;
 	arrStations : ARRAY[0..TOTAL_TABLE_PLACES] OF I_WorkingStation;
 END_VAR
 VAR_IN_OUT
 	fbTableAxis:	FB_ServoAxis;
 END_VAR
 VAR_OUTPUT
+
 END_VAR
-VAR
+VAR	
+	bReleaseFromSafety: BOOL;
+	stInOuts: ST_TableControl_InOuts;
 	bServoError:BOOL;
 	bServoNotReady:BOOL;
 	arrPlaces : ARRAY[0..TOTAL_TABLE_PLACES] OF FB_TablePlace;
@@ -24,7 +26,7 @@ VAR
 	bStationsCleared: BOOL;
 	bStationsAssigned: BOOL;
 	iCurrentPositionNumberSave:INT;
-	iLastValidPosition: USINT:=1;
+	iLastValidPosition: USINT:=0;
 	iNextPos:USINT;
 	bWorkPermission:BOOL;
 	bStationError:BOOL;
@@ -50,6 +52,13 @@ END_VAR
       <ST><![CDATA[//SIMULATION//
 bWorkPermission :=TRUE;
 /////
+stInOuts.bQ_SafetyRun := TRUE;
+stInOuts.bQ_SafetyErrorAck:= stInOuts.bI_SafetyReset_1 OR stInOuts.bI_SafetyReset_2;
+
+fbTableAxis.bSafetyReset := stInOuts.bQ_SafetyErrorAck;
+bReleaseFromSafety := stInOuts.bI_SafetyEstopOK AND stInOuts.bI_SafetyGateOK;
+
+
 
 bStationsAssigned := TRUE;
 bRotationRequest := TRUE;
@@ -57,7 +66,8 @@ bRotationInterlock := TRUE;
 bStationsCleared := TRUE;
 bStationError := FALSE;
 udiStationErrorNumber := 0;
-IF fbTableAxis.pPositionValid THEN
+
+IF fbTableAxis.prPositionValid THEN
 	iLastValidPosition:=prTablePositionNumber;
 END_IF
 
@@ -69,15 +79,15 @@ FOR i:=1 TO TOTAL_TABLE_PLACES DO
 	arrPlacePositions[arrPlaces[i].prCurrentPosition]:=ADR(arrPlaces[i]);
 	//bRotationRequest := bRotationRequest AND arrPlaces[i].prTableRotationRequest;
 	bStationsCleared := bStationsCleared AND arrPlaces[i].pWorkingStation=0;
-	arrPlaces[i].prTableInPosition:=fbTableAxis.pPositionValid;
+	arrPlaces[i].prTableInPosition:=fbTableAxis.prPositionValid;
 	//Stations
 	IF arrStations[i] <> 0 THEN
-		bStationsCleared := bStationsCleared AND NOT __ISVALIDREF(arrStations[i].pTablePlace);
-		bStationsAssigned := bStationsAssigned  AND __ISVALIDREF(arrStations[i].pTablePlace);
+		bStationsCleared := bStationsCleared AND NOT __ISVALIDREF(arrStations[i].prTablePlace);
+		bStationsAssigned := bStationsAssigned  AND __ISVALIDREF(arrStations[i].prTablePlace);
 
-		IF arrStations[i].pError THEN
+		IF arrStations[i].prError THEN
 			bStationError := TRUE;
-			udiStationErrorNumber := arrStations[i].pErrorNumber;
+			udiStationErrorNumber := arrStations[i].prErrorNumber;
 		END_IF
 		bRotationInterlock := bRotationInterlock AND arrStations[i].prTableRotationInterlock;
 		bRotationRequest := bRotationRequest AND arrStations[i].prTableRotationRequest;
@@ -85,25 +95,25 @@ FOR i:=1 TO TOTAL_TABLE_PLACES DO
 END_FOR
 
 
-fbTableAxis.pMovementExternalInterlock := bRotationInterlock;
+fbTableAxis.prMovementExternalInterlock := bRotationInterlock;
 
 
 //Assign station pointers
-IF fbTableAxis.pPositionValid  AND (bStationsCleared OR NOT bStationsAssigned) THEN
+IF fbTableAxis.prPositionValid  AND (bStationsCleared OR NOT bStationsAssigned) THEN
 	FOR i:=1 TO TOTAL_TABLE_PLACES DO
 		IF arrStations[i] <> 0 THEN
 			arrPlacePositions[i]^.pWorkingStation := arrStations[i];
-			arrStations[i].pTablePlace REF= arrPlacePositions[i]^;
+			arrStations[i].prTablePlace REF= arrPlacePositions[i]^;
 		END_IF
 	END_FOR	
 END_IF
 
 //Clear station pointers
-IF NOT bStationsCleared AND fbTableAxis.IsMoving OR iCurrentPositionNumberSave <> prTablePositionNumber THEN 
+IF NOT bStationsCleared AND fbTableAxis.prIsMoving OR iCurrentPositionNumberSave <> prTablePositionNumber THEN 
 	FOR i:=1 TO TOTAL_TABLE_PLACES DO
 		arrPlaces[i].mClearWorkingStation();
 		IF arrStations[i] <> 0 THEN
-			arrStations[i].pTablePlace REF= 0;
+			arrStations[i].prTablePlace REF= 0;
 		END_IF
 	END_FOR
 END_IF;
@@ -129,7 +139,7 @@ CASE iWorkStep OF
 
 
 	10: //Wait for rotation request
-		fbRotationRequestTON(IN:=bRotationRequest AND bRotationInterlock AND fbTableAxis.IsReady,PT:=T#1S);
+		fbRotationRequestTON(IN:=bRotationRequest AND bRotationInterlock AND fbTableAxis.prIsReady AND fbTableAxis.prIsHomed,PT:=T#1S);
 		IF fbRotationRequestTON.Q THEN
 			fbRotationRequestTON(IN:=FALSE);
 			iWorkStep := 30;
@@ -149,7 +159,7 @@ CASE iWorkStep OF
 			ELSE
 				iWorkStep:=40;
 			END_IF
-		ELSIF fbTableAxis.IsErrorActive THEN
+		ELSIF fbTableAxis.prIsErrorActive THEN
 			mNewEvent(nPIM_EventClasses.Alarm,nTable_ErrorList.ServoError);
 		END_IF
 
@@ -170,11 +180,11 @@ CASE iWorkStep OF
 	95: //Error reset
 		bError := FALSE;
 		FOR i:=1 TO TOTAL_TABLE_PLACES DO
-			IF arrStations[i] <> 0 AND_THEN arrStations[i].pError THEN
+			IF arrStations[i] <> 0 AND_THEN arrStations[i].prError THEN
 				arrStations[i].mErrorReset();
 			END_IF
 		END_FOR
-		IF fbTableAxis.IsErrorActive THEN
+		IF fbTableAxis.prIsErrorActive THEN
 			fbTableAxis.mErrorReset();
 		ELSE
 			iWorkStep := 0;
@@ -210,7 +220,7 @@ END_IF]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[prTableInPosition:= fbTableAxis.pPositionValid;]]></ST>
+          <ST><![CDATA[prTableInPosition:= fbTableAxis.prPositionValid;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -221,7 +231,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[prTableIsMoving:=fbTableAxis.IsMoving;]]></ST>
+          <ST><![CDATA[prTableIsMoving:=fbTableAxis.prIsMoving;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -233,7 +243,7 @@ PROPERTY prTablePositionNumber : USINT]]></Declaration>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[prTablePositionNumber:=fbTableAxis.pCurrentPositionNumber;
+          <ST><![CDATA[prTablePositionNumber:=fbTableAxis.prCurrentPositionNumber;
 ]]></ST>
         </Implementation>
       </Get>
@@ -259,7 +269,16 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="FB_TableControl">
-      <LineId Id="530" Count="92" />
+      <LineId Id="530" Count="2" />
+      <LineId Id="766" Count="0" />
+      <LineId Id="533" Count="0" />
+      <LineId Id="770" Count="0" />
+      <LineId Id="768" Count="0" />
+      <LineId Id="776" Count="2" />
+      <LineId Id="767" Count="0" />
+      <LineId Id="534" Count="5" />
+      <LineId Id="718" Count="0" />
+      <LineId Id="540" Count="82" />
       <LineId Id="670" Count="0" />
       <LineId Id="623" Count="1" />
       <LineId Id="626" Count="0" />

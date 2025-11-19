@@ -9,17 +9,26 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Property Name="pError" Id="{341f54d4-cb33-4e29-9291-db8b8afe04b9}">
-      <Declaration><![CDATA[PROPERTY pError : BOOL]]></Declaration>
+    <Property Name="prError" Id="{341f54d4-cb33-4e29-9291-db8b8afe04b9}">
+      <Declaration><![CDATA[PROPERTY prError : BOOL]]></Declaration>
       <Get Name="Get" Id="{dbc2c9cd-1825-4cc1-850f-d37b416451ca}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
-    <Property Name="pErrorNumber" Id="{3ad9980e-dc87-4b73-aca5-009facae308e}">
-      <Declaration><![CDATA[PROPERTY pErrorNumber : UDINT]]></Declaration>
+    <Property Name="prErrorNumber" Id="{3ad9980e-dc87-4b73-aca5-009facae308e}">
+      <Declaration><![CDATA[PROPERTY prErrorNumber : UDINT]]></Declaration>
       <Get Name="Get" Id="{d2af7160-dedf-446b-8cc9-0b9c6dee0edc}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
+    </Property>
+    <Property Name="prTablePlace" Id="{dfd52d25-5a09-44cb-bdb3-a50f7756e0ee}">
+      <Declaration><![CDATA[PROPERTY prTablePlace : REFERENCE TO FB_TablePlace]]></Declaration>
+      <Get Name="Get" Id="{3d238b09-2f8f-44c4-9ef4-69991e9b0500}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{57812a8e-8d13-421a-bfd6-20c58ef44f42}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
     </Property>
     <Property Name="prTableRotationInterlock" Id="{36e7e1ef-3eca-4e02-9d42-157e2e1fc858}">
       <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
@@ -37,15 +46,6 @@ PROPERTY prTableRotationRequest : BOOL]]></Declaration>
       <Get Name="Get" Id="{add0ad2f-100e-4e6f-9dce-4eb57c7d81e1}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
-    </Property>
-    <Property Name="pTablePlace" Id="{dfd52d25-5a09-44cb-bdb3-a50f7756e0ee}">
-      <Declaration><![CDATA[PROPERTY pTablePlace : REFERENCE TO FB_TablePlace]]></Declaration>
-      <Get Name="Get" Id="{3d238b09-2f8f-44c4-9ef4-69991e9b0500}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-      <Set Name="Set" Id="{57812a8e-8d13-421a-bfd6-20c58ef44f42}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Set>
     </Property>
   </Itf>
 </TcPlcObject>

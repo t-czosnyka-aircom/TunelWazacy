@@ -2,16 +2,13 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
   <POU Name="FB_LoadingStation" Id="{0739b0e9-6a0b-43e8-b760-d31010e6020e}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_LoadingStation EXTENDS FB_BaseStation
-VAR_INPUT
-	stSettings: ST_LoadingStation_Settings;
-END_VAR
-VAR_OUTPUT
-END_VAR
 VAR
 	fbLoadingSensor: FB_Sensor;
-END_VAR
-VAR_IN_OUT
+	bSensorWasOff: BOOL;
 	stInOuts :ST_LoadingStation_InOuts;
+END_VAR
+VAR PERSISTENT
+	stSettings: ST_LoadingStation_Settings;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -25,42 +22,38 @@ bRotationInterlock:=TRUE;
 fbLoadingSensor(bSensorSignal:=stInOuts.bBottleDetectedSensor,bSimulationON:=bSimulationON,
 uiSensorOnDelay_MS:=stSettings.iBottleDetectionDelayMS,uiErrorOffDelay_MS:=stSettings.iSensorErrorDelayMS);
 
+bSensorWasOff S= NOT fbLoadingSensor.bSensorSignal AND fbTableControl.prTableInPosition;
+
 CASE iWorkStep OF
 	0: //Initialization
 		iWorkStep:=10;
 		
 	10://Wait For Sensor ON
-	fbLoadingSensor.bRequestedState := TRUE;
+	//Sprawdzenie czy sensor nie daje sygnału cały czas
+	fbLoadingSensor.bRequestedState := bSensorWasOff;
+	fbLoadingSensor.bCheckState := NOT bSensorWasOff;
 	IF __ISVALIDREF(fbTablePlace) THEN
 		IF fbLoadingSensor.prSensorOnOK AND fbTableControl.prWorkPermission AND_THEN fbTablePlace.mBottleBeforeWeighing(1) THEN
 			iWorkStep:= 20;
+			bSensorWasOff:=FALSE;
+		ELSIF fbLoadingSensor.prSensorOffError THEN
+			mSetError(nTable_ErrorList.LoadingSensorError);
 		END_IF
 	ELSE
 		bRotationRequest:= TRUE;
 	END_IF
+	
 	IF bManualModeRequest THEN
 		iWorkStep:= 80;
 	END_IF
 	
 	20: //Wait For Table Movement
-	IF __ISVALIDREF(fbTablePlace) THEN
-		bRotationRequest:= fbLoadingSensor.prSensorOnOK AND fbTablePlace.prStateIsBeforeWeighing;
-		IF fbTablePlace.prStateIsEmpty  THEN //Table Movement
-			iWorkStep:= 30;
-		END_IF
-	ELSIF  fbTableControl.prTableIsMoving THEN
-		iWorkStep:= 30;
+	bRotationRequest:= TRUE;
+	IF fbTableControl.prTableIsMoving THEN
+		iWorkStep:= 0;
 	END_IF
 		
-		
-	30: //Wait For Sensor OFF	
-		fbLoadingSensor.bRequestedState := FALSE;
-		fbLoadingSensor.bCheckState := TRUE;
-		IF fbLoadingSensor.prSensorOffOK THEN
-			iWorkStep:= 0;
-		ELSIF fbLoadingSensor.prSensorOffError THEN
-			mSetError(nTable_ErrorList.LoadingSensorError);
-		END_IF
+	
 		
 	80: //Manual Mode
 		IF NOT bManualModeRequest THEN
@@ -84,12 +77,23 @@ END_CASE
       <LineId Id="179" Count="0" />
       <LineId Id="182" Count="0" />
       <LineId Id="223" Count="0" />
-      <LineId Id="183" Count="10" />
-      <LineId Id="267" Count="1" />
-      <LineId Id="194" Count="0" />
+      <LineId Id="290" Count="1" />
+      <LineId Id="183" Count="5" />
+      <LineId Id="311" Count="0" />
+      <LineId Id="189" Count="0" />
+      <LineId Id="308" Count="0" />
+      <LineId Id="190" Count="2" />
+      <LineId Id="292" Count="2" />
+      <LineId Id="284" Count="1" />
+      <LineId Id="193" Count="1" />
+      <LineId Id="309" Count="0" />
       <LineId Id="263" Count="1" />
       <LineId Id="260" Count="0" />
-      <LineId Id="195" Count="19" />
+      <LineId Id="195" Count="1" />
+      <LineId Id="325" Count="0" />
+      <LineId Id="199" Count="1" />
+      <LineId Id="204" Count="1" />
+      <LineId Id="214" Count="0" />
       <LineId Id="252" Count="4" />
       <LineId Id="215" Count="7" />
       <LineId Id="26" Count="0" />

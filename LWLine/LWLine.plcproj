@@ -478,26 +478,53 @@
     <Compile Include="POUs\FunctionsBlocks\KomoraSC.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Actuator\vActuator_Frame.TcVIS">
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Devices\FB_Conveyor.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Devices\FB_Lock.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Devices\FB_WeighingOversampling.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Devices\ST_LockInOut.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Devices\ST_WeighingSettings.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Devices\vActuatorFrame.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
-    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Actuator\FB_ActuatorOOP_TC.TcPOU">
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Devices\FB_ActuatorOOP_TC.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Actuator\FB_GeneralError.TcPOU">
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Devices\FB_GeneralError.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Actuator\FB_Sensor.TcPOU">
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Devices\FB_Sensor.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Actuator\fMeanFilter.TcPOU">
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Devices\fMeanFilter.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Actuator\ST_ActuatorInOut_TC.TcDUT">
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Devices\ST_ActuatorInOut_TC.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Actuator\vSensorFrame.TcVIS">
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Devices\vConveyor.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Devices\vSensorFrame.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Devices\vLockFrame.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Devices\vWeighing.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
@@ -508,6 +535,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\DUTs\ST_TableBottlePlace.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\DUTs\ST_TableControl_InOuts.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\DUTs\ST_TableControl_HMI.TcDUT">
@@ -541,7 +571,7 @@
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
-    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Servo\vAxisMachineSub_Service.TcVIS">
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\Servo\vAxisDetail.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
@@ -599,6 +629,10 @@
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
     <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\VISUs\Stations\vTableWeighingDetail.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="POUs\FunctionsBlocks\WeighingTunnel\VISUs\Stations\vTableWeighingService.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
@@ -721,7 +755,7 @@
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
-    <Compile Include="VISUs\tlSensorNames.TcTLO">
+    <Compile Include="VISUs\tlDevices.TcTLO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="VISU_TASK.TcTTO">
@@ -786,7 +820,7 @@
     <Folder Include="POUs\FunctionsBlocks\18_ManometerLabel" />
     <Folder Include="POUs\FunctionsBlocks\18_ManometerLabel\DUTs" />
     <Folder Include="POUs\FunctionsBlocks\WeighingTunnel" />
-    <Folder Include="POUs\FunctionsBlocks\WeighingTunnel\Actuator" />
+    <Folder Include="POUs\FunctionsBlocks\WeighingTunnel\Devices" />
     <Folder Include="POUs\FunctionsBlocks\WeighingTunnel\DUTs" />
     <Folder Include="POUs\FunctionsBlocks\WeighingTunnel\Servo" />
     <Folder Include="POUs\FunctionsBlocks\WeighingTunnel\Stations" />

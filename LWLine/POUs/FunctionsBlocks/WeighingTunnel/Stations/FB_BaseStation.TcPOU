@@ -40,11 +40,10 @@ fbStepTON(IN:=fbStepTON.PT >T#0S);
 iLastStep := iWorkStep;
 
 //Brak referencji - błąd pozycji
-IF bRefError AND iWorkStep > WAIT_STEP AND iWorkStep < ERROR_STEP AND iWorkStep <> MANUAL_STEP AND NOT __ISVALIDREF(fbTablePlace) THEN
-	mSetError(nTable_ErrorList.TablePositionError);	
-END_IF
-
-bRotationRequest R= iWorkStep<>WAIT_STEP;
+//IF bRefError AND iWorkStep > WAIT_STEP AND iWorkStep < ERROR_STEP AND iWorkStep <> MANUAL_STEP AND NOT __ISVALIDREF(fbTablePlace) THEN
+//	mSetError(nTable_ErrorList.TablePositionError);	
+//END_IF
+bRotationRequest := FALSE;
 bManualModeActive := iWorkStep=MANUAL_STEP;]]></ST>
     </Implementation>
     <Method Name="mErrorReset" Id="{307c245a-308f-4b3e-a89f-a5e87dd8cc62}">
@@ -70,27 +69,46 @@ bError := TRUE;
 iWorkStep:=90;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="pError" Id="{b0d60995-960d-478b-b068-43a1eebae1e8}">
-      <Declaration><![CDATA[PROPERTY pError : BOOL]]></Declaration>
+    <Property Name="prError" Id="{b0d60995-960d-478b-b068-43a1eebae1e8}">
+      <Declaration><![CDATA[PROPERTY prError : BOOL]]></Declaration>
       <Get Name="Get" Id="{9f3de2f4-5df4-435d-80fb-a907e1adb63f}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[pError := bError;]]></ST>
+          <ST><![CDATA[prError := bError;]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <Property Name="pErrorNumber" Id="{d80a4a1f-6932-4311-bb5a-0f21cc367d92}">
-      <Declaration><![CDATA[PROPERTY pErrorNumber : UDINT]]></Declaration>
+    <Property Name="prErrorNumber" Id="{d80a4a1f-6932-4311-bb5a-0f21cc367d92}">
+      <Declaration><![CDATA[PROPERTY prErrorNumber : UDINT]]></Declaration>
       <Get Name="Get" Id="{062d2237-59a2-40b7-81f2-ad808ac10adf}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[pErrorNumber:= udiErrorNumber;]]></ST>
+          <ST><![CDATA[prErrorNumber:= udiErrorNumber;]]></ST>
         </Implementation>
       </Get>
+    </Property>
+    <Property Name="prTablePlace" Id="{88cbe737-a470-4003-9fa4-38b67688cbaf}">
+      <Declaration><![CDATA[PROPERTY prTablePlace : REFERENCE TO FB_TablePlace]]></Declaration>
+      <Get Name="Get" Id="{bd357123-069c-4d22-9e1c-de08e6b4f1bb}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prTablePlace REF= fbTablePlace;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{17bc3b84-08fa-40ff-9713-9439282169b2}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[fbTablePlace REF= prTablePlace;]]></ST>
+        </Implementation>
+      </Set>
     </Property>
     <Property Name="prTableRotationInterlock" Id="{e5fc254a-5609-4be3-84a7-f8c244dac0b1}">
       <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
@@ -126,29 +144,9 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Property Name="pTablePlace" Id="{88cbe737-a470-4003-9fa4-38b67688cbaf}">
-      <Declaration><![CDATA[PROPERTY pTablePlace : REFERENCE TO FB_TablePlace]]></Declaration>
-      <Get Name="Get" Id="{bd357123-069c-4d22-9e1c-de08e6b4f1bb}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[pTablePlace REF= fbTablePlace;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{17bc3b84-08fa-40ff-9713-9439282169b2}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[fbTablePlace REF= pTablePlace;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
     <LineIds Name="FB_BaseStation">
       <LineId Id="30" Count="9" />
       <LineId Id="9" Count="0" />
-      <LineId Id="41" Count="0" />
       <LineId Id="40" Count="0" />
       <LineId Id="85" Count="0" />
     </LineIds>
@@ -162,10 +160,16 @@ END_VAR
       <LineId Id="7" Count="0" />
       <LineId Id="12" Count="0" />
     </LineIds>
-    <LineIds Name="FB_BaseStation.pError.Get">
+    <LineIds Name="FB_BaseStation.prError.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_BaseStation.pErrorNumber.Get">
+    <LineIds Name="FB_BaseStation.prErrorNumber.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BaseStation.prTablePlace.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BaseStation.prTablePlace.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_BaseStation.prTableRotationInterlock.Get">
@@ -175,12 +179,6 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_BaseStation.prTableRotationRequest.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_BaseStation.pTablePlace.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_BaseStation.pTablePlace.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
