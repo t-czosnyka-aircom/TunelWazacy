@@ -21,9 +21,11 @@ VAR
 	iWorkStep: UINT;
 	fbStepTON:TON;
 	iLastStep: INT;
+	iLastNonErrorStep:INT;
 	bRefError:BOOL:=TRUE;
 	iStationId:USINT;
 	sStationName:STRING;
+	nActEvent: nTable_ErrorList;
 END_VAR
 
 VAR CONSTANT
@@ -40,11 +42,15 @@ fbStepTON(IN:=fbStepTON.PT >T#0S);
 iLastStep := iWorkStep;
 
 //Brak referencji - błąd pozycji
-//IF bRefError AND iWorkStep > WAIT_STEP AND iWorkStep < ERROR_STEP AND iWorkStep <> MANUAL_STEP AND NOT __ISVALIDREF(fbTablePlace) THEN
-//	mSetError(nTable_ErrorList.TablePositionError);	
-//END_IF
-bRotationRequest := FALSE;
-bManualModeActive := iWorkStep=MANUAL_STEP;]]></ST>
+IF bRefError AND iWorkStep > WAIT_STEP AND iWorkStep < ERROR_STEP AND iWorkStep <> MANUAL_STEP AND NOT __ISVALIDREF(fbTablePlace) THEN
+	mSetError(nTable_ErrorList.TablePositionError);	
+END_IF
+//bRotationRequest := FALSE;
+bManualModeActive := iWorkStep=MANUAL_STEP;
+
+IF iWorkStep < ERROR_STEP THEN
+	iLastNonErrorStep := iWorkStep;
+END_IF]]></ST>
     </Implementation>
     <Method Name="mErrorReset" Id="{307c245a-308f-4b3e-a89f-a5e87dd8cc62}">
       <Declaration><![CDATA[METHOD mErrorReset : BOOL
@@ -54,17 +60,20 @@ END_VAR
       <Implementation>
         <ST><![CDATA[bError := FALSE;
 udiErrorNumber := 0;
-iWorkStep:=91;]]></ST>
+iWorkStep:=91;
+nActEvent := 0;]]></ST>
       </Implementation>
     </Method>
     <Method Name="mSetError" Id="{fb83016a-aaa2-4dd7-8f9c-2795ee415507}">
       <Declaration><![CDATA[METHOD mSetError : BOOL
 VAR_INPUT
-	udiErrorNumberSet: UDINT;
+	//udiErrorNumberSet: UDINT;
+	nError:nTable_ErrorList;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[udiErrorNumber := udiErrorNumberSet;
+        <ST><![CDATA[udiErrorNumber := nError;
+nActEvent:=nError;
 bError := TRUE;
 iWorkStep:=90;]]></ST>
       </Implementation>
@@ -88,6 +97,17 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[prErrorNumber:= udiErrorNumber;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="prInManualMode" Id="{94d1a376-6597-4d8b-83d1-8a18f0d90945}">
+      <Declaration><![CDATA[PROPERTY prInManualMode : BOOL]]></Declaration>
+      <Get Name="Get" Id="{5ae6197b-9982-4a5a-8ca0-31b10ec95823}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prInManualMode := bManualModeActive;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -149,14 +169,19 @@ END_VAR
       <LineId Id="9" Count="0" />
       <LineId Id="40" Count="0" />
       <LineId Id="85" Count="0" />
+      <LineId Id="118" Count="0" />
+      <LineId Id="117" Count="0" />
+      <LineId Id="119" Count="1" />
     </LineIds>
     <LineIds Name="FB_BaseStation.mErrorReset">
       <LineId Id="11" Count="0" />
       <LineId Id="6" Count="0" />
       <LineId Id="10" Count="0" />
+      <LineId Id="15" Count="0" />
     </LineIds>
     <LineIds Name="FB_BaseStation.mSetError">
       <LineId Id="5" Count="0" />
+      <LineId Id="18" Count="0" />
       <LineId Id="7" Count="0" />
       <LineId Id="12" Count="0" />
     </LineIds>
@@ -164,6 +189,9 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_BaseStation.prErrorNumber.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BaseStation.prInManualMode.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_BaseStation.prTablePlace.Get">

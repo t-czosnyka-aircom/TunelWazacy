@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <DUT Name="ST_LoadingStation_Settings" Id="{d0a33208-dd61-4e1d-9c8a-bdb3f041333a}">
+    <Declaration><![CDATA[TYPE ST_LoadingStation_Settings :
+STRUCT
+	iBottleDetectionDelayMS		:uINT:=500;
+	iSensorErrorDelayMS			:UINT:=1000;
+	stLoadingBottleParams:ST_LoadingBottleParams;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

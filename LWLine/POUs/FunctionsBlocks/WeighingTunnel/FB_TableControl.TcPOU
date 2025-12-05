@@ -37,26 +37,41 @@ VAR
 	bError: BOOL;
 	nError: nTable_ErrorList;
 	nLastError: nTable_ErrorList;
+
+
 END_VAR
 
 VAR CONSTANT
 	TOTAL_TABLE_PLACES:USINT:=8;
+	BOTTLE_TYPES_NUMBER: USINT:=10;
 END_VAR
 
 VAR PERSISTENT
+
 	stHMI : ST_TableControl_HMI;
+	arrTypes : ARRAY[0..BOTTLE_TYPES_NUMBER] OF ST_BottleTypeParams;
 END_VAR
 
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[//SIMULATION//
-bWorkPermission :=TRUE;
+IF bIBN THEN
+	IF stInOuts.bQ_SafetyErrorAck THEN
+		mErrorReset();
+	END_IF
+END_IF
+bWorkPermission :=bIBN;
+//stInOuts.bI_SafetyGateOK := TRUE;
+//stInOuts.bI_SafetyEstopOK := TRUE;
+//stInOuts.bI_SafetyDrawerOK := TRUE;
 /////
 stInOuts.bQ_SafetyRun := TRUE;
 stInOuts.bQ_SafetyErrorAck:= stInOuts.bI_SafetyReset_1 OR stInOuts.bI_SafetyReset_2;
 
 fbTableAxis.bSafetyReset := stInOuts.bQ_SafetyErrorAck;
+fbTableAxis.bEmergencyStop := stInOuts.bI_SafetyEstopOK AND stInOuts.bI_SafetyGateOK;
 bReleaseFromSafety := stInOuts.bI_SafetyEstopOK AND stInOuts.bI_SafetyGateOK;
+
 
 
 
@@ -139,7 +154,7 @@ CASE iWorkStep OF
 
 
 	10: //Wait for rotation request
-		fbRotationRequestTON(IN:=bRotationRequest AND bRotationInterlock AND fbTableAxis.prIsReady AND fbTableAxis.prIsHomed,PT:=T#1S);
+		fbRotationRequestTON(IN:=FALSE AND bRotationRequest AND bRotationInterlock AND fbTableAxis.prIsReady AND fbTableAxis.prIsHomed AND bWorkPermission,PT:=T#1S);
 		IF fbRotationRequestTON.Q THEN
 			fbRotationRequestTON(IN:=FALSE);
 			iWorkStep := 30;
@@ -173,6 +188,7 @@ CASE iWorkStep OF
 	
 	90: //Error
 		bError := TRUE;
+		iWorkStep:=91;
 	
 	91: //Wait for error reset
 	
@@ -192,8 +208,76 @@ CASE iWorkStep OF
 
 END_CASE
 
-iCurrentPositionNumberSave := prTablePositionNumber;]]></ST>
+iCurrentPositionNumberSave := prTablePositionNumber;
+
+//Types
+IF stHMI.nCurrentTypeToProduce = nBottleTypes.none THEN
+	stHMI.nCurrentTypeToProduce:= nBottleTypes.first;
+END_IF
+IF stHMI.nEditedType > 0 AND stHMI.nEditedType <= BOTTLE_TYPES_NUMBER THEN
+	IF stHMI.nLastEditedType  <> stHMI.nEditedType THEN
+		stHMI.stEditedType:=arrTypes[stHMI.nEditedType];
+	END_IF
+	IF stHMI.bSave THEN
+		arrTypes[stHMI.nEditedType]:= stHMI.stEditedType;
+		stHMI.bSave:=FALSE;
+	END_IF
+	IF stHMI.bRestore THEN
+		stHMI.stEditedType := arrTypes[stHMI.nEditedType];
+		stHMI.bRestore:=FALSE;
+	END_IF
+	stHMI.nLastEditedType :=   stHMI.nEditedType;
+END_IF
+
+//fbJsonDataType.GetJsonFromSymbol('ST_Values',SIZEOF(stValues), ADR(stValues), nBufferLength, ADR(sBuffer));]]></ST>
     </Implementation>
+    <Method Name="mErrorReset" Id="{1efedf66-1b3f-4af7-ad1d-aeb778b44ae6}">
+      <Declaration><![CDATA[METHOD mErrorReset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF iWorkStep =91 THEN
+	iWorkStep:=95;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mGetBottleLoadingParams" Id="{bd99587a-7f8a-4499-9c50-64be08ad39cf}">
+      <Declaration><![CDATA[METHOD mGetBottleLoadingParams : ST_LoadingBottleParams
+VAR_INPUT
+	nBottleType: nBottleTypes;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF nBottleType <= BOTTLE_TYPES_NUMBER THEN
+	mGetBottleLoadingParams := arrTypes[nBottleType].stLoadingBottleParams;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mGetBottleUnloadingParams" Id="{cd9e0412-bfb1-4c92-98fc-14f936c33494}">
+      <Declaration><![CDATA[METHOD mGetBottleUnloadingParams : ST_UnloadingBottleParams
+VAR_INPUT
+	nBottleType: nBottleTypes;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF nBottleType <= BOTTLE_TYPES_NUMBER THEN
+	mGetBottleUnloadingParams := arrTypes[nBottleType].stUnloadingBottleParams;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mGetBottleWeighingParams" Id="{3598225d-2381-4efe-9653-09691a91f7b1}">
+      <Declaration><![CDATA[METHOD mGetBottleWeighingParams : ST_WeighingBottleParams
+VAR_INPUT
+	nBottleType: nBottleTypes;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF nBottleType <= BOTTLE_TYPES_NUMBER THEN
+	mGetBottleWeighingParams := arrTypes[nBottleType].stWeighingBottleParams;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="mNewEvent" Id="{ad4822d0-58ff-4947-963c-dba1cc7931e0}">
       <Declaration><![CDATA[METHOD INTERNAL mNewEvent : BOOL
 VAR_INPUT
@@ -213,6 +297,17 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Property Name="prNextType" Id="{9b6a4cf6-adf7-4845-b89f-61b3d0260aed}">
+      <Declaration><![CDATA[PROPERTY prNextType : nBottleTypes]]></Declaration>
+      <Get Name="Get" Id="{560ddfbb-88c9-47ab-b19f-aa6d28e919d4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prNextType := stHMI.nCurrentTypeToProduce;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="prTableInPosition" Id="{1b9542f5-b1b7-456b-b3c1-401cda04a1e0}">
       <Declaration><![CDATA[PROPERTY prTableInPosition : BOOL]]></Declaration>
       <Get Name="Get" Id="{74242f0a-f248-428f-82b1-d392f8f5b487}">
@@ -269,12 +364,23 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="FB_TableControl">
-      <LineId Id="530" Count="2" />
+      <LineId Id="530" Count="0" />
+      <LineId Id="1122" Count="1" />
+      <LineId Id="1125" Count="1" />
+      <LineId Id="1124" Count="0" />
+      <LineId Id="531" Count="0" />
+      <LineId Id="827" Count="0" />
+      <LineId Id="875" Count="0" />
+      <LineId Id="874" Count="0" />
+      <LineId Id="532" Count="0" />
       <LineId Id="766" Count="0" />
       <LineId Id="533" Count="0" />
       <LineId Id="770" Count="0" />
       <LineId Id="768" Count="0" />
-      <LineId Id="776" Count="2" />
+      <LineId Id="826" Count="0" />
+      <LineId Id="776" Count="0" />
+      <LineId Id="825" Count="0" />
+      <LineId Id="777" Count="1" />
       <LineId Id="767" Count="0" />
       <LineId Id="534" Count="5" />
       <LineId Id="718" Count="0" />
@@ -290,11 +396,48 @@ END_VAR
       <LineId Id="633" Count="1" />
       <LineId Id="663" Count="1" />
       <LineId Id="635" Count="0" />
-      <LineId Id="639" Count="21" />
+      <LineId Id="639" Count="2" />
+      <LineId Id="1127" Count="0" />
+      <LineId Id="642" Count="18" />
       <LineId Id="203" Count="0" />
+      <LineId Id="927" Count="1" />
+      <LineId Id="1003" Count="0" />
+      <LineId Id="1069" Count="1" />
+      <LineId Id="1002" Count="0" />
+      <LineId Id="996" Count="0" />
+      <LineId Id="999" Count="1" />
+      <LineId Id="1011" Count="2" />
+      <LineId Id="1010" Count="0" />
+      <LineId Id="1015" Count="2" />
+      <LineId Id="1014" Count="0" />
+      <LineId Id="995" Count="0" />
+      <LineId Id="1005" Count="0" />
+      <LineId Id="930" Count="0" />
+      <LineId Id="926" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TableControl.mErrorReset">
+      <LineId Id="5" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_TableControl.mGetBottleLoadingParams">
+      <LineId Id="7" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TableControl.mGetBottleUnloadingParams">
+      <LineId Id="7" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TableControl.mGetBottleWeighingParams">
+      <LineId Id="7" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="0" />
     </LineIds>
     <LineIds Name="FB_TableControl.mNewEvent">
       <LineId Id="3" Count="7" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TableControl.prNextType.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_TableControl.prTableInPosition.Get">

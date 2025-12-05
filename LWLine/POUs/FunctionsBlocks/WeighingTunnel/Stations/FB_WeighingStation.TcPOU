@@ -10,24 +10,31 @@ VAR
 	bDrawerUnlockRequest:BOOL;
 	fbDrawerLock: FB_Lock;
 	fbWeighing : FB_WeighingOversampling;
-	bWeightCheckOK :BOOL;
-	bCameraCheckOK :BOOL;
+	
+	nCameraResult,nWeightingResult :(NO_RESULT,OK,NOK);
 	stInOuts :ST_WeighingStation_InOuts;
+	fbTimeStats:fbTimeTable255;
 END_VAR
 VAR PERSISTENT
 	stSettings: ST_WeighingStation_Settings;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[//SIM/
-stInOuts.stDrawerLock.bClosed := TRUE;
-stInOuts.stDrawerLock.bLocked := TRUE;
+//stInOuts.stDrawerLock.bClosed := TRUE;
+//stInOuts.stDrawerLock.bLocked := TRUE;
 
 //Call FB_BaseStation
 SUPER^(fbTableControl:=fbTableControl);
 iStationId:=201;
 sStationName :='Weighing Station';
 
-bRotationInterlock:=fbDrawerLock.prClosedAndLocked AND fbPusherActuator.prInHomePosition AND fbWeighingActuator.prInHomePosition;
+//Types
+IF  __ISVALIDREF(fbTablePlace) THEN
+	stSettings.stWeighingBottleParams := fbTableControl.mGetBottleWeighingParams(fbTablePlace.prBottleType);
+END_IF
+
+
+bRotationInterlock:=fbDrawerLock.prClosedAndLocked AND fbPusherActuator.prInHomePosition AND fbWeighingActuator.prInHomePosition OR TRUE;
 
 
 fbWeighingActuator(stDigInOut:=stInOuts.stWeighingActuator, bI_Control_Ready:=TRUE, bManualMode:=bManualModeActive, 
@@ -47,13 +54,12 @@ fbDrawerLock(stInOut:=stInOuts.stDrawerLock,bReleaseManulOpening:=bManualModeAct
 IF fbDrawerLock.prNotClosed THEN
 	stSettings.iNOK_BottleCounter := 0;
 END_IF
-			
+
+bRotationRequest:= FALSE;			
 CASE iWorkStep OF
 	0: //CheckState
 		IF  __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.prStateIsNOK THEN
 			iWorkStep:=50;
-		ELSIF bDrawerUnlockRequest THEN
-			iWorkStep:=70;
 		ELSE
 			iWorkStep:=5;
 		END_IF
@@ -69,18 +75,18 @@ CASE iWorkStep OF
 		
 	
 	10: //Wait for Bottle - Table rotation
-		IF stSettings.iNOK_BottleCounter >= 5 THEN
-			bDrawerUnlockRequest := TRUE;
-		END_IF
-		IF __ISVALIDREF(fbTablePlace) THEN
+
+		IF __ISVALIDREF(fbTablePlace) AND fbTableControl.prWorkPermission THEN
 			fbBottleSensor.bRequestedState := NOT fbTablePlace.prStateIsEmpty;
 			fbBottleSensor.bCheckState := fbTableControl.prTableInPosition;
-			bRotationRequest := fbTablePlace.prStateIsAfterWeighing AND fbBottleSensor.prSensorOnOK OR (fbTablePlace.prStateIsEmpty AND fbBottleSensor.prSensorOffOK);
-			IF fbTablePlace.prStateIsBeforeWeighing AND fbBottleSensor.prSensorOnOK THEN
+			bRotationRequest := fbTablePlace.prStateIsAfterWeighing AND fbBottleSensor.prSensorOnOK OR (fbTablePlace.prStateIsEmpty AND fbBottleSensor.prSensorOffOK AND NOT bDrawerUnlockRequest);
+			IF bDrawerUnlockRequest AND (fbTablePlace.prStateIsBeforeWeighing AND fbBottleSensor.prSensorOnOK  OR fbTablePlace.prStateIsEmpty AND fbBottleSensor.prSensorOffOK) THEN
+				iWorkStep:=70;
+			ELSIF fbTablePlace.prStateIsBeforeWeighing AND fbBottleSensor.prSensorOnOK THEN
 				iWorkStep:=20;
 			END_IF
-		ELSE
-			bRotationRequest := TRUE;
+//		ELSE
+//			bRotationRequest := TRUE;
 		END_IF;
 		IF bManualModeRequest THEN
 			iWorkStep:= 80;
@@ -89,25 +95,51 @@ CASE iWorkStep OF
 	20: //Weighing Actuator Work
 		IF fbWeighingActuator.mGoToWork(FALSE) AND __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.mBottleProcessing() THEN
 			iWorkStep:=30;
-			bWeightCheckOK :=FALSE;
-			bCameraCheckOK :=FALSE;
+			nWeightingResult :=NO_RESULT;
+			nCameraResult :=NO_RESULT;
 		END_IF
 	
 	30: //Weight and Camera Check
-		iWorkStep:=40;
-
+		fbStepTON.PT:=T#10S;
+		//Weight Check
 		IF stSettings.bWeightCheck AND_THEN fbWeighing.mGetMeasurement(1000) THEN
-			IF NOT fbWeighing.prSingleMeasurementError THEN
-				bWeightCheckOK := ABS(fbWeighing.prSingleMeasurement - stSettings.rRequiredWeight) <=  stSettings.rWeightTolerance;
+			nWeightingResult := NOK;
+			IF NOT fbWeighing.prSingleMeasurementError AND ABS(fbWeighing.prSingleMeasurement - stSettings.stWeighingBottleParams.rTargetWeight) <=   stSettings.stWeighingBottleParams.rWeightTolerance THEN
+				nWeightingResult :=OK;
 			END_IF
-		ELSE
-			bWeightCheckOK := TRUE;
+		ELSIF NOT stSettings.bWeightCheck THEN
+			nWeightingResult :=OK;
 		END_IF
 		
-		IF bWeightCheckOK AND bCameraCheckOK THEN
-			iWorkStep:=40;
+		//Camera Check
+		IF stSettings.bCameraCheck THEN
+			nCameraResult:=NOK;
 		ELSE
-			IF  __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.mBottleNOK() THEN
+			nCameraResult:=OK;
+		END_IF
+		
+		//Results
+		
+		IF nWeightingResult =OK  AND nCameraResult =OK THEN
+			fbTimeStats.mPushText(sText:= CONCAT(GVL_Aircom.stAC_DT_Data.sTimeString, ' Test OK'));	
+			iWorkStep:=40;
+		ELSIF fbStepTON.Q THEN
+			IF nWeightingResult=NO_RESULT THEN 
+				mSetError(nTable_ErrorList.WeighingTimeout);
+				fbTimeStats.mPushText(sText:= CONCAT(GVL_Aircom.stAC_DT_Data.sTimeString, ' Weight No Result'));
+			END_IF
+			IF nCameraResult=NO_RESULT THEN 
+				mSetError(nTable_ErrorList.CameraInspectionTimeout);
+				fbTimeStats.mPushText(sText:= CONCAT(GVL_Aircom.stAC_DT_Data.sTimeString, ' Camera No Result'));
+			END_IF
+		ELSE
+			IF nWeightingResult = NOK THEN
+				fbTimeStats.mPushText(sText:= CONCAT(GVL_Aircom.stAC_DT_Data.sTimeString, ' Weight NOK'));
+			END_IF
+			IF nCameraResult = NOK THEN
+				fbTimeStats.mPushText(sText:= CONCAT(GVL_Aircom.stAC_DT_Data.sTimeString, ' Camera NOK'));
+			END_IF
+			IF  __ISVALIDREF(fbTablePlace) AND (nWeightingResult = NOK OR nCameraResult = NOK) AND_THEN fbTablePlace.mBottleNOK() THEN
 				iWorkStep:=50;
 			END_IF
 		END_IF
@@ -122,6 +154,7 @@ CASE iWorkStep OF
 		IF stSettings.iNOK_BottleCounter  < stSettings.iMaxNOK_Bottles THEN
 			IF fbPusherActuator.mGoToWork(FALSE) THEN
 				iWorkStep:=55;
+
 			END_IF
 		ELSE
 			mSetError(nTable_ErrorList.WeighingNOK_DrawerFull);
@@ -137,6 +170,9 @@ CASE iWorkStep OF
 	60: //Pusher Back
 		IF fbPusherActuator.mGoToHome(FALSE) THEN
 			stSettings.iNOK_BottleCounter := stSettings.iNOK_BottleCounter+1;
+			IF stSettings.iNOK_BottleCounter >= stSettings.iMaxNOK_Bottles THEN
+				bDrawerUnlockRequest := TRUE;
+			END_IF
 			IF __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.mBottleEmpty() THEN
 				iWorkStep:=0;
 			END_IF
@@ -145,10 +181,9 @@ CASE iWorkStep OF
 		END_IF
 		
 	70: //Drawer Unlock
-		
 		fbDrawerLock.mOpen();
 		fbStepTON.PT:=T#3S;
-		IF NOT fbDrawerLock.prClosedAndLocked THEN
+		IF NOT fbDrawerLock.prClosedAndLocked OR bSimulationON THEN
 			iWorkStep:=71;
 		ELSIF fbStepTON.Q THEN
 			mSetError(nTable_ErrorList.WeighingDrawerOpeningError);	
@@ -156,9 +191,10 @@ CASE iWorkStep OF
 	
 	71: //Wait Drawer Opened
 		fbDrawerLock.mOpen();
-		IF NOT fbDrawerLock.prClosed THEN
+		IF NOT fbDrawerLock.prClosed OR bSimulationON THEN
 			bDrawerUnlockRequest:=FALSE;
 			iWorkStep:=72;
+			stSettings.iNOK_BottleCounter := 0;
 		END_IF
 		
 	72: //Wait Drawer Closed
@@ -177,31 +213,45 @@ CASE iWorkStep OF
 
 		
 	91: //Error Reset
-		iWorkStep:=0;
 		fbWeighingActuator.mErrorReset();
 		fbPusherActuator.mErrorReset();
-	
+		mErrorReset();
+		iWorkStep:=0;
 END_CASE
 
 
-]]></ST>
+fbTimeStats.rRowTime:=0;]]></ST>
     </Implementation>
     <LineIds Name="FB_WeighingStation">
-      <LineId Id="860" Count="70" />
-      <LineId Id="1023" Count="1" />
-      <LineId Id="931" Count="3" />
-      <LineId Id="941" Count="2" />
-      <LineId Id="1043" Count="0" />
-      <LineId Id="945" Count="0" />
-      <LineId Id="1025" Count="1" />
-      <LineId Id="947" Count="0" />
-      <LineId Id="1027" Count="2" />
-      <LineId Id="1039" Count="0" />
-      <LineId Id="1041" Count="1" />
-      <LineId Id="1040" Count="0" />
-      <LineId Id="1030" Count="0" />
-      <LineId Id="1020" Count="0" />
-      <LineId Id="948" Count="71" />
+      <LineId Id="1344" Count="7" />
+      <LineId Id="1595" Count="2" />
+      <LineId Id="1618" Count="0" />
+      <LineId Id="1599" Count="0" />
+      <LineId Id="1594" Count="0" />
+      <LineId Id="1352" Count="26" />
+      <LineId Id="1381" Count="14" />
+      <LineId Id="1398" Count="5" />
+      <LineId Id="1577" Count="0" />
+      <LineId Id="1576" Count="0" />
+      <LineId Id="1573" Count="0" />
+      <LineId Id="1405" Count="39" />
+      <LineId Id="1534" Count="0" />
+      <LineId Id="1445" Count="1" />
+      <LineId Id="1535" Count="0" />
+      <LineId Id="1537" Count="2" />
+      <LineId Id="1536" Count="0" />
+      <LineId Id="1450" Count="21" />
+      <LineId Id="1565" Count="0" />
+      <LineId Id="1472" Count="14" />
+      <LineId Id="1570" Count="1" />
+      <LineId Id="1569" Count="0" />
+      <LineId Id="1487" Count="7" />
+      <LineId Id="1496" Count="12" />
+      <LineId Id="1564" Count="0" />
+      <LineId Id="1509" Count="17" />
+      <LineId Id="1528" Count="2" />
+      <LineId Id="1568" Count="0" />
+      <LineId Id="1531" Count="2" />
       <LineId Id="180" Count="0" />
     </LineIds>
   </POU>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <DUT Name="ST_WeighingStation_Settings" Id="{d0ad0e00-53b8-4ef3-adb4-b919773c252b}">
+    <Declaration><![CDATA[TYPE ST_WeighingStation_Settings :
+STRUCT
+	iNOK_BottleCounter: UINT;
+	iMaxNOK_Bottles: UINT:=6;
+	stWeighingBottleParams:ST_WeighingBottleParams;
+	bWeightCheck:BOOL:=TRUE;
+	bCameraCheck:BOOL:=TRUE;
+	stWeighing : ST_WeighingSettings;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

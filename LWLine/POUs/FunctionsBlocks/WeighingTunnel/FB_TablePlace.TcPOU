@@ -14,6 +14,7 @@ VAR
 	bWorkPermission: BOOL;
 	bStationError: BOOL;
 	udiErrorNumber: UDINT;
+	bReleaseChange: BOOL;
 END_VAR
 VAR PERSISTENT
 	stPlace: ST_TableBottlePlace;
@@ -25,18 +26,21 @@ bStationError := FALSE;
 udiErrorNumber := 0;
 
 IF prStateIsEmpty THEN
-	stPlace.iProductType:=0;
-	stPlace.sProductName :='';
+	stPlace.nBottleType:=nBottleTypes.none;
+ELSIF NOT prStateIsEmpty AND stPlace.nBottleType=nBottleTypes.none THEN
+	stPlace.nBottleType := nBottleTypes.first;
 END_IF
 
 IF itfWorkingStation = 0 THEN
 	bRotationInterlock := TRUE;
 	bRotationRequest := TRUE;
+	bReleaseChange := TRUE;
 ELSE
 	bRotationInterlock := itfWorkingStation.prTableRotationInterlock;
 	bRotationRequest := itfWorkingStation.prTableRotationRequest;
 	bStationError := itfWorkingStation.prError;
 	udiErrorNumber :=  itfWorkingStation.prErrorNumber;
+	bReleaseChange := itfWorkingStation.prInManualMode;
 END_IF]]></ST>
     </Implementation>
     <Method Name="mBottleAfterWeighing" Id="{9720bd92-134b-4b68-80c2-6a2cc402d47b}">
@@ -54,13 +58,13 @@ mBottleAfterWeighing :=prStateIsAfterWeighing;]]></ST>
     <Method Name="mBottleBeforeWeighing" Id="{0e51995b-61d3-4d5c-9d79-3d4ce30af29a}">
       <Declaration><![CDATA[METHOD mBottleBeforeWeighing : BOOL
 VAR_INPUT
-	iProductType: UINT;
+	nBottleType: nBottleTypes;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF stPlace.nState=nTableBottlePlaceState.Empty THEN
+        <ST><![CDATA[IF stPlace.nState=nTableBottlePlaceState.Empty AND  nBottleType <> nBottleTypes.none THEN
 	stPlace.nState:=nTableBottlePlaceState.BeforeWeighing;
-	stPlace.iProductType:=iProductType;
+	stPlace.nBottleType:=nBottleType;
 END_IF;
 mBottleBeforeWeighing := prStateIsBeforeWeighing;]]></ST>
       </Implementation>
@@ -131,6 +135,17 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[pCurrentState:=stPlace.nState;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="prBottleType" Id="{00e4f692-a5ec-473b-9b55-a05c993e152b}">
+      <Declaration><![CDATA[PROPERTY prBottleType : nBottleTypes]]></Declaration>
+      <Get Name="Get" Id="{f25e6ee1-1ce5-4dd6-b172-15f7dd3acf4b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prBottleType := stPlace.nBottleType;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -297,13 +312,16 @@ END_VAR
       <LineId Id="66" Count="3" />
       <LineId Id="9" Count="0" />
       <LineId Id="11" Count="0" />
-      <LineId Id="14" Count="0" />
+      <LineId Id="94" Count="1" />
       <LineId Id="12" Count="0" />
       <LineId Id="25" Count="0" />
       <LineId Id="24" Count="0" />
       <LineId Id="26" Count="0" />
-      <LineId Id="30" Count="3" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="96" Count="0" />
+      <LineId Id="31" Count="2" />
       <LineId Id="64" Count="1" />
+      <LineId Id="97" Count="0" />
       <LineId Id="27" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.mBottleAfterWeighing">
@@ -340,6 +358,9 @@ END_VAR
       <LineId Id="5" Count="2" />
     </LineIds>
     <LineIds Name="FB_TablePlace.pCurrentState.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.prBottleType.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.prCurrentPosition.Get">

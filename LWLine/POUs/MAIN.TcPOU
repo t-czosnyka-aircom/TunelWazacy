@@ -957,15 +957,15 @@ fbHotPlateAir_PulseCounter(
     </Action>
     <Action Name="ACT_WeighingTunnel" Id="{5e38a3e4-a5ca-4e14-ac89-eb5f90d1af2a}">
       <Implementation>
-        <ST><![CDATA[GVL.bWeighingTunelSim:=TRUE;
-
+        <ST><![CDATA[//GVL.bWeighingTunelSim:=TRUE;
+bIBN := TRUE;
 
 fbTableControl.arrStations[1]:=fbLoadingStation;
 fbTableControl.arrStations[3]:=fbWeighingStation;
 fbTableControl.arrStations[5]:=fbUnloadingStation;
 fbTableControl(fbTableAxis:=fbTableAxis);
 		
-fbTableAxis(bEmergencyStop:=TRUE, bSTO_Signal:=TRUE);
+fbTableAxis(bInSafePosition:=TRUE);
 
 fbLoadingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim);
 fbWeighingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim);

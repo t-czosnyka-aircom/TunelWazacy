@@ -47,7 +47,7 @@
 			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-002000000005}" IecBaseType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..4] OF BIT</Name>
+			<Name GUID="{18071995-0000-0000-0000-002000000005}" IecBaseType="true" BitType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..4] OF BIT</Name>
 			<BitSize>5</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000010}">BIT</BaseType>
 			<ArrayInfo>
@@ -150,17 +150,17 @@
 		<ImageData Id="1000">424dd6020000000000003600000028000000100000000e0000000100180000000000a002000000000000000000000000000000000000ff00ffff00ffff00ffff00ffff00ffff00ff000000ff00ffff00ffa4a0a0a4a0a0a4a0a0a4a0a0a4a0a0a4a0a0a4a0a0000000000000000000000000000000000000000000ff00ffff00ffa4a0a0a4a0a0a4a0a0a4a0a0a4a0a0a4a0a00000000000000000000000000000000000000000000000000909ff0909ffa4a0a0a4a0a0000000000000000000a4a0a000ff00000000000000000000000000000000000000000000ff00ffff00ffa4a0a0a4a0a0000000000000000000a4a0a0000000ff00ffff00ffff00ff000000ff00ffff00ff000000ff00ffff00ffa4a0a0a4a0a0a4a0a0a4a0a0a4a0a0a4a0a0000000000000000000000000000000ff00ffff00ffff00ffff00ffff00ffa4a0a0a4a0a0000000000000000000a4a0a000ff00ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffa4a0a0a4a0a0000000000000000000a4a0a0000000ff00ffff00ffff00ffff00ffff00ffff00ff000000ff00ffff00ffa4a0a0a4a0a0a4a0a0a4a0a0a4a0a0a4a0a0000000000000000000000000000000000000000000000000ff00ffff00ffa4a0a0a4a0a000f2ff00f2ff00f2ffa4a0a000ff000000000000000000000000000000000000000000000909ff0909ffa4a0a0a4a0a000f2ff00f2ff00f2ffa4a0a0000000000000000000000000000000000000000000000000ff00ffff00ffa4a0a0a4a0a000f2ff00f2ff00f2ffa4a0a0000000ff00ffff00ffff00ff000000ff00ffff00ff000000ff00ffff00ffa4a0a0a4a0a000f2ff00f2ff00f2ffa4a0a000ff00000000000000000000000000ff00ffff00ffff00ffff00ffff00ffa4a0a0a4a0a000f2ff00f2ff00f2ffa4a0a0000000ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffa4a0a0a4a0a0a4a0a0a4a0a0a4a0a0a4a0a0a4a0a0</ImageData>
 	</ImageDatas>
 	<Box Id="76" BoxType="9099" BoxFlags="#x00000020">
-		<Name>__FILENAME__</Name>
+		<Name>HP2 Iner_OuterCup MC1 (ELM7212-9016)</Name>
 		<ImageId>1000</ImageId>
 		<Xml>
-			<TcDMDrive>
-				<SortId>3</SortId>
+			<TcDMDrive Disabled="true">
+				<SortId>5</SortId>
 				<DriveModuleType>14</DriveModuleType>
-				<TcLink>
-					<TcPrjPath>..\LWLine.tsproj</TcPrjPath>
+				<TcLink ProtocalType="11">
+					<TcPrjPath>..\TunelWazacy\LWLine.tsproj</TcPrjPath>
 					<IoItemPathName>TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Iner_OuterCup (EK1914)^HP2 Iner_OuterCup MC1 (ELM7212-9016)</IoItemPathName>
-					<ItemId>53</ItemId>
-					<ObjectId>#x03020035</ObjectId>
+					<ItemId>76</ItemId>
+					<ObjectId>#x0302004c</ObjectId>
 				</TcLink>
 				<OrderCode>ELM7212-9016</OrderCode>
 				<Name>HP2 Iner_OuterCup MC1 (ELM7212-9016)</Name>
@@ -194,6 +194,7 @@
 				<Inverter>
 					<Device>
 						<Name>DMInverterTypeDevice</Name>
+						<ProjectGUID>00000000-0000-0000-0000-000000000000</ProjectGUID>
 						<Parameter>
 							<PropertyName>MaxAllowedMainVoltage</PropertyName>
 							<Value>48</Value>
@@ -209,13 +210,14 @@
 					</Device>
 					<Channel ChnId="0">
 						<TcLink>
-							<TcPrjPath>..\LWLine.tsproj</TcPrjPath>
+							<TcPrjPath>..\TunelWazacy\LWLine.tsproj</TcPrjPath>
 							<IoItemPathName>TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Iner_OuterCup (EK1914)^HP2 Iner_OuterCup MC1 (ELM7212-9016)</IoItemPathName>
-							<NcItemPathName>TINC^NC-Task 1 SAF^Axes^Axis_G2_M1_Up</NcItemPathName>
+							<NcItemPathName AxisType="1">TINC^NC-Task 1 SAF^Axes^Axis_G2_M1_Up</NcItemPathName>
 						</TcLink>
 						<SelectedModifyOptPDOsMode>0</SelectedModifyOptPDOsMode>
 						<Modulo>
 							<Name>ControllerModuloType</Name>
+							<ProjectGUID>00000000-0000-0000-0000-000000000000</ProjectGUID>
 							<Parameter>
 								<PropertyName>Modulo_IsOn</PropertyName>
 								<Value>0</Value>
@@ -569,6 +571,7 @@
 							<Feedback DataSource="2">
 								<DatabaseType>
 									<OrderCode>EKS36-0KF0A0S16</OrderCode>
+									<VendorName/>
 									<IsRotary>true</IsRotary>
 									<AbsolutePosInterface>7</AbsolutePosInterface>
 									<GroupType/>
@@ -646,6 +649,7 @@
 							<Load MoveStyle="Linear">
 								<IsMotorRotary>true</IsMotorRotary>
 								<Name>InverterChannelTypeBlockLoad</Name>
+								<ProjectGUID>00000000-0000-0000-0000-000000000000</ProjectGUID>
 								<Parameter>
 									<PropertyName>FeedConstantUnit</PropertyName>
 									<Value>mm</Value>
@@ -690,6 +694,7 @@
 							<Controller>
 								<Filter Id="0">
 									<Name>ControllerFilter</Name>
+									<ProjectGUID>00000000-0000-0000-0000-000000000000</ProjectGUID>
 									<Parameter>
 										<PropertyName>Filter_Type</PropertyName>
 										<Value>0</Value>
@@ -713,6 +718,7 @@
 								</Filter>
 								<Filter Id="1">
 									<Name>ControllerFilter</Name>
+									<ProjectGUID>00000000-0000-0000-0000-000000000000</ProjectGUID>
 									<Parameter>
 										<PropertyName>Filter_Type</PropertyName>
 										<Value>0</Value>
@@ -738,7 +744,7 @@
 						</Block>
 						<WatchLog ChnId="0" UpdateIntervalInMs="500">
 							<WatchLogItem>
-								<WatchLogParaCoE Index="24608" SubIndex="1"/>
+								<WatchLogParaCoE Index="24592" SubIndex="1"/>
 								<Alias>Status word</Alias>
 							</WatchLogItem>
 							<WatchLogItem>
@@ -757,13 +763,14 @@
 					</Channel>
 					<Channel ChnId="1">
 						<TcLink>
-							<TcPrjPath>..\LWLine.tsproj</TcPrjPath>
+							<TcPrjPath>..\TunelWazacy\LWLine.tsproj</TcPrjPath>
 							<IoItemPathName>TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Iner_OuterCup (EK1914)^HP2 Iner_OuterCup MC1 (ELM7212-9016)</IoItemPathName>
-							<NcItemPathName>TINC^NC-Task 1 SAF^Axes^Axis_G2_M1_Dn</NcItemPathName>
+							<NcItemPathName AxisType="1">TINC^NC-Task 1 SAF^Axes^Axis_G2_M1_Dn</NcItemPathName>
 						</TcLink>
 						<SelectedModifyOptPDOsMode>0</SelectedModifyOptPDOsMode>
 						<Modulo>
 							<Name>ControllerModuloType</Name>
+							<ProjectGUID>00000000-0000-0000-0000-000000000000</ProjectGUID>
 							<Parameter>
 								<PropertyName>Modulo_IsOn</PropertyName>
 								<Value>0</Value>
@@ -1117,6 +1124,7 @@
 							<Feedback DataSource="2">
 								<DatabaseType>
 									<OrderCode>EKS36-0KF0A0S16</OrderCode>
+									<VendorName/>
 									<IsRotary>true</IsRotary>
 									<AbsolutePosInterface>7</AbsolutePosInterface>
 									<GroupType/>
@@ -1194,6 +1202,7 @@
 							<Load MoveStyle="Linear">
 								<IsMotorRotary>true</IsMotorRotary>
 								<Name>InverterChannelTypeBlockLoad</Name>
+								<ProjectGUID>00000000-0000-0000-0000-000000000000</ProjectGUID>
 								<Parameter>
 									<PropertyName>FeedConstantUnit</PropertyName>
 									<Value>mm</Value>
@@ -1238,6 +1247,7 @@
 							<Controller>
 								<Filter Id="0">
 									<Name>ControllerFilter</Name>
+									<ProjectGUID>00000000-0000-0000-0000-000000000000</ProjectGUID>
 									<Parameter>
 										<PropertyName>Filter_Type</PropertyName>
 										<Value>0</Value>
@@ -1261,6 +1271,7 @@
 								</Filter>
 								<Filter Id="1">
 									<Name>ControllerFilter</Name>
+									<ProjectGUID>00000000-0000-0000-0000-000000000000</ProjectGUID>
 									<Parameter>
 										<PropertyName>Filter_Type</PropertyName>
 										<Value>0</Value>
@@ -1286,7 +1297,7 @@
 						</Block>
 						<WatchLog ChnId="1" UpdateIntervalInMs="500">
 							<WatchLogItem>
-								<WatchLogParaCoE Index="24864" SubIndex="1"/>
+								<WatchLogParaCoE Index="24848" SubIndex="1"/>
 								<Alias>Status word</Alias>
 							</WatchLogItem>
 							<WatchLogItem>
@@ -2933,7 +2944,7 @@ Bit 8 - 15 : reserved]]></Comment>
 				<ModuleIdent>1057498</ModuleIdent>
 				<Module Id="#x0309000f" Type="SAFETY" Class="8922">
 					<Name>Module 1 (SAFETY)</Name>
-					<ImageId>407</ImageId>
+					<ImageId>409</ImageId>
 					<ModuleData>02000000da22100000003c000000000000000000000000000000000000000000</ModuleData>
 					<PdoIndex>6816</PdoIndex>
 					<PdoIndex>6817</PdoIndex>

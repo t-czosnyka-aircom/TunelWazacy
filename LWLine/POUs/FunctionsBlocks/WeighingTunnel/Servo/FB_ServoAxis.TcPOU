@@ -4,8 +4,8 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_ServoAxis ////Blok funkcyjny obslugujacy kompleksowao jedna Os 
 VAR_INPUT	
 	bSafetyReset			: BOOL;
-	bEmergencyStop 			: BOOL;			// Emergency stop pressed	
-	bSTO_Signal 			: BOOL;			// STO signal activated
+	bEmergencyStop			: BOOL;	
+	bInSafePosition			:BOOL;		
 	I_TimeTableRef			: I_TimeTable255;
 	sTTRowPreambule			: STRING;
 	bELM_ChB				: BOOL;
@@ -35,6 +35,7 @@ VAR
 	//OLD
 	
 	bEnableMotion				: BOOL;		// When TRUE - try to enable axis, when FALSE disable power - safeState
+	bStandardSafetyDisable		: BOOL;     // Only safety reset required, No error
 	McPower 					: MC_Power;
 	McReset 					: MC_Reset;
 	McStop	 					: MC_Stop;
@@ -54,15 +55,13 @@ VAR
 	bLimitSwitchMin: BOOL;
 	bLimitSwitchMax: BOOL;
 	iWorkStep_Axis: INT;
-	fbFTrig_EmergStop: F_TRIG;
 	fbTON_WorkStepTimeout: TON;
-	bOnlySafeState: BOOL;
 	bSetNewBrakeCtrl: BOOL;
 	nAct_BrakeMode, nNew_BrakeMode: nHP_Axis_BrakeMode;
 	fbFTRIG_BreakCtrlDone: F_TRIG;
 	bTooglePowerState: BOOL;
 	astErrorHistory: ARRAY [1..10] OF stErrorHistoryRow;
-
+	fbEnableDelay	:TON;
 	
 END_VAR
 VAR PERSISTENT
@@ -77,6 +76,7 @@ END_VAR]]></Declaration>
       <ST><![CDATA[stInOuts.bQ_SafetyRun :=TRUE;
 stInOuts.bQ_SafetyErrorAck:=bSafetyReset;
 
+
 // Read drive data
 stInOuts.stAxis_Data.ReadStatus();
 McReadActualPosition(Axis := stInOuts.stAxis_Data, Enable := TRUE);
@@ -88,6 +88,11 @@ IF prIsHomed AND prIsNotMoving THEN
 		IF ABS(stSettings.arrPositions[i] - prCurrentPositionModulo) <= stSettings.lrPositionTolerance THEN
 			iCurrentPositionNumber := i;
 			EXIT;
+		ELSIF stSettings.arrPositions[i] -stSettings.lrPositionTolerance <0 THEN
+			IF 360.0 + (stSettings.arrPositions[i] -stSettings.lrPositionTolerance) <= prCurrentPositionModulo THEN
+				iCurrentPositionNumber := i;
+				EXIT;
+			END_IF
 		END_IF
 	END_FOR
 END_IF
@@ -99,8 +104,6 @@ bPositionValid:= fbPositionValidTON.Q;
 //Read FB status
 ACT_AxisFBs(); 	
 ACT_AxisWorkSteps();
-//ACT_AxisFBs(); 
-
 
 fbHomeSensorRTRIG(CLK:=stInOuts.bHomingSensor);
 IF stSettings.bEN_CircularPositions AND NOT bCircularPositionsSet THEN
@@ -165,7 +168,7 @@ McPower(Axis:=stInOuts.stAxis_Data, Enable:=, Enable_Positive:=NOT bLimitSwitchM
 McReset(Axis:=stInOuts.stAxis_Data);
 
 // Homing
-McHome(Axis := stInOuts.stAxis_Data, bCalibrationCam := stInOuts.bHomingSensor, Options := stHomimgParams);
+McHome(Axis := stInOuts.stAxis_Data, bCalibrationCam := stSettings.bEN_HomingSensor_Invert XOR stInOuts.bHomingSensor, Options := stHomimgParams);
 
 // Stop FBs
 McStop(Axis := stInOuts.stAxis_Data, Deceleration := 15000, Jerk := 100000);
@@ -187,7 +190,7 @@ McMoveRel(Axis := stInOuts.stAxis_Data, Acceleration := stSettings.rAcceleration
 McMoveVelocity(Axis := stInOuts.stAxis_Data, Acceleration := stSettings.rAcceleration, Deceleration := stSettings.rDeceleration, Jerk := 100000);
 McMoveModulo(Axis := stInOuts.stAxis_Data, Acceleration := stSettings.rAcceleration, Deceleration := stSettings.rDeceleration, Jerk := 100000);
 // Torque limitation
-McTorqueMonitor( bCalculate:= bSTO_Signal,
+McTorqueMonitor( bCalculate:= bEnableMotion,
 	rTorqueLimit:= ,
 	Axis:= stInOuts.stAxis_Data);
 McTorqueCtrl(Axis := stInOuts.stAxis_Data, Relative := FALSE, ContinuousUpdate := TRUE, TorqueRamp := 100);]]></ST>
@@ -196,24 +199,23 @@ McTorqueCtrl(Axis := stInOuts.stAxis_Data, Relative := FALSE, ContinuousUpdate :
     <Action Name="ACT_AxisWorkSteps" Id="{24332e8c-4fda-4b2a-bd2c-6d7b94bd461c}">
       <Implementation>
         <ST><![CDATA[
-fbFTrig_EmergStop(CLK:= bEmergencyStop);
-IF fbFTrig_EmergStop.Q THEN
-	iWorkStep_Axis := 90;
+IF NOT bEnableMotion AND iWorkStep_Axis > 5 AND iWorkStep_Axis < 90 THEN //Safety Stop
+	IF bEmergencyStop AND prPositionValid AND bInSafePosition THEN
+		iWorkStep_Axis:=90;
+		bStandardSafetyDisable := TRUE;
+	ELSE
+		mNewEvent(nEvent := nAxis_ErrorList.STO_SignalActive, ErrorCode:= 0,bDisable:=TRUE);
+	END_IF
+	
+ELSIF NOT prMovementExternalInterlock AND prIsMoving AND iWorkStep_Axis < 90 AND FALSE  THEN
+	mNewEvent(nEvent := nAxis_ErrorList.MovementInterlockLost, ErrorCode:= 0,bDisable:=FALSE);
 END_IF
-IF NOT bEmergencyStop AND iWorkStep_Axis < 90 THEN
-	mNewEvent(nEvent := nAxis_ErrorList.STO_SignalActive, ErrorCode:= 0);
-	bOnlySafeState := FALSE;
-ELSIF NOT bEnableMotion AND prEnabled AND bEmergencyStop AND iWorkStep_Axis > 5 AND iWorkStep_Axis < 92 THEN		// Regular disable (when opewn workcover)
-	iWorkStep_Axis := 92;
-ELSIF NOT prMovementExternalInterlock AND prIsMoving AND iWorkStep_Axis < 92  THEN
-	mNewEvent(nEvent := nAxis_ErrorList.MovementInterlockLost, ErrorCode:= 0);
-END_IF
-bEnableMotion := bEmergencyStop AND bSTO_Signal;
+bEnableMotion := stInOuts.bI_SS1_Release AND stInOuts.bI_STO_Release;
 
 CASE iWorkStep_Axis OF
 	0:	// Inicjalizacja
-		McPower.Enable := McReset.Execute := McHome.Execute := McStop.Execute := McHalt.Execute:=  FALSE;
-		McJog.JogForward := McJog.JogBackwards := McMoveAbs.Execute := McMoveRel.Execute := McMoveVelocity.Execute := McMoveModulo.Execute:=FALSE; 
+		mCancelAllCommands();
+		bStandardSafetyDisable:=FALSE;
 		iWorkStep_Axis := 1;
 		
 	1:	// Sprawdzenie parametrów pracy
@@ -224,26 +226,18 @@ CASE iWorkStep_Axis OF
 		iWorkStep_Axis := 5;
 		
 	5: 	// Sprawdzenie gotowości do załączenia
-		IF prIsErrorActive THEN
-			mNewEvent( nEvent := nAxis_ErrorList.MotionFB_Error,ErrorCode:= stInOuts.stAxis_Data.Status.ErrorID);
-		END_IF
-		IF McPower.Enable THEN
-			IF McPower.Status THEN
-				iWorkStep_Axis := 10;
-			ELSIF McPower.Error THEN
-				mNewEvent( nEvent := nAxis_ErrorList.MotionFB_Error,ErrorCode:= McPower.ErrorID);
-			END_IF
-		ELSE 
-			IF bEnableMotion THEN
-				bOnlySafeState := FALSE;
-				McPower.Enable :=  TRUE;
-			END_IF
+		fbEnableDelay(PT:=T#3S,in:=bEnableMotion);
+		McPower.Enable := fbEnableDelay.Q;
+		IF McPower.Status THEN
+			iWorkStep_Axis := 10;
+		ELSIF McPower.Error THEN
+			mNewEvent( nEvent := nAxis_ErrorList.MotionFB_Error,ErrorCode:= McPower.ErrorID,bDisable:=TRUE);
 		END_IF
 		
 	10:	// Axis ready for new Cmds
-		McJog.JogForward := McJog.JogBackwards := McMoveAbs.Execute := McMoveRel.Execute := McMoveVelocity.Execute := McMoveModulo.Execute:= FALSE; 
+		mCancelMoveCommands();
 		IF prIsErrorActive THEN
-			mNewEvent( nEvent := nAxis_ErrorList.MotionFB_Error,ErrorCode:= stInOuts.stAxis_Data.Status.ErrorID);
+			mNewEvent( nEvent := nAxis_ErrorList.MotionFB_Error,ErrorCode:= stInOuts.stAxis_Data.Status.ErrorID,bDisable:=TRUE);
 		END_IF
 		fbTON_WorkStepTimeout(IN:= FALSE);
 		bMoveAbsDone := bQuickHomingDone:= bMoveModuloDone:= bFullHomingDone:= FALSE;
@@ -255,7 +249,7 @@ CASE iWorkStep_Axis OF
 		//Positioning
 		McMoveModulo.Direction:= MC_Direction.MC_Shortest_Way;
 		McMoveModulo.Position := stSettings.arrPositions[LIMIT(1,stHMI.iManualPositionSelected,NUMBER_OF_PRESET_POSITIONS)];
-		McMoveModulo.Velocity := LIMIT(0.5, stSettings.rSlowSpeed_deg_s, 20);
+		McMoveModulo.Velocity := LIMIT(0.5, stSettings.rSlowSpeed_deg_s,100);
 		McMoveModulo.Execute:= stHMI.bGoToSelectedPosition;
 		McHalt.Execute:=McMoveModulo.Active AND NOT stHMI.bGoToSelectedPosition;
 		// Breake control
@@ -281,7 +275,7 @@ CASE iWorkStep_Axis OF
 		IF McHome.Busy THEN
 			iWorkStep_Axis := 21;	
 		ELSIF McHome.Error THEN
-			mNewEvent( nEvent := nAxis_ErrorList.MotionFB_Error,ErrorCode:= McHome.ErrorID);
+			mNewEvent( nEvent := nAxis_ErrorList.MotionFB_Error,ErrorCode:= McHome.ErrorID,bDisable:=TRUE);
 		END_IF
 			
 	21:	// Home done
@@ -290,18 +284,18 @@ CASE iWorkStep_Axis OF
 			iWorkStep_Axis := 10;
 			bFullHomingDone := TRUE;
 		ELSIF McHome.Error THEN
-			mNewEvent( nEvent := nAxis_ErrorList.MotionFB_Error,ErrorCode:= McHome.ErrorID);
+			mNewEvent( nEvent := nAxis_ErrorList.MotionFB_Error,ErrorCode:= McHome.ErrorID,bDisable:=TRUE);
 		ELSIF McHome.CommandAborted THEN
-			mNewEvent(nEvent := nAxis_ErrorList.CommandAborted, ErrorCode:= McMoveModulo.ErrorID);
+			mNewEvent(nEvent := nAxis_ErrorList.CommandAborted, ErrorCode:= McMoveModulo.ErrorID,bDisable:=TRUE);
 		END_IF
 
 		
 	30:	// Move to absolute position
 		McMoveAbs.Execute := TRUE;
 		IF McMoveAbs.Busy THEN
-			iWorkStep_Axis := 31;		// Done
+			iWorkStep_Axis := 31;	
 		ELSIF McMoveAbs.Error THEN
-			mNewEvent(nEvent := nAxis_ErrorList.MotionFB_Error, ErrorCode:= McMoveAbs.ErrorID);
+			mNewEvent(nEvent := nAxis_ErrorList.MotionFB_Error, ErrorCode:= McMoveAbs.ErrorID,bDisable:=TRUE);
 		END_IF
 	
 	31:	// Move ABS done
@@ -310,9 +304,9 @@ CASE iWorkStep_Axis OF
 			iWorkStep_Axis := 10;	
 			bMoveAbsDone := TRUE;
 		ELSIF McMoveAbs.Error THEN
-			mNewEvent(nEvent := nAxis_ErrorList.MotionFB_Error, ErrorCode:= McMoveAbs.ErrorID);
+			mNewEvent(nEvent := nAxis_ErrorList.MotionFB_Error, ErrorCode:= McMoveAbs.ErrorID,bDisable:=TRUE);
 		ELSIF McMoveAbs.CommandAborted THEN	
-			mNewEvent(nEvent := nAxis_ErrorList.CommandAborted, ErrorCode:= McMoveModulo.ErrorID);
+			mNewEvent(nEvent := nAxis_ErrorList.CommandAborted, ErrorCode:= McMoveModulo.ErrorID,bDisable:=TRUE);
 		END_IF
 		
 		
@@ -323,7 +317,7 @@ CASE iWorkStep_Axis OF
 			fbTON_WorkStepTimeout(IN:= FALSE);
 			iWorkStep_Axis := 41;
 		ELSIF McHome.Error THEN
-			mNewEvent( nEvent := nAxis_ErrorList.MotionFB_Error,ErrorCode:= McHome.ErrorID);
+			mNewEvent( nEvent := nAxis_ErrorList.MotionFB_Error,ErrorCode:= McHome.ErrorID,bDisable:=TRUE);
 		END_IF
 		
 	41: //Quick Homing Done
@@ -332,9 +326,9 @@ CASE iWorkStep_Axis OF
 			bQuickHomingDone := TRUE;
 			McHome.Execute := FALSE;
 		ELSIF McHome.Error THEN
-			mNewEvent(nEvent := nAxis_ErrorList.MotionFB_Error, ErrorCode:= McHome.ErrorID);
+			mNewEvent(nEvent := nAxis_ErrorList.MotionFB_Error, ErrorCode:= McHome.ErrorID,bDisable:=TRUE);
 		ELSIF McHome.CommandAborted THEN
-			mNewEvent(nEvent := nAxis_ErrorList.CommandAborted, ErrorCode:= McMoveModulo.ErrorID);
+			mNewEvent(nEvent := nAxis_ErrorList.CommandAborted, ErrorCode:= McMoveModulo.ErrorID,bDisable:=TRUE);
 		END_IF
 	
 	50:	// Move Modulo
@@ -342,7 +336,7 @@ CASE iWorkStep_Axis OF
 		IF McMoveModulo.Busy THEN
 			iWorkStep_Axis := 51;		// Done
 		ELSIF McMoveModulo.Error THEN
-			mNewEvent(nEvent := nAxis_ErrorList.MotionFB_Error, ErrorCode:= McMoveModulo.ErrorID);
+			mNewEvent(nEvent := nAxis_ErrorList.MotionFB_Error, ErrorCode:= McMoveModulo.ErrorID,bDisable:=TRUE);
 		END_IF
 	
 	51:	// Move Modulo Done
@@ -351,82 +345,82 @@ CASE iWorkStep_Axis OF
 			bMoveModuloDone := TRUE;
 			McMoveModulo.Execute := FALSE;
 		ELSIF McMoveModulo.Error THEN
-			mNewEvent(nEvent := nAxis_ErrorList.MotionFB_Error, ErrorCode:= McMoveModulo.ErrorID);
+			mNewEvent(nEvent := nAxis_ErrorList.MotionFB_Error, ErrorCode:= McMoveModulo.ErrorID,bDisable:=TRUE);
 		ELSIF McMoveModulo.CommandAborted THEN
-			mNewEvent(nEvent := nAxis_ErrorList.CommandAborted, ErrorCode:= McMoveModulo.ErrorID);
+			mNewEvent(nEvent := nAxis_ErrorList.CommandAborted, ErrorCode:= McMoveModulo.ErrorID,bDisable:=TRUE);
 		END_IF
 		
 	
 	90:	// Error
-		McMoveVelocity.Execute := McMoveAbs.Execute := McMoveRel.Execute := McStop.Execute:=  McMoveModulo.Execute := FALSE;
-		iWorkStep_Axis := 92;		// Domyślnie tylko wyłącz napęd
-
-	
-	92:	// Stop drive and disable power
-		IF McStop.Execute THEN
-			IF McStop.Done OR NOT prEnabled OR McStop.Error THEN	// Disable axis - cant do anything
-				McStop.Execute := FALSE;
-				McPower.Enable := FALSE;
-				IF bOnlySafeState THEN
-					bOnlySafeState := FALSE;				
-					iWorkStep_Axis := 5;	
-				ELSE
-					iWorkStep_Axis := 94;	
-				END_IF
-
-			END_IF
-		ELSE 
-			IF prEnabled THEN
-				McStop.Execute := TRUE;
-			ELSE
-				IF bOnlySafeState THEN
-					bOnlySafeState := FALSE;				
-					iWorkStep_Axis := 5;	
-				ELSE
-					iWorkStep_Axis := 94;	
-				END_IF				
-			END_IF
-		END_IF 
-		
-	94:	// Axis wait for reset	- NOP
-		McReset.Execute := FALSE;
-		fbTON_WorkStepTimeout(IN:= FALSE);
-	
-	95: // Axis reset
-		bOnlySafeState := FALSE;
-		fbTON_WorkStepTimeout(IN:= TRUE,PT:=T#2S);
-		IF McReset.Execute THEN
-			IF McReset.Done THEN	// Reset axis
-				McReset.Execute := FALSE;
-				fbTON_WorkStepTimeout(IN:= FALSE);
-				iWorkStep_Axis := 96;
-			ELSIF McReset.Error THEN		//NOT McReset.Busy OR 
-				McReset.Execute := FALSE;
-				iWorkStep_Axis := 97;
-			END_IF
-		ELSE 
-			McHome.Execute := McStop.Execute := McJog.JogForward := McJog.JogBackwards := FALSE;
-			McMoveVelocity.Execute := McMoveAbs.Execute := McMoveRel.Execute := McMoveModulo.Execute := FALSE;
-			IF stInOuts.stAxis_Data.Status.Error THEN
-				McReset.Execute := TRUE;
-			ELSE
-				fbTON_WorkStepTimeout(IN:= FALSE);
-				iWorkStep_Axis := 96;
-			END_IF
+		mCancelAllCommands();
+		IF bStandardSafetyDisable AND stInOuts.bI_SS1_State THEN
+			iWorkStep_Axis := 91;
+		ELSIF NOT  bStandardSafetyDisable THEN
+			iWorkStep_Axis := 91;
 		END_IF
 		
-	96:	// Reset succesfull
+
+	91: // Stop 		
+		McStop.Execute := TRUE;
+		IF McStop.Done OR McStop.Error THEN
+			McStop.Execute := FALSE;
+			iWorkStep_Axis := 92;
+		END_IF
+		
+	92: // Disable Power 
+		McPower.Enable := FALSE;
+		IF NOT McPower.Status THEN
+			iWorkStep_Axis := 94;
+		ELSIF McPower.Error THEN
+			mNewEvent(nEvent := nAxis_ErrorList.MotionFB_Error, ErrorCode:= McPower.ErrorID,bDisable:=TRUE);
+		END_IF
+		
+	93: // Stop No Disbale
+		mCancelMoveCommands();
+		McHalt.Execute := TRUE;
+		IF McHalt.Done THEN
+			iWorkStep_Axis:=94;
+			McHalt.Execute := FALSE;
+		ELSIF McHalt.Error THEN
+			mNewEvent(nEvent := nAxis_ErrorList.MotionFB_Error, ErrorCode:= McHalt.ErrorID,bDisable:=TRUE);
+		END_IF;
+		
+	94:	// Axis wait for reset
+		McReset.Execute := FALSE;
+		fbTON_WorkStepTimeout(IN:= FALSE);
+		IF bStandardSafetyDisable AND bEnableMotion THEN
+			iWorkStep_Axis := 95;
+		END_IF
+	
+	95: // Axis reset
+		fbTON_WorkStepTimeout(IN:= TRUE,PT:=T#2S);
+		IF stInOuts.stAxis_Data.Status.Error THEN
+			iWorkStep_Axis := 96;
+		ELSE
+			fbTON_WorkStepTimeout(IN:= FALSE);
+			iWorkStep_Axis := 97;
+		END_IF
+		
+	96: // Perform Mc Reset
+		McReset.Execute := TRUE;
+		IF McReset.Done THEN	// Reset axis
+			McReset.Execute := FALSE;
+			fbTON_WorkStepTimeout(IN:= FALSE);
+			iWorkStep_Axis := 97;
+		ELSIF McReset.Error THEN	
+			McReset.Execute := FALSE;
+			mNewEvent(nEvent := nAxis_ErrorList.MotionFB_Error, ErrorCode:= McReset.ErrorID,bDisable:=TRUE);
+		END_IF
+		
+	97:	// Reset succesfull
 		nActEvent := nAxis_ErrorList.NoError;
 		udiActErrorCode:= 0;
 		fbTON_WorkStepTimeout(IN:= TRUE, PT:= T#40MS);
 		IF fbTON_WorkStepTimeout.Q THEN
 			fbTON_WorkStepTimeout(IN:= FALSE);
-			iWorkStep_Axis := 5;
+			iWorkStep_Axis := 0;
 		END_IF
 		
-	97:	// Reset error
-		nActEvent := nAxis_ErrorList.MotionFB_Error;
-		iWorkStep_Axis := 90;	
 END_CASE
 
 ]]></ST>
@@ -445,6 +439,25 @@ END_VAR]]></Declaration>
 	CONCAT2(pSrcString1 := ADR(sTTRowPreambule), pSrcString2 := ADR(sText), pDstString := ADR(sTextTmp), nDstSize := SIZEOF(sTextTmp));
 	I_TimeTableRef.mPushText(sText := sTextTmp);
 END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mCancelAllCommands" Id="{db48a037-4fb7-41cd-b68f-6707abdc91b7}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD mCancelAllCommands : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[McPower.Enable := McReset.Execute := McHome.Execute := McStop.Execute := McHalt.Execute:=  FALSE;
+mCancelMoveCommands();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mCancelMoveCommands" Id="{acbb3440-cf87-41ac-a152-8968e26cb810}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD mCancelMoveCommands : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[McJog.JogForward := McJog.JogBackwards := McMoveAbs.Execute := McMoveRel.Execute := McMoveVelocity.Execute := McMoveModulo.Execute:=FALSE; ]]></ST>
       </Implementation>
     </Method>
     <Method Name="mErrorReset" Id="{4c71a6d0-2eb8-4fd5-9ef2-16b78ed57f34}" FolderPath="Methods\">
@@ -476,9 +489,9 @@ IF prIsReady THEN
 	iWorkStep_Axis := 20;
 	McHome.Position := 0;
 	McHome. HomingMode := MC_HomingMode.MC_DefaultHoming;
-	stHomimgParams.SearchDirection := MC_Direction.MC_Negative_Direction;
-	stHomimgParams.SyncDirection := MC_Direction.MC_Positive_Direction;
-	stHomimgParams.SearchVelocity := 30.0;
+	stHomimgParams.SearchDirection := MC_Direction.MC_Positive_Direction;
+	stHomimgParams.SyncDirection := MC_Direction.MC_Negative_Direction;
+	stHomimgParams.SearchVelocity := 10.0;
 	stHomimgParams.SyncVelocity := 1;
 	stHomimgParams.ReferenceMode := E_EncoderReferenceMode.ENCODERREFERENCEMODE_DEFAULt;
 ELSIF McHome.Error OR iWorkStep_Axis < 20 OR iWorkStep_Axis > 21 THEN
@@ -514,7 +527,7 @@ IF prIsReady AND prIsHomed THEN
 	IF bFast THEN
 		McMoveAbs.Velocity := LIMIT(10, stSettings.rFastSpeed_deg_s, 320);
 	ELSE
-		McMoveAbs.Velocity := LIMIT(0.5, stSettings.rSlowSpeed_deg_s, 20);
+		McMoveAbs.Velocity := LIMIT(0.5, stSettings.rSlowSpeed_deg_s, 300);
 	END_IF
 	iWorkStep_Axis := 30;
 ELSIF McMoveAbs.Error OR iWorkStep_Axis <30 OR iWorkStep_Axis >31  THEN
@@ -553,7 +566,7 @@ IF prIsReady AND prIsHomed THEN
 	IF bFast THEN
 		McMoveModulo.Velocity := LIMIT(10, stSettings.rFastSpeed_deg_s, 320);
 	ELSE
-		McMoveModulo.Velocity := LIMIT(0.5, stSettings.rSlowSpeed_deg_s, 20);
+		McMoveModulo.Velocity := LIMIT(0.5, stSettings.rSlowSpeed_deg_s, 300);
 	END_IF
 	iWorkStep_Axis := 50;	
 ELSIF McMoveModulo.Error THEN
@@ -580,17 +593,21 @@ END_IF;
 VAR_INPUT
 	nEvent: nAxis_ErrorList;
 	ErrorCode: UDINT;
+	bDisable: BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[
+        <ST><![CDATA[bStandardSafetyDisable :=FALSE;
 MEMMOVE(srcAddr:= ADR(astErrorHistory[1]), destAddr := ADR(astErrorHistory[2]), n:= 9* SIZEOF(astErrorHistory[1]));
 astErrorHistory[1].tTimeStamp := TIME();
 astErrorHistory[1].sDescription := TO_STRING(nEvent);
 astErrorHistory[1].iWorkStep1 := iWorkStep_Axis;
 astErrorHistory[1].udiErrorCode := ErrorCode;
-
-iWorkStep_Axis := 90;
+IF bDisable THEN
+	iWorkStep_Axis := 90;
+ELSE
+	iWorkStep_Axis := 93;
+END_IF
 nActEvent := nEvent;
 udiActErrorCode:= ErrorCode;
 
@@ -644,13 +661,9 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF prIsMoving THEN
-	McStop.Execute :=TRUE;
-END_IF
-IF McStop.Busy OR prIsNotMoving THEN
-	McStop.Execute := FALSE;
-	mStopAxis :=TRUE;
-END_IF]]></ST>
+        <ST><![CDATA[mNewEvent(nEvent := nAxis_ErrorList.CommandAborted, ErrorCode:= 0,bDisable:=FALSE);
+mStopAxis:=TRUE;
+]]></ST>
       </Implementation>
     </Method>
     <Property Name="prActualPosition" Id="{f40194ba-8306-4aaa-b5b5-5fb0758d9b45}" FolderPath="Properties\">
@@ -733,7 +746,7 @@ PROPERTY prIsErrorActive : BOOL]]></Declaration>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[prIsErrorActive := stInOuts.stAxis_Data.Status.Error OR iWorkStep_Axis >= 90;]]></ST>
+          <ST><![CDATA[prIsErrorActive := stInOuts.stAxis_Data.Status.Error OR (iWorkStep_Axis >= 90 AND NOT bStandardSafetyDisable);]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -830,8 +843,17 @@ END_VAR
     </Property>
     <LineIds Name="FB_ServoAxis">
       <LineId Id="1093" Count="1" />
+      <LineId Id="1243" Count="0" />
       <LineId Id="1172" Count="0" />
-      <LineId Id="953" Count="63" />
+      <LineId Id="953" Count="9" />
+      <LineId Id="1319" Count="0" />
+      <LineId Id="1314" Count="1" />
+      <LineId Id="1317" Count="0" />
+      <LineId Id="1321" Count="0" />
+      <LineId Id="1318" Count="0" />
+      <LineId Id="1316" Count="0" />
+      <LineId Id="965" Count="9" />
+      <LineId Id="977" Count="39" />
       <LineId Id="402" Count="0" />
     </LineIds>
     <LineIds Name="FB_ServoAxis.ACT_AxisFBs">
@@ -847,14 +869,24 @@ END_VAR
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="FB_ServoAxis.ACT_AxisWorkSteps">
-      <LineId Id="2" Count="9" />
+      <LineId Id="9" Count="1" />
+      <LineId Id="440" Count="1" />
+      <LineId Id="446" Count="0" />
+      <LineId Id="443" Count="1" />
+      <LineId Id="442" Count="0" />
+      <LineId Id="11" Count="0" />
       <LineId Id="375" Count="1" />
       <LineId Id="12" Count="0" />
       <LineId Id="377" Count="0" />
-      <LineId Id="13" Count="3" />
+      <LineId Id="13" Count="2" />
       <LineId Id="374" Count="0" />
+      <LineId Id="452" Count="0" />
       <LineId Id="18" Count="6" />
-      <LineId Id="26" Count="19" />
+      <LineId Id="26" Count="2" />
+      <LineId Id="453" Count="0" />
+      <LineId Id="438" Count="0" />
+      <LineId Id="33" Count="4" />
+      <LineId Id="44" Count="1" />
       <LineId Id="383" Count="0" />
       <LineId Id="46" Count="3" />
       <LineId Id="291" Count="0" />
@@ -910,18 +942,50 @@ END_VAR
       <LineId Id="384" Count="1" />
       <LineId Id="316" Count="0" />
       <LineId Id="296" Count="1" />
-      <LineId Id="190" Count="2" />
+      <LineId Id="190" Count="1" />
+      <LineId Id="456" Count="0" />
+      <LineId Id="459" Count="3" />
+      <LineId Id="457" Count="0" />
       <LineId Id="196" Count="0" />
-      <LineId Id="214" Count="32" />
-      <LineId Id="249" Count="22" />
+      <LineId Id="425" Count="0" />
+      <LineId Id="427" Count="1" />
+      <LineId Id="439" Count="0" />
+      <LineId Id="429" Count="1" />
+      <LineId Id="426" Count="0" />
+      <LineId Id="419" Count="2" />
+      <LineId Id="433" Count="0" />
+      <LineId Id="436" Count="1" />
+      <LineId Id="423" Count="0" />
+      <LineId Id="417" Count="0" />
+      <LineId Id="395" Count="3" />
+      <LineId Id="394" Count="0" />
+      <LineId Id="400" Count="1" />
+      <LineId Id="403" Count="0" />
+      <LineId Id="399" Count="0" />
+      <LineId Id="240" Count="3" />
+      <LineId Id="448" Count="2" />
+      <LineId Id="244" Count="1" />
+      <LineId Id="249" Count="0" />
+      <LineId Id="262" Count="5" />
+      <LineId Id="404" Count="9" />
+      <LineId Id="269" Count="0" />
+      <LineId Id="414" Count="0" />
+      <LineId Id="270" Count="1" />
       <LineId Id="379" Count="0" />
-      <LineId Id="272" Count="9" />
+      <LineId Id="272" Count="5" />
+      <LineId Id="281" Count="0" />
       <LineId Id="355" Count="0" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="FB_ServoAxis.mAddTimeStat">
       <LineId Id="3" Count="2" />
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ServoAxis.mCancelAllCommands">
+      <LineId Id="5" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_ServoAxis.mCancelMoveCommands">
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ServoAxis.mErrorReset">
       <LineId Id="29" Count="1" />
@@ -968,6 +1032,7 @@ END_VAR
     <LineIds Name="FB_ServoAxis.mNewEvent">
       <LineId Id="3" Count="4" />
       <LineId Id="9" Count="2" />
+      <LineId Id="26" Count="2" />
       <LineId Id="14" Count="2" />
       <LineId Id="19" Count="0" />
       <LineId Id="2" Count="0" />
@@ -986,11 +1051,8 @@ END_VAR
       <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="FB_ServoAxis.mStopAxis">
-      <LineId Id="13" Count="0" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="6" Count="1" />
-      <LineId Id="9" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
     </LineIds>
     <LineIds Name="FB_ServoAxis.prActualPosition.Get">

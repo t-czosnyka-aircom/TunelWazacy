@@ -4,6 +4,12 @@
     <Declaration><![CDATA[TYPE ST_TableControl_HMI :
 STRUCT
 	iDialogNumber:USINT;
+	nCurrentTypeToProduce: nBottleTypes;
+	stEditedType:ST_BottleTypeParams;
+	nEditedType: nBottleTypes;
+	nLastEditedType: nBottleTypes;
+	bSave:BOOL;
+	bRestore: BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

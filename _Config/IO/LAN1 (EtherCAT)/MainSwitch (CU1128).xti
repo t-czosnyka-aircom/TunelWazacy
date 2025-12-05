@@ -30,7 +30,7 @@
 		<ImageData Id="1006">424dd6020000000000003600000028000000100000000e0000000100180000000000a0020000c40e0000c40e00000000000000000000ff00ffff00ffff00ffff00ffff00ffff00ff808080808080808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff</ImageData>
 		<ImageData Id="1007">424de6000000000000007600000028000000100000000e000000010004000000000000000000120b0000120b00001000000010000000411f91ffff00ffff999999ffa3a3cfffd0d0d0ffdbdbdbff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff12222222222222111244355555555231333333555533333312553555555552311235555555555201333333555500000012355555555552011235555555555201333333555500000012355555555552011235555555555201333333555500000012355555555552011222222222222211</ImageData>
 	</ImageDatas>
-	<Box Id="20" BoxType="9099">
+	<Box Id="20" Disabled="true" BoxType="9099">
 		<Name>__FILENAME__</Name>
 		<ImageId>1000</ImageId>
 		<EtherCAT SlaveType="1" PdiType="#x0d00" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x04685432" RevisionNo="#x00010000" PortPhys="4881" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="CU1128 6x EtherCAT junction" Desc="CU1128"/>
@@ -48,6 +48,15 @@
 		</Box>
 		<Box File="HP_Switch (CU1128).xti" Id="23">
 			<EtherCAT PortABoxInfo="#x01000014"/>
+		</Box>
+		<Box File="HP7_Iner_OuterCup (EK1914).xti" Id="323">
+			<EtherCAT PortABoxInfo="#x0200009a"/>
+		</Box>
+		<Box File="HP7_Mug (EK1914).xti" Id="337">
+			<EtherCAT PortABoxInfo="#x02000143"/>
+		</Box>
+		<Box File="HP7_Bayonet (EK1914).xti" Id="351">
+			<EtherCAT PortABoxInfo="#x02000151"/>
 		</Box>
 		<Box Id="155" BoxType="9099">
 			<Name>Filling_Line(CU1128-B)</Name>
@@ -126,7 +135,7 @@
 				<Box Id="202" BoxType="9109" BoxFlags="#x00000020">
 					<Name>S01_CM1 (EL6652-0010)</Name>
 					<ImageId>1003</ImageId>
-					<EtherCAT SlaveType="5" AdsServerAddress="c0a8011f04cb0000" FixedAdsServerNetId="true" PdiType="#x0008" ExecIo="true" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="39" FoeType="1" VendorId="#x00000002" ProductCode="#x19fc3052" RevisionNo="#x0012000a" InfoDataAddr="true" InfoDataNetId="true" RepeatSupport="true" TimeoutStateChange1="10000" TimeoutStateChange3="20000" TimeoutMailbox2="2000" GenerateOwnNetId="true" InitializeOwnNetId="true" CheckRevisionNoType="3" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL6652-0010 EtherNet/IP Adapter (Slave)" Desc="EL6652-0010" PortABoxInfo="#x0100009c">
+					<EtherCAT SlaveType="5" AdsServerAddress="0a1400ef04cb0000" FixedAdsServerNetId="true" PdiType="#x0008" ExecIo="true" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="39" FoeType="1" VendorId="#x00000002" ProductCode="#x19fc3052" RevisionNo="#x0012000a" InfoDataAddr="true" InfoDataNetId="true" RepeatSupport="true" TimeoutStateChange1="10000" TimeoutStateChange3="20000" TimeoutMailbox2="2000" GenerateOwnNetId="true" InitializeOwnNetId="true" CheckRevisionNoType="3" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL6652-0010 EtherNet/IP Adapter (Slave)" Desc="EL6652-0010" PortABoxInfo="#x0100009c">
 						<SyncMan>001000042600010001000000400000040004001026010000</SyncMan>
 						<SyncMan>001400042200010002000000400000040004001422010000</SyncMan>
 						<SyncMan>001800006400000003000000000000000000001864010000</SyncMan>
@@ -1743,7 +1752,7 @@
 				<Box Id="204" BoxType="9109" BoxFlags="#x00000020">
 					<Name>S03_CM1 (EL6652-0010)</Name>
 					<ImageId>1003</ImageId>
-					<EtherCAT SlaveType="5" AdsServerAddress="c0a8011f04cd0000" FixedAdsServerNetId="true" PdiType="#x0008" ExecIo="true" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="39" FoeType="1" VendorId="#x00000002" ProductCode="#x19fc3052" RevisionNo="#x0012000a" InfoDataAddr="true" InfoDataNetId="true" RepeatSupport="true" TimeoutStateChange1="10000" TimeoutStateChange3="20000" TimeoutMailbox2="2000" GenerateOwnNetId="true" InitializeOwnNetId="true" CheckRevisionNoType="3" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL6652-0010 EtherNet/IP Adapter (Slave)" Desc="EL6652-0010" PortABoxInfo="#x010000cb">
+					<EtherCAT SlaveType="5" AdsServerAddress="0a1400ef04cd0000" FixedAdsServerNetId="true" PdiType="#x0008" ExecIo="true" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="39" FoeType="1" VendorId="#x00000002" ProductCode="#x19fc3052" RevisionNo="#x0012000a" InfoDataAddr="true" InfoDataNetId="true" RepeatSupport="true" TimeoutStateChange1="10000" TimeoutStateChange3="20000" TimeoutMailbox2="2000" GenerateOwnNetId="true" InitializeOwnNetId="true" CheckRevisionNoType="3" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL6652-0010 EtherNet/IP Adapter (Slave)" Desc="EL6652-0010" PortABoxInfo="#x010000cb">
 						<SyncMan>001000042600010001000000400000040004001026010000</SyncMan>
 						<SyncMan>001400042200010002000000400000040004001422010000</SyncMan>
 						<SyncMan>001800006400000003000000000000000000001864010000</SyncMan>
@@ -4446,7 +4455,7 @@
 					<EtherCAT CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x23333050" InfoDataState="false" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL9011 End Terminal" Desc="EL9011" PortABoxInfo="#x010000dd"/>
 				</Box>
 			</Box>
-			<Box Id="231" BoxType="9099">
+			<Box Id="267" BoxType="9099">
 				<Name>S05_Transpoerter (EK1818)</Name>
 				<ImageId>1002</ImageId>
 				<EtherCAT SlaveType="1" PdiType="#x0d04" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x071a2c52" RevisionNo="#x00120000" RepeatSupport="true" CheckRevisionNoType="3" PortPhys="305" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EK1818 EtherCAT IO-Coupler  (1A E-Bus, 8 Ch. Dig. In, 3ms, 4 Ch. Dig. Out 24V, 0,5A)" Desc="EK1818" PortABoxInfo="#x020000d4">
@@ -4516,10 +4525,10 @@
 						</Entry>
 					</Pdo>
 				</EtherCAT>
-				<Box Id="232" BoxType="9099">
+				<Box Id="378" BoxType="9099">
 					<Name>S05_DI1 (EL1008)</Name>
 					<ImageId>7</ImageId>
-					<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x03f03052" RevisionNo="#x00120000" RepeatSupport="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL1008 8Ch. Dig. Input 24V, 3ms" Desc="EL1008" PortABoxInfo="#x010000e7">
+					<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x03f03052" RevisionNo="#x00120000" RepeatSupport="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL1008 8Ch. Dig. Input 24V, 3ms" Desc="EL1008" PortABoxInfo="#x0100010b">
 						<SyncMan>001001000000010004000000000000000100001000010000</SyncMan>
 						<Fmmu>0000000000000000001000010100000002000000000000000000000000000000</Fmmu>
 						<SuName>Filling_S05_Transporter</SuName>
@@ -4565,14 +4574,14 @@
 						</Pdo>
 					</EtherCAT>
 				</Box>
-				<Box File="S05_END (EL9011).xti" Id="233">
-					<EtherCAT PortABoxInfo="#x010000e8"/>
+				<Box File="S05_END (EL9011).xti" Id="379">
+					<EtherCAT PortABoxInfo="#x0100017a"/>
 				</Box>
 			</Box>
-			<Box Id="234" BoxType="9099">
+			<Box Id="380" BoxType="9099">
 				<Name>S06_Sticker (EK1818)</Name>
 				<ImageId>1002</ImageId>
-				<EtherCAT SlaveType="1" PdiType="#x0d04" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x071a2c52" RevisionNo="#x00120000" RepeatSupport="true" CheckRevisionNoType="3" PortPhys="305" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EK1818 EtherCAT IO-Coupler  (1A E-Bus, 8 Ch. Dig. In, 3ms, 4 Ch. Dig. Out 24V, 0,5A)" Desc="EK1818" PortABoxInfo="#x020000e7">
+				<EtherCAT SlaveType="1" PdiType="#x0d04" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x071a2c52" RevisionNo="#x00120000" RepeatSupport="true" CheckRevisionNoType="3" PortPhys="305" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EK1818 EtherCAT IO-Coupler  (1A E-Bus, 8 Ch. Dig. In, 3ms, 4 Ch. Dig. Out 24V, 0,5A)" Desc="EK1818" PortABoxInfo="#x0200010b">
 					<SyncMan>010f01004400010003000000000000000100010f44090000</SyncMan>
 					<SyncMan>001001000000010004000000000000000100001000010000</SyncMan>
 					<Fmmu>0000000000000000010f00020100000001000000000000000000000000000000</Fmmu>
@@ -4639,10 +4648,10 @@
 						</Entry>
 					</Pdo>
 				</EtherCAT>
-				<Box Id="235" BoxType="9109" BoxFlags="#x00000020">
+				<Box Id="381" BoxType="9109" BoxFlags="#x00000020">
 					<Name>S06_CM1 (EL6652-0010)</Name>
 					<ImageId>1003</ImageId>
-					<EtherCAT SlaveType="5" AdsServerAddress="c0a8011f04ec0000" FixedAdsServerNetId="true" PdiType="#x0008" ExecIo="true" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="39" FoeType="1" VendorId="#x00000002" ProductCode="#x19fc3052" RevisionNo="#x0012000a" InfoDataAddr="true" InfoDataNetId="true" RepeatSupport="true" TimeoutStateChange1="10000" TimeoutStateChange3="20000" TimeoutMailbox2="2000" GenerateOwnNetId="true" InitializeOwnNetId="true" CheckRevisionNoType="3" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL6652-0010 EtherNet/IP Adapter (Slave)" Desc="EL6652-0010" PortABoxInfo="#x010000ea">
+					<EtherCAT SlaveType="5" AdsServerAddress="0a1400ef047e0000" FixedAdsServerNetId="true" PdiType="#x0008" ExecIo="true" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="39" FoeType="1" VendorId="#x00000002" ProductCode="#x19fc3052" RevisionNo="#x0012000a" InfoDataAddr="true" InfoDataNetId="true" RepeatSupport="true" TimeoutStateChange1="10000" TimeoutStateChange3="20000" TimeoutMailbox2="2000" GenerateOwnNetId="true" InitializeOwnNetId="true" CheckRevisionNoType="3" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL6652-0010 EtherNet/IP Adapter (Slave)" Desc="EL6652-0010" PortABoxInfo="#x0100017c">
 						<SyncMan>001000042600010001000000400000040004001026010000</SyncMan>
 						<SyncMan>001400042200010002000000400000040004001422010000</SyncMan>
 						<SyncMan>001800006400000003000000000000000000001864010000</SyncMan>
@@ -4655,18 +4664,18 @@
 						<CoeProfile ProfileNo="5001"/>
 					</EtherCAT>
 				</Box>
-				<Box File="S06_END (EL9011).xti" Id="236">
-					<EtherCAT PortABoxInfo="#x010000eb"/>
+				<Box File="S06_END (EL9011).xti" Id="382">
+					<EtherCAT PortABoxInfo="#x0100017d"/>
 				</Box>
 			</Box>
-			<Box File="S08_PackingStation (EK1818).xti" Id="237">
-				<EtherCAT PortABoxInfo="#x020000ea"/>
+			<Box File="S08_PackingStation (EK1818).xti" Id="383">
+				<EtherCAT PortABoxInfo="#x0200017c"/>
 			</Box>
-			<Box File="S07_Tunel (EK1818).xti" Id="240">
-				<EtherCAT PortABoxInfo="#x020000ed"/>
+			<Box File="S07_Tunel (EK1818).xti" Id="386">
+				<EtherCAT PortABoxInfo="#x0200017f"/>
 			</Box>
 		</Box>
-		<Box Id="248" BoxType="9099">
+		<Box Id="394" BoxType="9099">
 			<Name>MainSwitch (CU1128-C)</Name>
 			<ImageId>1007</ImageId>
 			<EtherCAT SlaveType="1" PdiType="#x0d00" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x04685432" RevisionNo="#x00010002" PortPhys="4371" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="CU1128 6x EtherCAT junction - Dev B" Desc="CU1128-C" PortABoxInfo="#x0200009b"/>

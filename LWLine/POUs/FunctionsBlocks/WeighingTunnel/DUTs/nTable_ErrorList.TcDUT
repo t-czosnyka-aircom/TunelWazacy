@@ -3,8 +3,10 @@
   <DUT Name="nTable_ErrorList" Id="{25f26f73-edf5-42f1-939e-aecf182b8e40}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 //{attribute 'strict'}
+{attribute 'to_string'}
 TYPE nTable_ErrorList :
 (
+	NoError			:= 0,
 	LoadingSensorError:= 1400,
 	
 	BottleWeighError:=1500,
@@ -12,6 +14,8 @@ TYPE nTable_ErrorList :
 	WeighingPusherActuatorError:=1502,
 	WeighingNOK_DrawerFull:=1503,
 	WeighingDrawerOpeningError:=1504,
+	WeighingTimeout:=1505,
+	CameraInspectionTimeout:=1506,
 	
 	UnloadingBottleDetectionNotOn:=1600,
 	UnloadingBottleDetectionNotOff:=1601,
@@ -22,7 +26,7 @@ TYPE nTable_ErrorList :
 	NoSafetyRelease:=1651,
 	ServoError:=1652,
 	ServoNotReady:=1653
-);
+)UDINT;
 END_TYPE
 ]]></Declaration>
   </DUT>
