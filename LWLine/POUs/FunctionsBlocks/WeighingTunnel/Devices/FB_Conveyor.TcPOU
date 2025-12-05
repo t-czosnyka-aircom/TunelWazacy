@@ -10,7 +10,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	bI_ConveyorOnFeedback AT %I*: BOOL;
-	rQ_ConveyorSpeedOut	AT %Q*: REAL;
+	iQ_ConveyorSpeedOut	AT %Q*: INT;
 	fbFeedbackErrorTON: TON;
 	bOnCmd : BOOL;
 	bManualOnCmd:BOOL;
@@ -24,6 +24,7 @@ END_VAR
     <Implementation>
       <ST><![CDATA[fbFeedbackErrorTON(IN:= prIsON XOR bOnCmd, PT:= T#10S);
 stMeasureScaling.rScalingRawValue_II:=100.0;
+stMeasureScaling.rScalingEngValue_I:=3000;
 stMeasureScaling.rScalingEngValue_II:=32767;
 fbAnalogScale(rIn:=rSpeedSet, stMeasureScalingData:=stMeasureScaling, tStalaCzasowa:=T#10MS);
 
@@ -41,9 +42,9 @@ ELSE
 END_IF
 
 IF bOnCmd THEN
-	rQ_ConveyorSpeedOut := fbAnalogScale.rOutFiltered;
+	iQ_ConveyorSpeedOut := REAL_TO_INT(fbAnalogScale.rOutFiltered);
 ELSE
-	rQ_ConveyorSpeedOut := 0.0;
+	iQ_ConveyorSpeedOut := 3000;
 END_IF
 
 bMoveRequest:=FALSE;]]></ST>
@@ -99,7 +100,9 @@ END_VAR
     </Property>
     <LineIds Name="FB_Conveyor">
       <LineId Id="9" Count="0" />
-      <LineId Id="24" Count="1" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="25" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="20" Count="0" />
       <LineId Id="29" Count="0" />

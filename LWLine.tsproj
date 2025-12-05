@@ -2,15 +2,6 @@
 <TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.68">
 	<DataTypes>
 		<DataType>
-			<Name GUID="{81EAA5A8-BCC4-EB3F-D4F3-16706C4B57CF}" IecBaseType="true" AutoDeleteType="true">ARRAY [1..1] OF REAL</Name>
-			<BitSize>32</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-00000000000D}">REAL</BaseType>
-			<ArrayInfo>
-				<LBound>1</LBound>
-				<Elements>1</Elements>
-			</ArrayInfo>
-		</DataType>
-		<DataType>
 			<Name GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom" AutoDeleteType="true">EL6inData22B</Name>
 			<Comment><![CDATA[ This data type is corresponding to the
    EL-6xxx data structure used in the
@@ -34,6 +25,15 @@
 				<BitSize>176</BitSize>
 				<BitOffs>16</BitOffs>
 			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{942AFC09-BBEF-5264-CD0D-5C073ECC3668}" IecBaseType="true" AutoDeleteType="true">ARRAY [1..1] OF DINT</Name>
+			<BitSize>32</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000009}">DINT</BaseType>
+			<ArrayInfo>
+				<LBound>1</LBound>
+				<Elements>1</Elements>
+			</ArrayInfo>
 		</DataType>
 		<DataType>
 			<Name GUID="{D6B0A42D-897A-4B90-95E8-3C741C3CE3EE}" Namespace="Tc2_SerialCom" AutoDeleteType="true">EL6outData22B</Name>
@@ -1174,15 +1174,11 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{1A289FD8-2FC0-4B29-B34F-E4BF25DBB957}" Name="LWLine" PrjFilePath="LWLine\LWLine.plcproj" TmcFilePath="LWLine\LWLine.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{DBE46250-662A-9A30-437C-88FBC15CEC1C}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{CA332C1D-1211-63FC-8049-2234EEAC3754}">
 					<Name>LWLine Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1" ContextId="1" AreaNo="16">
 						<Name>FastTask Inputs</Name>
-						<Var>
-							<Name>MAIN.fbWeighingStation.fbWeighing.arrSamples</Name>
-							<Type GUID="{81EAA5A8-BCC4-EB3F-D4F3-16706C4B57CF}">ARRAY [1..1] OF REAL</Type>
-						</Var>
 						<Var>
 							<Name>GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60</Name>
 							<Comment><![CDATA[ linked to the EL6002 in the TwinCAT System Manager ]]></Comment>
@@ -1192,6 +1188,10 @@ External Setpoint Generation:
 							<Name>GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60</Name>
 							<Comment><![CDATA[ linked to the EL6002 in the TwinCAT System Manager ]]></Comment>
 							<Type GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom">EL6inData22B</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.fbWeighing.arrSamples</Name>
+							<Type GUID="{942AFC09-BBEF-5264-CD0D-5C073ECC3668}">ARRAY [1..1] OF DINT</Type>
 						</Var>
 					</Vars>
 					<Vars VarGrpType="2" ContextId="1" AreaNo="17">
@@ -4084,44 +4084,8 @@ External Setpoint Generation:
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbLoadingStation.stInOuts.rBottleDetectionSensor</Name>
-							<Type>REAL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbWeighingStation.stInOuts.stWeighingActuator.bI_HomePosition</Name>
-							<Comment><![CDATA[ Sygnał z krańcówki otwarcia]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbWeighingStation.stInOuts.stWeighingActuator.bI_WorkPosition</Name>
-							<Comment><![CDATA[ Sygnał z krańcówki zamknięcia]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbWeighingStation.stInOuts.stPusherActuator.bI_HomePosition</Name>
-							<Comment><![CDATA[ Sygnał z krańcówki otwarcia]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbWeighingStation.stInOuts.stPusherActuator.bI_WorkPosition</Name>
-							<Comment><![CDATA[ Sygnał z krańcówki zamknięcia]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbWeighingStation.stInOuts.stDrawerLock.bLocked</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbWeighingStation.stInOuts.stDrawerLock.bClosed</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbWeighingStation.stInOuts.bBottleDetectionSensor</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbWeighingStation.stInOuts.bBottleDrawerSensor</Name>
-							<Type>BOOL</Type>
+							<Name>MAIN.fbLoadingStation.stInOuts.iBottleDetectionSensor</Name>
+							<Type>INT</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbUnloadingStation.stInOuts.bBottleDetectionSensor</Name>
@@ -4181,16 +4145,16 @@ External Setpoint Generation:
 							<Type>WORD</Type>
 						</Var>
 						<Var>
+							<Name>SafetyBackupRestore.wEL6910port</Name>
+							<Type>WORD</Type>
+						</Var>
+						<Var>
 							<Name>SafetyBackupRestore.udiSafetyPLCSerialNb</Name>
 							<Type>UDINT</Type>
 						</Var>
 						<Var>
 							<Name>SafetyBackupRestore.abEL6910AmsNetID</Name>
 							<Type GUID="{12E80FF5-6251-C867-A464-3036E21E986D}">ARRAY [0..5] OF BYTE</Type>
-						</Var>
-						<Var>
-							<Name>SafetyBackupRestore.wEL6910port</Name>
-							<Type>WORD</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bCompressedAirFlowImpulse</Name>
@@ -4701,6 +4665,42 @@ S02]]></Comment>
 						<Var>
 							<Name>GVL_IO.stTunelInOuts.stCognex.bInOut3</Name>
 							<Comment><![CDATA[ Sygnał w In-Sight Out3 - Wejście detekcji 3]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.stInOuts.stWeighingActuator.bI_HomePosition</Name>
+							<Comment><![CDATA[ Sygnał z krańcówki otwarcia]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.stInOuts.stWeighingActuator.bI_WorkPosition</Name>
+							<Comment><![CDATA[ Sygnał z krańcówki zamknięcia]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.stInOuts.stPusherActuator.bI_HomePosition</Name>
+							<Comment><![CDATA[ Sygnał z krańcówki otwarcia]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.stInOuts.stPusherActuator.bI_WorkPosition</Name>
+							<Comment><![CDATA[ Sygnał z krańcówki zamknięcia]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.stInOuts.stDrawerLock.bLocked</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.stInOuts.stDrawerLock.bClosed</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.stInOuts.bBottleDetectionSensor</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.stInOuts.bBottleDrawerSensor</Name>
 							<Type>BOOL</Type>
 						</Var>
 					</Vars>
@@ -6244,30 +6244,6 @@ S02]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbWeighingStation.stInOuts.stWeighingActuator.bQ_Home</Name>
-							<Comment><![CDATA[ Sygnał do zaworu otwierania (w przypadku zaworu jednocewkowego podłączyć tylko to wyjście)]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbWeighingStation.stInOuts.stWeighingActuator.bQ_Work</Name>
-							<Comment><![CDATA[ Sygnał do zaworu zamykania]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbWeighingStation.stInOuts.stPusherActuator.bQ_Home</Name>
-							<Comment><![CDATA[ Sygnał do zaworu otwierania (w przypadku zaworu jednocewkowego podłączyć tylko to wyjście)]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbWeighingStation.stInOuts.stPusherActuator.bQ_Work</Name>
-							<Comment><![CDATA[ Sygnał do zaworu zamykania]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbWeighingStation.stInOuts.stDrawerLock.bOpen</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
 							<Name>MAIN.fbUnloadingStation.stInOuts.stUnloadingActuator.bQ_Home</Name>
 							<Comment><![CDATA[ Sygnał do zaworu otwierania (w przypadku zaworu jednocewkowego podłączyć tylko to wyjście)]]></Comment>
 							<Type>BOOL</Type>
@@ -6278,8 +6254,8 @@ S02]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbUnloadingStation.fbConveyor.rQ_ConveyorSpeedOut</Name>
-							<Type>REAL</Type>
+							<Name>MAIN.fbUnloadingStation.fbConveyor.iQ_ConveyorSpeedOut</Name>
+							<Type>INT</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbTableAxis.stInOuts.stAxis_Data.PlcToNc</Name>
@@ -6515,6 +6491,30 @@ S02]]></Comment>
 						<Var>
 							<Name>GVL_IO.stTunelInOuts.stCognex.bOut1</Name>
 							<Comment><![CDATA[ Sygnał w In-Sight In1 - Wyjście zwykle nie używane]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.stInOuts.stWeighingActuator.bQ_Home</Name>
+							<Comment><![CDATA[ Sygnał do zaworu otwierania (w przypadku zaworu jednocewkowego podłączyć tylko to wyjście)]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.stInOuts.stWeighingActuator.bQ_Work</Name>
+							<Comment><![CDATA[ Sygnał do zaworu zamykania]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.stInOuts.stPusherActuator.bQ_Home</Name>
+							<Comment><![CDATA[ Sygnał do zaworu otwierania (w przypadku zaworu jednocewkowego podłączyć tylko to wyjście)]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.stInOuts.stPusherActuator.bQ_Work</Name>
+							<Comment><![CDATA[ Sygnał do zaworu zamykania]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.stInOuts.stDrawerLock.bOpen</Name>
 							<Type>BOOL</Type>
 						</Var>
 					</Vars>
@@ -7574,11 +7574,12 @@ S02]]></Comment>
 		</Io>
 	</Project>
 	<Mappings>
-		<MappingInfo Identifier="{00000000-2002-0850-0220-500841000403}" Id="#x02030030"/>
+		<MappingInfo Identifier="{00000000-2001-0850-0120-500841000403}" Id="#x02030020"/>
+		<MappingInfo Identifier="{00000000-2002-0850-0220-500892000403}" Id="#x02030040"/>
 		<MappingInfo Identifier="{00000000-0030-0304-2000-040330000403}" Id="#x02030010"/>
 		<MappingInfo Identifier="{00000000-0050-0304-2000-040353000403}" Id="#x02030050"/>
 		<MappingInfo Identifier="{05000010-2002-0850-2000-040302205008}" Id="#x02030080" Watchdog="14000000040000000400000004000000"/>
-		<MappingInfo Identifier="{03040040-0040-0304-4000-040340000403}" Id="#x02030020" Watchdog="04000000040000000400000004000000"/>
+		<MappingInfo Identifier="{03040090-0090-0304-9000-040390000403}" Id="#x02030030" Watchdog="04000000040000000400000004000000"/>
 		<OwnerA Name="TIPC^LWLine^LWLine Instance">
 			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S02_SonicTech (EK1818)">
 				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldingMachine_IO.bErrorActive" VarB="Channel 4^Input"/>
@@ -8804,8 +8805,8 @@ S02]]></Comment>
 				<Link VarA="PlcTask Inputs^MAIN.fbWeighingStation.stInOuts.stDrawerLock.bLocked" VarB="Module 2 (DIO)^DIO Inputs^Input 3"/>
 			</OwnerB>
 			<OwnerB Name="TIID^LAN1 (EtherCAT)^S07_RIO1 (EK1914)^S07_AIO01 (EL4374)">
-				<Link VarA="PlcTask Inputs^MAIN.fbLoadingStation.stInOuts.rBottleDetectionSensor" VarB="AI Standard (Real32) Channel 1^Value (Real32)"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbUnloadingStation.fbConveyor.rQ_ConveyorSpeedOut" VarB="AO Standard (Real32) Channel 3^Value (Real32)"/>
+				<Link VarA="PlcTask Inputs^MAIN.fbLoadingStation.stInOuts.iBottleDetectionSensor" VarB="AI Standard (INT16) Channel 1^Value"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbUnloadingStation.fbConveyor.iQ_ConveyorSpeedOut" VarB="AO Standard (INT16) Channel 3^Value"/>
 			</OwnerB>
 			<OwnerB Name="TIID^LAN1 (EtherCAT)^S07_RIO1 (EK1914)^S07_DI01 (EL1008)">
 				<Link VarA="PlcTask Inputs^MAIN.fbTableAxis.stInOuts.bHomingSensor" VarB="Channel 4^Input"/>
@@ -8823,9 +8824,9 @@ S02]]></Comment>
 				<Link VarA="PlcTask Inputs^MAIN.fbWeighingStation.stInOuts.stWeighingActuator.bI_WorkPosition" VarB="Channel 5^Input"/>
 			</OwnerB>
 			<OwnerB Name="TIID^LAN1 (EtherCAT)^S07_RIO1 (EK1914)^S07_DO01 (EL2008)">
-				<Link VarA="PlcTask Outputs^MAIN.fbUnloadingStation.stInOuts.stUnloadingActuator.bQ_Work" VarB="Channel 7^Output"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbUnloadingStation.stInOuts.stUnloadingActuator.bQ_Work" VarB="Channel 8^Output"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbWeighingStation.stInOuts.stPusherActuator.bQ_Work" VarB="Channel 6^Output"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbWeighingStation.stInOuts.stWeighingActuator.bQ_Work" VarB="Channel 8^Output"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbWeighingStation.stInOuts.stWeighingActuator.bQ_Work" VarB="Channel 7^Output"/>
 			</OwnerB>
 			<OwnerB Name="TIID^LAN1 (EtherCAT)^S07_RIO1 (EK1914)^S07_MC1 (ELM7222-9016)">
 				<Link VarA="PlcTask Outputs^MAIN.fbTableAxis.stInOuts.bQ_SafetyErrorAck" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 3"/>

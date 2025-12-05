@@ -3,7 +3,7 @@
   <POU Name="FB_WeighingOversampling" Id="{3519dee1-614f-442c-be8a-15af5c35d0c3}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_WeighingOversampling
 VAR
-	arrSamples AT %I* : ARRAY[1..OVERSAMPLING_FACTOR] OF REAL;
+	arrSamples AT %I* : ARRAY[1..OVERSAMPLING_FACTOR] OF DINT;
 	arrBuffer : ARRAY[1..MAX_BUFFER_SIZE] OF REAL;
 	rCycleAvg : LREAL;
 	rAccumulate: LREAL;
@@ -40,17 +40,17 @@ VAR CONSTANT
 	MAX_BUFFER_SIZE:INT:=1000;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[arrSamples[1]:=rTest;
+      <ST><![CDATA[
 rAccumulate := 0;
 FOR i := 1 TO OVERSAMPLING_FACTOR DO
     rAccumulate := rAccumulate + arrSamples[i];
 END_FOR
-rCycleAvg := rAccumulate/OVERSAMPLING_FACTOR;
+rCycleAvg := rAccumulate/OVERSAMPLING_FACTOR - rZeroValue ;
 
 //Running Measurment
 rRunningAcc := rRunningAcc - arrBuffer[index];
 rRunningAcc := rRunningAcc + rCycleAvg;
-arrBuffer[index] := rCycleAvg;
+arrBuffer[index] := rCycleAvg ;
 index := index + 1;
 IF index > MAX_BUFFER_SIZE THEN
 	index :=1;

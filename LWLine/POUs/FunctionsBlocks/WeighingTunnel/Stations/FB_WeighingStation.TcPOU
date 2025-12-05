@@ -39,14 +39,19 @@ bRotationInterlock:=fbDrawerLock.prClosedAndLocked AND fbPusherActuator.prInHome
 
 fbWeighingActuator(stDigInOut:=stInOuts.stWeighingActuator, bI_Control_Ready:=TRUE, bManualMode:=bManualModeActive, 
 					bI_HomeInterlock:= fbPusherActuator.prInHomePosition, bI_WorkInterlock:=fbTableControl.prTableInPosition,
-					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0,bSimulationOn:=bSimulationON, bManualMode:= bManualModeActive);
+					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0,bSimulationOn:=bSimulationON, bManualMode:= bManualModeActive,
+ 					bI_RespectInterlockInMAN := FALSE);
 					
 fbPusherActuator(stDigInOut:=stInOuts.stPusherActuator, bI_Control_Ready:=TRUE, bManualMode:=bManualModeActive, 
 					bI_HomeInterlock:= TRUE, 
 					bI_WorkInterlock:=fbTableControl.prTableInPosition AND fbWeighingActuator.prInWorkPosition,
-					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0,bSimulationOn:=bSimulationON, bManualMode:= bManualModeActive);
+					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0,bSimulationOn:=bSimulationON, bManualMode:= bManualModeActive,
+					bI_RespectInterlockInMAN := FALSE);
 					
 fbBottleSensor(bSensorSignal:=stInOuts.bBottleDetectionSensor,bSimulationON:=bSimulationON,
+uiSensorOnDelay_MS:=500, uiErrorOnDelay_MS:=1000,uiSensorOffDelay_MS:=500, uiErrorOffDelay_MS:=1000);
+
+fbBottleDrawerSensor(bSensorSignal:=stInOuts.bBottleDrawerSensor,bSimulationON:=bSimulationON,
 uiSensorOnDelay_MS:=500, uiErrorOnDelay_MS:=1000,uiSensorOffDelay_MS:=500, uiErrorOffDelay_MS:=1000);
 		
 fbDrawerLock(stInOut:=stInOuts.stDrawerLock,bReleaseManulOpening:=bManualModeActive AND fbTableControl.prTableInPosition);
@@ -60,6 +65,8 @@ CASE iWorkStep OF
 	0: //CheckState
 		IF  __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.prStateIsNOK THEN
 			iWorkStep:=50;
+		ELSIF bManualModeRequest THEN
+			iWorkStep:= 80;
 		ELSE
 			iWorkStep:=5;
 		END_IF
@@ -91,6 +98,7 @@ CASE iWorkStep OF
 		IF bManualModeRequest THEN
 			iWorkStep:= 80;
 		END_IF
+
 			
 	20: //Weighing Actuator Work
 		IF fbWeighingActuator.mGoToWork(FALSE) AND __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.mBottleProcessing() THEN
@@ -228,13 +236,26 @@ fbTimeStats.rRowTime:=0;]]></ST>
       <LineId Id="1618" Count="0" />
       <LineId Id="1599" Count="0" />
       <LineId Id="1594" Count="0" />
-      <LineId Id="1352" Count="26" />
-      <LineId Id="1381" Count="14" />
+      <LineId Id="1352" Count="5" />
+      <LineId Id="1644" Count="0" />
+      <LineId Id="1646" Count="0" />
+      <LineId Id="1359" Count="4" />
+      <LineId Id="1647" Count="0" />
+      <LineId Id="1364" Count="2" />
+      <LineId Id="1636" Count="1" />
+      <LineId Id="1635" Count="0" />
+      <LineId Id="1367" Count="11" />
+      <LineId Id="1639" Count="0" />
+      <LineId Id="1641" Count="2" />
+      <LineId Id="1383" Count="12" />
       <LineId Id="1398" Count="5" />
       <LineId Id="1577" Count="0" />
       <LineId Id="1576" Count="0" />
       <LineId Id="1573" Count="0" />
-      <LineId Id="1405" Count="39" />
+      <LineId Id="1405" Count="3" />
+      <LineId Id="1665" Count="1" />
+      <LineId Id="1664" Count="0" />
+      <LineId Id="1411" Count="33" />
       <LineId Id="1534" Count="0" />
       <LineId Id="1445" Count="1" />
       <LineId Id="1535" Count="0" />

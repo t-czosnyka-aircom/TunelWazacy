@@ -22,11 +22,11 @@ IF  __ISVALIDREF(fbTablePlace) THEN
 	stSettings.stUnloadingBottleParams := fbTableControl.mGetBottleUnloadingParams(fbTablePlace.prBottleType);
 END_IF
 
-
+stInOuts.stUnloadingActuator.bI_WorkPosition := NOT stInOuts.stUnloadingActuator.bI_HomePosition AND stInOuts.stUnloadingActuator.bQ_Work;
 bRotationInterlock:=fbUnloadingActuator.prInHomePosition;
 fbUnloadingActuator(stDigInOut:=stInOuts.stUnloadingActuator, bI_Control_Ready:=TRUE, bManualMode:=bManualModeActive, 
 					bI_HomeInterlock:= TRUE, bI_WorkInterlock:=fbTableControl.prTableInPosition,
-					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0,bSimulationOn:=bSimulationON, bManualMode:= bManualModeActive);
+					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0,bSimulationOn:=bSimulationON, bManualMode:= bManualModeActive, bI_RespectInterlockInMAN := FALSE);
 
 fbUnloadingSensor(bSensorSignal:=stInOuts.bBottleDetectionSensor,bSimulationON:=bSimulationON,uiSensorOnDelay_MS:=0);									
 	
@@ -35,7 +35,9 @@ fbConveyor(bManualMode:=bManualModeActive);
 bRotationRequest:= FALSE;			
 CASE iWorkStep OF
 	0: //Initialisation
-		IF fbUnloadingActuator.mGoToHome(FALSE) THEN
+		IF bManualModeRequest THEN
+			iWorkStep:= 80;
+		ELSIF fbUnloadingActuator.mGoToHome(FALSE) THEN
 			iWorkStep := 10;
 		ELSIF fbUnloadingActuator.prGoToHomeError THEN 
 			mSetError(nTable_ErrorList.UnloadingActuatorBackwardError);
@@ -53,6 +55,7 @@ CASE iWorkStep OF
 		IF bManualModeRequest THEN
 			iWorkStep:= 80;
 		END_IF
+
 		
 	20:	//Eject Bottle
 		fbConveyor.bMoveRequest:=TRUE;
@@ -100,8 +103,12 @@ END_CASE]]></ST>
     </Implementation>
     <LineIds Name="FB_UnloadingStation">
       <LineId Id="213" Count="22" />
+      <LineId Id="320" Count="1" />
       <LineId Id="306" Count="3" />
-      <LineId Id="240" Count="56" />
+      <LineId Id="240" Count="10" />
+      <LineId Id="332" Count="1" />
+      <LineId Id="331" Count="0" />
+      <LineId Id="253" Count="43" />
       <LineId Id="28" Count="0" />
     </LineIds>
   </POU>
