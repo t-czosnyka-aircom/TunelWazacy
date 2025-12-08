@@ -13,6 +13,7 @@ VAR
 	rRunningAcc	: LREAL;
 	bFilled : BOOL;
 	rRunningMeasure : LREAL;
+	rRunningMeasureWithTare : LREAL;
 	rTest:REAL;
 	iCycles: UINT;
 	iReqCycles :UINT;
@@ -25,15 +26,17 @@ VAR
 	
 	bReqMeasurement : BOOL;
 	fbReqMeasurement :R_TRIG;
-	rZeroValue 		: REAL;
+
 	fbTON_ForceSampling	: TON;
 	fbTON_ForceStable	: TON;
 	rLastRunningMeasure: REAL;
 	bMeasurementError : BOOL;
 	fbSingleMeasurementTimeout: TON;
+	rZeroValueScalled:REAL;
 END_VAR
 VAR PERSISTENT
 	stSettings:  ST_WeighingSettings;
+	rZeroValue 		: REAL;
 END_VAR
 VAR CONSTANT
 	OVERSAMPLING_FACTOR: INT:=1;
@@ -45,7 +48,7 @@ rAccumulate := 0;
 FOR i := 1 TO OVERSAMPLING_FACTOR DO
     rAccumulate := rAccumulate + arrSamples[i];
 END_FOR
-rCycleAvg := rAccumulate/OVERSAMPLING_FACTOR - rZeroValue ;
+rCycleAvg := rAccumulate/OVERSAMPLING_FACTOR ;
 
 //Running Measurment
 rRunningAcc := rRunningAcc - arrBuffer[index];
@@ -97,7 +100,7 @@ END_IF
 //Scalling
 fbSingleAnalog(rIn:=rSingleMessResult-rZeroValue,stMeasureScalingData:=stSettings.stScalling, tStalaCzasowa:=T#1MS);
 fbRunningAnalog(rIn:=rRunningMeasure-rZeroValue,stMeasureScalingData:=stSettings.stScalling, tStalaCzasowa:=T#1MS);
-
+rZeroValueScalled := fScalling(rIn:=rZeroValue,stMeasureScalingData:=stSettings.stScalling);
 //HMI
 IF stSettings.bManualSingleMeasureRequest AND_THEN mGetMeasurement(1000) THEN
 	stSettings.bManualSingleMeasureRequest:=FALSE;

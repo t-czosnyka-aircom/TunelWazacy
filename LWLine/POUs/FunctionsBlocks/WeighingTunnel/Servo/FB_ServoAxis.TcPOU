@@ -16,13 +16,14 @@ VAR_OUTPUT
 END_VAR
 VAR
 	stInOuts					:st_Axis_InOuts;
-	fbHomeSensorRTRIG			:R_TRIG;
+	fbHomeSensorFTRIG			:F_TRIG;
 	iCurrentPositionNumber		:USINT;
 	bMoveAbsDone				:BOOL;
 	bMoveModuloDone				:BOOL;
 	bQuickHomingDone			:BOOL;
 	bFullHomingDone				:BOOL;
 	bQuickHomingRequest			:BOOL;
+	bQuickHomingSynchLost		:BOOL;
 	stHMI 						: ST_AxisHMI;
 	i:USINT;
 	lrPosition:LREAL;
@@ -31,7 +32,7 @@ VAR
 	bPositionValid :BOOL;
 	fbPositionValidTON:TON;
 	tPositionValidDelay:TIME:=T#300MS;
-
+	fbHomingSensorTON :TON;
 	//OLD
 	
 	bEnableMotion				: BOOL;		// When TRUE - try to enable axis, when FALSE disable power - safeState
@@ -105,7 +106,7 @@ bPositionValid:= fbPositionValidTON.Q;
 ACT_AxisFBs(); 	
 ACT_AxisWorkSteps();
 
-fbHomeSensorRTRIG(CLK:=stInOuts.bHomingSensor);
+
 IF stSettings.bEN_CircularPositions AND NOT bCircularPositionsSet THEN
 	lrPosition := 0.0;
 	FOR i:=1 TO NUMBER_OF_PRESET_POSITIONS DO
@@ -116,7 +117,10 @@ IF stSettings.bEN_CircularPositions AND NOT bCircularPositionsSet THEN
 END_IF
 
 
-IF stSettings.bEN_QuickHoming AND prIsHomed AND fbHomeSensorRTRIG.Q THEN
+//Quick Homing
+fbHomingSensorTON(IN:=stInOuts.bHomingSensor,PT:=T#300MS);
+fbHomeSensorFTRIG(CLK:=fbHomingSensorTON.Q);
+IF stSettings.bEN_QuickHoming AND McMoveModulo.Busy AND prIsHomed AND fbHomeSensorFTRIG.Q AND stInOuts.stAxis_Data.Status.PositiveDirection THEN 
 	mSavePositionAtHomeSensor();
 	IF lrReferencePositionAtHomeSensor = -1.0 THEN
 		lrReferencePositionAtHomeSensor := lrLastPositionAtHomeSensor;
@@ -280,9 +284,15 @@ CASE iWorkStep_Axis OF
 			
 	21:	// Home done
 		IF McHome.Done THEN
+			bQuickHomingSynchLost := FALSE;
 			McHome.Execute := FALSE;
 			iWorkStep_Axis := 10;
 			bFullHomingDone := TRUE;
+			//Move to first position
+			McMoveModulo.Direction:= MC_Direction.MC_Shortest_Way;
+			McMoveModulo.Position := stSettings.arrPositions[1];
+			McMoveModulo.Velocity := LIMIT(0.5, stSettings.rSlowSpeed_deg_s, 300);
+			iWorkStep_Axis := 50;
 		ELSIF McHome.Error THEN
 			mNewEvent( nEvent := nAxis_ErrorList.MotionFB_Error,ErrorCode:= McHome.ErrorID,bDisable:=TRUE);
 		ELSIF McHome.CommandAborted THEN
@@ -487,7 +497,7 @@ END_VAR
         <ST><![CDATA[mFullHoming := FALSE;
 IF prIsReady THEN
 	iWorkStep_Axis := 20;
-	McHome.Position := 0;
+	McHome.Position := 357;
 	McHome. HomingMode := MC_HomingMode.MC_DefaultHoming;
 	stHomimgParams.SearchDirection := MC_Direction.MC_Positive_Direction;
 	stHomimgParams.SyncDirection := MC_Direction.MC_Negative_Direction;
@@ -627,9 +637,15 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[mQuickHoming :=FALSE;
 IF prIsReady AND lrReferencePositionAtHomeSensor > 0 AND lrLastPositionAtHomeSensor > 0 THEN
-	McHome.Position := prCurrentPositionModulo + (lrReferencePositionAtHomeSensor - lrLastPositionAtHomeSensor);
-	McHome. HomingMode := MC_HomingMode.MC_Direct;
-	iWorkStep_Axis := 40;
+	IF ABS(lrReferencePositionAtHomeSensor - lrLastPositionAtHomeSensor) > 1.0 THEN
+		mNewEvent( nEvent := nAxis_ErrorList.QuickHomingError,ErrorCode:= McHome.ErrorID,bDisable:=FALSE);
+		bQuickHomingSynchLost :=TRUE;
+		bQuickHomingRequest:=FALSE;
+	ELSE
+		McHome.Position := prCurrentPositionModulo + (lrReferencePositionAtHomeSensor - lrLastPositionAtHomeSensor);
+		McHome. HomingMode := MC_HomingMode.MC_Direct;
+		iWorkStep_Axis := 40;
+	END_IF
 ELSIF McHome.Error OR iWorkStep_Axis <40 OR iWorkStep_Axis >41  THEN
 	mQuickHoming := TRUE;
 	bError := TRUE;
@@ -758,7 +774,7 @@ PROPERTY prIsHomed : BOOL]]></Declaration>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[prIsHomed := stInOuts.stAxis_Data.Status.Homed;]]></ST>
+          <ST><![CDATA[prIsHomed := stInOuts.stAxis_Data.Status.Homed AND NOT bQuickHomingSynchLost;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -853,7 +869,14 @@ END_VAR
       <LineId Id="1318" Count="0" />
       <LineId Id="1316" Count="0" />
       <LineId Id="965" Count="9" />
-      <LineId Id="977" Count="39" />
+      <LineId Id="977" Count="9" />
+      <LineId Id="1393" Count="1" />
+      <LineId Id="987" Count="0" />
+      <LineId Id="1395" Count="0" />
+      <LineId Id="988" Count="0" />
+      <LineId Id="1396" Count="5" />
+      <LineId Id="1403" Count="0" />
+      <LineId Id="996" Count="20" />
       <LineId Id="402" Count="0" />
     </LineIds>
     <LineIds Name="FB_ServoAxis.ACT_AxisFBs">
@@ -909,8 +932,13 @@ END_VAR
       <LineId Id="75" Count="0" />
       <LineId Id="78" Count="2" />
       <LineId Id="91" Count="2" />
-      <LineId Id="95" Count="2" />
+      <LineId Id="95" Count="0" />
+      <LineId Id="480" Count="0" />
+      <LineId Id="96" Count="1" />
       <LineId Id="373" Count="0" />
+      <LineId Id="466" Count="0" />
+      <LineId Id="481" Count="0" />
+      <LineId Id="463" Count="2" />
       <LineId Id="371" Count="1" />
       <LineId Id="391" Count="1" />
       <LineId Id="390" Count="0" />
@@ -1039,9 +1067,13 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_ServoAxis.mQuickHoming">
       <LineId Id="9" Count="1" />
+      <LineId Id="49" Count="1" />
+      <LineId Id="53" Count="1" />
+      <LineId Id="51" Count="0" />
       <LineId Id="41" Count="0" />
       <LineId Id="31" Count="0" />
       <LineId Id="18" Count="0" />
+      <LineId Id="52" Count="0" />
       <LineId Id="20" Count="10" />
       <LineId Id="5" Count="0" />
     </LineIds>

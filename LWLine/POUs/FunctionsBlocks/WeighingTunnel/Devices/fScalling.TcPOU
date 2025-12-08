@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="fScalling" Id="{1474d739-4ecf-4a07-957f-3feddfa6fb43}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION fScalling : REAL
+VAR_INPUT
+	rIn:REAL;				// Wejście pomiarowe
+	stMeasureScalingData:stMeasurementScalingData;		// Dane do skalowania
+END_VAR
+VAR
+	rRange_RAW:REAL;
+	rRange_ENG:REAL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[rRange_RAW := stMeasureScalingData.rScalingRawValue_II - stMeasureScalingData.rScalingRawValue_I;
+rRange_ENG := stMeasureScalingData.rScalingEngValue_II - stMeasureScalingData.rScalingEngValue_I;
+fScalling := 0;
+IF ABS(rRange_RAW) > 0.00001 THEN
+	fScalling:= ( (rIn - stMeasureScalingData.rScalingRawValue_I)/rRange_RAW )*rRange_ENG + stMeasureScalingData.rScalingEngValue_I;
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="fScalling">
+      <LineId Id="8" Count="1" />
+      <LineId Id="11" Count="2" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

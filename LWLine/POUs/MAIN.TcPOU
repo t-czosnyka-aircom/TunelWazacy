@@ -967,9 +967,9 @@ fbTableControl(fbTableAxis:=fbTableAxis);
 		
 fbTableAxis(bInSafePosition:=TRUE);
 
-fbLoadingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim);
-fbWeighingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim);
-fbUnloadingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim);
+fbLoadingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim, bGhostRunON := bIBN);
+fbWeighingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim, bGhostRunON := bIBN);
+fbUnloadingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim, bGhostRunON := bIBN);
 
 ]]></ST>
       </Implementation>

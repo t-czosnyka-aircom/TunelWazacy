@@ -7,7 +7,8 @@ VAR_IN_OUT
 
 END_VAR
 VAR_INPUT
-	bReleaseManulOpening: BOOL;
+	bManualMode: BOOL;
+	bReleaseOpening: BOOL;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -20,6 +21,9 @@ VAR
 	bReqManualOpen: BOOL;
 	fbManualOpenTON: TON;
 	tManualOpen: TIME:= T#10S;
+	fbOpenningError:TON;
+	tOpenningError: TIME:= T#3S;
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -30,7 +34,8 @@ fbNotClosedTON(IN:= NOT bClosed,PT:=tNotClosed);
 fbManualOpenTON(IN:= bReqManualOpen,PT:=tManualOpen);
 bReqManualOpen R=fbManualOpenTON.Q;
 
-stInOut.bOpen:=bReqOpen OR bReqManualOpen;
+stInOut.bOpen:=(bReqOpen OR bReqManualOpen) AND bReleaseOpening;
+fbOpenningError(IN:=stInOut.bOpen AND stInOut.bLocked, PT:=tOpenningError);   
 bReqOpen := FALSE;]]></ST>
     </Implementation>
     <Method Name="mManualOpen" Id="{b8c17c3c-e745-4132-a0c7-08c3f6efe7a5}">
@@ -39,9 +44,10 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF bReleaseManulOpening THEN
+        <ST><![CDATA[IF bManualMode THEN
 	bReqManualOpen := TRUE;
-END_IF]]></ST>
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="mOpen" Id="{bc298bbe-e875-4372-832b-38d27168ff1a}">
@@ -50,7 +56,9 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[bReqOpen := TRUE;]]></ST>
+        <ST><![CDATA[IF NOT bManualMode THEN
+	bReqOpen := TRUE;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Property Name="prClosed" Id="{2e6c38c2-a5e5-4f79-a46b-a0d10e0a3133}">
@@ -88,6 +96,17 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="prOpeningError" Id="{bf9f24f8-5491-4903-970e-e6e6e04b48c3}">
+      <Declaration><![CDATA[PROPERTY prOpeningError : BOOL]]></Declaration>
+      <Get Name="Get" Id="{2f921190-cea5-4dcf-8f1f-62ec53c880ca}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prOpeningError := fbOpenningError.Q;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <LineIds Name="FB_Lock">
       <LineId Id="9" Count="0" />
       <LineId Id="18" Count="0" />
@@ -96,13 +115,19 @@ END_VAR
       <LineId Id="48" Count="0" />
       <LineId Id="50" Count="0" />
       <LineId Id="24" Count="1" />
+      <LineId Id="74" Count="0" />
       <LineId Id="23" Count="0" />
     </LineIds>
     <LineIds Name="FB_Lock.mManualOpen">
-      <LineId Id="5" Count="2" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="FB_Lock.mOpen">
+      <LineId Id="9" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Lock.prClosed.Get">
       <LineId Id="2" Count="0" />
@@ -111,6 +136,9 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Lock.prNotClosed.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Lock.prOpeningError.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

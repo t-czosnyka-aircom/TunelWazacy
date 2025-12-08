@@ -28,9 +28,9 @@ fbUnloadingActuator(stDigInOut:=stInOuts.stUnloadingActuator, bI_Control_Ready:=
 					bI_HomeInterlock:= TRUE, bI_WorkInterlock:=fbTableControl.prTableInPosition,
 					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0,bSimulationOn:=bSimulationON, bManualMode:= bManualModeActive, bI_RespectInterlockInMAN := FALSE);
 
-fbUnloadingSensor(bSensorSignal:=stInOuts.bBottleDetectionSensor,bSimulationON:=bSimulationON,uiSensorOnDelay_MS:=0);									
+fbUnloadingSensor(bSensorSignal:=stInOuts.bBottleDetectionSensor,bSimulationON:=bSimulationON OR bGhostRunOn,uiSensorOnDelay_MS:=0);									
 	
-fbConveyor(bManualMode:=bManualModeActive);
+fbConveyor(bManualMode:=bManualModeActive, bEN_FeedbackError:=FALSE);
 	
 bRotationRequest:= FALSE;			
 CASE iWorkStep OF
@@ -44,7 +44,7 @@ CASE iWorkStep OF
 		END_IF
 	
 	10: //Wait for bottle - Table Rotation
-		IF __ISVALIDREF(fbTablePlace) AND FALSE THEN
+		IF __ISVALIDREF(fbTablePlace) THEN
 			bRotationRequest := fbTablePlace.prStateIsEmpty;
 			IF fbTableControl.prWorkPermission AND_THEN fbTablePlace.prStateIsAfterWeighing THEN
 				iWorkStep := 20;

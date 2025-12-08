@@ -30,45 +30,41 @@ END_IF;
 fbBottleDetection(In:=stInOuts.iBottleDetectionSensor ,tMeasureTime:=T#50MS, tSamplingTime:=T#10MS);
 bBottleDetected := stSettings.stLoadingBottleParams.rLoadingDetectionFrom <= fbBottleDetection.Out AND fbBottleDetection.Out <= stSettings.stLoadingBottleParams.rLoadingDetectionTo;
 bRotationInterlock:=TRUE;
-fbLoadingSensor(bSensorSignal:=bBottleDetected  ,bSimulationON:=bSimulationON,
+fbLoadingSensor(bSensorSignal:=bBottleDetected  ,bSimulationON:=bSimulationON OR bGhostRunOn,
 uiSensorOnDelay_MS:=stSettings.iBottleDetectionDelayMS,uiErrorOffDelay_MS:=stSettings.iSensorErrorDelayMS);
 
 bSensorWasOff S= NOT fbLoadingSensor.bSensorSignal AND fbTableControl.prTableInPosition;
 
 bRotationRequest:= FALSE;
+IF bManualModeRequest THEN
+	iWorkStep:= 80;
+END_IF
+
 CASE iWorkStep OF
 	0: //Initialization
-		IF bManualModeRequest THEN
-			iWorkStep:= 80;
-		ELSE
-			iWorkStep:=10;
-		END_IF
-		
-	10://Wait For Sensor ON
-	//Sprawdzenie czy sensor nie daje sygnału cały czas
-	fbLoadingSensor.bRequestedState := bSensorWasOff;
-	fbLoadingSensor.bCheckState := NOT bSensorWasOff;
-	IF __ISVALIDREF(fbTablePlace) AND FALSE THEN
-		IF fbLoadingSensor.prSensorOnOK AND fbTableControl.prWorkPermission AND_THEN fbTablePlace.mBottleBeforeWeighing(fbTableControl.prNextType) THEN
-			iWorkStep:= 20;
-			bSensorWasOff:=FALSE;
-		ELSIF fbLoadingSensor.prSensorOffError THEN
-			mSetError(nTable_ErrorList.LoadingSensorError);
-		END_IF
-//	ELSE
-//		bRotationRequest:= TRUE;
-	END_IF
+		iWorkStep:=10;
 	
-	IF bManualModeRequest THEN
-		iWorkStep:= 80;
-	END_IF
-
+	10://Wait For Sensor ON
+		//Sprawdzenie czy sensor nie daje sygnału cały czas
+		fbLoadingSensor.bRequestedState := bSensorWasOff;
+		fbLoadingSensor.bCheckState := NOT bSensorWasOff;
+		IF __ISVALIDREF(fbTablePlace) THEN
+			IF fbLoadingSensor.prSensorOnOK AND fbTableControl.prWorkPermission AND_THEN fbTablePlace.mBottleBeforeWeighing(fbTableControl.prNextType) THEN
+				iWorkStep:= 20;
+				bSensorWasOff:=FALSE;
+			ELSIF fbLoadingSensor.prSensorOffError THEN
+				mSetError(nTable_ErrorList.LoadingSensorError);
+			END_IF
+	//	ELSE
+	//		bRotationRequest:= TRUE;
+		END_IF
+	
 	
 	20: //Wait For Table Movement
-	bRotationRequest:= TRUE;
-	IF fbTableControl.prTableIsMoving THEN
-		iWorkStep:= 0;
-	END_IF
+		bRotationRequest:= TRUE;
+		IF fbTableControl.prTableIsMoving THEN
+			iWorkStep:= 0;
+		END_IF
 		
 	
 		
@@ -105,12 +101,11 @@ END_CASE
       <LineId Id="223" Count="0" />
       <LineId Id="290" Count="1" />
       <LineId Id="335" Count="0" />
-      <LineId Id="183" Count="2" />
-      <LineId Id="399" Count="1" />
-      <LineId Id="398" Count="0" />
-      <LineId Id="186" Count="0" />
-      <LineId Id="401" Count="0" />
-      <LineId Id="187" Count="1" />
+      <LineId Id="183" Count="0" />
+      <LineId Id="432" Count="1" />
+      <LineId Id="431" Count="0" />
+      <LineId Id="434" Count="0" />
+      <LineId Id="184" Count="4" />
       <LineId Id="311" Count="0" />
       <LineId Id="189" Count="0" />
       <LineId Id="308" Count="0" />
@@ -119,8 +114,6 @@ END_CASE
       <LineId Id="284" Count="1" />
       <LineId Id="193" Count="1" />
       <LineId Id="309" Count="0" />
-      <LineId Id="414" Count="2" />
-      <LineId Id="260" Count="0" />
       <LineId Id="195" Count="1" />
       <LineId Id="325" Count="0" />
       <LineId Id="199" Count="1" />

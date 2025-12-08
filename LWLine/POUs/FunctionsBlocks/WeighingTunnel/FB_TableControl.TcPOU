@@ -61,10 +61,6 @@ IF bIBN THEN
 	END_IF
 END_IF
 bWorkPermission :=bIBN;
-//stInOuts.bI_SafetyGateOK := TRUE;
-//stInOuts.bI_SafetyEstopOK := TRUE;
-//stInOuts.bI_SafetyDrawerOK := TRUE;
-/////
 stInOuts.bQ_SafetyRun := TRUE;
 stInOuts.bQ_SafetyErrorAck:= stInOuts.bI_SafetyReset_1 OR stInOuts.bI_SafetyReset_2;
 
@@ -154,7 +150,7 @@ CASE iWorkStep OF
 
 
 	10: //Wait for rotation request
-		fbRotationRequestTON(IN:=FALSE AND bRotationRequest AND bRotationInterlock AND fbTableAxis.prIsReady AND fbTableAxis.prIsHomed AND bWorkPermission,PT:=T#1S);
+		fbRotationRequestTON(IN:= bRotationRequest AND bRotationInterlock AND fbTableAxis.prIsReady AND fbTableAxis.prIsHomed AND bWorkPermission,PT:=T#1S);
 		IF fbRotationRequestTON.Q THEN
 			fbRotationRequestTON(IN:=FALSE);
 			iWorkStep := 30;
@@ -166,7 +162,7 @@ CASE iWorkStep OF
 		
 	30: //Table rotation
 		
-		IF fbTableAxis.mMoveModuloToPosition(iNextPos,bFast:=FALSE,bError=>bServoError,bNotReady=>bServoNotReady) THEN
+		IF fbTableAxis.prIsReady AND fbTableAxis.prIsHomed AND_THEN fbTableAxis.mMoveModuloToPosition(iNextPos,bFast:=FALSE,bError=>bServoError,bNotReady=>bServoNotReady) THEN
 			IF bServoError THEN
 				mNewEvent(nPIM_EventClasses.Alarm,nTable_ErrorList.ServoError);
 			ELSIF bServoNotReady THEN
@@ -369,10 +365,6 @@ END_VAR
       <LineId Id="1125" Count="1" />
       <LineId Id="1124" Count="0" />
       <LineId Id="531" Count="0" />
-      <LineId Id="827" Count="0" />
-      <LineId Id="875" Count="0" />
-      <LineId Id="874" Count="0" />
-      <LineId Id="532" Count="0" />
       <LineId Id="766" Count="0" />
       <LineId Id="533" Count="0" />
       <LineId Id="770" Count="0" />

@@ -5,6 +5,7 @@
 VAR_INPUT
 	bManualMode:BOOL;
 	bMoveRequest:BOOL;
+	bEN_FeedbackError: BOOL;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -22,7 +23,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[fbFeedbackErrorTON(IN:= prIsON XOR bOnCmd, PT:= T#10S);
+      <ST><![CDATA[fbFeedbackErrorTON(IN:= (prIsON XOR bOnCmd) AND bEN_FeedbackError, PT:= T#10S);
 stMeasureScaling.rScalingRawValue_II:=100.0;
 stMeasureScaling.rScalingEngValue_I:=3000;
 stMeasureScaling.rScalingEngValue_II:=32767;
