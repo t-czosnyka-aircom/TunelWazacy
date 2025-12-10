@@ -2,13 +2,18 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
   <POU Name="FB_LoadingStation" Id="{0739b0e9-6a0b-43e8-b760-d31010e6020e}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_LoadingStation EXTENDS FB_BaseStation
-
+VAR_INPUT
+	bWeighingInProgess : BOOL;
+END_VAR
 VAR
 	fbLoadingSensor: FB_Sensor;
 	bSensorWasOff: BOOL;
 	stInOuts :ST_LoadingStation_InOuts;
 	fbBottleDetection  : FB_Filter;
 	bBottleDetected: BOOL;
+END_VAR
+VAR_OUTPUT
+	bReleaseWeighing : BOOL;
 END_VAR
 VAR PERSISTENT
 	stSettings: ST_LoadingStation_Settings;
@@ -36,6 +41,7 @@ uiSensorOnDelay_MS:=stSettings.iBottleDetectionDelayMS,uiErrorOffDelay_MS:=stSet
 bSensorWasOff S= NOT fbLoadingSensor.bSensorSignal AND fbTableControl.prTableInPosition;
 
 bRotationRequest:= FALSE;
+bReleaseWeighing := TRUE;
 IF bManualModeRequest THEN
 	iWorkStep:= 80;
 END_IF
@@ -102,6 +108,7 @@ END_CASE
       <LineId Id="290" Count="1" />
       <LineId Id="335" Count="0" />
       <LineId Id="183" Count="0" />
+      <LineId Id="452" Count="0" />
       <LineId Id="432" Count="1" />
       <LineId Id="431" Count="0" />
       <LineId Id="434" Count="0" />

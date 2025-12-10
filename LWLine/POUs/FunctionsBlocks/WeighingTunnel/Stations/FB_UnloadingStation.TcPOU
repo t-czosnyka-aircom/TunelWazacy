@@ -2,11 +2,17 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
   <POU Name="FB_UnloadingStation" Id="{296f6eb6-2953-417c-abf3-86065ed0eed9}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_UnloadingStation EXTENDS FB_BaseStation
+VAR_INPUT
+	bWeighingInProgess : BOOL;
+END_VAR
 VAR
 	fbUnloadingActuator: FB_ActuatorOOP_TC;
 	fbUnloadingSensor: FB_Sensor;
 	stInOuts :ST_UnloadingStation_InOuts;
 	fbConveyor : FB_Conveyor;
+END_VAR
+VAR_OUTPUT
+	bReleaseWeighing : BOOL;
 END_VAR
 VAR PERSISTENT
 	stSettings: ST_UnloadingStation_Settings;
@@ -32,7 +38,8 @@ fbUnloadingSensor(bSensorSignal:=stInOuts.bBottleDetectionSensor,bSimulationON:=
 	
 fbConveyor(bManualMode:=bManualModeActive, bEN_FeedbackError:=FALSE);
 	
-bRotationRequest:= FALSE;			
+bRotationRequest:= FALSE;	
+bReleaseWeighing := fbUnloadingActuator.prInHomePosition;
 CASE iWorkStep OF
 	0: //Initialisation
 		IF bManualModeRequest THEN
@@ -46,7 +53,7 @@ CASE iWorkStep OF
 	10: //Wait for bottle - Table Rotation
 		IF __ISVALIDREF(fbTablePlace) THEN
 			bRotationRequest := fbTablePlace.prStateIsEmpty;
-			IF fbTableControl.prWorkPermission AND_THEN fbTablePlace.prStateIsAfterWeighing THEN
+			IF fbTableControl.prWorkPermission AND fbTablePlace.prStateIsAfterWeighing AND NOT bWeighingInProgess THEN
 				iWorkStep := 20;
 			END_IF;
 //		ELSE
@@ -102,7 +109,9 @@ CASE iWorkStep OF
 END_CASE]]></ST>
     </Implementation>
     <LineIds Name="FB_UnloadingStation">
-      <LineId Id="213" Count="22" />
+      <LineId Id="213" Count="20" />
+      <LineId Id="349" Count="0" />
+      <LineId Id="234" Count="1" />
       <LineId Id="320" Count="1" />
       <LineId Id="306" Count="3" />
       <LineId Id="240" Count="10" />

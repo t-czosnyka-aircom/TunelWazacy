@@ -15,13 +15,15 @@ VAR
 	fbFeedbackErrorTON: TON;
 	bOnCmd : BOOL;
 	bManualOnCmd:BOOL;
-	rSpeedSet: REAL;
+
 	fbAnalogScale: fbAnalogMeasurement;
 	stMeasureScaling: stMeasurementScalingData;
 	fbMoveRequest_RTRIG: R_TRIG;
 	fbCmdOnTOF: TOF;
 END_VAR
-]]></Declaration>
+VAR PERSISTENT
+	rSpeedSet: REAL;
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[fbFeedbackErrorTON(IN:= (prIsON XOR bOnCmd) AND bEN_FeedbackError, PT:= T#10S);
 stMeasureScaling.rScalingRawValue_II:=100.0;
@@ -41,8 +43,8 @@ IF bManualMode THEN
 ELSE
 	prIsOn := fbCmdOnTOF.Q;
 END_IF
-
 IF bOnCmd THEN
+	rSpeedSet := MAX(10,rSpeedSet);
 	iQ_ConveyorSpeedOut := REAL_TO_INT(fbAnalogScale.rOutFiltered);
 ELSE
 	iQ_ConveyorSpeedOut := 3000;
@@ -116,7 +118,9 @@ END_VAR
       <LineId Id="28" Count="0" />
       <LineId Id="46" Count="1" />
       <LineId Id="36" Count="0" />
-      <LineId Id="30" Count="4" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="32" Count="2" />
       <LineId Id="27" Count="0" />
       <LineId Id="50" Count="0" />
       <LineId Id="49" Count="0" />

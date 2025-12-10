@@ -33,6 +33,7 @@ VAR
 	fbPositionValidTON:TON;
 	tPositionValidDelay:TIME:=T#300MS;
 	fbHomingSensorTON :TON;
+	fbStepTON :TON;
 	//OLD
 	
 	bEnableMotion				: BOOL;		// When TRUE - try to enable axis, when FALSE disable power - safeState
@@ -120,12 +121,12 @@ END_IF
 //Quick Homing
 fbHomingSensorTON(IN:=stInOuts.bHomingSensor,PT:=T#300MS);
 fbHomeSensorFTRIG(CLK:=fbHomingSensorTON.Q);
-IF stSettings.bEN_QuickHoming AND McMoveModulo.Busy AND prIsHomed AND fbHomeSensorFTRIG.Q AND stInOuts.stAxis_Data.Status.PositiveDirection THEN 
+IF McMoveModulo.Busy AND prIsHomed AND fbHomeSensorFTRIG.Q AND stInOuts.stAxis_Data.Status.PositiveDirection THEN 
 	mSavePositionAtHomeSensor();
 	IF lrReferencePositionAtHomeSensor = -1.0 THEN
 		lrReferencePositionAtHomeSensor := lrLastPositionAtHomeSensor;
 	ELSE
-		bQuickHomingRequest := TRUE;
+		bQuickHomingRequest := stSettings.bEN_QuickHoming;
 	END_IF
 END_IF
 
@@ -216,6 +217,11 @@ ELSIF NOT prMovementExternalInterlock AND prIsMoving AND iWorkStep_Axis < 90 AND
 END_IF
 bEnableMotion := stInOuts.bI_SS1_Release AND stInOuts.bI_STO_Release;
 
+stSettings.rSlowSpeed_deg_s := LIMIT(1, stSettings.rSlowSpeed_deg_s, 50);
+stSettings.rFastSpeed_deg_s := LIMIT(50, stSettings.rFastSpeed_deg_s, 300);
+stSettings.rDeceleration := LIMIT(100, stSettings.rDeceleration, 5000);
+stSettings.rAcceleration := LIMIT(100, stSettings.rAcceleration, 5000);
+
 CASE iWorkStep_Axis OF
 	0:	// Inicjalizacja
 		mCancelAllCommands();
@@ -223,10 +229,7 @@ CASE iWorkStep_Axis OF
 		iWorkStep_Axis := 1;
 		
 	1:	// Sprawdzenie parametrów pracy
-		stSettings.rSlowSpeed_deg_s := LIMIT(0.5, stSettings.rSlowSpeed_deg_s, 10);
-		stSettings.rFastSpeed_deg_s := LIMIT(50, stSettings.rFastSpeed_deg_s, 320);
-		stSettings.rDeceleration := LIMIT(100, stSettings.rDeceleration, 5000);
-		stSettings.rAcceleration := LIMIT(100, stSettings.rAcceleration, 5000);
+
 		iWorkStep_Axis := 5;
 		
 	5: 	// Sprawdzenie gotowości do załączenia
@@ -248,12 +251,12 @@ CASE iWorkStep_Axis OF
 		
 	15:	// Manual mode
 		//Jog
-		McJog.Velocity := LIMIT(0.1, stSettings.rSlowSpeed_deg_s/2, 4);
+		McJog.Velocity := stSettings.rSlowSpeed_deg_s/2;
 		McJog(Axis := stInOuts.stAxis_Data, JogBackwards := stHMI.bJogBackwardButton, JogForward := stHMI.bJogForwardButton);
 		//Positioning
 		McMoveModulo.Direction:= MC_Direction.MC_Shortest_Way;
 		McMoveModulo.Position := stSettings.arrPositions[LIMIT(1,stHMI.iManualPositionSelected,NUMBER_OF_PRESET_POSITIONS)];
-		McMoveModulo.Velocity := LIMIT(0.5, stSettings.rSlowSpeed_deg_s,100);
+		McMoveModulo.Velocity := stSettings.rSlowSpeed_deg_s;
 		McMoveModulo.Execute:= stHMI.bGoToSelectedPosition;
 		McHalt.Execute:=McMoveModulo.Active AND NOT stHMI.bGoToSelectedPosition;
 		// Breake control
@@ -291,8 +294,9 @@ CASE iWorkStep_Axis OF
 			//Move to first position
 			McMoveModulo.Direction:= MC_Direction.MC_Shortest_Way;
 			McMoveModulo.Position := stSettings.arrPositions[1];
-			McMoveModulo.Velocity := LIMIT(0.5, stSettings.rSlowSpeed_deg_s, 300);
+			McMoveModulo.Velocity := stSettings.rSlowSpeed_deg_s;
 			iWorkStep_Axis := 50;
+			lrReferencePositionAtHomeSensor := -1;
 		ELSIF McHome.Error THEN
 			mNewEvent( nEvent := nAxis_ErrorList.MotionFB_Error,ErrorCode:= McHome.ErrorID,bDisable:=TRUE);
 		ELSIF McHome.CommandAborted THEN
@@ -363,10 +367,10 @@ CASE iWorkStep_Axis OF
 	
 	90:	// Error
 		mCancelAllCommands();
-		IF bStandardSafetyDisable AND stInOuts.bI_SS1_State THEN
+		fbStepTON(IN:=bStandardSafetyDisable, PT:=T#10S); 
+		IF bStandardSafetyDisable AND stInOuts.bI_SS1_State  OR NOT bStandardSafetyDisable OR fbStepTON.Q THEN
 			iWorkStep_Axis := 91;
-		ELSIF NOT  bStandardSafetyDisable THEN
-			iWorkStep_Axis := 91;
+			fbStepTON(IN:=FALSE);
 		END_IF
 		
 
@@ -404,7 +408,7 @@ CASE iWorkStep_Axis OF
 	
 	95: // Axis reset
 		fbTON_WorkStepTimeout(IN:= TRUE,PT:=T#2S);
-		IF stInOuts.stAxis_Data.Status.Error THEN
+		IF stInOuts.stAxis_Data.Status.Error OR prIsErrorActive THEN
 			iWorkStep_Axis := 96;
 		ELSE
 			fbTON_WorkStepTimeout(IN:= FALSE);
@@ -535,9 +539,9 @@ IF prIsReady AND prIsHomed THEN
 	iPosNumber := MIN(20,iPosNumber);
 	McMoveAbs.Position := stSettings.arrPositions[iPosNumber];
 	IF bFast THEN
-		McMoveAbs.Velocity := LIMIT(10, stSettings.rFastSpeed_deg_s, 320);
+		McMoveAbs.Velocity := stSettings.rFastSpeed_deg_s;
 	ELSE
-		McMoveAbs.Velocity := LIMIT(0.5, stSettings.rSlowSpeed_deg_s, 300);
+		McMoveAbs.Velocity := stSettings.rSlowSpeed_deg_s;
 	END_IF
 	iWorkStep_Axis := 30;
 ELSIF McMoveAbs.Error OR iWorkStep_Axis <30 OR iWorkStep_Axis >31  THEN
@@ -574,9 +578,9 @@ IF prIsReady AND prIsHomed THEN
 	iPosNumber := MIN(20,iPosNumber);
 	McMoveModulo.Position := stSettings.arrPositions[iPosNumber];
 	IF bFast THEN
-		McMoveModulo.Velocity := LIMIT(10, stSettings.rFastSpeed_deg_s, 320);
+		McMoveModulo.Velocity := stSettings.rFastSpeed_deg_s;
 	ELSE
-		McMoveModulo.Velocity := LIMIT(0.5, stSettings.rSlowSpeed_deg_s, 300);
+		McMoveModulo.Velocity := stSettings.rSlowSpeed_deg_s;
 	END_IF
 	iWorkStep_Axis := 50;	
 ELSIF McMoveModulo.Error THEN
@@ -901,10 +905,14 @@ END_VAR
       <LineId Id="375" Count="1" />
       <LineId Id="12" Count="0" />
       <LineId Id="377" Count="0" />
+      <LineId Id="486" Count="0" />
+      <LineId Id="483" Count="2" />
+      <LineId Id="482" Count="0" />
       <LineId Id="13" Count="2" />
       <LineId Id="374" Count="0" />
       <LineId Id="452" Count="0" />
-      <LineId Id="18" Count="6" />
+      <LineId Id="18" Count="2" />
+      <LineId Id="24" Count="0" />
       <LineId Id="26" Count="2" />
       <LineId Id="453" Count="0" />
       <LineId Id="438" Count="0" />
@@ -939,6 +947,7 @@ END_VAR
       <LineId Id="466" Count="0" />
       <LineId Id="481" Count="0" />
       <LineId Id="463" Count="2" />
+      <LineId Id="489" Count="0" />
       <LineId Id="371" Count="1" />
       <LineId Id="391" Count="1" />
       <LineId Id="390" Count="0" />
@@ -971,8 +980,11 @@ END_VAR
       <LineId Id="316" Count="0" />
       <LineId Id="296" Count="1" />
       <LineId Id="190" Count="1" />
+      <LineId Id="487" Count="0" />
       <LineId Id="456" Count="0" />
-      <LineId Id="459" Count="3" />
+      <LineId Id="459" Count="0" />
+      <LineId Id="488" Count="0" />
+      <LineId Id="462" Count="0" />
       <LineId Id="457" Count="0" />
       <LineId Id="196" Count="0" />
       <LineId Id="425" Count="0" />

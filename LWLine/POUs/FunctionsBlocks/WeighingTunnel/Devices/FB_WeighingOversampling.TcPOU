@@ -32,7 +32,8 @@ VAR
 	rLastRunningMeasure: REAL;
 	bMeasurementError : BOOL;
 	fbSingleMeasurementTimeout: TON;
-	rZeroValueScalled:REAL;
+	rSingleMeasurmentRes:REAL;
+	rRunningMeasurmentRes:REAL;
 END_VAR
 VAR PERSISTENT
 	stSettings:  ST_WeighingSettings;
@@ -98,9 +99,10 @@ ELSIF bGetMeasurement AND NOT prForceIsStable AND iCycles > 0 OR fbSingleMeasure
 END_IF
 
 //Scalling
-fbSingleAnalog(rIn:=rSingleMessResult-rZeroValue,stMeasureScalingData:=stSettings.stScalling, tStalaCzasowa:=T#1MS);
-fbRunningAnalog(rIn:=rRunningMeasure-rZeroValue,stMeasureScalingData:=stSettings.stScalling, tStalaCzasowa:=T#1MS);
-rZeroValueScalled := fScalling(rIn:=rZeroValue,stMeasureScalingData:=stSettings.stScalling);
+fbSingleAnalog(rIn:=rSingleMessResult,stMeasureScalingData:=stSettings.stScalling, tStalaCzasowa:=T#1MS);
+fbRunningAnalog(rIn:=rRunningMeasure,stMeasureScalingData:=stSettings.stScalling, tStalaCzasowa:=T#1MS);
+rSingleMeasurmentRes := fbSingleAnalog.rOutFiltered - rZeroValue;
+rRunningMeasurmentRes := fbRunningAnalog.rOutFiltered - rZeroValue;
 //HMI
 IF stSettings.bManualSingleMeasureRequest AND_THEN mGetMeasurement(1000) THEN
 	stSettings.bManualSingleMeasureRequest:=FALSE;
@@ -139,16 +141,18 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[mTare:=FALSE;
+rZeroValue := 0;
 IF mGetMeasurement(1000) THEN
 	IF NOT prSingleMeasurementError THEN
-		rZeroValue := prSingleMeasurementRaw;
+		rZeroValue := prSingleMeasurement;
 	END_IF
 	mTare:=TRUE;
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Property Name="prForceIsStable" Id="{6c1dbff3-59e6-4566-9180-c7daab8a55bf}">
-      <Declaration><![CDATA[PROPERTY prForceIsStable : BOOL]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring':= 'call'}
+PROPERTY prForceIsStable : BOOL]]></Declaration>
       <Get Name="Get" Id="{4fb681c2-9cf1-4ee4-9515-20464fe7afda}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -158,30 +162,44 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="prMeasurmentInProgress" Id="{9f304df3-828c-4116-bc1f-253bc0b1da5d}">
+      <Declaration><![CDATA[PROPERTY prMeasurmentInProgress : BOOL]]></Declaration>
+      <Get Name="Get" Id="{a3a2bf40-9ca0-4f7d-a6ce-1c71aa8f6a3c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prMeasurmentInProgress := bReqMeasurement;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="prRunningMeasurement" Id="{bcc25dcf-27df-4f0a-858c-49c915207399}">
-      <Declaration><![CDATA[PROPERTY prRunningMeasurement : REAL]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring':= 'call'}
+PROPERTY prRunningMeasurement : REAL]]></Declaration>
       <Get Name="Get" Id="{1221aa39-6940-4645-9480-b2c10f3a9d64}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[prRunningMeasurement := fbRunningAnalog.rOutFiltered;]]></ST>
+          <ST><![CDATA[prRunningMeasurement := rRunningMeasurmentRes;]]></ST>
         </Implementation>
       </Get>
     </Property>
     <Property Name="prSingleMeasurement" Id="{dfd4f5d1-d18d-4698-9a97-7bd6b9c12f74}">
-      <Declaration><![CDATA[PROPERTY prSingleMeasurement : REAL]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring':= 'call'}
+PROPERTY prSingleMeasurement : REAL]]></Declaration>
       <Get Name="Get" Id="{253c9750-b34b-4117-8494-502b0d5e4059}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[prSingleMeasurement := fbSingleAnalog.rOutFiltered;]]></ST>
+          <ST><![CDATA[prSingleMeasurement := rSingleMeasurmentRes;]]></ST>
         </Implementation>
       </Get>
     </Property>
     <Property Name="prSingleMeasurementError" Id="{be6856fd-b8eb-4733-9767-175d2464b50a}">
-      <Declaration><![CDATA[PROPERTY prSingleMeasurementError : BOOL]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring':= 'call'}
+PROPERTY prSingleMeasurementError : BOOL]]></Declaration>
       <Get Name="Get" Id="{49bc2472-d6e4-4733-8e2d-f367c54a123c}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -192,7 +210,8 @@ END_VAR
       </Get>
     </Property>
     <Property Name="prSingleMeasurementRaw" Id="{56186388-389d-4ad3-a899-5843ef86ec71}">
-      <Declaration><![CDATA[PROPERTY prSingleMeasurementRaw : REAL]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring':= 'call'}
+PROPERTY prSingleMeasurementRaw : REAL]]></Declaration>
       <Get Name="Get" Id="{f9136aac-b5d3-4c8f-98bc-6e528a51fe72}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -206,6 +225,7 @@ END_VAR
       <LineId Id="619" Count="55" />
       <LineId Id="126" Count="0" />
       <LineId Id="681" Count="0" />
+      <LineId Id="733" Count="0" />
       <LineId Id="680" Count="0" />
       <LineId Id="683" Count="2" />
       <LineId Id="687" Count="0" />
@@ -226,7 +246,9 @@ END_VAR
       <LineId Id="17" Count="0" />
     </LineIds>
     <LineIds Name="FB_WeighingOversampling.mTare">
-      <LineId Id="13" Count="1" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="14" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="18" Count="0" />
@@ -234,6 +256,9 @@ END_VAR
       <LineId Id="11" Count="0" />
     </LineIds>
     <LineIds Name="FB_WeighingOversampling.prForceIsStable.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WeighingOversampling.prMeasurmentInProgress.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_WeighingOversampling.prRunningMeasurement.Get">

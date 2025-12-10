@@ -2,6 +2,9 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
   <POU Name="FB_WeighingStation" Id="{44fe5b5a-0f0b-4511-b67e-0a0f72747565}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_WeighingStation EXTENDS FB_BaseStation
+VAR_INPUT
+	bReleaseWeighing : BOOL;
+END_VAR
 VAR
 	fbWeighingActuator: FB_ActuatorOOP_TC;
 	fbPusherActuator: FB_ActuatorOOP_TC;
@@ -18,6 +21,9 @@ VAR
 	rWeightRes: REAL;
 	rWeightMin: REAL;
 	rWeightMax: REAL;
+END_VAR
+VAR_OUTPUT
+	bWeighingInProgess : BOOL;
 END_VAR
 VAR PERSISTENT
 	stSettings: ST_WeighingStation_Settings;
@@ -64,11 +70,15 @@ IF fbDrawerLock.prNotClosed THEN
 	stSettings.iNOK_BottleCounter := 0;
 END_IF
 
+//Drawer Sensor
 fbBottleDrawerSensor.bCheckState := fbDrawerLock.prClosedAndLocked AND fbTableControl.prTableInPosition AND fbPusherActuator.prInHomePosition;
 fbBottleDrawerSensor.bRequestedState := stSettings.iNOK_BottleCounter <= 3;
 IF fbBottleDrawerSensor.prSensorOffError AND NOT bError THEN
 	mSetError(nTable_ErrorList.WeighingNOK_DrawerCountError);
 END_IF
+
+//Weighing in Progress
+bWeighingInProgess := __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.prStateIsBeforeWeighing;
 
 bRotationRequest:= FALSE;			
 CASE iWorkStep OF
@@ -93,13 +103,13 @@ CASE iWorkStep OF
 	
 	10: //Wait for Bottle - Table rotation
 
-		IF __ISVALIDREF(fbTablePlace) AND fbTableControl.prWorkPermission THEN
+		IF __ISVALIDREF(fbTablePlace) AND fbTableControl.prWorkPermission  THEN
 			fbBottleSensor.bRequestedState := NOT fbTablePlace.prStateIsEmpty;
 			fbBottleSensor.bCheckState := fbTableControl.prTableInPosition;
 			bRotationRequest := fbTablePlace.prStateIsAfterWeighing AND fbBottleSensor.prSensorOnOK OR (fbTablePlace.prStateIsEmpty AND fbBottleSensor.prSensorOffOK AND NOT bDrawerUnlockRequest);
 			IF bDrawerUnlockRequest AND (fbTablePlace.prStateIsBeforeWeighing AND fbBottleSensor.prSensorOnOK  OR fbTablePlace.prStateIsEmpty AND fbBottleSensor.prSensorOffOK) THEN
 				iWorkStep:=70;
-			ELSIF fbTablePlace.prStateIsBeforeWeighing AND fbBottleSensor.prSensorOnOK THEN
+			ELSIF fbTablePlace.prStateIsBeforeWeighing OR fbTablePlace.prStateIsProcessing AND fbBottleSensor.prSensorOnOK AND FALSE THEN
 				iWorkStep:=20;
 			END_IF
 //		ELSE
@@ -117,12 +127,13 @@ CASE iWorkStep OF
 			iWorkStep:=30;
 			nWeightingResult :=NO_RESULT;
 			nCameraResult :=NO_RESULT;
+			sWeightText := '';
 		END_IF
 	
 	30: //Weight and Camera Check
 		fbStepTON.PT:=T#10S;
 		//Weight Check
-		IF stSettings.bWeightCheck AND_THEN fbWeighing.mGetMeasurement(1000) THEN
+		IF stSettings.bWeightCheck AND bReleaseWeighing AND_THEN fbWeighing.mGetMeasurement(1000) THEN
 			IF NOT fbWeighing.prSingleMeasurementError THEN
 				rWeightRes := fbWeighing.prSingleMeasurement;
 				rWeightMin := stSettings.stWeighingBottleParams.rTargetWeight-stSettings.stWeighingBottleParams.rWeightTolerance;
@@ -151,8 +162,10 @@ CASE iWorkStep OF
 		END_IF
 		
 		//Results
-		IF nWeightingResult =OK  AND nCameraResult =OK THEN
-			fbTimeStats.mPushText(sText:= CONCAT(GVL_Aircom.stAC_DT_Data.sTimeString, sWeightText));
+		IF nWeightingResult = OK  AND nCameraResult = OK THEN
+			IF sWeightText <> '' THEN
+				fbTimeStats.mPushText(sText:= CONCAT(GVL_Aircom.stAC_DT_Data.sTimeString, sWeightText));
+			END_IF
 			fbTimeStats.mPushText(sText:= CONCAT(GVL_Aircom.stAC_DT_Data.sTimeString, ' Test OK'));	
 			iWorkStep:=40;
 		ELSIF fbStepTON.Q THEN
@@ -253,8 +266,17 @@ fbTimeStats.rRowTime:=0;]]></ST>
     </Implementation>
     <LineIds Name="FB_WeighingStation">
       <LineId Id="1740" Count="39" />
+      <LineId Id="2022" Count="0" />
       <LineId Id="1984" Count="5" />
-      <LineId Id="1780" Count="142" />
+      <LineId Id="2021" Count="0" />
+      <LineId Id="2016" Count="1" />
+      <LineId Id="1780" Count="47" />
+      <LineId Id="2049" Count="0" />
+      <LineId Id="1828" Count="34" />
+      <LineId Id="2050" Count="0" />
+      <LineId Id="1863" Count="0" />
+      <LineId Id="2051" Count="0" />
+      <LineId Id="1864" Count="58" />
       <LineId Id="1924" Count="17" />
       <LineId Id="1982" Count="0" />
       <LineId Id="1943" Count="17" />

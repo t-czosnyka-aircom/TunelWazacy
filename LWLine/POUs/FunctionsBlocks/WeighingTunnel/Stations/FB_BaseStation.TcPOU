@@ -41,7 +41,7 @@ IF iLastStep <> iWorkStep THEN
 END_IF
 fbStepTON(IN:=fbStepTON.PT >T#0S);
 iLastStep := iWorkStep;
-
+iLastStep := iWorkStep;
 //Brak referencji - błąd pozycji
 IF bRefError AND iWorkStep > WAIT_STEP AND iWorkStep < ERROR_STEP AND iWorkStep <> MANUAL_STEP AND NOT __ISVALIDREF(fbTablePlace) THEN
 	mSetError(nTable_ErrorList.TablePositionError);	

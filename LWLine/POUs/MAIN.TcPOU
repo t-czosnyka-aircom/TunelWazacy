@@ -967,9 +967,10 @@ fbTableControl(fbTableAxis:=fbTableAxis);
 		
 fbTableAxis(bInSafePosition:=TRUE);
 
-fbLoadingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim, bGhostRunON := bIBN);
-fbWeighingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim, bGhostRunON := bIBN);
-fbUnloadingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim, bGhostRunON := bIBN);
+fbLoadingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim, bGhostRunON := bIBN, bWeighingInProgess:=fbWeighingStation.bWeighingInProgess);
+fbWeighingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim, bGhostRunON := bIBN, 
+bReleaseWeighing:= fbUnloadingStation.bReleaseWeighing AND fbLoadingStation.bReleaseWeighing AND fbTableAxis.prPositionValid );
+fbUnloadingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim, bGhostRunON := bIBN, bWeighingInProgess:=fbWeighingStation.bWeighingInProgess);
 
 ]]></ST>
       </Implementation>
@@ -1128,7 +1129,9 @@ fbUnloadingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighing
       <LineId Id="5" Count="1" />
       <LineId Id="8" Count="0" />
       <LineId Id="7" Count="0" />
-      <LineId Id="10" Count="1" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="11" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
