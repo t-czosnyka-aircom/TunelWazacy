@@ -33,12 +33,14 @@ VAR
 	udiStationErrorNumber:UDINT;
 	fbStepTON:TON;
 	fbRotationRequestTON:TON;
+	fbPositionLostTON:TON;
 	iLastStep: INT;
 	bError: BOOL;
 	nError: nTable_ErrorList;
 	nLastError: nTable_ErrorList;
 
 	iCounter :INT;
+	bAllEmpty:BOOL;
 END_VAR
 
 VAR CONSTANT
@@ -70,7 +72,7 @@ bReleaseFromSafety := stInOuts.bI_SafetyEstopOK AND stInOuts.bI_SafetyGateOK;
 
 
 
-
+bAllEmpty:= TRUE;
 bStationsAssigned := TRUE;
 bRotationRequest := TRUE;
 bRotationInterlock := TRUE;
@@ -91,11 +93,12 @@ FOR i:=1 TO TOTAL_TABLE_PLACES DO
 	//bRotationRequest := bRotationRequest AND arrPlaces[i].prTableRotationRequest;
 	bStationsCleared := bStationsCleared AND arrPlaces[i].pWorkingStation=0;
 	arrPlaces[i].prTableInPosition:=fbTableAxis.prPositionValid;
+	bAllEmpty := bAllEmpty AND arrPlaces[i].prStateIsEmpty;
 	//Stations
 	IF arrStations[i] <> 0 THEN
 		bStationsCleared := bStationsCleared AND NOT __ISVALIDREF(arrStations[i].prTablePlace);
 		bStationsAssigned := bStationsAssigned  AND __ISVALIDREF(arrStations[i].prTablePlace);
-
+		bAllEmpty := bAllEmpty AND arrStations[i].prIsEmpty;
 		IF arrStations[i].prError THEN
 			bStationError := TRUE;
 			udiStationErrorNumber := arrStations[i].prErrorNumber;
@@ -151,13 +154,16 @@ CASE iWorkStep OF
 
 	10: //Wait for rotation request
 		fbRotationRequestTON(IN:= bRotationRequest AND bRotationInterlock AND fbTableAxis.prIsReady AND fbTableAxis.prIsHomed AND bWorkPermission,PT:=T#1S);
+		fbPositionLostTON(IN:= bRotationInterlock AND fbTableAxis.prIsReady AND fbTableAxis.prIsHomed AND fbTableAxis.prIsNotMoving AND NOT fbTableAxis.prPositionValid, PT:=T#5S);
 		IF fbRotationRequestTON.Q THEN
 			fbRotationRequestTON(IN:=FALSE);
 			iWorkStep := 30;
 			iNextPos:= (iLastValidPosition+1) MOD 9;
-		ELSIF bRotationInterlock AND fbTableAxis.prIsReady AND fbTableAxis.prIsHomed AND NOT fbTableAxis.prPositionValid THEN //Position Lost - go to last position
+		ELSIF fbPositionLostTON.Q THEN //Position Lost - go to last position
 			iWorkStep := 30;
 			iNextPos:= iLastValidPosition;
+		ELSIF bAllEmpty AND bRotationInterlock AND fbTableAxis.prIsReady AND NOT fbTableAxis.prIsHomed AND bWorkPermission THEN //Automatic Homing
+			iWorkStep := 50;
 		END_IF
 		IF bStationError THEN
 			mNewEvent(nPIM_EventClasses.Alarm,DINT_TO_INT(udiStationErrorNumber));
@@ -185,6 +191,19 @@ CASE iWorkStep OF
 			iWorkStep := 0;
 		ELSIF fbStepTON.Q THEN
 			mNewEvent(nPIM_EventClasses.Alarm,nTable_ErrorList.TablePositionError);
+		END_IF
+		
+	50: // Request Automatic Homing
+		IF fbTableAxis.prIsReady AND_THEN fbTableAxis.mFullHoming()  THEN
+			IF bServoError THEN
+				mNewEvent(nPIM_EventClasses.Alarm,nTable_ErrorList.ServoError);
+			ELSIF bServoNotReady THEN
+				mNewEvent(nPIM_EventClasses.Alarm,nTable_ErrorList.ServoNotReady);
+			ELSE
+				iWorkStep:=0;
+			END_IF
+		ELSIF fbTableAxis.prIsErrorActive THEN
+			mNewEvent(nPIM_EventClasses.Alarm,nTable_ErrorList.ServoError);
 		END_IF
 	
 	90: //Error
@@ -365,56 +384,17 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="FB_TableControl">
-      <LineId Id="530" Count="0" />
-      <LineId Id="1122" Count="1" />
-      <LineId Id="1125" Count="1" />
-      <LineId Id="1124" Count="0" />
-      <LineId Id="531" Count="0" />
-      <LineId Id="766" Count="0" />
-      <LineId Id="533" Count="0" />
-      <LineId Id="770" Count="0" />
-      <LineId Id="768" Count="0" />
-      <LineId Id="826" Count="0" />
-      <LineId Id="776" Count="0" />
-      <LineId Id="825" Count="0" />
-      <LineId Id="777" Count="1" />
-      <LineId Id="767" Count="0" />
-      <LineId Id="534" Count="5" />
-      <LineId Id="718" Count="0" />
-      <LineId Id="540" Count="76" />
-      <LineId Id="1232" Count="2" />
-      <LineId Id="617" Count="5" />
-      <LineId Id="670" Count="0" />
-      <LineId Id="623" Count="1" />
-      <LineId Id="626" Count="0" />
-      <LineId Id="665" Count="1" />
-      <LineId Id="627" Count="2" />
-      <LineId Id="668" Count="1" />
-      <LineId Id="630" Count="2" />
-      <LineId Id="1179" Count="0" />
-      <LineId Id="662" Count="0" />
-      <LineId Id="633" Count="0" />
-      <LineId Id="1180" Count="0" />
-      <LineId Id="634" Count="0" />
-      <LineId Id="663" Count="1" />
-      <LineId Id="635" Count="0" />
-      <LineId Id="639" Count="2" />
-      <LineId Id="1127" Count="0" />
-      <LineId Id="642" Count="18" />
-      <LineId Id="203" Count="0" />
-      <LineId Id="927" Count="1" />
-      <LineId Id="1003" Count="0" />
-      <LineId Id="1069" Count="1" />
-      <LineId Id="1002" Count="0" />
-      <LineId Id="996" Count="0" />
-      <LineId Id="999" Count="1" />
-      <LineId Id="1011" Count="2" />
-      <LineId Id="1010" Count="0" />
-      <LineId Id="1015" Count="2" />
-      <LineId Id="1014" Count="0" />
-      <LineId Id="995" Count="0" />
-      <LineId Id="1005" Count="0" />
-      <LineId Id="930" Count="0" />
+      <LineId Id="1340" Count="97" />
+      <LineId Id="1585" Count="0" />
+      <LineId Id="1438" Count="6" />
+      <LineId Id="1528" Count="1" />
+      <LineId Id="1445" Count="27" />
+      <LineId Id="1517" Count="2" />
+      <LineId Id="1522" Count="5" />
+      <LineId Id="1520" Count="0" />
+      <LineId Id="1530" Count="1" />
+      <LineId Id="1521" Count="0" />
+      <LineId Id="1473" Count="43" />
       <LineId Id="926" Count="0" />
     </LineIds>
     <LineIds Name="FB_TableControl.mErrorReset">

@@ -93,6 +93,7 @@ IF bGetMeasurement AND prForceIsStable THEN
 	END_IF
 ELSIF bGetMeasurement AND NOT prForceIsStable AND iCycles > 0 OR fbSingleMeasurementTimeout.Q THEN
 	bMeasurementError := TRUE;
+	bMeasurementReady := TRUE;
 	bGetMeasurement:= FALSE;
 	iCycles :=0;
 	rSingleMess := 0.0;
@@ -127,7 +128,7 @@ END_VAR
 bReqMeasurement := TRUE;
 iReqCycles := iCycles;
 mGetMeasurement := FALSE;
-IF bMeasurementReady OR bMeasurementError THEN
+IF bMeasurementReady THEN
 	mGetMeasurement := TRUE;
 	bMeasurementReady := bReqMeasurement := FALSE;
 END_IF;
@@ -222,7 +223,9 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="FB_WeighingOversampling">
-      <LineId Id="619" Count="55" />
+      <LineId Id="619" Count="48" />
+      <LineId Id="775" Count="0" />
+      <LineId Id="668" Count="6" />
       <LineId Id="126" Count="0" />
       <LineId Id="681" Count="0" />
       <LineId Id="733" Count="0" />

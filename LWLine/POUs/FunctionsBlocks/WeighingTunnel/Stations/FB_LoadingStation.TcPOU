@@ -31,17 +31,21 @@ IF iWorkStep<=10 THEN
 	stSettings.stLoadingBottleParams := fbTableControl.mGetBottleLoadingParams(fbTableControl.prNextType);
 END_IF;
 
+//Station Empty
+bIsEmpty:= stSettings.stLoadingBottleParams.rLoadingDetectionFrom >= fbBottleDetection.Out;
 
+//Sensor
 fbBottleDetection(In:=stInOuts.iBottleDetectionSensor ,tMeasureTime:=T#50MS, tSamplingTime:=T#10MS);
 bBottleDetected := stSettings.stLoadingBottleParams.rLoadingDetectionFrom <= fbBottleDetection.Out AND fbBottleDetection.Out <= stSettings.stLoadingBottleParams.rLoadingDetectionTo;
-bRotationInterlock:=TRUE;
 fbLoadingSensor(bSensorSignal:=bBottleDetected  ,bSimulationON:=bSimulationON OR bGhostRunOn,
 uiSensorOnDelay_MS:=stSettings.iBottleDetectionDelayMS,uiErrorOffDelay_MS:=stSettings.iSensorErrorDelayMS);
-
+fbLoadingSensor.bRequestedState := bBottleDetected;
 bSensorWasOff S= NOT fbLoadingSensor.bSensorSignal AND fbTableControl.prTableInPosition;
 
+bRotationInterlock:=TRUE;
 bRotationRequest:= FALSE;
 bReleaseWeighing := TRUE;
+
 IF bManualModeRequest THEN
 	iWorkStep:= 80;
 END_IF
@@ -52,8 +56,8 @@ CASE iWorkStep OF
 	
 	10://Wait For Sensor ON
 		//Sprawdzenie czy sensor nie daje sygnału cały czas
-		fbLoadingSensor.bRequestedState := bSensorWasOff;
-		fbLoadingSensor.bCheckState := NOT bSensorWasOff;
+//		fbLoadingSensor.bRequestedState := bSensorWasOff;
+//		fbLoadingSensor.bCheckState := NOT bSensorWasOff;
 		IF __ISVALIDREF(fbTablePlace) THEN
 			IF fbLoadingSensor.prSensorOnOK AND fbTableControl.prWorkPermission AND_THEN fbTablePlace.mBottleBeforeWeighing(fbTableControl.prNextType) THEN
 				iWorkStep:= 20;
@@ -99,22 +103,27 @@ END_CASE
       <LineId Id="384" Count="0" />
       <LineId Id="383" Count="0" />
       <LineId Id="385" Count="0" />
+      <LineId Id="495" Count="0" />
       <LineId Id="370" Count="0" />
+      <LineId Id="471" Count="0" />
+      <LineId Id="493" Count="0" />
       <LineId Id="347" Count="1" />
       <LineId Id="236" Count="0" />
-      <LineId Id="179" Count="0" />
       <LineId Id="182" Count="0" />
       <LineId Id="223" Count="0" />
-      <LineId Id="290" Count="1" />
+      <LineId Id="491" Count="0" />
+      <LineId Id="291" Count="0" />
+      <LineId Id="492" Count="0" />
       <LineId Id="335" Count="0" />
       <LineId Id="183" Count="0" />
       <LineId Id="452" Count="0" />
+      <LineId Id="470" Count="0" />
       <LineId Id="432" Count="1" />
       <LineId Id="431" Count="0" />
       <LineId Id="434" Count="0" />
       <LineId Id="184" Count="4" />
       <LineId Id="311" Count="0" />
-      <LineId Id="189" Count="0" />
+      <LineId Id="490" Count="0" />
       <LineId Id="308" Count="0" />
       <LineId Id="190" Count="2" />
       <LineId Id="292" Count="2" />

@@ -10,6 +10,7 @@ VAR
 	fbUnloadingSensor: FB_Sensor;
 	stInOuts :ST_UnloadingStation_InOuts;
 	fbConveyor : FB_Conveyor;
+	bBottleEjected:BOOL;
 END_VAR
 VAR_OUTPUT
 	bReleaseWeighing : BOOL;
@@ -28,6 +29,7 @@ IF  __ISVALIDREF(fbTablePlace) THEN
 	stSettings.stUnloadingBottleParams := fbTableControl.mGetBottleUnloadingParams(fbTablePlace.prBottleType);
 END_IF
 
+
 stInOuts.stUnloadingActuator.bI_WorkPosition := NOT stInOuts.stUnloadingActuator.bI_HomePosition AND stInOuts.stUnloadingActuator.bQ_Work;
 bRotationInterlock:=fbUnloadingActuator.prInHomePosition;
 fbUnloadingActuator(stDigInOut:=stInOuts.stUnloadingActuator, bI_Control_Ready:=TRUE, bManualMode:=bManualModeActive, 
@@ -40,8 +42,10 @@ fbConveyor(bManualMode:=bManualModeActive, bEN_FeedbackError:=FALSE);
 	
 bRotationRequest:= FALSE;	
 bReleaseWeighing := fbUnloadingActuator.prInHomePosition;
+bBottleEjected S= __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.prStateIsAfterWeighing AND fbUnloadingSensor.prSensorSignal_FTRIG AND iWorkStep >=10 AND iWorkStep <= 30;
 CASE iWorkStep OF
 	0: //Initialisation
+		bBottleEjected:=FALSE;
 		IF bManualModeRequest THEN
 			iWorkStep:= 80;
 		ELSIF fbUnloadingActuator.mGoToHome(FALSE) THEN
@@ -72,25 +76,17 @@ CASE iWorkStep OF
 			mSetError(nTable_ErrorList.UnloadingActuatorForwardError);
 		END_IF
 		
-	30: //Wait for sensor ON
-
-		fbUnloadingSensor.bRequestedState:=TRUE;
-		fbUnloadingSensor.bCheckState:=TRUE;
-		IF fbUnloadingSensor.prSensorOnOK THEN
-			iWorkStep := 40;
-		ELSIF fbUnloadingSensor.prSensorOnError THEN
-			mSetError(nTable_ErrorList.UnloadingBottleDetectionNotOn);
-		END_IF
 	
-	40: //Wait for sensor OFF
-		fbUnloadingSensor.bRequestedState:=FALSE;
-		fbUnloadingSensor.bCheckState:=TRUE;
-		IF fbUnloadingSensor.prSensorOffOK THEN
+	30: //Wait for sensor OFF
+		fbStepTON(IN:=TRUE, PT:=T#10S);
+		IF bBottleEjected THEN
 			IF __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.mBottleEmpty() THEN
 				iWorkStep := 0;
+				fbStepTON(IN:=FALSE);
 			END_IF
-		ELSIF fbUnloadingSensor.prSensorOffError THEN
+		ELSIF fbStepTON.Q THEN
 			mSetError(nTable_ErrorList.UnloadingBottleDetectionNotOff);
+			fbStepTON(IN:=FALSE);
 		END_IF
 	
 	80: //Manual Mode
@@ -109,15 +105,25 @@ CASE iWorkStep OF
 END_CASE]]></ST>
     </Implementation>
     <LineIds Name="FB_UnloadingStation">
-      <LineId Id="213" Count="20" />
+      <LineId Id="213" Count="9" />
+      <LineId Id="371" Count="0" />
+      <LineId Id="223" Count="10" />
       <LineId Id="349" Count="0" />
+      <LineId Id="367" Count="0" />
       <LineId Id="234" Count="1" />
+      <LineId Id="366" Count="0" />
       <LineId Id="320" Count="1" />
       <LineId Id="306" Count="3" />
       <LineId Id="240" Count="10" />
       <LineId Id="332" Count="1" />
       <LineId Id="331" Count="0" />
-      <LineId Id="253" Count="43" />
+      <LineId Id="253" Count="9" />
+      <LineId Id="272" Count="1" />
+      <LineId Id="275" Count="3" />
+      <LineId Id="369" Count="0" />
+      <LineId Id="279" Count="2" />
+      <LineId Id="368" Count="0" />
+      <LineId Id="282" Count="14" />
       <LineId Id="28" Count="0" />
     </LineIds>
   </POU>

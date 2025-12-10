@@ -42,6 +42,8 @@ sStationName :='Weighing Station';
 IF  __ISVALIDREF(fbTablePlace) THEN
 	stSettings.stWeighingBottleParams := fbTableControl.mGetBottleWeighingParams(fbTablePlace.prBottleType);
 END_IF
+//Station Empty
+bIsEmpty:= NOT fbBottleSensor.bSensorSignal;
 
 
 bRotationInterlock:=fbDrawerLock.prClosedAndLocked AND fbPusherActuator.prInHomePosition AND fbWeighingActuator.prInHomePosition OR TRUE;
@@ -49,7 +51,7 @@ bRotationInterlock:=fbDrawerLock.prClosedAndLocked AND fbPusherActuator.prInHome
 
 fbWeighingActuator(stDigInOut:=stInOuts.stWeighingActuator, bI_Control_Ready:=TRUE, bManualMode:=bManualModeActive, 
 					bI_HomeInterlock:= fbPusherActuator.prInHomePosition, bI_WorkInterlock:=fbTableControl.prTableInPosition,
-					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0,bSimulationOn:=bSimulationON, bManualMode:= bManualModeActive,
+					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0, rI_WorkPositionDelayMS:=500, bSimulationOn:=bSimulationON, bManualMode:= bManualModeActive,
  					bI_RespectInterlockInMAN := FALSE);
 					
 fbPusherActuator(stDigInOut:=stInOuts.stPusherActuator, bI_Control_Ready:=TRUE, bManualMode:=bManualModeActive, 
@@ -71,10 +73,11 @@ IF fbDrawerLock.prNotClosed THEN
 END_IF
 
 //Drawer Sensor
-fbBottleDrawerSensor.bCheckState := fbDrawerLock.prClosedAndLocked AND fbTableControl.prTableInPosition AND fbPusherActuator.prInHomePosition;
+fbBottleDrawerSensor.bCheckState := fbDrawerLock.prClosedAndLocked AND fbTableControl.prTableInPosition;
 fbBottleDrawerSensor.bRequestedState := stSettings.iNOK_BottleCounter <= 3;
 IF fbBottleDrawerSensor.prSensorOffError AND NOT bError THEN
 	mSetError(nTable_ErrorList.WeighingNOK_DrawerCountError);
+	bDrawerUnlockRequest := TRUE;
 END_IF
 
 //Weighing in Progress
@@ -106,10 +109,10 @@ CASE iWorkStep OF
 		IF __ISVALIDREF(fbTablePlace) AND fbTableControl.prWorkPermission  THEN
 			fbBottleSensor.bRequestedState := NOT fbTablePlace.prStateIsEmpty;
 			fbBottleSensor.bCheckState := fbTableControl.prTableInPosition;
-			bRotationRequest := fbTablePlace.prStateIsAfterWeighing AND fbBottleSensor.prSensorOnOK OR (fbTablePlace.prStateIsEmpty AND fbBottleSensor.prSensorOffOK AND NOT bDrawerUnlockRequest);
+			bRotationRequest :=  fbTablePlace.prStateIsAfterWeighing AND fbBottleSensor.prSensorOnOK OR (fbTablePlace.prStateIsEmpty AND fbBottleSensor.prSensorOffOK AND NOT bDrawerUnlockRequest);
 			IF bDrawerUnlockRequest AND (fbTablePlace.prStateIsBeforeWeighing AND fbBottleSensor.prSensorOnOK  OR fbTablePlace.prStateIsEmpty AND fbBottleSensor.prSensorOffOK) THEN
 				iWorkStep:=70;
-			ELSIF fbTablePlace.prStateIsBeforeWeighing OR fbTablePlace.prStateIsProcessing AND fbBottleSensor.prSensorOnOK AND FALSE THEN
+			ELSIF (fbTablePlace.prStateIsBeforeWeighing OR fbTablePlace.prStateIsProcessing )AND fbBottleSensor.prSensorOnOK AND fbBottleDrawerSensor.prSensorOnOK THEN
 				iWorkStep:=20;
 			END_IF
 //		ELSE
@@ -122,8 +125,7 @@ CASE iWorkStep OF
 			
 	20: //Weighing Actuator Work
 		fbWeighingActuator.mGoToWork(FALSE);
-		fbStepTON(IN:=fbWeighingActuator.prInWorkPosition, PT:=T#2S); 
-		IF fbStepTON.Q AND __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.mBottleProcessing() THEN
+		IF __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.mBottleProcessing() THEN
 			iWorkStep:=30;
 			nWeightingResult :=NO_RESULT;
 			nCameraResult :=NO_RESULT;
@@ -131,7 +133,7 @@ CASE iWorkStep OF
 		END_IF
 	
 	30: //Weight and Camera Check
-		fbStepTON.PT:=T#10S;
+		fbStepTON.PT:=T#30S;
 		//Weight Check
 		IF stSettings.bWeightCheck AND bReleaseWeighing AND_THEN fbWeighing.mGetMeasurement(1000) THEN
 			IF NOT fbWeighing.prSingleMeasurementError THEN
@@ -265,12 +267,18 @@ END_CASE
 fbTimeStats.rRowTime:=0;]]></ST>
     </Implementation>
     <LineIds Name="FB_WeighingStation">
-      <LineId Id="1740" Count="39" />
+      <LineId Id="1740" Count="12" />
+      <LineId Id="2079" Count="0" />
+      <LineId Id="2078" Count="0" />
+      <LineId Id="1753" Count="26" />
       <LineId Id="2022" Count="0" />
-      <LineId Id="1984" Count="5" />
+      <LineId Id="1984" Count="4" />
+      <LineId Id="2106" Count="0" />
+      <LineId Id="1989" Count="0" />
       <LineId Id="2021" Count="0" />
       <LineId Id="2016" Count="1" />
-      <LineId Id="1780" Count="47" />
+      <LineId Id="1780" Count="42" />
+      <LineId Id="1824" Count="3" />
       <LineId Id="2049" Count="0" />
       <LineId Id="1828" Count="34" />
       <LineId Id="2050" Count="0" />

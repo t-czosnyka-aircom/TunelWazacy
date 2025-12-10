@@ -967,10 +967,10 @@ fbTableControl(fbTableAxis:=fbTableAxis);
 		
 fbTableAxis(bInSafePosition:=TRUE);
 
-fbLoadingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim, bGhostRunON := bIBN, bWeighingInProgess:=fbWeighingStation.bWeighingInProgess);
-fbWeighingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim, bGhostRunON := bIBN, 
+fbLoadingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim, bGhostRunON :=FALSE, bWeighingInProgess:=fbWeighingStation.bWeighingInProgess);
+fbWeighingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim, bGhostRunON :=FALSE, 
 bReleaseWeighing:= fbUnloadingStation.bReleaseWeighing AND fbLoadingStation.bReleaseWeighing AND fbTableAxis.prPositionValid );
-fbUnloadingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim, bGhostRunON := bIBN, bWeighingInProgess:=fbWeighingStation.bWeighingInProgess);
+fbUnloadingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim, bGhostRunON := FALSE, bWeighingInProgess:=fbWeighingStation.bWeighingInProgess);
 
 ]]></ST>
       </Implementation>

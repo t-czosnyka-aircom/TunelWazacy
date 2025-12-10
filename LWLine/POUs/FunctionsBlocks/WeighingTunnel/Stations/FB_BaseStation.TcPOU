@@ -12,6 +12,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	bIsEmpty: BOOL;
 	bRotationInterlock: BOOL;
 	bRotationRequest: BOOL;
 	fbTablePlace: REFERENCE TO FB_TablePlace;
@@ -41,7 +42,7 @@ IF iLastStep <> iWorkStep THEN
 END_IF
 fbStepTON(IN:=fbStepTON.PT >T#0S);
 iLastStep := iWorkStep;
-iLastStep := iWorkStep;
+
 //Brak referencji - błąd pozycji
 IF bRefError AND iWorkStep > WAIT_STEP AND iWorkStep < ERROR_STEP AND iWorkStep <> MANUAL_STEP AND NOT __ISVALIDREF(fbTablePlace) THEN
 	mSetError(nTable_ErrorList.TablePositionError);	
@@ -51,7 +52,9 @@ bManualModeActive := iWorkStep=MANUAL_STEP;
 
 IF iWorkStep < ERROR_STEP THEN
 	iLastNonErrorStep := iWorkStep;
-END_IF]]></ST>
+END_IF
+
+bIsEmpty:=TRUE;]]></ST>
     </Implementation>
     <Method Name="mErrorReset" Id="{307c245a-308f-4b3e-a89f-a5e87dd8cc62}">
       <Declaration><![CDATA[METHOD mErrorReset : BOOL
@@ -112,6 +115,17 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="prIsEmpty" Id="{0983831d-c87e-4324-887d-bcf8632de86f}">
+      <Declaration><![CDATA[PROPERTY prIsEmpty : BOOL]]></Declaration>
+      <Get Name="Get" Id="{d60797fb-b831-4f6f-b00f-9e7fc40dc9a7}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prIsEmpty:= bIsEmpty;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="prTablePlace" Id="{88cbe737-a470-4003-9fa4-38b67688cbaf}">
       <Declaration><![CDATA[PROPERTY prTablePlace : REFERENCE TO FB_TablePlace]]></Declaration>
       <Get Name="Get" Id="{bd357123-069c-4d22-9e1c-de08e6b4f1bb}">
@@ -166,13 +180,17 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="FB_BaseStation">
-      <LineId Id="30" Count="9" />
+      <LineId Id="30" Count="5" />
+      <LineId Id="153" Count="0" />
+      <LineId Id="37" Count="2" />
       <LineId Id="9" Count="0" />
       <LineId Id="40" Count="0" />
       <LineId Id="85" Count="0" />
       <LineId Id="118" Count="0" />
       <LineId Id="117" Count="0" />
       <LineId Id="119" Count="1" />
+      <LineId Id="188" Count="0" />
+      <LineId Id="187" Count="0" />
     </LineIds>
     <LineIds Name="FB_BaseStation.mErrorReset">
       <LineId Id="11" Count="0" />
@@ -193,6 +211,9 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_BaseStation.prInManualMode.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BaseStation.prIsEmpty.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_BaseStation.prTablePlace.Get">
