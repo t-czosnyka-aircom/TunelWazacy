@@ -5,12 +5,18 @@
 STRUCT
 	bI_SafetyReset_1 AT%I* :BOOL;
 	bI_SafetyReset_2 AT%I* :BOOL;
+	bQ_LampWhite AT %Q*: BOOL;
+	bQ_LampRed AT %Q*: BOOL;
+	bQ_LampBlue AT %Q*: BOOL;
+	bQ_LampYellow AT %Q*: BOOL;
+	bQ_LampGreen AT %Q*: BOOL;
 	//Safety Signals
 	bI_SafetyEstopOK AT%I* :BOOL;
 	bI_SafetyGateOK AT%I* :BOOL;
 	bI_SafetyDrawerOK AT%I* :BOOL;
 	bQ_SafetyRun AT %Q*: BOOL;
 	bQ_SafetyErrorAck AT %Q*: BOOL;
+
 END_STRUCT
 END_TYPE
 ]]></Declaration>

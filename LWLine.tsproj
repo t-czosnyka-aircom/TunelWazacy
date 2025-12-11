@@ -1174,7 +1174,7 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{1A289FD8-2FC0-4B29-B34F-E4BF25DBB957}" Name="LWLine" PrjFilePath="LWLine\LWLine.plcproj" TmcFilePath="LWLine\LWLine.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{C92BECA6-DD8D-3C01-A8A2-03947DD3342D}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{FA73B3C3-18BA-43F5-61CA-ECB958E2CEBD}">
 					<Name>LWLine Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1" ContextId="2" AreaNo="32">
@@ -4029,25 +4029,12 @@ External Setpoint Generation:
 							<Type>INT</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyReset_1</Name>
+							<Name>MAIN.fbLoadingStation.stInOuts.bBottleDetectedSensor</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyReset_2</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyEstopOK</Name>
-							<Comment><![CDATA[Safety Signals]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyGateOK</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyDrawerOK</Name>
-							<Type>BOOL</Type>
+							<Name>MAIN.fbLoadingStation.stInOuts.iBottleDetectionSensor</Name>
+							<Type>INT</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbTableAxis.stInOuts.bHomingSensor</Name>
@@ -4622,12 +4609,25 @@ S02]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbLoadingStation.stInOuts.bBottleDetectedSensor</Name>
+							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyReset_1</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbLoadingStation.stInOuts.iBottleDetectionSensor</Name>
-							<Type>INT</Type>
+							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyReset_2</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyEstopOK</Name>
+							<Comment><![CDATA[Safety Signals]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyGateOK</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyDrawerOK</Name>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbUnloadingStation.stInOuts.bBottleDetectionSensor</Name>
@@ -6220,14 +6220,6 @@ S02]]></Comment>
 							<Type>INT</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bQ_SafetyRun</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bQ_SafetyErrorAck</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
 							<Name>MAIN.fbTableAxis.stInOuts.stAxis_Data.PlcToNc</Name>
 							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 						</Var>
@@ -6471,6 +6463,34 @@ S02]]></Comment>
 						<Var>
 							<Name>GVL_IO.stTunelInOuts.stCognex.bOut1</Name>
 							<Comment><![CDATA[ Sygnał w In-Sight In1 - Wyjście zwykle nie używane]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_LampWhite</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_LampRed</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_LampBlue</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_LampYellow</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_LampGreen</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_SafetyRun</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_SafetyErrorAck</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -8816,6 +8836,11 @@ S02]]></Comment>
 				<Link VarA="PlcTask Inputs^MAIN.fbWeighingStation.stInOuts.stWeighingActuator.bI_WorkPosition" VarB="Channel 5^Input"/>
 			</OwnerB>
 			<OwnerB Name="TIID^LAN1 (EtherCAT)^S07_RIO1 (EK1914)^S07_DO01 (EL2008)">
+				<Link VarA="PlcTask Outputs^MAIN.fbTableControl.stInOuts.bQ_LampBlue" VarB="Channel 3^Output"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbTableControl.stInOuts.bQ_LampGreen" VarB="Channel 5^Output"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbTableControl.stInOuts.bQ_LampRed" VarB="Channel 2^Output"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbTableControl.stInOuts.bQ_LampWhite" VarB="Channel 1^Output"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbTableControl.stInOuts.bQ_LampYellow" VarB="Channel 4^Output"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbUnloadingStation.stInOuts.stUnloadingActuator.bQ_Work" VarB="Channel 8^Output"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbWeighingStation.stInOuts.stPusherActuator.bQ_Work" VarB="Channel 6^Output"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbWeighingStation.stInOuts.stWeighingActuator.bQ_Work" VarB="Channel 7^Output"/>

@@ -8,6 +8,7 @@ END_VAR
 VAR_INPUT
 	bSimulationON:BOOL;
 	bGhostRunON:BOOL;
+
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -28,6 +29,7 @@ VAR
 	iStationId:USINT;
 	sStationName:STRING;
 	nActEvent: nTable_ErrorList;
+	bEmptyMode:BOOL;
 END_VAR
 
 VAR CONSTANT
@@ -82,6 +84,25 @@ bError := TRUE;
 iWorkStep:=90;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="prEmptyMode" Id="{97063656-e1f9-48a9-a956-0d3d48d2a1bd}">
+      <Declaration><![CDATA[PROPERTY prEmptyMode : BOOL]]></Declaration>
+      <Get Name="Get" Id="{ca81fbbc-03ac-4a37-a1c0-547ea0283916}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prEmptyMode:=bEmptyMode;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{3028c8c2-7437-49f2-b258-959c61eea6cc}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[bEmptyMode:=prEmptyMode;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="prError" Id="{b0d60995-960d-478b-b068-43a1eebae1e8}">
       <Declaration><![CDATA[PROPERTY prError : BOOL]]></Declaration>
       <Get Name="Get" Id="{9f3de2f4-5df4-435d-80fb-a907e1adb63f}">
@@ -203,6 +224,12 @@ END_VAR
       <LineId Id="18" Count="0" />
       <LineId Id="7" Count="0" />
       <LineId Id="12" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BaseStation.prEmptyMode.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BaseStation.prEmptyMode.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_BaseStation.prError.Get">
       <LineId Id="2" Count="0" />

@@ -20,9 +20,10 @@ VAR
 	iCurrentPositionNumber		:USINT;
 	bMoveAbsDone				:BOOL;
 	bMoveModuloDone				:BOOL;
-	bQuickHomingDone			:BOOL;
+	bDirectHomingDone			:BOOL;
 	bFullHomingDone				:BOOL;
 	bQuickHomingRequest			:BOOL;
+
 	bQuickHomingSynchLost		:BOOL;
 	stHMI 						: ST_AxisHMI;
 	i:USINT;
@@ -69,6 +70,7 @@ END_VAR
 VAR PERSISTENT
 	lrReferencePositionAtHomeSensor: LREAL:=-1.0;
 	lrLastPositionAtHomeSensor:LREAL:=-1.0;
+	lrLastValidPositionValue:LREAL:=-1.0;
 	stSettings				: ST_Axis_Settings;
 END_VAR
 VAR CONSTANT
@@ -116,7 +118,10 @@ IF stSettings.bEN_CircularPositions AND NOT bCircularPositionsSet THEN
 	END_FOR
 	bCircularPositionsSet:=TRUE;
 END_IF
-
+// Last Valid Position Value
+IF prIsHomed AND prIsNotMoving AND prPositionValid THEN
+	lrLastValidPositionValue := prCurrentPositionModulo;
+END_IF
 
 //Quick Homing
 fbHomingSensorTON(IN:=stInOuts.bHomingSensor,PT:=T#300MS);
@@ -131,7 +136,11 @@ IF McMoveModulo.Busy AND prIsHomed AND fbHomeSensorFTRIG.Q AND stInOuts.stAxis_D
 END_IF
 
 //Manual Mode
-IF prIsReady AND bQuickHomingRequest THEN
+IF stHMI.bDirectHomingRequest AND lrLastValidPositionValue >0 THEN
+	mDirectHoming(lrLastValidPositionValue);
+ELSIF stHMI.bRequestStopAxis  THEN  
+	mStopAxis();
+ELSIF bQuickHomingRequest THEN
 	mQuickHoming();
 ELSIF prIsReady AND stHMI.bManualModeRequest THEN
 	iWorkStep_Axis:=15;
@@ -146,10 +155,9 @@ END_IF
 stHMI.bIsReady := prIsReady;
 stHMI.bIsHomed := prIsHomed;
 stHMI.bIsMoving := prIsMoving;
-IF stHMI.bRequestStopAxis  AND_THEN mStopAxis() THEN
-	stHMI.bRequestStopAxis := FALSE;
-END_IF
-]]></ST>
+
+stHMI.bRequestStopAxis := FALSE;
+stHMI.bDirectHomingRequest :=FALSE;]]></ST>
     </Implementation>
     <Folder Name="Methods" Id="{86110dc1-c583-424f-8e1a-53f0e16b101e}" />
     <Folder Name="Properties" Id="{8dc25682-5df1-487c-935d-d480b60343c3}" />
@@ -204,7 +212,7 @@ McTorqueCtrl(Axis := stInOuts.stAxis_Data, Relative := FALSE, ContinuousUpdate :
     <Action Name="ACT_AxisWorkSteps" Id="{24332e8c-4fda-4b2a-bd2c-6d7b94bd461c}">
       <Implementation>
         <ST><![CDATA[
-IF NOT bEnableMotion AND iWorkStep_Axis > 5 AND iWorkStep_Axis < 90 THEN //Safety Stop
+IF NOT bEnableMotion AND iWorkStep_Axis < 90 THEN //Safety Stop
 	IF bEmergencyStop AND prPositionValid AND bInSafePosition THEN
 		iWorkStep_Axis:=90;
 		bStandardSafetyDisable := TRUE;
@@ -247,7 +255,7 @@ CASE iWorkStep_Axis OF
 			mNewEvent( nEvent := nAxis_ErrorList.MotionFB_Error,ErrorCode:= stInOuts.stAxis_Data.Status.ErrorID,bDisable:=TRUE);
 		END_IF
 		fbTON_WorkStepTimeout(IN:= FALSE);
-		bMoveAbsDone := bQuickHomingDone:= bMoveModuloDone:= bFullHomingDone:= FALSE;
+		bMoveAbsDone := bDirectHomingDone:= bMoveModuloDone:= bFullHomingDone:= FALSE;
 		
 	15:	// Manual mode
 		//Jog
@@ -291,11 +299,11 @@ CASE iWorkStep_Axis OF
 			McHome.Execute := FALSE;
 			iWorkStep_Axis := 10;
 			bFullHomingDone := TRUE;
-			//Move to first position
-			McMoveModulo.Direction:= MC_Direction.MC_Shortest_Way;
-			McMoveModulo.Position := stSettings.arrPositions[1];
-			McMoveModulo.Velocity := stSettings.rSlowSpeed_deg_s;
-			iWorkStep_Axis := 50;
+//			//Move to first position
+//			McMoveModulo.Direction:= MC_Direction.MC_Shortest_Way;
+//			McMoveModulo.Position := stSettings.arrPositions[1];
+//			McMoveModulo.Velocity := stSettings.rSlowSpeed_deg_s;
+//			iWorkStep_Axis := 50;
 			lrReferencePositionAtHomeSensor := -1;
 		ELSIF McHome.Error THEN
 			mNewEvent( nEvent := nAxis_ErrorList.MotionFB_Error,ErrorCode:= McHome.ErrorID,bDisable:=TRUE);
@@ -324,8 +332,9 @@ CASE iWorkStep_Axis OF
 		END_IF
 		
 		
-	40: //Quick Homing
+	40: //Direct Homing
 		bQuickHomingRequest:=FALSE;
+		McHome.HomingMode := MC_HomingMode.MC_Direct;
 		McHome.Execute := TRUE;
 		IF McHome.Busy THEN
 			fbTON_WorkStepTimeout(IN:= FALSE);
@@ -334,10 +343,10 @@ CASE iWorkStep_Axis OF
 			mNewEvent( nEvent := nAxis_ErrorList.MotionFB_Error,ErrorCode:= McHome.ErrorID,bDisable:=TRUE);
 		END_IF
 		
-	41: //Quick Homing Done
+	41: //Direct Homing Done
 		IF 	McHome.Done THEN
 			iWorkStep_Axis := 10;	
-			bQuickHomingDone := TRUE;
+			bDirectHomingDone := TRUE;
 			McHome.Execute := FALSE;
 		ELSIF McHome.Error THEN
 			mNewEvent(nEvent := nAxis_ErrorList.MotionFB_Error, ErrorCode:= McHome.ErrorID,bDisable:=TRUE);
@@ -367,8 +376,8 @@ CASE iWorkStep_Axis OF
 	
 	90:	// Error
 		mCancelAllCommands();
-		fbStepTON(IN:=bStandardSafetyDisable, PT:=T#10S); 
-		IF bStandardSafetyDisable AND stInOuts.bI_SS1_State  OR NOT bStandardSafetyDisable OR fbStepTON.Q THEN
+		//fbStepTON(IN:=bStandardSafetyDisable, PT:=T#10S); 
+		IF bStandardSafetyDisable AND stInOuts.bI_SS1_State AND stInOuts.bI_STO_State OR NOT bStandardSafetyDisable OR fbStepTON.Q  THEN
 			iWorkStep_Axis := 91;
 			fbStepTON(IN:=FALSE);
 		END_IF
@@ -403,15 +412,13 @@ CASE iWorkStep_Axis OF
 		McReset.Execute := FALSE;
 		fbTON_WorkStepTimeout(IN:= FALSE);
 		IF bStandardSafetyDisable AND bEnableMotion THEN
-			iWorkStep_Axis := 95;
+			iWorkStep_Axis := 96;
 		END_IF
 	
 	95: // Axis reset
-		fbTON_WorkStepTimeout(IN:= TRUE,PT:=T#2S);
-		IF stInOuts.stAxis_Data.Status.Error OR prIsErrorActive THEN
+		IF stInOuts.stAxis_Data.Status.Error THEN
 			iWorkStep_Axis := 96;
 		ELSE
-			fbTON_WorkStepTimeout(IN:= FALSE);
 			iWorkStep_Axis := 97;
 		END_IF
 		
@@ -472,6 +479,35 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[McJog.JogForward := McJog.JogBackwards := McMoveAbs.Execute := McMoveRel.Execute := McMoveVelocity.Execute := McMoveModulo.Execute:=FALSE; ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mDirectHoming" Id="{d16f9285-8ee7-48c8-834a-f39aff3bc7b6}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD mDirectHoming : BOOL
+VAR_INPUT
+	lrPositionToSet :LREAL;
+END_VAR
+VAR_OUTPUT
+	bBusy		: BOOL;
+	bError		: BOOL;
+	udiErrorId	: UDINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mDirectHoming :=FALSE;
+IF prIsReady THEN
+	McHome.Position := lrPositionToSet;
+	iWorkStep_Axis := 40;
+ELSIF McHome.Error OR iWorkStep_Axis <40 OR iWorkStep_Axis >41  THEN
+	mDirectHoming := TRUE;
+	bError := TRUE;
+	udiErrorId := INT_TO_UINT(iWorkStep_Axis);	
+END_IF
+
+bBusy := McHome.Busy;
+IF bDirectHomingDone THEN
+	mDirectHoming := TRUE;
+	bDirectHomingDone :=FALSE;
+END_IF;
+udiErrorId := McHome.ErrorID;]]></ST>
       </Implementation>
     </Method>
     <Method Name="mErrorReset" Id="{4c71a6d0-2eb8-4fd5-9ef2-16b78ed57f34}" FolderPath="Methods\">
@@ -631,8 +667,7 @@ udiActErrorCode:= ErrorCode;
     </Method>
     <Method Name="mQuickHoming" Id="{5b03c9ef-9972-4bbe-81ff-bccad90f604c}" FolderPath="Methods\">
       <Declaration><![CDATA[METHOD mQuickHoming : BOOL
-VAR_INPUT
-END_VAR
+
 VAR_OUTPUT
 	bBusy		: BOOL;
 	bError		: BOOL;
@@ -640,28 +675,15 @@ VAR_OUTPUT
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[mQuickHoming :=FALSE;
-IF prIsReady AND lrReferencePositionAtHomeSensor > 0 AND lrLastPositionAtHomeSensor > 0 THEN
+IF prIsReady AND prIsHomed AND lrReferencePositionAtHomeSensor > 0 AND lrLastPositionAtHomeSensor > 0 THEN
 	IF ABS(lrReferencePositionAtHomeSensor - lrLastPositionAtHomeSensor) > 1.0 THEN
 		mNewEvent( nEvent := nAxis_ErrorList.QuickHomingError,ErrorCode:= McHome.ErrorID,bDisable:=FALSE);
 		bQuickHomingSynchLost :=TRUE;
 		bQuickHomingRequest:=FALSE;
 	ELSE
-		McHome.Position := prCurrentPositionModulo + (lrReferencePositionAtHomeSensor - lrLastPositionAtHomeSensor);
-		McHome. HomingMode := MC_HomingMode.MC_Direct;
-		iWorkStep_Axis := 40;
+		mDirectHoming(prCurrentPositionModulo + (lrReferencePositionAtHomeSensor - lrLastPositionAtHomeSensor));
 	END_IF
-ELSIF McHome.Error OR iWorkStep_Axis <40 OR iWorkStep_Axis >41  THEN
-	mQuickHoming := TRUE;
-	bError := TRUE;
-	udiErrorId := INT_TO_UINT(iWorkStep_Axis);	
-END_IF
-
-bBusy := McHome.Busy;
-IF bQuickHomingDone THEN
-	mQuickHoming := TRUE;
-	bQuickHomingDone :=FALSE;
-END_IF;
-udiErrorId := McHome.ErrorID;]]></ST>
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="mSavePositionAtHomeSensor" Id="{3a59daed-c1be-449e-8865-4c1bfb4a7379}" FolderPath="Methods\">
@@ -874,13 +896,22 @@ END_VAR
       <LineId Id="1316" Count="0" />
       <LineId Id="965" Count="9" />
       <LineId Id="977" Count="9" />
+      <LineId Id="1549" Count="0" />
+      <LineId Id="1551" Count="0" />
+      <LineId Id="1550" Count="0" />
       <LineId Id="1393" Count="1" />
       <LineId Id="987" Count="0" />
       <LineId Id="1395" Count="0" />
       <LineId Id="988" Count="0" />
       <LineId Id="1396" Count="5" />
       <LineId Id="1403" Count="0" />
-      <LineId Id="996" Count="20" />
+      <LineId Id="996" Count="2" />
+      <LineId Id="1552" Count="0" />
+      <LineId Id="1554" Count="0" />
+      <LineId Id="1557" Count="1" />
+      <LineId Id="999" Count="14" />
+      <LineId Id="1016" Count="0" />
+      <LineId Id="1556" Count="0" />
       <LineId Id="402" Count="0" />
     </LineIds>
     <LineIds Name="FB_ServoAxis.ACT_AxisFBs">
@@ -966,6 +997,7 @@ END_VAR
       <LineId Id="189" Count="0" />
       <LineId Id="292" Count="1" />
       <LineId Id="347" Count="0" />
+      <LineId Id="490" Count="0" />
       <LineId Id="319" Count="5" />
       <LineId Id="327" Count="0" />
       <LineId Id="336" Count="4" />
@@ -1005,8 +1037,8 @@ END_VAR
       <LineId Id="240" Count="3" />
       <LineId Id="448" Count="2" />
       <LineId Id="244" Count="1" />
-      <LineId Id="249" Count="0" />
-      <LineId Id="262" Count="5" />
+      <LineId Id="262" Count="2" />
+      <LineId Id="266" Count="1" />
       <LineId Id="404" Count="9" />
       <LineId Id="269" Count="0" />
       <LineId Id="414" Count="0" />
@@ -1025,6 +1057,13 @@ END_VAR
       <LineId Id="5" Count="1" />
     </LineIds>
     <LineIds Name="FB_ServoAxis.mCancelMoveCommands">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ServoAxis.mDirectHoming">
+      <LineId Id="9" Count="1" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="20" Count="10" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ServoAxis.mErrorReset">
@@ -1082,11 +1121,8 @@ END_VAR
       <LineId Id="49" Count="1" />
       <LineId Id="53" Count="1" />
       <LineId Id="51" Count="0" />
-      <LineId Id="41" Count="0" />
-      <LineId Id="31" Count="0" />
-      <LineId Id="18" Count="0" />
+      <LineId Id="64" Count="0" />
       <LineId Id="52" Count="0" />
-      <LineId Id="20" Count="10" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ServoAxis.mSavePositionAtHomeSensor">

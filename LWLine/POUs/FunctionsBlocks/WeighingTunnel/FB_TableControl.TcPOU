@@ -33,7 +33,7 @@ VAR
 	udiStationErrorNumber:UDINT;
 	fbStepTON:TON;
 	fbRotationRequestTON:TON;
-	fbPositionLostTON:TON;
+	fbGoToValidPositionTON:TON;
 	iLastStep: INT;
 	bError: BOOL;
 	nError: nTable_ErrorList;
@@ -41,6 +41,9 @@ VAR
 
 	iCounter :INT;
 	bAllEmpty:BOOL;
+	nLampControl:(NONE,RED,WHITE,BLUE,YELLOW,GREEN,RED_BLINK,WHITE_BLINK,YELLOW_BLINK,BLUE_BLINK,GREEN_BLINK);
+	bBlinkBit:BOOL;
+	fbTONBlinkTimer:TON;
 END_VAR
 
 VAR CONSTANT
@@ -82,6 +85,8 @@ udiStationErrorNumber := 0;
 
 IF fbTableAxis.prPositionValid THEN
 	iLastValidPosition:=prTablePositionNumber;
+ELSIF NOT fbTableAxis.prIsHomed THEN
+	iLastValidPosition:=1;
 END_IF
 
 FOR i:=1 TO TOTAL_TABLE_PLACES DO
@@ -99,6 +104,7 @@ FOR i:=1 TO TOTAL_TABLE_PLACES DO
 		bStationsCleared := bStationsCleared AND NOT __ISVALIDREF(arrStations[i].prTablePlace);
 		bStationsAssigned := bStationsAssigned  AND __ISVALIDREF(arrStations[i].prTablePlace);
 		bAllEmpty := bAllEmpty AND arrStations[i].prIsEmpty;
+		
 		IF arrStations[i].prError THEN
 			bStationError := TRUE;
 			udiStationErrorNumber := arrStations[i].prErrorNumber;
@@ -137,7 +143,12 @@ IF  NOT bReleaseFromSafety AND NOT bError THEN
 	mNewEvent(nPIM_EventClasses.Alarm,nTable_ErrorList.NoSafetyRelease);
 END_IF
 
-
+//Empty Mode
+FOR i:=1 TO TOTAL_TABLE_PLACES DO
+	IF arrStations[i] <> 0 THEN
+		arrStations[i].prEmptyMode:=stHMI.bEmptyMode AND NOT bAllEmpty;
+	END_IF
+END_FOR	
 
 //Step Timer		
 IF iLastStep <> iWorkStep THEN
@@ -154,19 +165,21 @@ CASE iWorkStep OF
 
 	10: //Wait for rotation request
 		fbRotationRequestTON(IN:= bRotationRequest AND bRotationInterlock AND fbTableAxis.prIsReady AND fbTableAxis.prIsHomed AND bWorkPermission,PT:=T#1S);
-		fbPositionLostTON(IN:= bRotationInterlock AND fbTableAxis.prIsReady AND fbTableAxis.prIsHomed AND fbTableAxis.prIsNotMoving AND NOT fbTableAxis.prPositionValid, PT:=T#5S);
+		fbGoToValidPositionTON(IN:= bRotationInterlock AND fbTableAxis.prIsReady AND fbTableAxis.prIsHomed AND fbTableAxis.prIsNotMoving AND NOT fbTableAxis.prPositionValid, PT:=T#5S);
 		IF fbRotationRequestTON.Q THEN
 			fbRotationRequestTON(IN:=FALSE);
 			iWorkStep := 30;
 			iNextPos:= (iLastValidPosition+1) MOD 9;
-		ELSIF fbPositionLostTON.Q THEN //Position Lost - go to last position
+		ELSIF fbGoToValidPositionTON.Q THEN //Position Lost - go to last position
 			iWorkStep := 30;
 			iNextPos:= iLastValidPosition;
 		ELSIF bAllEmpty AND bRotationInterlock AND fbTableAxis.prIsReady AND NOT fbTableAxis.prIsHomed AND bWorkPermission THEN //Automatic Homing
 			iWorkStep := 50;
 		END_IF
-		IF bStationError THEN
+		IF bStationError  THEN
 			mNewEvent(nPIM_EventClasses.Alarm,DINT_TO_INT(udiStationErrorNumber));
+		ELSIF fbTableAxis.prIsErrorActive THEN
+			mNewEvent(nPIM_EventClasses.Alarm,nTable_ErrorList.ServoError);
 		END_IF		
 		
 	30: //Table rotation
@@ -248,8 +261,30 @@ IF stHMI.nEditedType > 0 AND stHMI.nEditedType <= BOTTLE_TYPES_NUMBER THEN
 	END_IF
 	stHMI.nLastEditedType :=   stHMI.nEditedType;
 END_IF
-
-//fbJsonDataType.GetJsonFromSymbol('ST_Values',SIZEOF(stValues), ADR(stValues), nBufferLength, ADR(sBuffer));]]></ST>
+//LAMP
+IF NOT stInOuts.bI_SafetyEstopOK OR NOT stInOuts.bI_SafetyGateOK THEN
+	nLampControl:=RED_BLINK;
+ELSIF bError THEN
+	nLampControl:=RED;
+ELSIF NOT stInOuts.bI_SafetyDrawerOK THEN
+	nLampControl:=YELLOW_BLINK;
+ELSIF bWorkPermission AND iWorkStep=30 THEN
+	nLampControl:=GREEN_BLINK;
+ELSIF bWorkPermission THEN
+	nLampControl:=GREEN;
+ELSE 
+	nLampControl:=NONE;
+END_IF
+bBlinkBit := bBlinkBit XOR fbTONBlinkTimer.Q;
+fbTONBlinkTimer(IN:= NOT fbTONBlinkTimer.Q,PT:=T#500MS);
+stInOuts.bQ_LampBlue:=nLampControl=BLUE OR (nLampControl=BLUE_BLINK AND bBlinkBit);
+stInOuts.bQ_LampGreen:=nLampControl=GREEN OR (nLampControl=GREEN_BLINK AND bBlinkBit);
+stInOuts.bQ_LampRed:=nLampControl=RED OR (nLampControl=RED_BLINK AND bBlinkBit);
+stInOuts.bQ_LampWhite:=nLampControl=WHITE OR (nLampControl=WHITE_BLINK AND bBlinkBit);
+stInOuts.bQ_LampYellow:=nLampControl=YELLOW OR (nLampControl=YELLOW_BLINK AND bBlinkBit);
+//HMI
+stHMI.bEmptyMode R= bAllEmpty;
+]]></ST>
     </Implementation>
     <Method Name="mErrorReset" Id="{1efedf66-1b3f-4af7-ad1d-aeb778b44ae6}">
       <Declaration><![CDATA[METHOD mErrorReset : BOOL
@@ -384,18 +419,33 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="FB_TableControl">
-      <LineId Id="1340" Count="97" />
-      <LineId Id="1585" Count="0" />
-      <LineId Id="1438" Count="6" />
-      <LineId Id="1528" Count="1" />
-      <LineId Id="1445" Count="27" />
-      <LineId Id="1517" Count="2" />
-      <LineId Id="1522" Count="5" />
-      <LineId Id="1520" Count="0" />
-      <LineId Id="1530" Count="1" />
-      <LineId Id="1521" Count="0" />
-      <LineId Id="1473" Count="43" />
+      <LineId Id="1694" Count="44" />
+      <LineId Id="2079" Count="0" />
+      <LineId Id="1739" Count="36" />
+      <LineId Id="2082" Count="0" />
+      <LineId Id="1776" Count="0" />
+      <LineId Id="2083" Count="1" />
+      <LineId Id="2086" Count="1" />
+      <LineId Id="1778" Count="0" />
+      <LineId Id="2088" Count="0" />
+      <LineId Id="1779" Count="27" />
+      <LineId Id="1942" Count="1" />
+      <LineId Id="1807" Count="80" />
       <LineId Id="926" Count="0" />
+      <LineId Id="2020" Count="1" />
+      <LineId Id="2009" Count="1" />
+      <LineId Id="2018" Count="1" />
+      <LineId Id="2012" Count="1" />
+      <LineId Id="2017" Count="0" />
+      <LineId Id="2015" Count="0" />
+      <LineId Id="2014" Count="0" />
+      <LineId Id="2016" Count="0" />
+      <LineId Id="2011" Count="0" />
+      <LineId Id="2007" Count="1" />
+      <LineId Id="1997" Count="0" />
+      <LineId Id="2002" Count="4" />
+      <LineId Id="2081" Count="0" />
+      <LineId Id="2001" Count="0" />
     </LineIds>
     <LineIds Name="FB_TableControl.mErrorReset">
       <LineId Id="5" Count="2" />

@@ -7,7 +7,6 @@ VAR_INPUT
 END_VAR
 VAR
 	fbLoadingSensor: FB_Sensor;
-	bSensorWasOff: BOOL;
 	stInOuts :ST_LoadingStation_InOuts;
 	fbBottleDetection  : FB_Filter;
 	bBottleDetected: BOOL;
@@ -40,7 +39,6 @@ bBottleDetected := stSettings.stLoadingBottleParams.rLoadingDetectionFrom <= fbB
 fbLoadingSensor(bSensorSignal:=bBottleDetected  ,bSimulationON:=bSimulationON OR bGhostRunOn,
 uiSensorOnDelay_MS:=stSettings.iBottleDetectionDelayMS,uiErrorOffDelay_MS:=stSettings.iSensorErrorDelayMS);
 fbLoadingSensor.bRequestedState := bBottleDetected;
-bSensorWasOff S= NOT fbLoadingSensor.bSensorSignal AND fbTableControl.prTableInPosition;
 
 bRotationInterlock:=TRUE;
 bRotationRequest:= FALSE;
@@ -56,17 +54,12 @@ CASE iWorkStep OF
 	
 	10://Wait For Sensor ON
 		//Sprawdzenie czy sensor nie daje sygnału cały czas
-//		fbLoadingSensor.bRequestedState := bSensorWasOff;
-//		fbLoadingSensor.bCheckState := NOT bSensorWasOff;
 		IF __ISVALIDREF(fbTablePlace) THEN
 			IF fbLoadingSensor.prSensorOnOK AND fbTableControl.prWorkPermission AND_THEN fbTablePlace.mBottleBeforeWeighing(fbTableControl.prNextType) THEN
 				iWorkStep:= 20;
-				bSensorWasOff:=FALSE;
-			ELSIF fbLoadingSensor.prSensorOffError THEN
-				mSetError(nTable_ErrorList.LoadingSensorError);
+			ELSIF fbLoadingSensor.prSensorOffOK AND fbTablePlace.prStateIsEmpty AND bEmptyMode THEN
+				iWorkStep:= 20;
 			END_IF
-	//	ELSE
-	//		bRotationRequest:= TRUE;
 		END_IF
 	
 	
@@ -111,9 +104,7 @@ END_CASE
       <LineId Id="236" Count="0" />
       <LineId Id="182" Count="0" />
       <LineId Id="223" Count="0" />
-      <LineId Id="491" Count="0" />
-      <LineId Id="291" Count="0" />
-      <LineId Id="492" Count="0" />
+      <LineId Id="491" Count="1" />
       <LineId Id="335" Count="0" />
       <LineId Id="183" Count="0" />
       <LineId Id="452" Count="0" />
@@ -123,12 +114,10 @@ END_CASE
       <LineId Id="434" Count="0" />
       <LineId Id="184" Count="4" />
       <LineId Id="311" Count="0" />
-      <LineId Id="490" Count="0" />
-      <LineId Id="308" Count="0" />
       <LineId Id="190" Count="2" />
-      <LineId Id="292" Count="2" />
-      <LineId Id="284" Count="1" />
-      <LineId Id="193" Count="1" />
+      <LineId Id="513" Count="1" />
+      <LineId Id="284" Count="0" />
+      <LineId Id="194" Count="0" />
       <LineId Id="309" Count="0" />
       <LineId Id="195" Count="1" />
       <LineId Id="325" Count="0" />
