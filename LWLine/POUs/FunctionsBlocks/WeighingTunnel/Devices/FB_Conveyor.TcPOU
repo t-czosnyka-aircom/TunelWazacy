@@ -6,6 +6,7 @@ VAR_INPUT
 	bManualMode:BOOL;
 	bMoveRequest:BOOL;
 	bEN_FeedbackError: BOOL;
+	bMoveRelease: BOOL;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -43,6 +44,7 @@ IF bManualMode THEN
 ELSE
 	prIsOn := fbCmdOnTOF.Q;
 END_IF
+prIsOn R= NOT bMoveRelease;
 IF bOnCmd THEN
 	rSpeedSet := MAX(10,rSpeedSet);
 	iQ_ConveyorSpeedOut := REAL_TO_INT(fbAnalogScale.rOutFiltered);
@@ -118,6 +120,7 @@ END_VAR
       <LineId Id="28" Count="0" />
       <LineId Id="46" Count="1" />
       <LineId Id="36" Count="0" />
+      <LineId Id="115" Count="0" />
       <LineId Id="31" Count="0" />
       <LineId Id="91" Count="0" />
       <LineId Id="32" Count="2" />

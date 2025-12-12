@@ -104,6 +104,12 @@ END_IF
 //Servo position is valid
 fbPositionValidTON(IN:= iCurrentPositionNumber <> 0 AND prIsInTargetPosition,PT:=tPositionValidDelay);
 bPositionValid:= fbPositionValidTON.Q;
+// Last Valid Position Value
+IF prIsHomed AND prIsNotMoving AND prPositionValid THEN
+	lrLastValidPositionValue := prCurrentPositionModulo;
+ELSE 
+	lrLastValidPositionValue := -1;
+END_IF
 
 //Read FB status
 ACT_AxisFBs(); 	
@@ -118,10 +124,7 @@ IF stSettings.bEN_CircularPositions AND NOT bCircularPositionsSet THEN
 	END_FOR
 	bCircularPositionsSet:=TRUE;
 END_IF
-// Last Valid Position Value
-IF prIsHomed AND prIsNotMoving AND prPositionValid THEN
-	lrLastValidPositionValue := prCurrentPositionModulo;
-END_IF
+
 
 //Quick Homing
 fbHomingSensorTON(IN:=stInOuts.bHomingSensor,PT:=T#300MS);
@@ -136,7 +139,7 @@ IF McMoveModulo.Busy AND prIsHomed AND fbHomeSensorFTRIG.Q AND stInOuts.stAxis_D
 END_IF
 
 //Manual Mode
-IF stHMI.bDirectHomingRequest AND lrLastValidPositionValue >0 THEN
+IF stHMI.bDirectHomingRequest AND lrLastValidPositionValue >=0 THEN
 	mDirectHoming(lrLastValidPositionValue);
 ELSIF stHMI.bRequestStopAxis  THEN  
 	mStopAxis();
@@ -675,7 +678,7 @@ VAR_OUTPUT
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[mQuickHoming :=FALSE;
-IF prIsReady AND prIsHomed AND lrReferencePositionAtHomeSensor > 0 AND lrLastPositionAtHomeSensor > 0 THEN
+IF prIsReady AND prIsHomed AND lrReferencePositionAtHomeSensor >= 0 AND lrLastPositionAtHomeSensor >= 0 THEN
 	IF ABS(lrReferencePositionAtHomeSensor - lrLastPositionAtHomeSensor) > 1.0 THEN
 		mNewEvent( nEvent := nAxis_ErrorList.QuickHomingError,ErrorCode:= McHome.ErrorID,bDisable:=FALSE);
 		bQuickHomingSynchLost :=TRUE;
@@ -873,7 +876,8 @@ END_VAR
       </Set>
     </Property>
     <Property Name="prPositionValid" Id="{8bd3caab-2706-4652-9796-d1cef13b5dc9}" FolderPath="Properties\">
-      <Declaration><![CDATA[PROPERTY prPositionValid : BOOL]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY prPositionValid : BOOL]]></Declaration>
       <Get Name="Get" Id="{de089de8-ae53-46f8-95a8-55578f05c046}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -894,11 +898,12 @@ END_VAR
       <LineId Id="1321" Count="0" />
       <LineId Id="1318" Count="0" />
       <LineId Id="1316" Count="0" />
-      <LineId Id="965" Count="9" />
+      <LineId Id="965" Count="5" />
+      <LineId Id="1633" Count="4" />
+      <LineId Id="971" Count="0" />
+      <LineId Id="1638" Count="0" />
+      <LineId Id="972" Count="2" />
       <LineId Id="977" Count="9" />
-      <LineId Id="1549" Count="0" />
-      <LineId Id="1551" Count="0" />
-      <LineId Id="1550" Count="0" />
       <LineId Id="1393" Count="1" />
       <LineId Id="987" Count="0" />
       <LineId Id="1395" Count="0" />

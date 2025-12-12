@@ -1147,8 +1147,8 @@ External Setpoint Generation:
 			</Settings>
 			<Licenses>
 				<Target BkhfOrder="01639279">
-					<ManualSelect>{92583661-35AE-45CE-BD4F-C35BFE16F07E}</ManualSelect>
 					<ManualSelect>{BDCC0070-42D5-49AE-ABF1-1D4434813D60}</ManualSelect>
+					<ManualSelect>{92583661-35AE-45CE-BD4F-C35BFE16F07E}</ManualSelect>
 					<ManualSelect>{3EBB9639-5FF3-42B6-8847-35C70DC013C8}</ManualSelect>
 					<ManualSelect>{6952449D-F68C-49A2-ADE4-8639D85B33A4}</ManualSelect>
 					<ManualSelect>{A1AF8A04-C08D-4853-A5A0-0E6C3A278A8C}</ManualSelect>
@@ -1174,7 +1174,7 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{1A289FD8-2FC0-4B29-B34F-E4BF25DBB957}" Name="LWLine" PrjFilePath="LWLine\LWLine.plcproj" TmcFilePath="LWLine\LWLine.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{FA73B3C3-18BA-43F5-61CA-ECB958E2CEBD}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{E682811E-841D-9B62-CDE5-9B9B5974FBBA}">
 					<Name>LWLine Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1" ContextId="2" AreaNo="32">
@@ -4029,12 +4029,51 @@ External Setpoint Generation:
 							<Type>INT</Type>
 						</Var>
 						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyReset_1</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyReset_2</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyEstopOK</Name>
+							<Comment><![CDATA[Safety Signals]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyGateOK</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyDrawerOK</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>MAIN.fbLoadingStation.stInOuts.bBottleDetectedSensor</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbLoadingStation.stInOuts.iBottleDetectionSensor</Name>
 							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbUnloadingStation.stInOuts.bBottleDetectionSensor</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbUnloadingStation.stInOuts.stUnloadingActuator.bI_HomePosition</Name>
+							<Comment><![CDATA[ Sygnał z krańcówki otwarcia]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbUnloadingStation.stInOuts.stUnloadingActuator.bI_WorkPosition</Name>
+							<Comment><![CDATA[ Sygnał z krańcówki zamknięcia]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbUnloadingStation.fbConveyor.bI_ConveyorOnFeedback</Name>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbTableAxis.stInOuts.bHomingSensor</Name>
@@ -4606,45 +4645,6 @@ S02]]></Comment>
 						<Var>
 							<Name>GVL_IO.stTunelInOuts.stCognex.bInOut3</Name>
 							<Comment><![CDATA[ Sygnał w In-Sight Out3 - Wejście detekcji 3]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyReset_1</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyReset_2</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyEstopOK</Name>
-							<Comment><![CDATA[Safety Signals]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyGateOK</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyDrawerOK</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbUnloadingStation.stInOuts.bBottleDetectionSensor</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbUnloadingStation.stInOuts.stUnloadingActuator.bI_HomePosition</Name>
-							<Comment><![CDATA[ Sygnał z krańcówki otwarcia]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbUnloadingStation.stInOuts.stUnloadingActuator.bI_WorkPosition</Name>
-							<Comment><![CDATA[ Sygnał z krańcówki zamknięcia]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbUnloadingStation.fbConveyor.bI_ConveyorOnFeedback</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -6220,6 +6220,48 @@ S02]]></Comment>
 							<Type>INT</Type>
 						</Var>
 						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_LampWhite</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_LampRed</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_LampBlue</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_LampYellow</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_LampGreen</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_SafetyRun</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_SafetyErrorAck</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbUnloadingStation.stInOuts.stUnloadingActuator.bQ_Home</Name>
+							<Comment><![CDATA[ Sygnał do zaworu otwierania (w przypadku zaworu jednocewkowego podłączyć tylko to wyjście)]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbUnloadingStation.stInOuts.stUnloadingActuator.bQ_Work</Name>
+							<Comment><![CDATA[ Sygnał do zaworu zamykania]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbUnloadingStation.fbConveyor.iQ_ConveyorSpeedOut</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
 							<Name>MAIN.fbTableAxis.stInOuts.stAxis_Data.PlcToNc</Name>
 							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 						</Var>
@@ -6464,48 +6506,6 @@ S02]]></Comment>
 							<Name>GVL_IO.stTunelInOuts.stCognex.bOut1</Name>
 							<Comment><![CDATA[ Sygnał w In-Sight In1 - Wyjście zwykle nie używane]]></Comment>
 							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bQ_LampWhite</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bQ_LampRed</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bQ_LampBlue</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bQ_LampYellow</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bQ_LampGreen</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bQ_SafetyRun</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bQ_SafetyErrorAck</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbUnloadingStation.stInOuts.stUnloadingActuator.bQ_Home</Name>
-							<Comment><![CDATA[ Sygnał do zaworu otwierania (w przypadku zaworu jednocewkowego podłączyć tylko to wyjście)]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbUnloadingStation.stInOuts.stUnloadingActuator.bQ_Work</Name>
-							<Comment><![CDATA[ Sygnał do zaworu zamykania]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbUnloadingStation.fbConveyor.iQ_ConveyorSpeedOut</Name>
-							<Type>INT</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbWeighingStation.stInOuts.stWeighingActuator.bQ_Home</Name>

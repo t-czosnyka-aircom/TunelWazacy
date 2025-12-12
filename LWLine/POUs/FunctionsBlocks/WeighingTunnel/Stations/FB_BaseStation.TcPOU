@@ -8,7 +8,7 @@ END_VAR
 VAR_INPUT
 	bSimulationON:BOOL;
 	bGhostRunON:BOOL;
-
+	
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -30,6 +30,7 @@ VAR
 	sStationName:STRING;
 	nActEvent: nTable_ErrorList;
 	bEmptyMode:BOOL;
+	bSafetyOK: BOOL;
 END_VAR
 
 VAR CONSTANT
@@ -147,6 +148,25 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="prSafetyOk" Id="{295c05d7-4adf-4ebe-83e6-057563cd3140}">
+      <Declaration><![CDATA[PROPERTY prSafetyOk : BOOL]]></Declaration>
+      <Get Name="Get" Id="{35c4a5a2-61e6-4294-ad8e-bfb266aeeb8e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prSafetyOK := bSafetyOK;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{2bc4f0be-331d-4d23-9710-c5eb38b02e0a}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[bSafetyOK := prSafetyOK;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="prTablePlace" Id="{88cbe737-a470-4003-9fa4-38b67688cbaf}">
       <Declaration><![CDATA[PROPERTY prTablePlace : REFERENCE TO FB_TablePlace]]></Declaration>
       <Get Name="Get" Id="{bd357123-069c-4d22-9e1c-de08e6b4f1bb}">
@@ -241,6 +261,12 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_BaseStation.prIsEmpty.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BaseStation.prSafetyOk.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BaseStation.prSafetyOk.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_BaseStation.prTablePlace.Get">

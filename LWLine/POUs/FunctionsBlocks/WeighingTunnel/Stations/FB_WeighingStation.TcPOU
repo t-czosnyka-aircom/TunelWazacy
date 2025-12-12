@@ -49,12 +49,12 @@ bIsEmpty:= NOT fbBottleSensor.bSensorSignal;
 bRotationInterlock:=fbDrawerLock.prClosedAndLocked AND fbPusherActuator.prInHomePosition AND fbWeighingActuator.prInHomePosition OR TRUE;
 
 
-fbWeighingActuator(stDigInOut:=stInOuts.stWeighingActuator, bI_Control_Ready:=TRUE, bManualMode:=bManualModeActive, 
+fbWeighingActuator(stDigInOut:=stInOuts.stWeighingActuator, bI_Control_Ready:=prSafetyOk, bManualMode:=bManualModeActive, 
 					bI_HomeInterlock:= fbPusherActuator.prInHomePosition, bI_WorkInterlock:=fbTableControl.prTableInPosition,
 					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0, rI_WorkPositionDelayMS:=500, bSimulationOn:=bSimulationON, bManualMode:= bManualModeActive,
  					bI_RespectInterlockInMAN := FALSE);
 					
-fbPusherActuator(stDigInOut:=stInOuts.stPusherActuator, bI_Control_Ready:=TRUE, bManualMode:=bManualModeActive, 
+fbPusherActuator(stDigInOut:=stInOuts.stPusherActuator, bI_Control_Ready:=prSafetyOk, bManualMode:=bManualModeActive, 
 					bI_HomeInterlock:= TRUE, 
 					bI_WorkInterlock:=fbTableControl.prTableInPosition AND fbWeighingActuator.prInWorkPosition,
 					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0,bSimulationOn:=bSimulationON, bManualMode:= bManualModeActive,
@@ -81,7 +81,7 @@ IF fbBottleDrawerSensor.prSensorOffError AND NOT bError AND NOT bDrawerUnlockReq
 END_IF
 
 //Weighing in Progress
-bWeighingInProgess := __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.prStateIsBeforeWeighing;
+bWeighingInProgess := __ISVALIDREF(fbTablePlace) AND_THEN (fbTablePlace.prStateIsBeforeWeighing OR fbTablePlace.prStateIsProcessing);
 
 bRotationRequest:= FALSE;			
 CASE iWorkStep OF

@@ -32,13 +32,13 @@ END_IF
 
 stInOuts.stUnloadingActuator.bI_WorkPosition := NOT stInOuts.stUnloadingActuator.bI_HomePosition AND stInOuts.stUnloadingActuator.bQ_Work;
 bRotationInterlock:=fbUnloadingActuator.prInHomePosition;
-fbUnloadingActuator(stDigInOut:=stInOuts.stUnloadingActuator, bI_Control_Ready:=TRUE, bManualMode:=bManualModeActive, 
+fbUnloadingActuator(stDigInOut:=stInOuts.stUnloadingActuator, bI_Control_Ready:=prSafetyOk, bManualMode:=bManualModeActive, 
 					bI_HomeInterlock:= TRUE, bI_WorkInterlock:=fbTableControl.prTableInPosition,
 					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0,bSimulationOn:=bSimulationON, bManualMode:= bManualModeActive, bI_RespectInterlockInMAN := FALSE);
 
 fbUnloadingSensor(bSensorSignal:=stInOuts.bBottleDetectionSensor,bSimulationON:=bSimulationON OR bGhostRunOn,uiSensorOnDelay_MS:=0);									
 	
-fbConveyor(bManualMode:=bManualModeActive, bEN_FeedbackError:=FALSE);
+fbConveyor(bManualMode:=bManualModeActive, bEN_FeedbackError:=FALSE, bMoveRelease:=prSafetyOk);
 	
 bRotationRequest:= FALSE;	
 bReleaseWeighing := fbUnloadingActuator.prInHomePosition;
@@ -85,7 +85,7 @@ CASE iWorkStep OF
 				fbStepTON(IN:=FALSE);
 			END_IF
 		ELSIF fbStepTON.Q THEN
-			mSetError(nTable_ErrorList.UnloadingBottleDetectionNotOff);
+			mSetError(nTable_ErrorList.UnloadingBottleDetectionError);
 			fbStepTON(IN:=FALSE);
 		END_IF
 	

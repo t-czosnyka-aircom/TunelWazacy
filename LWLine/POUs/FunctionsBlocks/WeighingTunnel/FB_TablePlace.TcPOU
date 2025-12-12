@@ -18,6 +18,7 @@ VAR
 END_VAR
 VAR PERSISTENT
 	stPlace: ST_TableBottlePlace;
+	bMemOk : BOOL; 					//Sprawdzenie czy pamiec sie zinicjalizowala
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -41,6 +42,7 @@ ELSE
 	bStationError := itfWorkingStation.prError;
 	udiErrorNumber :=  itfWorkingStation.prErrorNumber;
 	bReleaseChange := itfWorkingStation.prInManualMode;
+	bMemOk := TRUE;
 END_IF]]></ST>
     </Implementation>
     <Method Name="mBottleAfterWeighing" Id="{9720bd92-134b-4b68-80c2-6a2cc402d47b}">
@@ -322,6 +324,7 @@ END_VAR
       <LineId Id="31" Count="2" />
       <LineId Id="64" Count="1" />
       <LineId Id="97" Count="0" />
+      <LineId Id="117" Count="0" />
       <LineId Id="27" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.mBottleAfterWeighing">
