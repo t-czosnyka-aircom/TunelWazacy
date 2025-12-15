@@ -611,11 +611,11 @@
 					</Pdo>
 				</EtherCAT>
 			</Box>
-			<Box Id="6" BoxType="9099">
-				<Name>S07_DI02 (EL1008)</Name>
+			<Box Id="14" BoxType="9099">
+				<Name>S07_DI02 (EL1809)</Name>
 				<ImageId>7</ImageId>
-				<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x03f03052" RevisionNo="#x00120000" RepeatSupport="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL1008 8Ch. Dig. Input 24V, 3ms" Desc="EL1008" PortABoxInfo="#x01000005">
-					<SyncMan>001001000000010004000000000000000100001000010000</SyncMan>
+				<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x07113052" RevisionNo="#x00120000" RepeatSupport="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL1809 16Ch. Dig. Input 24V, 3ms" Desc="EL1809" PortABoxInfo="#x01000005">
+					<SyncMan>001002000000010004000000000000000200001000010000</SyncMan>
 					<Fmmu>0000000000000000001000010100000002000000000000000000000000000000</Fmmu>
 					<Pdo Name="Channel 1" Index="#x1a00" Flags="#x0011" SyncMan="0">
 						<Entry Name="Input" Index="#x6000" Sub="#x01">
@@ -657,12 +657,52 @@
 							<Type>BIT</Type>
 						</Entry>
 					</Pdo>
+					<Pdo Name="Channel 9" Index="#x1a08" Flags="#x0011" SyncMan="0">
+						<Entry Name="Input" Index="#x6080" Sub="#x01">
+							<Type>BIT</Type>
+						</Entry>
+					</Pdo>
+					<Pdo Name="Channel 10" Index="#x1a09" Flags="#x0011" SyncMan="0">
+						<Entry Name="Input" Index="#x6090" Sub="#x01">
+							<Type>BIT</Type>
+						</Entry>
+					</Pdo>
+					<Pdo Name="Channel 11" Index="#x1a0a" Flags="#x0011" SyncMan="0">
+						<Entry Name="Input" Index="#x60a0" Sub="#x01">
+							<Type>BIT</Type>
+						</Entry>
+					</Pdo>
+					<Pdo Name="Channel 12" Index="#x1a0b" Flags="#x0011" SyncMan="0">
+						<Entry Name="Input" Index="#x60b0" Sub="#x01">
+							<Type>BIT</Type>
+						</Entry>
+					</Pdo>
+					<Pdo Name="Channel 13" Index="#x1a0c" Flags="#x0011" SyncMan="0">
+						<Entry Name="Input" Index="#x60c0" Sub="#x01">
+							<Type>BIT</Type>
+						</Entry>
+					</Pdo>
+					<Pdo Name="Channel 14" Index="#x1a0d" Flags="#x0011" SyncMan="0">
+						<Entry Name="Input" Index="#x60d0" Sub="#x01">
+							<Type>BIT</Type>
+						</Entry>
+					</Pdo>
+					<Pdo Name="Channel 15" Index="#x1a0e" Flags="#x0011" SyncMan="0">
+						<Entry Name="Input" Index="#x60e0" Sub="#x01">
+							<Type>BIT</Type>
+						</Entry>
+					</Pdo>
+					<Pdo Name="Channel 16" Index="#x1a0f" Flags="#x0011" SyncMan="0">
+						<Entry Name="Input" Index="#x60f0" Sub="#x01">
+							<Type>BIT</Type>
+						</Entry>
+					</Pdo>
 				</EtherCAT>
 			</Box>
 			<Box Id="8" BoxType="9099">
 				<Name>S07_PWR (EL9410)</Name>
 				<ImageId>1001</ImageId>
-				<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x24c23052" RevisionNo="#x00110000" RepeatSupport="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL9410 E-Bus Power Supplier  (Diagnostics)" Desc="EL9410" PortABoxInfo="#x01000006">
+				<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x24c23052" RevisionNo="#x00110000" RepeatSupport="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL9410 E-Bus Power Supplier  (Diagnostics)" Desc="EL9410" PortABoxInfo="#x0100000e">
 					<SyncMan>001001000000010004000000000000000000001000000000</SyncMan>
 					<Fmmu>0000000000000000001000010100000002000000000000000000000000000000</Fmmu>
 					<Pdo Name="Status Us" Index="#x1a00" Flags="#x0011" SyncMan="0">
