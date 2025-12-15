@@ -89,8 +89,6 @@ CASE iWorkStep OF
 
 		IF bManualModeRequest THEN
 			iWorkStep:= 80;
-		ELSIF  __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.prStateIsNOK THEN
-			iWorkStep:=50;
 		ELSE
 			iWorkStep:=5;
 		END_IF
@@ -110,12 +108,14 @@ CASE iWorkStep OF
 		IF __ISVALIDREF(fbTablePlace) AND fbTableControl.prWorkPermission  THEN
 			fbBottleSensor.bRequestedState := NOT fbTablePlace.prStateIsEmpty;
 			fbBottleSensor.bCheckState := fbTableControl.prTableInPosition;
-			bRotationRequest :=  fbTablePlace.prStateIsAfterWeighing AND fbBottleSensor.prSensorOnOK OR (fbTablePlace.prStateIsEmpty AND fbBottleSensor.prSensorOffOK AND NOT bDrawerUnlockRequest);
-			IF bDrawerUnlockRequest AND (fbTablePlace.prStateIsBeforeWeighing AND fbBottleSensor.prSensorOnOK  OR fbTablePlace.prStateIsEmpty AND fbBottleSensor.prSensorOffOK) THEN
+			bRotationRequest :=  (fbTablePlace.prStateIsAfterWeighing AND fbBottleSensor.prSensorOnOK OR (fbTablePlace.prStateIsEmpty AND fbBottleSensor.prSensorOffOK)) AND NOT bDrawerUnlockRequest AND fbBottleDrawerSensor.prSensorOK;
+			IF fbTablePlace.prStateIsNOK AND fbBottleSensor.prSensorOnOK THEN
+				iWorkStep:=50;
+			ELSIF bDrawerUnlockRequest AND fbBottleSensor.prSensorOK THEN
 				iWorkStep:=70;
-			ELSIF (fbTablePlace.prStateIsBeforeWeighing OR fbTablePlace.prStateIsProcessing )AND fbBottleSensor.prSensorOnOK AND (fbBottleDrawerSensor.prSensorOnOK OR fbBottleDrawerSensor.prSensorOffOK) THEN
+			ELSIF (fbTablePlace.prStateIsBeforeWeighing OR fbTablePlace.prStateIsProcessing )AND fbBottleSensor.prSensorOnOK AND fbBottleDrawerSensor.prSensorOK  THEN
 				iWorkStep:=20;
-			ELSIF fbBottleSensor.prSensorOnError OR fbBottleSensor.prSensorOffError THEN
+			ELSIF fbBottleSensor.prSensorError THEN
 				mSetError(nTable_ErrorList.WeighingSensorError);
 			END_IF
 		END_IF;
@@ -283,10 +283,11 @@ fbTimeStats.rRowTime:=0;]]></ST>
       <LineId Id="2021" Count="0" />
       <LineId Id="2016" Count="1" />
       <LineId Id="1780" Count="3" />
-      <LineId Id="1785" Count="2" />
-      <LineId Id="2177" Count="1" />
-      <LineId Id="1788" Count="23" />
-      <LineId Id="2175" Count="1" />
+      <LineId Id="1785" Count="22" />
+      <LineId Id="2210" Count="1" />
+      <LineId Id="2207" Count="0" />
+      <LineId Id="1809" Count="2" />
+      <LineId Id="2212" Count="1" />
       <LineId Id="1812" Count="0" />
       <LineId Id="1815" Count="7" />
       <LineId Id="1824" Count="3" />

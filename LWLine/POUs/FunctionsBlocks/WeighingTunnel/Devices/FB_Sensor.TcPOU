@@ -38,6 +38,17 @@ fbSensorErrorOFF_TON(IN:=bSensorSignal AND NOT bRequestedState AND bCheckState, 
 
 bCheckState:= FALSE;]]></ST>
     </Implementation>
+    <Property Name="prSensorError" Id="{17a30cd9-24d3-4260-bc00-0f45da4d3a2f}">
+      <Declaration><![CDATA[PROPERTY prSensorError : BOOL]]></Declaration>
+      <Get Name="Get" Id="{d94af924-f92f-4e4b-add2-5a9f94301896}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prSensorError := ]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="prSensorOffError" Id="{dd4317be-7bc1-4d2a-8186-9301df986d98}">
       <Declaration><![CDATA[{attribute 'monitoring':= 'call'}
 PROPERTY prSensorOffError : BOOL]]></Declaration>
@@ -62,6 +73,17 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="prSensorOK" Id="{da3dd52a-48a5-4cc0-8662-1d6cfe4eacad}">
+      <Declaration><![CDATA[PROPERTY prSensorOK : BOOL]]></Declaration>
+      <Get Name="Get" Id="{bb2f3564-6edd-4e5a-a2c6-1199f6241f40}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prSensorOK:=prSensorOnOK OR prSensorOffOK;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="prSensorOnError" Id="{eb28fc78-11a4-414b-8d7f-148280868fb0}">
       <Declaration><![CDATA[{attribute 'monitoring':= 'call'}
 PROPERTY prSensorOnError : BOOL]]></Declaration>
@@ -70,7 +92,7 @@ PROPERTY prSensorOnError : BOOL]]></Declaration>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[prSensorOnError := fbSensorErrorON_TON.Q;]]></ST>
+          <ST><![CDATA[prSensorOnError := prSensorOffError OR prSensorOnError;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -117,10 +139,16 @@ END_VAR
       <LineId Id="89" Count="1" />
       <LineId Id="57" Count="0" />
     </LineIds>
+    <LineIds Name="FB_Sensor.prSensorError.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
     <LineIds Name="FB_Sensor.prSensorOffError.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Sensor.prSensorOffOK.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Sensor.prSensorOK.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Sensor.prSensorOnError.Get">

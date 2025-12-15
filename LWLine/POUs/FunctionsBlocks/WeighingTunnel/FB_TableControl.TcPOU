@@ -167,7 +167,7 @@ CASE iWorkStep OF
 
 
 	10: //Wait for rotation request
-		fbRotationRequestTON(IN:= bRotationRequest AND bRotationInterlock AND fbTableAxis.prIsReady AND fbTableAxis.prIsHomed AND bWorkPermission,PT:=T#1S);
+		fbRotationRequestTON(IN:= bRotationRequest AND bRotationInterlock AND fbTableAxis.prIsReady AND fbTableAxis.prIsHomed AND bWorkPermission,PT:=T#300MS);
 		fbGoToValidPositionTON(IN:= bRotationInterlock AND fbTableAxis.prIsReady AND fbTableAxis.prIsHomed AND fbTableAxis.prIsNotMoving AND NOT fbTableAxis.prPositionValid, PT:=T#3S);
 		IF fbRotationRequestTON.Q THEN
 			fbRotationRequestTON(IN:=FALSE);
@@ -176,7 +176,7 @@ CASE iWorkStep OF
 		ELSIF fbGoToValidPositionTON.Q THEN //Position Lost - go to last position
 			iWorkStep := 30;
 			iNextPos:= iLastValidPosition;
-		ELSIF bMemOk AND bAllEmpty AND bRotationInterlock AND fbTableAxis.prIsReady AND NOT fbTableAxis.prIsHomed AND bWorkPermission THEN //Automatic Homing
+		ELSIF stHMI.bEN_AutomaticHoming AND bMemOk AND bAllEmpty AND bRotationInterlock AND fbTableAxis.prIsReady AND NOT fbTableAxis.prIsHomed AND bWorkPermission THEN //Automatic Homing
 			iWorkStep := 50;
 		END_IF
 		IF bStationError  THEN

@@ -42,8 +42,8 @@ ELSE
 	bStationError := itfWorkingStation.prError;
 	udiErrorNumber :=  itfWorkingStation.prErrorNumber;
 	bReleaseChange := itfWorkingStation.prInManualMode;
-	bMemOk := TRUE;
-END_IF]]></ST>
+END_IF
+bMemOk S= bTableInPosition;]]></ST>
     </Implementation>
     <Method Name="mBottleAfterWeighing" Id="{9720bd92-134b-4b68-80c2-6a2cc402d47b}">
       <Declaration><![CDATA[METHOD mBottleAfterWeighing : BOOL
@@ -324,8 +324,8 @@ END_VAR
       <LineId Id="31" Count="2" />
       <LineId Id="64" Count="1" />
       <LineId Id="97" Count="0" />
-      <LineId Id="117" Count="0" />
       <LineId Id="27" Count="0" />
+      <LineId Id="138" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.mBottleAfterWeighing">
       <LineId Id="15" Count="2" />

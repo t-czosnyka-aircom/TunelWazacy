@@ -2,6 +2,65 @@
 <TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.68">
 	<DataTypes>
 		<DataType>
+			<Name GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom" AutoDeleteType="true">EL6inData22B</Name>
+			<Comment><![CDATA[ This data type is corresponding to the
+   EL-6xxx data structure used in the
+   TwinCAT SystemManager
+   (EL-6xxx version using 22 data bytes) 
+]]></Comment>
+			<BitSize>192</BitSize>
+			<SubItem>
+				<Name>Status</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>D</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>22</Elements>
+				</ArrayInfo>
+				<BitSize>176</BitSize>
+				<BitOffs>16</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{942AFC09-BBEF-5264-CD0D-5C073ECC3668}" IecBaseType="true" AutoDeleteType="true">ARRAY [1..1] OF DINT</Name>
+			<BitSize>32</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000009}">DINT</BaseType>
+			<ArrayInfo>
+				<LBound>1</LBound>
+				<Elements>1</Elements>
+			</ArrayInfo>
+		</DataType>
+		<DataType>
+			<Name GUID="{D6B0A42D-897A-4B90-95E8-3C741C3CE3EE}" Namespace="Tc2_SerialCom" AutoDeleteType="true">EL6outData22B</Name>
+			<Comment><![CDATA[ This data type is corresponding to the
+   EL-6xxx data structure used in the
+   TwinCAT SystemManager
+   (EL-6xxx version using 22 data bytes) 
+]]></Comment>
+			<BitSize>192</BitSize>
+			<SubItem>
+				<Name>Ctrl</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>D</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>22</Elements>
+				</ArrayInfo>
+				<BitSize>176</BitSize>
+				<BitOffs>16</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
 			<Name GUID="{CBC83B73-B816-4597-A9E5-2B03263CA131}" Namespace="MC" TcBaseType="true" HideType="true" IecDeclaration="DWORD;">NCTOPLC_AXIS_REF_STATE</Name>
 			<BitSize>32</BitSize>
 			<SubItem>
@@ -804,31 +863,6 @@ External Setpoint Generation:
 			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom" AutoDeleteType="true">EL6inData22B</Name>
-			<Comment><![CDATA[ This data type is corresponding to the
-   EL-6xxx data structure used in the
-   TwinCAT SystemManager
-   (EL-6xxx version using 22 data bytes) 
-]]></Comment>
-			<BitSize>192</BitSize>
-			<SubItem>
-				<Name>Status</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>D</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>22</Elements>
-				</ArrayInfo>
-				<BitSize>176</BitSize>
-				<BitOffs>16</BitOffs>
-			</SubItem>
-		</DataType>
-		<DataType>
 			<Name GUID="{481A0C15-D2DB-59F6-F498-C30AA9C1998C}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..7] OF BOOL</Name>
 			<BitSize>64</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
@@ -844,15 +878,6 @@ External Setpoint Generation:
 			<ArrayInfo>
 				<LBound>0</LBound>
 				<Elements>2</Elements>
-			</ArrayInfo>
-		</DataType>
-		<DataType>
-			<Name GUID="{942AFC09-BBEF-5264-CD0D-5C073ECC3668}" IecBaseType="true" AutoDeleteType="true">ARRAY [1..1] OF DINT</Name>
-			<BitSize>32</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000009}">DINT</BaseType>
-			<ArrayInfo>
-				<LBound>1</LBound>
-				<Elements>1</Elements>
 			</ArrayInfo>
 		</DataType>
 		<DataType>
@@ -1043,31 +1068,6 @@ External Setpoint Generation:
 			</Relations>
 		</DataType>
 		<DataType>
-			<Name GUID="{D6B0A42D-897A-4B90-95E8-3C741C3CE3EE}" Namespace="Tc2_SerialCom" AutoDeleteType="true">EL6outData22B</Name>
-			<Comment><![CDATA[ This data type is corresponding to the
-   EL-6xxx data structure used in the
-   TwinCAT SystemManager
-   (EL-6xxx version using 22 data bytes) 
-]]></Comment>
-			<BitSize>192</BitSize>
-			<SubItem>
-				<Name>Ctrl</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>D</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>22</Elements>
-				</ArrayInfo>
-				<BitSize>176</BitSize>
-				<BitOffs>16</BitOffs>
-			</SubItem>
-		</DataType>
-		<DataType>
 			<Name GUID="{ACB00D92-8A3C-90A7-DB92-3AB4C0604945}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..3] OF BOOL</Name>
 			<BitSize>32</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
@@ -1174,9 +1174,39 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{1A289FD8-2FC0-4B29-B34F-E4BF25DBB957}" Name="LWLine" PrjFilePath="LWLine\LWLine.plcproj" TmcFilePath="LWLine\LWLine.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{E682811E-841D-9B62-CDE5-9B9B5974FBBA}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LWLine\LWLine.tmc" TmcHash="{2670135B-EA96-7B94-41E3-C5528E4C4FC2}">
 					<Name>LWLine Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Vars VarGrpType="1" ContextId="1" AreaNo="16">
+						<Name>FastTask Inputs</Name>
+						<Var>
+							<Name>GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60</Name>
+							<Comment><![CDATA[ linked to the EL6002 in the TwinCAT System Manager ]]></Comment>
+							<Type GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom">EL6inData22B</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60</Name>
+							<Comment><![CDATA[ linked to the EL6002 in the TwinCAT System Manager ]]></Comment>
+							<Type GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom">EL6inData22B</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbWeighingStation.fbWeighing.arrSamples</Name>
+							<Type GUID="{942AFC09-BBEF-5264-CD0D-5C073ECC3668}">ARRAY [1..1] OF DINT</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="2" ContextId="1" AreaNo="17">
+						<Name>FastTask Outputs</Name>
+						<Var>
+							<Name>GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60</Name>
+							<Comment><![CDATA[ linked to the EL6002 in the TwinCAT System Manager ]]></Comment>
+							<Type GUID="{D6B0A42D-897A-4B90-95E8-3C741C3CE3EE}" Namespace="Tc2_SerialCom">EL6outData22B</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60</Name>
+							<Comment><![CDATA[ linked to the EL6002 in the TwinCAT System Manager ]]></Comment>
+							<Type GUID="{D6B0A42D-897A-4B90-95E8-3C741C3CE3EE}" Namespace="Tc2_SerialCom">EL6outData22B</Type>
+						</Var>
+					</Vars>
 					<Vars VarGrpType="1" ContextId="2" AreaNo="32">
 						<Name>PlcTask Inputs</Name>
 						<Var>
@@ -4029,27 +4059,6 @@ External Setpoint Generation:
 							<Type>INT</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyReset_1</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyReset_2</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyEstopOK</Name>
-							<Comment><![CDATA[Safety Signals]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyGateOK</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyDrawerOK</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
 							<Name>MAIN.fbLoadingStation.stInOuts.bBottleDetectedSensor</Name>
 							<Type>BOOL</Type>
 						</Var>
@@ -4442,11 +4451,6 @@ S02]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60</Name>
-							<Comment><![CDATA[ linked to the EL6002 in the TwinCAT System Manager ]]></Comment>
-							<Type GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom">EL6inData22B</Type>
-						</Var>
-						<Var>
 							<Name>GVL_IO.st_2_SonicTech_WeldingMachine_IO.bWeld_OK</Name>
 							<Comment><![CDATA[ Wygnał o prawidłowym zgrzewie]]></Comment>
 							<Type>BOOL</Type>
@@ -4470,11 +4474,6 @@ S02]]></Comment>
 							<Name>GVL_IO.st_2_SonicTech_WeldingMachine_IO.bStartInput</Name>
 							<Comment><![CDATA[ Sygnał z wyjścia na dodatkowy siłownik - nowy zgrzew]]></Comment>
 							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60</Name>
-							<Comment><![CDATA[ linked to the EL6002 in the TwinCAT System Manager ]]></Comment>
-							<Type GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom">EL6inData22B</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.stUnderPreserInOuts.i_aEK1818InputBit</Name>
@@ -4648,8 +4647,25 @@ S02]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbWeighingStation.fbWeighing.arrSamples</Name>
-							<Type GUID="{942AFC09-BBEF-5264-CD0D-5C073ECC3668}">ARRAY [1..1] OF DINT</Type>
+							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyReset_1</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyReset_2</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyEstopOK</Name>
+							<Comment><![CDATA[Safety Signals]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyGateOK</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bI_SafetyDrawerOK</Name>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbWeighingStation.stInOuts.stWeighingActuator.bI_HomePosition</Name>
@@ -6220,34 +6236,6 @@ S02]]></Comment>
 							<Type>INT</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bQ_LampWhite</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bQ_LampRed</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bQ_LampBlue</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bQ_LampYellow</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bQ_LampGreen</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bQ_SafetyRun</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbTableControl.stInOuts.bQ_SafetyErrorAck</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
 							<Name>MAIN.fbUnloadingStation.stInOuts.stUnloadingActuator.bQ_Home</Name>
 							<Comment><![CDATA[ Sygnał do zaworu otwierania (w przypadku zaworu jednocewkowego podłączyć tylko to wyjście)]]></Comment>
 							<Type>BOOL</Type>
@@ -6370,11 +6358,6 @@ S02]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60</Name>
-							<Comment><![CDATA[ linked to the EL6002 in the TwinCAT System Manager ]]></Comment>
-							<Type GUID="{D6B0A42D-897A-4B90-95E8-3C741C3CE3EE}" Namespace="Tc2_SerialCom">EL6outData22B</Type>
-						</Var>
-						<Var>
 							<Name>GVL_IO.st_2_SonicTech_WeldingMachine_IO.bWorkPermit</Name>
 							<Comment><![CDATA[ Zezwolenie systemu na pracę zgrzewarki ultradźwiękoiwej]]></Comment>
 							<Type>BOOL</Type>
@@ -6383,11 +6366,6 @@ S02]]></Comment>
 							<Name>GVL_IO.st_2_SonicTech_WeldingMachine_IO.bResetError</Name>
 							<Comment><![CDATA[ Resetowanie błędu zgrzewarki ultradźwiękowej]]></Comment>
 							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60</Name>
-							<Comment><![CDATA[ linked to the EL6002 in the TwinCAT System Manager ]]></Comment>
-							<Type GUID="{D6B0A42D-897A-4B90-95E8-3C741C3CE3EE}" Namespace="Tc2_SerialCom">EL6outData22B</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.stUnderPreserInOuts.o_aEK1818OutputBit</Name>
@@ -6505,6 +6483,34 @@ S02]]></Comment>
 						<Var>
 							<Name>GVL_IO.stTunelInOuts.stCognex.bOut1</Name>
 							<Comment><![CDATA[ Sygnał w In-Sight In1 - Wyjście zwykle nie używane]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_LampWhite</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_LampRed</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_LampBlue</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_LampYellow</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_LampGreen</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_SafetyRun</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbTableControl.stInOuts.bQ_SafetyErrorAck</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -7591,6 +7597,7 @@ S02]]></Comment>
 		<MappingInfo Identifier="{00000000-2002-0850-0220-500841000403}" Id="#x02030030"/>
 		<MappingInfo Identifier="{00000000-0030-0304-2000-040330000403}" Id="#x02030010"/>
 		<MappingInfo Identifier="{00000000-0090-0304-2000-040392000403}" Id="#x02030050"/>
+		<MappingInfo Identifier="{08502001-0040-0304-0020-500840000403}" Id="#x02030040" Watchdog="00000000000000000000000000000000"/>
 		<MappingInfo Identifier="{05000010-2002-0850-2000-040302205008}" Id="#x02030080" Watchdog="14000000040000000400000004000000"/>
 		<MappingInfo Identifier="{03040040-0040-0304-4000-040340000403}" Id="#x02030020" Watchdog="04000000040000000400000004000000"/>
 		<OwnerA Name="TIPC^LWLine^LWLine Instance">
@@ -7604,52 +7611,52 @@ S02]]></Comment>
 				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldingMachine_IO.bWorkPermit" VarB="Channel 9^Output"/>
 			</OwnerB>
 			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S02_SonicTech (EK1818)^CM_1 (EL6021)">
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 0" Size="8" OffsA="16"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 1" Size="8" OffsA="24"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 10" Size="8" OffsA="96"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 11" Size="8" OffsA="104"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 12" Size="8" OffsA="112"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 13" Size="8" OffsA="120"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 14" Size="8" OffsA="128"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 15" Size="8" OffsA="136"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 16" Size="8" OffsA="144"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 17" Size="8" OffsA="152"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 18" Size="8" OffsA="160"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 19" Size="8" OffsA="168"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 2" Size="8" OffsA="32"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 20" Size="8" OffsA="176"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 21" Size="8" OffsA="184"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 3" Size="8" OffsA="40"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 4" Size="8" OffsA="48"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 5" Size="8" OffsA="56"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 6" Size="8" OffsA="64"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 7" Size="8" OffsA="72"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 8" Size="8" OffsA="80"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 9" Size="8" OffsA="88"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Status"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Ctrl"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 0" Size="8" OffsA="16"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 1" Size="8" OffsA="24"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 10" Size="8" OffsA="96"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 11" Size="8" OffsA="104"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 12" Size="8" OffsA="112"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 13" Size="8" OffsA="120"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 14" Size="8" OffsA="128"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 15" Size="8" OffsA="136"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 16" Size="8" OffsA="144"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 17" Size="8" OffsA="152"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 18" Size="8" OffsA="160"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 19" Size="8" OffsA="168"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 2" Size="8" OffsA="32"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 20" Size="8" OffsA="176"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 21" Size="8" OffsA="184"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 3" Size="8" OffsA="40"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 4" Size="8" OffsA="48"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 5" Size="8" OffsA="56"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 6" Size="8" OffsA="64"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 7" Size="8" OffsA="72"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 8" Size="8" OffsA="80"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 9" Size="8" OffsA="88"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 0" Size="8" OffsA="16"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 1" Size="8" OffsA="24"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 10" Size="8" OffsA="96"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 11" Size="8" OffsA="104"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 12" Size="8" OffsA="112"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 13" Size="8" OffsA="120"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 14" Size="8" OffsA="128"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 15" Size="8" OffsA="136"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 16" Size="8" OffsA="144"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 17" Size="8" OffsA="152"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 18" Size="8" OffsA="160"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 19" Size="8" OffsA="168"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 2" Size="8" OffsA="32"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 20" Size="8" OffsA="176"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 21" Size="8" OffsA="184"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 3" Size="8" OffsA="40"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 4" Size="8" OffsA="48"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 5" Size="8" OffsA="56"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 6" Size="8" OffsA="64"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 7" Size="8" OffsA="72"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 8" Size="8" OffsA="80"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Data In 9" Size="8" OffsA="88"/>
+				<Link VarA="FastTask Inputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stIn_EL60" VarB="COM TxPDO-Map Inputs^Status"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Ctrl"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 0" Size="8" OffsA="16"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 1" Size="8" OffsA="24"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 10" Size="8" OffsA="96"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 11" Size="8" OffsA="104"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 12" Size="8" OffsA="112"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 13" Size="8" OffsA="120"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 14" Size="8" OffsA="128"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 15" Size="8" OffsA="136"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 16" Size="8" OffsA="144"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 17" Size="8" OffsA="152"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 18" Size="8" OffsA="160"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 19" Size="8" OffsA="168"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 2" Size="8" OffsA="32"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 20" Size="8" OffsA="176"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 21" Size="8" OffsA="184"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 3" Size="8" OffsA="40"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 4" Size="8" OffsA="48"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 5" Size="8" OffsA="56"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 6" Size="8" OffsA="64"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 7" Size="8" OffsA="72"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 8" Size="8" OffsA="80"/>
+				<Link VarA="FastTask Outputs^GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom.stOut_EL60" VarB="COM RxPDO-Map Outputs^Data Out 9" Size="8" OffsA="88"/>
 			</OwnerB>
 			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^Filling_Line(CU1128-B)^S04_SonicTech (EK1818)">
 				<Link VarA="PlcTask Inputs^GVL_IO.bCompressedAirFlowImpulseFilling" VarB="Channel 6^Input"/>
@@ -8850,7 +8857,7 @@ S02]]></Comment>
 				<Link VarA="PlcTask Outputs^MAIN.fbTableAxis.stInOuts.bQ_SafetyRun" VarB="Module 1 (SAFETY)^SAFETY Standard Outputdata^Standard In Var 2"/>
 			</OwnerB>
 			<OwnerB Name="TIID^LAN1 (EtherCAT)^S07_RIO1 (EK1914)^S07_T1 (ELM3502-0000)">
-				<Link VarA="PlcTask Inputs^MAIN.fbWeighingStation.fbWeighing.arrSamples[1]" VarB="PAI Samples 1 Channel 1^Samples[0]"/>
+				<Link VarA="FastTask Inputs^MAIN.fbWeighingStation.fbWeighing.arrSamples[1]" VarB="PAI Samples 1 Channel 1^Samples[0]"/>
 			</OwnerB>
 			<OwnerB Name="TIID^LAN1 (EtherCAT)^S07_RIO1 (EK1914)^Term 405 (EL6910)">
 				<Link VarA="PlcTask Inputs^MAIN.fbTableAxis.stInOuts.bI_SS1_Release" VarB="StandardInputs^Standard Out Var 12"/>
