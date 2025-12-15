@@ -13,6 +13,7 @@ END_VAR
 VAR
 	bI_ConveyorOnFeedback AT %I*: BOOL;
 	iQ_ConveyorSpeedOut	AT %Q*: INT;
+	bQ_ConveyorON AT %Q*: BOOL;
 	fbFeedbackErrorTON: TON;
 	bOnCmd : BOOL;
 	bManualOnCmd:BOOL;
@@ -48,8 +49,10 @@ prIsOn R= NOT bMoveRelease;
 IF bOnCmd THEN
 	rSpeedSet := MAX(10,rSpeedSet);
 	iQ_ConveyorSpeedOut := REAL_TO_INT(fbAnalogScale.rOutFiltered);
+	bQ_ConveyorON := TRUE;
 ELSE
 	iQ_ConveyorSpeedOut := 3000;
+	bQ_ConveyorON := FALSE;
 END_IF
 
 bMoveRequest:=FALSE;]]></ST>
@@ -123,7 +126,10 @@ END_VAR
       <LineId Id="115" Count="0" />
       <LineId Id="31" Count="0" />
       <LineId Id="91" Count="0" />
-      <LineId Id="32" Count="2" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="141" Count="0" />
+      <LineId Id="33" Count="1" />
+      <LineId Id="142" Count="0" />
       <LineId Id="27" Count="0" />
       <LineId Id="50" Count="0" />
       <LineId Id="49" Count="0" />

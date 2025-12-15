@@ -52,13 +52,13 @@ bRotationInterlock:=fbDrawerLock.prClosedAndLocked AND fbPusherActuator.prInHome
 fbWeighingActuator(stDigInOut:=stInOuts.stWeighingActuator, bI_Control_Ready:=prSafetyOk, bManualMode:=bManualModeActive, 
 					bI_HomeInterlock:= fbPusherActuator.prInHomePosition, bI_WorkInterlock:=fbTableControl.prTableInPosition,
 					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0, rI_WorkPositionDelayMS:=500, bSimulationOn:=bSimulationON, bManualMode:= bManualModeActive,
- 					bI_RespectInterlockInMAN := FALSE);
+ 					bI_RespectInterlockInMAN := TRUE);
 					
 fbPusherActuator(stDigInOut:=stInOuts.stPusherActuator, bI_Control_Ready:=prSafetyOk, bManualMode:=bManualModeActive, 
 					bI_HomeInterlock:= TRUE, 
-					bI_WorkInterlock:=fbTableControl.prTableInPosition AND fbWeighingActuator.prInWorkPosition,
+					bI_WorkInterlock:=fbWeighingActuator.prInWorkPosition,
 					rI_HomeTime_S:=1.0,  rI_WorkTime_S:=1.0,bSimulationOn:=bSimulationON, bManualMode:= bManualModeActive,
-					bI_RespectInterlockInMAN := FALSE);
+					bI_RespectInterlockInMAN := TRUE);
 					
 fbBottleSensor(bSensorSignal:=stInOuts.bBottleDetectionSensor,bSimulationON:=bSimulationON OR bGhostRunOn,
 uiSensorOnDelay_MS:=500, uiErrorOnDelay_MS:=1000,uiSensorOffDelay_MS:=500, uiErrorOffDelay_MS:=1000);

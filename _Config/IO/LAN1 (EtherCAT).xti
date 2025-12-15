@@ -677,11 +677,12 @@
 					</Pdo>
 				</EtherCAT>
 			</Box>
-			<Box Id="14" BoxType="9099">
-				<Name>S07_DO01 (EL2008)</Name>
+			<Box Id="9" BoxType="9099">
+				<Name>S07_DO01 (EL2809)</Name>
 				<ImageId>1002</ImageId>
-				<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x07d83052" RevisionNo="#x00120000" RepeatSupport="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL2008 8Ch. Dig. Output 24V, 0.5A" Desc="EL2008" PortABoxInfo="#x01000008">
-					<SyncMan>000f01004400010003000000000000000000000f44090000</SyncMan>
+				<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x0af93052" RevisionNo="#x00120000" RepeatSupport="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL2809 16Ch. Dig. Output 24V, 0.5A" Desc="EL2809" PortABoxInfo="#x01000008">
+					<SyncMan>000f01004400010003000000000000000100000f44090000</SyncMan>
+					<SyncMan>010f01004400010003000000000000000100010f44090000</SyncMan>
 					<Fmmu>0000000000000000000f00020100000001000000000000000000000000000000</Fmmu>
 					<Pdo Name="Channel 1" Index="#x1600" InOut="1" Flags="#x0011" SyncMan="0">
 						<Entry Name="Output" Index="#x7000" Sub="#x01">
@@ -723,12 +724,52 @@
 							<Type>BIT</Type>
 						</Entry>
 					</Pdo>
+					<Pdo Name="Channel 9" Index="#x1608" InOut="1" Flags="#x0011" SyncMan="1">
+						<Entry Name="Output" Index="#x7080" Sub="#x01">
+							<Type>BIT</Type>
+						</Entry>
+					</Pdo>
+					<Pdo Name="Channel 10" Index="#x1609" InOut="1" Flags="#x0011" SyncMan="1">
+						<Entry Name="Output" Index="#x7090" Sub="#x01">
+							<Type>BIT</Type>
+						</Entry>
+					</Pdo>
+					<Pdo Name="Channel 11" Index="#x160a" InOut="1" Flags="#x0011" SyncMan="1">
+						<Entry Name="Output" Index="#x70a0" Sub="#x01">
+							<Type>BIT</Type>
+						</Entry>
+					</Pdo>
+					<Pdo Name="Channel 12" Index="#x160b" InOut="1" Flags="#x0011" SyncMan="1">
+						<Entry Name="Output" Index="#x70b0" Sub="#x01">
+							<Type>BIT</Type>
+						</Entry>
+					</Pdo>
+					<Pdo Name="Channel 13" Index="#x160c" InOut="1" Flags="#x0011" SyncMan="1">
+						<Entry Name="Output" Index="#x70c0" Sub="#x01">
+							<Type>BIT</Type>
+						</Entry>
+					</Pdo>
+					<Pdo Name="Channel 14" Index="#x160d" InOut="1" Flags="#x0011" SyncMan="1">
+						<Entry Name="Output" Index="#x70d0" Sub="#x01">
+							<Type>BIT</Type>
+						</Entry>
+					</Pdo>
+					<Pdo Name="Channel 15" Index="#x160e" InOut="1" Flags="#x0011" SyncMan="1">
+						<Entry Name="Output" Index="#x70e0" Sub="#x01">
+							<Type>BIT</Type>
+						</Entry>
+					</Pdo>
+					<Pdo Name="Channel 16" Index="#x160f" InOut="1" Flags="#x0011" SyncMan="1">
+						<Entry Name="Output" Index="#x70f0" Sub="#x01">
+							<Type>BIT</Type>
+						</Entry>
+					</Pdo>
 				</EtherCAT>
 			</Box>
 			<Box Id="15" BoxType="9099" BoxFlags="#x00000020">
 				<Name>S07_LED01 (EL2564)</Name>
 				<ImageId>1002</ImageId>
-				<EtherCAT SlaveType="2" PdiType="#x0005" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="39" FoeType="1" VendorId="#x00000002" ProductCode="#x0a043052" RevisionNo="#x00120000" InfoDataAddr="true" TimeoutMailbox2="2000" CheckRevisionNoType="3" PortPhys="51" SdoUploadWithMaxLength="true" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL2564 4Ch. LED output, 5...48 V DC, 4 A, RGBW" Desc="EL2564" PortABoxInfo="#x0100000e">
+				<EtherCAT SlaveType="2" PdiType="#x0005" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="39" FoeType="1" VendorId="#x00000002" ProductCode="#x0a043052" RevisionNo="#x00120000" InfoDataAddr="true" TimeoutMailbox2="2000" CheckRevisionNoType="3" PortPhys="51" SdoUploadWithMaxLength="true" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL2564 4Ch. LED output, 5...48 V DC, 4 A, RGBW" Desc="EL2564" PortABoxInfo="#x01000009">
 					<SyncMan>001080002600010001000000800080008000001026010000</SyncMan>
 					<SyncMan>801080002200010002000000800080008000801022010000</SyncMan>
 					<SyncMan>001110002400010003000000000000001000001124010000</SyncMan>

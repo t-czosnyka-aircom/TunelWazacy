@@ -107,7 +107,7 @@ bPositionValid:= fbPositionValidTON.Q;
 // Last Valid Position Value
 IF prIsHomed AND prIsNotMoving AND prPositionValid THEN
 	lrLastValidPositionValue := prCurrentPositionModulo;
-ELSE 
+ELSIF prIsMoving THEN 
 	lrLastValidPositionValue := -1;
 END_IF
 
@@ -899,7 +899,9 @@ END_VAR
       <LineId Id="1318" Count="0" />
       <LineId Id="1316" Count="0" />
       <LineId Id="965" Count="5" />
-      <LineId Id="1633" Count="4" />
+      <LineId Id="1633" Count="2" />
+      <LineId Id="1713" Count="0" />
+      <LineId Id="1637" Count="0" />
       <LineId Id="971" Count="0" />
       <LineId Id="1638" Count="0" />
       <LineId Id="972" Count="2" />
