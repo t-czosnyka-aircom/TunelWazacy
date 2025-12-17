@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="BH0KPL_LineBackground" Id="{03546fc4-c64b-439e-9c46-e9799456db61}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM BH0KPL_LineBackground
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[MAIN.stLine_BH0KPL.fbLine(stLine:=MAIN.stLine_BH0KPL);
+MAIN.stLine_BH0KPL.stStation_BH0KPL01.fbStation(
+				stLine:=MAIN.stLine_BH0KPL,
+				stStation:=MAIN.stLine_BH0KPL.stStation_BH0KPL01);]]></ST>
+    </Implementation>
+    <LineIds Name="BH0KPL_LineBackground">
+      <LineId Id="139" Count="2" />
+      <LineId Id="135" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

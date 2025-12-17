@@ -3,9 +3,12 @@
   <DUT Name="ST_WeighingStation_Settings" Id="{d0ad0e00-53b8-4ef3-adb4-b919773c252b}">
     <Declaration><![CDATA[TYPE ST_WeighingStation_Settings :
 STRUCT
+	bSingleBottleOnDrawer: BOOL;
 	iNOK_BottleCounter: UINT;
 	iMaxNOK_Bottles: UINT:=6;
+	iNOK_BottlesSensorDetect: UINT:=4;
 	stWeighingBottleParams:ST_WeighingBottleParams;
+	stWeighingNextBottleParams:ST_WeighingBottleParams;
 	bWeightCheck:BOOL:=TRUE;
 	bCameraCheck:BOOL:=TRUE;
 	stWeighing : ST_WeighingSettings;

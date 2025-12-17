@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
   <POU Name="FB_TableControl" Id="{0a8fadd5-a89c-41a7-9596-51b884bfe728}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_TableControl
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_TableControl EXTENDS fbMachine IMPLEMENTS I_Machine
 VAR_INPUT
 	arrStations : ARRAY[0..TOTAL_TABLE_PLACES] OF I_WorkingStation;
 END_VAR
@@ -19,7 +19,6 @@ VAR
 	arrPlaces : ARRAY[0..TOTAL_TABLE_PLACES] OF FB_TablePlace;
 	arrPlacePositions : ARRAY[0..TOTAL_TABLE_PLACES] OF POINTER TO FB_TablePlace;
 	i : USINT;
-	iWorkStep: INT;
 	//I_PimSystem			: I_PIM;
 	bRotationRequest: BOOL;
 	bRotationInterlock: BOOL;
@@ -60,20 +59,23 @@ END_VAR
 
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[//SIMULATION//
-IF bIBN THEN
-	IF stInOuts.bQ_SafetyErrorAck THEN
-		mErrorReset();
-	END_IF
+      <ST><![CDATA[SUPER^.ACT_PIM_BACKGROUND();
+//SIM
+IF stInOuts.bQ_SafetyErrorAck THEN
+	mErrorReset();
+
+	
 END_IF
-bWorkPermission :=bIBN;
+fbPIM.stStation.bPimActive := FALSE;
+fbPIM.stStation.bTestMode := TRUE;
+
+bWorkPermission := fbPIM.prWorkPermission;
 stInOuts.bQ_SafetyRun := TRUE;
 stInOuts.bQ_SafetyErrorAck:= stInOuts.bI_SafetyReset_1 OR stInOuts.bI_SafetyReset_2;
 
 fbTableAxis.bSafetyReset := stInOuts.bQ_SafetyErrorAck;
 fbTableAxis.bEmergencyStop := stInOuts.bI_SafetyEstopOK AND stInOuts.bI_SafetyGateOK;
 bSafetyOk := stInOuts.bI_SafetyEstopOK AND stInOuts.bI_SafetyGateOK;
-
 
 
 bAllEmpty:= TRUE;
@@ -143,7 +145,7 @@ END_IF;
 
 //Safety Error
 IF  NOT bSafetyOk AND NOT bError THEN
-	mNewEvent(nPIM_EventClasses.Alarm,nTable_ErrorList.NoSafetyRelease);
+	mNewEvent(nMachineEventType.Alarm,nTable_ErrorList.NoSafetyRelease,sMessageString:='',tMessageTime:=T#0S);
 END_IF
 
 //Empty Mode
@@ -180,23 +182,23 @@ CASE iWorkStep OF
 			iWorkStep := 50;
 		END_IF
 		IF bStationError  THEN
-			mNewEvent(nPIM_EventClasses.Alarm,DINT_TO_INT(udiStationErrorNumber));
+			mNewEvent(nMachineEventType.Alarm,DINT_TO_INT(udiStationErrorNumber),sMessageString:='',tMessageTime:=T#0S);
 		ELSIF fbTableAxis.prIsErrorActive THEN
-			mNewEvent(nPIM_EventClasses.Alarm,nTable_ErrorList.ServoError);
+			mNewEvent(nMachineEventType.Alarm,nTable_ErrorList.ServoError,sMessageString:='',tMessageTime:=T#0S);
 		END_IF		
 		
 	30: //Table rotation
 		
 		IF fbTableAxis.prIsReady AND fbTableAxis.prIsHomed AND_THEN fbTableAxis.mMoveModuloToPosition(iNextPos,bFast:=TRUE,bError=>bServoError,bNotReady=>bServoNotReady) THEN
 			IF bServoError THEN
-				mNewEvent(nPIM_EventClasses.Alarm,nTable_ErrorList.ServoError);
+				mNewEvent(nMachineEventType.Alarm,nTable_ErrorList.ServoError,sMessageString:='',tMessageTime:=T#0S);
 			ELSIF bServoNotReady THEN
-				mNewEvent(nPIM_EventClasses.Alarm,nTable_ErrorList.ServoNotReady);
+				mNewEvent(nMachineEventType.Alarm,nTable_ErrorList.ServoNotReady,sMessageString:='',tMessageTime:=T#0S);
 			ELSE
 				iWorkStep:=40;
 			END_IF
 		ELSIF fbTableAxis.prIsErrorActive THEN
-			mNewEvent(nPIM_EventClasses.Alarm,nTable_ErrorList.ServoError);
+			mNewEvent(nMachineEventType.Alarm,nTable_ErrorList.ServoError,sMessageString:='',tMessageTime:=T#0S);
 		END_IF
 
 	40: // Wait for station Assigned
@@ -206,31 +208,39 @@ CASE iWorkStep OF
 			iCounter := iCounter+1;
 			iWorkStep := 0;
 		ELSIF fbStepTON.Q THEN
-			mNewEvent(nPIM_EventClasses.Alarm,nTable_ErrorList.TablePositionError);
+			mNewEvent(nMachineEventType.Alarm,nTable_ErrorList.TablePositionError,sMessageString:='',tMessageTime:=T#0S);
 		END_IF
 		
 	50: // Request Automatic Homing
 		IF fbTableAxis.prIsReady AND_THEN fbTableAxis.mFullHoming()  THEN
 			IF bServoError THEN
-				mNewEvent(nPIM_EventClasses.Alarm,nTable_ErrorList.ServoError);
+				mNewEvent(nMachineEventType.Alarm,nTable_ErrorList.ServoError,sMessageString:='',tMessageTime:=T#0S);
 			ELSIF bServoNotReady THEN
-				mNewEvent(nPIM_EventClasses.Alarm,nTable_ErrorList.ServoNotReady);
+				mNewEvent(nMachineEventType.Alarm,nTable_ErrorList.ServoNotReady,sMessageString:='',tMessageTime:=T#0S);
 			ELSE
 				iWorkStep:=0;
 			END_IF
 		ELSIF fbTableAxis.prIsErrorActive THEN
-			mNewEvent(nPIM_EventClasses.Alarm,nTable_ErrorList.ServoError);
+			mNewEvent(nMachineEventType.Alarm,nTable_ErrorList.ServoError,sMessageString:='',tMessageTime:=T#0S);
 		END_IF
+	
+		
 	
 	90: //Error
 		bError := TRUE;
+		fbPIM.mSetNewMachineState(nMachineStates._8_WaitForReset);
 		iWorkStep:=91;
 	
 	91: //Wait for error reset
-	
+		IF fbPIM.mSetNewMachineState(nMachineStates._9_ResetInProgress) THEN
+			iWorkStep:=95;
+		END_IF
 	
 	95: //Error reset
 		bError := FALSE;
+		IF NOT fbPIM.stStation.bPimActive THEN
+			fbPIM.mSetNewMachineState(nMachineStates._10_ServiceReset);
+		END_IF
 		FOR i:=1 TO TOTAL_TABLE_PLACES DO
 			IF arrStations[i] <> 0 AND_THEN arrStations[i].prError THEN
 				arrStations[i].mErrorReset();
@@ -341,20 +351,52 @@ END_IF]]></ST>
     <Method Name="mNewEvent" Id="{ad4822d0-58ff-4947-963c-dba1cc7931e0}">
       <Declaration><![CDATA[METHOD INTERNAL mNewEvent : BOOL
 VAR_INPUT
-	nEventClass:nPIM_EventClasses;
+	nEventClass:nMachineEventType;
 	nEvent: nTable_ErrorList;
+	sMessageString	: STRING(255);
+	tMessageTime	: TIME;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[nError := nLastError:= nEvent;
-IF nEventClass = nPIM_EventClasses.AlarmAutoConfirm OR nEventClass = nPIM_EventClasses.Message THEN		// Alarm nieblokadowy
-	//I_PimSystem.mSetNewMachineState(nPIM_MachineStates._0_Initialization);
+        <ST><![CDATA[IF nEventClass = nMachineEventType.AlarmAutoConfirm THEN		// Alarm nieblokadowy
+	fbPIM.mSetNewMachineState(nMachineStates._0_Initialization);
 	iWorkStep := 95;
+ELSIF nEventClass = nMachineEventType.Message THEN
+	fbPIM.mSetNewEvent(iErrorCode := 0, nEventType := nMachineEventType.Message ,sMessage:=sMessageString,tMessageTime:=tMessageTime);
 ELSE
-	//I_PimSystem.mSetNewMachineState(nPIM_MachineStates._7_ErrorOccurr);
-	//I_PimSystem.mNewEvent(iEventId := UDINT_TO_INT(nEvent), nEventType := nEventClass, tMessageTime := T#0S);
+	fbPIM.mSetNewMachineState(nMachineStates._7_ErrorOccurr);
+	fbPIM.mSetNewEvent(iErrorCode := UDINT_TO_INT(nEvent), nEventType := nEventClass,sMessage:=sMessageString,tMessageTime:=tMessageTime);
+	nError := 	nEvent;
 	iWorkStep := 90;
-END_IF]]></ST>
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mNewPart" Id="{f6d917a0-7ecc-494b-8d9b-5a0f1b0ae27f}">
+      <Declaration><![CDATA[METHOD mNewPart : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mPartNOK" Id="{90377635-1d58-405b-bed6-fdd1dc77af60}">
+      <Declaration><![CDATA[METHOD mPartNOK : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mPartOK" Id="{28ba97b0-0863-4915-9262-500e7b59941f}">
+      <Declaration><![CDATA[METHOD mPartOK : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
     <Property Name="prNextType" Id="{9b6a4cf6-adf7-4845-b89f-61b3d0260aed}">
@@ -424,7 +466,15 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="FB_TableControl">
-      <LineId Id="1694" Count="16" />
+      <LineId Id="1699" Count="0" />
+      <LineId Id="2336" Count="0" />
+      <LineId Id="2338" Count="1" />
+      <LineId Id="2400" Count="1" />
+      <LineId Id="2337" Count="0" />
+      <LineId Id="2402" Count="1" />
+      <LineId Id="2273" Count="0" />
+      <LineId Id="1700" Count="6" />
+      <LineId Id="1708" Count="2" />
       <LineId Id="2146" Count="0" />
       <LineId Id="1711" Count="15" />
       <LineId Id="2147" Count="0" />
@@ -439,7 +489,18 @@ END_VAR
       <LineId Id="2088" Count="0" />
       <LineId Id="1779" Count="27" />
       <LineId Id="1942" Count="1" />
-      <LineId Id="1807" Count="80" />
+      <LineId Id="1807" Count="37" />
+      <LineId Id="2266" Count="0" />
+      <LineId Id="2272" Count="0" />
+      <LineId Id="1845" Count="2" />
+      <LineId Id="2277" Count="0" />
+      <LineId Id="1848" Count="3" />
+      <LineId Id="2278" Count="1" />
+      <LineId Id="1852" Count="2" />
+      <LineId Id="2342" Count="0" />
+      <LineId Id="2341" Count="0" />
+      <LineId Id="2343" Count="0" />
+      <LineId Id="1855" Count="32" />
       <LineId Id="926" Count="0" />
       <LineId Id="2020" Count="1" />
       <LineId Id="2009" Count="1" />
@@ -477,8 +538,19 @@ END_VAR
       <LineId Id="8" Count="0" />
     </LineIds>
     <LineIds Name="FB_TableControl.mNewEvent">
-      <LineId Id="3" Count="7" />
+      <LineId Id="16" Count="8" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="25" Count="0" />
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TableControl.mNewPart">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TableControl.mPartNOK">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TableControl.mPartOK">
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TableControl.prNextType.Get">
       <LineId Id="2" Count="0" />

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.68" ClassName="CFlbTermDef" SubType="9099">
+<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.62" ClassName="CFlbTermDef" SubType="9099">
 	<DataTypes>
 		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-002000000007}" IecBaseType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..6] OF BIT</Name>
+			<Name GUID="{18071995-0000-0000-0000-002000000007}" IecBaseType="true" BitType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..6] OF BIT</Name>
 			<BitSize>7</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000010}">BIT</BaseType>
 			<ArrayInfo>
@@ -46,7 +46,7 @@ Bit1: Value bigger/equal Limit1]]></Comment>
 					<Comment><![CDATA[Bit0: Value smaller/equal Limit2
 Bit1: Value bigger/equal Limit2]]></Comment>
 				</Entry>
-				<Entry Name="Status__Error" Index="#x6000" Sub="#x07">
+				<Entry Name="Status__Error" Index="#x6000" Sub="#x07" Flags="#x00008020">
 					<Type>BIT</Type>
 					<Comment><![CDATA[Bit set when Over- or Underrange]]></Comment>
 				</Entry>
@@ -84,7 +84,7 @@ Bit1: Value bigger/equal Limit1]]></Comment>
 					<Comment><![CDATA[Bit0: Value smaller/equal Limit2
 Bit1: Value bigger/equal Limit2]]></Comment>
 				</Entry>
-				<Entry Name="Status__Error" Index="#x6010" Sub="#x07">
+				<Entry Name="Status__Error" Index="#x6010" Sub="#x07" Flags="#x00008020">
 					<Type>BIT</Type>
 					<Comment><![CDATA[Bit set when Over- or Underrange]]></Comment>
 				</Entry>

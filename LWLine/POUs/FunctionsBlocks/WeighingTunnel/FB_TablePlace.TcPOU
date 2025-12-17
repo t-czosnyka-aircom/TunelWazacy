@@ -41,9 +41,13 @@ ELSE
 	bRotationRequest := itfWorkingStation.prTableRotationRequest;
 	bStationError := itfWorkingStation.prError;
 	udiErrorNumber :=  itfWorkingStation.prErrorNumber;
-	bReleaseChange := itfWorkingStation.prInManualMode;
+	bReleaseChange := NOT itfWorkingStation.prWorkInProgress;
 END_IF
-bMemOk S= bTableInPosition;]]></ST>
+bMemOk S= bTableInPosition;
+
+IF NOT prStateIsNok AND NOT prStateIsDrawer THEN
+	stPlace.byDetectionStatus := 0;
+END_IF]]></ST>
     </Implementation>
     <Method Name="mBottleAfterWeighing" Id="{9720bd92-134b-4b68-80c2-6a2cc402d47b}">
       <Declaration><![CDATA[METHOD mBottleAfterWeighing : BOOL
@@ -71,13 +75,26 @@ END_IF;
 mBottleBeforeWeighing := prStateIsBeforeWeighing;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="mBottleDrawer" Id="{f7231045-de72-4f36-a4fc-f1a29dee7baa}">
+      <Declaration><![CDATA[METHOD mBottleDrawer : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF stPlace.nState=nTableBottlePlaceState.NOK THEN
+	stPlace.nState:=nTableBottlePlaceState.Drawer;
+END_IF;
+mBottleDrawer := prStateIsDrawer;
+]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="mBottleEmpty" Id="{ca40ada9-4135-4273-bf5c-545dda9a8893}">
       <Declaration><![CDATA[METHOD mBottleEmpty : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF stPlace.nState=nTableBottlePlaceState.NOK OR  stPlace.nState=nTableBottlePlaceState.AfterWeighing THEN
+        <ST><![CDATA[IF stPlace.nState=nTableBottlePlaceState.Drawer OR  stPlace.nState=nTableBottlePlaceState.AfterWeighing THEN
 	stPlace.nState:=nTableBottlePlaceState.Empty;
 END_IF;
 mBottleEmpty := prStateIsEmpty;
@@ -116,6 +133,16 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[itfWorkingStation := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mDetectionStatus" Id="{4ea23455-2941-46cb-a99a-b0cd25f99f28}">
+      <Declaration><![CDATA[METHOD mDetectionStatus : BOOL
+VAR_INPUT
+	BitNum: SINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stPlace.byDetectionStatus:=DWORD_TO_BYTE(SETBIT32(stPlace.byDetectionStatus,BitNum));]]></ST>
       </Implementation>
     </Method>
     <Method Name="mErrorReset" Id="{f81092d1-2e8f-4f01-8d86-b3405151cafb}">
@@ -210,6 +237,17 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[prStateIsBeforeWeighing := stPlace.nState = nTableBottlePlaceState.BeforeWeighing;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="prStateIsDrawer" Id="{3e6346b5-9e6b-4151-8761-38edf1f53eef}">
+      <Declaration><![CDATA[PROPERTY prStateIsDrawer : BOOL]]></Declaration>
+      <Get Name="Get" Id="{f080b430-b234-49c5-b0d3-77d1bcf308ff}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prStateIsDrawer := stPlace.nState = nTableBottlePlaceState.Drawer;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -326,6 +364,9 @@ END_VAR
       <LineId Id="97" Count="0" />
       <LineId Id="27" Count="0" />
       <LineId Id="138" Count="0" />
+      <LineId Id="159" Count="0" />
+      <LineId Id="158" Count="0" />
+      <LineId Id="160" Count="1" />
     </LineIds>
     <LineIds Name="FB_TablePlace.mBottleAfterWeighing">
       <LineId Id="15" Count="2" />
@@ -337,6 +378,11 @@ END_VAR
       <LineId Id="7" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="18" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.mBottleDrawer">
+      <LineId Id="10" Count="2" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.mBottleEmpty">
       <LineId Id="10" Count="1" />
@@ -355,6 +401,9 @@ END_VAR
       <LineId Id="11" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.mClearWorkingStation">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.mDetectionStatus">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.mErrorReset">
@@ -382,6 +431,9 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.prStateIsBeforeWeighing.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.prStateIsDrawer.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.prStateIsEmpty.Get">

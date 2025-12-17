@@ -57,7 +57,7 @@ CASE iWorkStep OF
 		IF __ISVALIDREF(fbTablePlace) THEN
 			IF fbLoadingSensor.prSensorOnOK AND fbTableControl.prWorkPermission AND_THEN fbTablePlace.mBottleBeforeWeighing(fbTableControl.prNextType) THEN
 				iWorkStep:= 20;
-			ELSIF fbLoadingSensor.prSensorOffOK AND fbTablePlace.prStateIsEmpty AND bEmptyMode THEN
+			ELSIF fbLoadingSensor.prSensorOffOK AND fbTableControl.prWorkPermission AND fbTablePlace.prStateIsEmpty AND bEmptyMode THEN
 				iWorkStep:= 20;
 			END_IF
 		END_IF

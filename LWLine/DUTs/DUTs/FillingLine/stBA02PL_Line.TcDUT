@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <DUT Name="stBA02PL_Line" Id="{0323d6fb-d590-441c-b81d-63b777c0d90c}">
+    <Declaration><![CDATA[TYPE stBA02PL_Line EXTENDS stPIM_LineEventsModule :
+STRUCT
+	{attribute 'OPC.UA.DA' := '1'}
+	stStation_BA02PL01 : stPIM_StationEventsModule_2_Machine;
+	{attribute 'OPC.UA.DA' := '1'}
+	stStation_BA02PL02 : stPIM_StationEventsModule_1_Machine;
+	{attribute 'OPC.UA.DA' := '1'}
+	stStation_BA02PL03 : stPIM_StationEventsModule_1_Machine;
+	{attribute 'OPC.UA.DA' := '1'}
+	stStation_BA02PL04 : stPIM_StationEventsModule_1_Machine;
+	{attribute 'OPC.UA.DA' := '1'}
+	stStation_BA02PL05 : stPIM_StationEventsModule_1_Machine;
+	{attribute 'OPC.UA.DA' := '1'}
+	stStation_BA02PL06 : stPIM_StationEventsModule_2_Machine;
+	{attribute 'OPC.UA.DA' := '1'}
+	stStation_BA02PL07 : stPIM_StationEventsModule_1_Machine;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

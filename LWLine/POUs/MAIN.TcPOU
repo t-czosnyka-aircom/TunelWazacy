@@ -3,104 +3,74 @@
   <POU Name="MAIN" Id="{086fc6ba-1790-4ec6-a004-db460bd84f28}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR	
-	bEstopRel AT %I*:BOOL;
-	bSafetyStart AT%Q*: BOOL;
-	bSafetyReset AT%Q*: BOOL;
+	{attribute 'OPC.UA.DA' := '0'}
 	fbSonicTechCom_1Part: fbSonictechSerialCom;
 	 
 	//  stStation_L{nazwa linii}_S{nazwa stanowiska}[_M{numer maszyny}]
 	//  Stanowisko S01
-	stStation_LBS02PL_SBS02PL01: stPIM_ServiceInOuts;
-	fbS01_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbS01_BearingPress);
-	fbS01_BearingPress: fbSonicPress(I_Pim := fbS01_Station);
-	fbS01_KeyencePNVisSens: fbSealingCorkAssKeyencePN;
-	fbS01_PulseCounter: fbPulseCounterPIM;
-	
-	
+	{attribute 'OPC.UA.DA' := '0'}
+	fbS01_BearingPress: fbSonicPress_V3_1;
+	{attribute 'OPC.UA.DA' := '0'}
+	fbS01_KeyencePNVisSens: fbSealingCorkAssKeyencePN_V3_1;
 	// 	Stanowisko S02 
-	stStation_LBB02PL_SBB02PL01: stPIM_ServiceInOuts;
-	fbS02_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbS02_BearingPress);
-	fbS02_BearingPress: fbSonicPress(I_Pim := fbS02_Station);
-	fbS02_PulseCounter: fbPulseCounterPIM;
-		
+	{attribute 'OPC.UA.DA' := '0'}
+	fbS02_BearingPress: fbSonicPress_V3_1;
 	// 	Stanowisko S03 
-	stStation_LBO02PL_SBO02PL01: stPIM_ServiceInOuts;
-	fbS03_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbS03_BearingPress);
-	fbS03_BearingPress: fbSonicPress(I_Pim := fbS03_Station);
-	fbS03_PulseCounter: fbPulseCounterPIM;
-	
+	{attribute 'OPC.UA.DA' := '0'}
+	fbS03_BearingPress: fbSonicPress_V3_1;
 	// 	Stanowisko S04
-	stStation_LBO02PL_SBO02PL02: stPIM_ServiceInOuts;
-	fbS04_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbS04_BearingPress);
-	fbS04_BearingPress: fbSonicPress(I_Pim := fbS04_Station);
-	fbS04_PulseCounter: fbPulseCounterPIM;
-	
+	{attribute 'OPC.UA.DA' := '0'}
+	fbS04_BearingPress: fbSonicPress_V3_1;
 	// HotPlate G1
-	stStation_LBH0GPL_SBH0GPL01_M1 : stPIM_ServiceInOuts;	
-	fbSB0GPL01_M1_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G1_M1);
-	fbHotPlate_G1_M1: fbHPv3_Control(I_Pim:= fbSB0GPL01_M1_Station);
-		
-	stStation_LBH0GPL_SBH0GPL01_M2 : stPIM_ServiceInOuts;	
-	fbSB0GPL01_M2_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G1_M2);
-	fbHotPlate_G1_M2: fbHPv3_Control(I_Pim:= fbSB0GPL01_M2_Station);
-	
-	stStation_LBH0GPL_SBH0GPL01_M3 : stPIM_ServiceInOuts;	
-	fbSB0GPL01_M3_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G1_M3);
-	fbHotPlate_G1_M3: fbHPv3_Control(I_Pim:= fbSB0GPL01_M3_Station);
-	
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G1_M1: fbHP_Control_V3_1;
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G1_M2: fbHP_Control_V3_1;
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G1_M3: fbHP_Control_V3_1;
 	// HotPlate G2
-	stStation_LBH0HPL_SBH0HPL01_M1 : stPIM_ServiceInOuts;	
-	fbSB0HPL01_M1_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G2_M1);
-	fbHotPlate_G2_M1: fbHPv3_Control(I_Pim:= fbSB0HPL01_M1_Station);
-		
-	stStation_LBH0HPL_SBH0HPL01_M2 : stPIM_ServiceInOuts;	
-	fbSB0HPL01_M2_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G2_M2);
-	fbHotPlate_G2_M2: fbHPv3_Control(I_Pim:= fbSB0HPL01_M2_Station);
-	
-	stStation_LBH0HPL_SBH0HPL01_M3 : stPIM_ServiceInOuts;	
-	fbSB0HPL01_M3_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G2_M3);
-	fbHotPlate_G2_M3: fbHPv3_Control(I_Pim:= fbSB0HPL01_M3_Station);
-	
-	
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G2_M1: fbHP_Control_V3_1;
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G2_M2: fbHP_Control_V3_1;
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G2_M3: fbHP_Control_V3_1;
 	// HotPlate G3
-	stStation_LBH0IPL_SBH0IPL01_M1 : stPIM_ServiceInOuts;	
-	fbSB0IPL01_M1_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G3_M1);
-	fbHotPlate_G3_M1: fbHPv3_Control(I_Pim:= fbSB0IPL01_M1_Station);
-		
-	stStation_LBH0IPL_SBH0IPL01_M2 : stPIM_ServiceInOuts;	
-	fbSB0IPL01_M2_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G3_M2);
-	fbHotPlate_G3_M2: fbHPv3_Control(I_Pim:= fbSB0IPL01_M2_Station);
-	
-	stStation_LBH0IPL_SBH0IPL01_M3 : stPIM_ServiceInOuts;	
-	fbSB0IPL01_M3_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G3_M3);
-	fbHotPlate_G3_M3: fbHPv3_Control(I_Pim:= fbSB0IPL01_M3_Station);
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G3_M1: fbHP_Control_V3_1;
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G3_M2: fbHP_Control_V3_1;
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G3_M3: fbHP_Control_V3_1;
 	// HotPlate G4
-	stStation_LBH0JPL_SBH0JPL01_M1 : stPIM_ServiceInOuts;	
-	fbSB0JPL01_M1_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G4_M1);
-	fbHotPlate_G4_M1: fbHPv3_Control(I_Pim:= fbSB0JPL01_M1_Station);
-		
-	stStation_LBH0JPL_SBH0JPL01_M2 : stPIM_ServiceInOuts;	
-	fbSB0JPL01_M2_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G4_M2);
-	fbHotPlate_G4_M2: fbHPv3_Control(I_Pim:= fbSB0JPL01_M2_Station);
-	
-	stStation_LBH0JPL_SBH0JPL01_M3 : stPIM_ServiceInOuts;	
-	fbSB0JPL01_M3_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbHotPlate_G3_M3);
-	fbHotPlate_G4_M3: fbHPv3_Control(I_Pim:= fbSB0JPL01_M3_Station);
-	
-	// 	Stanowisko PlugA
-	//stStation_LBA02PL_SBA02PL03: stPIM_ServiceInOuts;
-	//fbSA03_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbSA03_Plug_A_Welder);
-	//fbSA03_Plug_A_Welder: fbSonictechUSWM(I_Pim := fbSA03_Station);
-	//fbSA03_PulseCounter: fbPulseCounterPIM;
-	
-	// 	Stanowisko PlugB
-	//stStation_LBA02PL_SBA02PL05: stPIM_ServiceInOuts;
-	//fbSA05_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fbSA05_Plug_A_Welder);
-	//fbSA05_Plug_A_Welder: fbSonictechUSWM(I_Pim := fbSA05_Station);
-	//fbSA05_PulseCounter: fbPulseCounterPIM;
-	
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G4_M1: fbHP_Control_V3_1;
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G4_M2: fbHP_Control_V3_1;
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G4_M3: fbHP_Control_V3_1;
+	// HotPlate G5
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G5_M1: fbHP_Control_V3_1;
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G5_M2: fbHP_Control_V3_1;
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G5_M3: fbHP_Control_V3_1;
+	// HotPlate G6
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G6_M1: fbHP_Control_V3_1;
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G6_M2: fbHP_Control_V3_1;
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G6_M3: fbHP_Control_V3_1;
+	// HotPlate G7
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G7_M1: fbHP_Control_V3_1;
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G7_M2: fbHP_Control_V3_1;
+	{attribute 'OPC.UA.DA' := '0'}
+	fbHotPlate_G7_M3: fbHP_Control_V3_1;
 	// Dla całej linii
-	fbS_AirPulseCounter:AircomLibrary.fbPulseCounter;
 	fbS_TONAirFlowAlarm:TON;
 	fbS_AirFlowAlarmTrigger:R_TRIG;
 
@@ -112,66 +82,80 @@ VAR
 	
 	bResetWcfAtStartup: BOOL;
 	bTrigger: BOOL;
-	fbModbusTcpCore	: fbModTCP_Core;
+	//fbModbusTcpCore	: fbModTCP_Core;
 	//Bottle filling line
 		//ACT_1_Filler_A
-			stStation_LBA02PL_SBA02PL01_M1: stPIM_ServiceInOuts;
-			fb_Filler_A_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Filler_A_Machine);
 			//fb_Filler_A_Machine : fbChiniseMachine(I_Pim := fb_Filler_A_Station);
-			fb_Filler_A_Machine : fbChiniseMachine_v2(I_Pim := fb_Filler_A_Station,I_ModbusCore := fbModbusTcpCore); 
+			{attribute 'OPC.UA.DA' := '0'}
+			fb_Filler_A_Machine : fbChiniseMachine_v3_1; 
 		//ACT_2_Cork
-			stStation_LBA02PL_SBA02PL01_M2: stPIM_ServiceInOuts;
-			fb_Cork_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Cork_Machine);
-			fb_Cork_Machine : fbChiniseMachine_v2(I_Pim := fb_Cork_Station,I_ModbusCore := fbModbusTcpCore);
+			{attribute 'OPC.UA.DA' := '0'}
+			fb_Cork_Machine : fbChiniseMachine_v3_1;
 		//ACT_3_SonicTech
-			stStation_LBA02PL_SBA02PL02: stPIM_ServiceInOuts;
-			fb_1_SonicTech_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_1_SonicTech_SonictechUSW);
-			fb_1_SonicTech_SonictechUSW		: fbSonictechUSWM(I_Pim := fb_1_SonicTech_Station);
+			{attribute 'OPC.UA.DA' := '0'}
+			fb_1_SonicTech_SonictechUSW		: fbSonictechUSWM_V3_1;
+			{attribute 'OPC.UA.DA' := '0'}
 			fb_1_SonicTech_SonicTechCom		: fbSonictechSerialCom;
-			fb_1_SonicTech_PulseCounter		: fbPulseCounterPIM;
 		//ACT_4_Filler_B
-			stStation_LBA02PL_SBA02PL03: stPIM_ServiceInOuts;
-			fb_Filler_B_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Filler_B_Machine);
-			fb_Filler_B_Machine : fbChiniseMachine_v2(I_Pim := fb_Filler_B_Station,I_ModbusCore := fbModbusTcpCore);
+			{attribute 'OPC.UA.DA' := '0'}
+			fb_Filler_B_Machine : fbChiniseMachine_v3_1;
 		//ACT_5_SonicTech
-			stStation_LBA02PL_SBA02PL04: stPIM_ServiceInOuts;
-			fb_2_SonicTech_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_2_SonicTech_SonictechUSW);
-			fb_2_SonicTech_SonictechUSW: fbSonictechUSWM(I_Pim := fb_2_SonicTech_Station);
+			{attribute 'OPC.UA.DA' := '0'}
+			fb_2_SonicTech_SonictechUSW: fbSonictechUSWM_V3_1;
+			{attribute 'OPC.UA.DA' := '0'}
 			fb_2_SonicTech_SonicTechCom: fbSonictechSerialCom;
-			fb_2_SonicTech_PulseCounter: fbPulseCounterPIM;
 		//ACT_6_UnderPressure_Tester
-				stStation_LBA02PL_SBA02PL05: stPIM_ServiceInOuts;
-				fb_UnderPressure_Tester_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_UnderPressure_Tester_Machine);
-				//fb_UnderPressure_Tester_Machine : fbUnderpressureTester(I_Pim := fb_UnderPressure_Tester_Station);
-				fbTransporterUnderpressure	: fbTransporter;
-				fb_UnderPressure_Tester_Machine : fbUnderPresureTester_V2(I_Pim := fb_UnderPressure_Tester_Station);
+			{attribute 'OPC.UA.DA' := '0'}
+			fbTransporterUnderpressure	: fbTransporter_V3_1;
+			{attribute 'OPC.UA.DA' := '0'}
+			fb_UnderPressure_Tester_Machine : fbUnderPresureTester_V3_1;
 		//ACT_7_Sticker
-			stStation_LBA02PL_SBA02PL06_M1: stPIM_ServiceInOuts;
-			fb_Sticker_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Sticker_Machine);
-			fb_Sticker_Machine : fbChiniseMachine_v2(I_Pim := fb_Sticker_Station,I_ModbusCore := fbModbusTcpCore);
+			{attribute 'OPC.UA.DA' := '0'}
+			fb_Sticker_Machine : fbChiniseMachine_v3_1;
 		//ACT_8_Laser
-			stStation_LBA02PL_SBA02PL06_M2: stPIM_ServiceInOuts;
-			fb_Laser_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Laser_Machine);
-			fb_Laser_Machine : fbChiniseMachine_v2_Laser(I_Pim := fb_Laser_Station,I_ModbusCore := fbModbusTcpCore);
+			{attribute 'OPC.UA.DA' := '0'}
+			fb_Laser_Machine : fbChiniseMachine_Laser_V3_2;
+			{attribute 'OPC.UA.DA' := '0'}
 			fb_Laser_TCP: FB_TCP_SendString;
+			{attribute 'OPC.UA.DA' := '0'}
 			fb_Laser_TCP_Manual: FB_TCP_SendStringManualTest;
 		//ACT_9_Tunel
-				stStation_LBA02PL_SBA02PL07: stPIM_ServiceInOuts;
-				fb_Tunel_Station: fbPIM_Station_V3(I_Sql := GVL.fbSqlCore, I_Mach := fb_Tunel_Machine);
-				fb_Tunel_Machine : fbDetectionTunel(I_Pim := fb_Tunel_Station);
-		
-		
-		// Shit do lcizenia dla projektów :)
-		fbFillingLineAir_PulseCounter	: fbPulseCounterPIM;
-		fbHotPlateAir_PulseCounter		: fbPulseCounterPIM;
-		fbPreAssembyAir_PulseCounter	: fbPulseCounterPIM;
-		
-		//Weighing Tunnel
-		fbTableControl: FB_TableControl;
-		fbLoadingStation: FB_LoadingStation;
-		fbWeighingStation: FB_WeighingStation;
-		fbUnloadingStation:  FB_UnloadingStation;
-		fbTableAxis:	FB_ServoAxis;
+			{attribute 'OPC.UA.DA' := '0'}
+			fb_Tunel_Machine : fbDetectionTunel_V3_1;
+			{attribute 'OPC.UA.DA' := '0'}
+			fbTableControl: FB_TableControl;
+			fbLoadingStation: FB_LoadingStation;
+			fbWeighingStation: FB_WeighingStation;
+			fbUnloadingStation:  FB_UnloadingStation;
+			fbTableAxis:	FB_ServoAxis;
+	I_PimSystem: INT;
+END_VAR
+VAR
+	//Filling Line
+	{attribute 'OPC.UA.DA' := '1'}
+	stLine_BA02PL				: stBA02PL_Line;
+	//PreAssembly
+	{attribute 'OPC.UA.DA' := '1'}
+	stLine_BO02PL				: stBO02PL_Line;
+	{attribute 'OPC.UA.DA' := '1'}
+	stLine_BS02PL				: stBS02PL_Line;
+	{attribute 'OPC.UA.DA' := '1'}
+	stLine_BB02PL				: stBB02PL_Line;
+	//HP
+	{attribute 'OPC.UA.DA' := '1'}
+	stLine_BH0GPL				: stBH0GPL_Line;
+	{attribute 'OPC.UA.DA' := '1'}
+	stLine_BH0HPL				: stBH0HPL_Line;
+	{attribute 'OPC.UA.DA' := '1'}
+	stLine_BH0IPL				: stBH0IPL_Line;
+	{attribute 'OPC.UA.DA' := '1'}
+	stLine_BH0JPL				: stBH0JPL_Line;
+	{attribute 'OPC.UA.DA' := '1'}
+	stLine_BH0KPL				: stBH0KPL_Line;
+	{attribute 'OPC.UA.DA' := '1'}
+	stLine_BH0LPL				: stBH0LPL_Line;
+	{attribute 'OPC.UA.DA' := '1'}
+	stLine_BH0MPL				: stBH0MPL_Line;
 END_VAR
 VAR PERSISTENT
 	bKeepSQLConnected: BOOL := TRUE;
@@ -179,14 +163,12 @@ VAR PERSISTENT
 	nProductTypeMemory: enProductTypes;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// ************* Elementy wspólne dla wszystkich stanowisk	*************
+      <ST><![CDATA[//B02PL_LineBackground();
+// ************* Elementy wspólne dla wszystkich stanowisk	*************
 PLC_BaseFunctions();
 SafetyBackupRestore();
 // Alarmowanie - tablica alarmów (GVL.fbErrorsHistoryTable) jest obsługiwana poprzez metody - funkcja nie musi być wywoływana
 GVL.bLogDataTrigger := GVL_Aircom.stAC_DT_Data.bNew_Second_IMP;
-
-
-GVL.fbUserLogin(tLogoutTime := T#32M);
 
 
 // Restart usługi odpowiadającej za wizualizację WWW
@@ -204,7 +186,7 @@ IF bRomErrorTableReset THEN
 END_IF
 
 //Rdzeń komunikacji Modbus TCP
-fbModbusTcpCore(stTimeStruct:=GVL_Aircom.stAC_DT_Data);
+//fbModbusTcpCore(stTimeStruct:=GVL_Aircom.stAC_DT_Data);
 // Przełączanie pomiędzy parametrami
 //ACT_SelProdType();
 
@@ -222,9 +204,9 @@ ACT_4_Filler_B();
 ACT_5_SonicTech();
 ACT_6_UnderPressure_Tester();
 ACT_7_Sticker();
-ACT_8_Laser();
 ACT_9_Tunel();
-ACT_WeighingTunnel();
+ACT_8_Laser();
+
 
 
 
@@ -233,20 +215,14 @@ ACT_HP1();
 ACT_HP2();
 ACT_HP3();
 ACT_HP4();
+ACT_HP5();
+ACT_HP6();
+ACT_HP7();
 
 // Zużycie sprężonego powietrza oraz wybów częstotliwości zapisu
 GVL.bCompressedAirCtrSaveTrigger := GVL_Aircom.stAC_DT_Data.bNew_Shift;
 GVL.bEnergyConsCtrSaveTrigger := GVL_Aircom.stAC_DT_Data.bNew_Shift;
 
-fbS_AirPulseCounter(
-	bImpulseSignal:= GVL_IO.bCompressedAirFlowImpulse, 
-	rValuePerImpulse:= 0.03, 
-	rNewCounterValue:= , 
-	bSaveNewValue:= , 
-	rCounterValue=> GVL.rCompressedAirCounter);
-IF GVL.bCompressedAirCtrSaveTrigger THEN
-	fbS01_Station.m_SqlInsCompressedAirConsumption(rActCompressedAirConsumption := GVL.rCompressedAirCounter);
-END_IF
 
 fbS_TONAirFlowAlarm(IN:= GVL_IO.bCompressedAirFlowAlarmHigh, PT:= T#5S);
 fbS_AirFlowAlarmTrigger(CLK:= fbS_TONAirFlowAlarm.Q);
@@ -257,7 +233,7 @@ END_IF
 sCurrentLanguage := VisuElems.CURRENTLANGUAGE;
 	
 //Nowe liczneie
-ACT_SideAirMeasure();
+//ACT_SideAirMeasure();
 // Kontrola etherCAT
 ]]></ST>
     </Implementation>
@@ -335,21 +311,11 @@ GVL.st_Filler_A_Parameters.iRegisterReadAmount := 20;
 GVL.st_Filler_A_Parameters.iRegisterWriteAmount := 20;
 GVL.st_Filler_A_Parameters.sMachineIdenfier := 'BA02PL01_M1';
 
-fb_Filler_A_Station(
-	stPimInOut:= stStation_LBA02PL_SBA02PL01_M1,
-	sLineName:= 'BA02PL', 
-	sStationName:= 'BA02PL01', 
-	iMachineNumber:= 1, 
-	bIsHidden:= FALSE, 
-	stStationSettings := GVL.st_Filler_A_PimSettings);
-//Filler A
-//fb_Filler_A_Machine(stMachineModbusParams:=GVL.st_Filler_A_MachineSettings,
-					//stMachineWorkParams:=GVL.st_Filler_A_MachineParams,
-					//bNextMachineWork:= TRUE);
-
-//GVL.st_Filler_A_MachineParams.bPartsCount := FALSE;
-
-fb_Filler_A_Machine(stSlaveParms:=GVL.st_Filler_A_Parameters,bNextMachineWork := TRUE);
+fb_Filler_A_Machine(
+stLine:=stLine_BA02PL,
+stStation:=stLine_BA02PL.stStation_BA02PL01,
+stMachine:=stLine_BA02PL.stStation_BA02PL01.stMachine_1,
+stSlaveParms:=GVL.st_Filler_A_Parameters,bNextMachineWork := TRUE);
 ]]></ST>
       </Implementation>
     </Action>
@@ -367,43 +333,19 @@ GVL.st_Cork_Parameters.iRegisterWriteAmount := 20;
 GVL.st_Cork_Parameters.sMachineIdenfier := 'BA02PL01_M2';
 
 
-
-fb_Cork_Station(
-	stPimInOut:= stStation_LBA02PL_SBA02PL01_M2,
-	sLineName:= 'BA02PL', 
-	sStationName:= 'BA02PL01', 
-	iMachineNumber:= 2,
-	bIsHidden:= FALSE, 
-	stStationSettings := GVL.st_Cork_PimSettings);
-//Cork
-//fb_Cork_Machine(stMachineModbusParams:=GVL.st_Cork_MachineSettings,
-					//stMachineWorkParams:=GVL.st_Cork_MachineParams,
-					//bNextMachineWork:= TRUE);
-//GVL.st_Cork_MachineParams.bPartsCount := TRUE;
-
-fb_Cork_Machine(stSlaveParms:=GVL.st_Cork_Parameters,bNextMachineWork := TRUE);]]></ST>
+fb_Cork_Machine(
+stLine:=stLine_BA02PL,
+stStation:=stLine_BA02PL.stStation_BA02PL01,
+stMachine:=stLine_BA02PL.stStation_BA02PL01.stMachine_2,
+stSlaveParms:=GVL.st_Cork_Parameters,bNextMachineWork := TRUE);]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_3_SonicTech" Id="{30c87799-64fb-44e6-8866-0dc93cda5dae}">
       <Implementation>
-        <ST><![CDATA[//SonicTech 1
-fb_1_SonicTech_PulseCounter(
-	bImpulseSignal:= GVL_IO.b_1_SonicTech_EnergyConsumptionImp, 
-	rValuePerImpulse:= 0.001,
-	I_Sql := fb_1_SonicTech_Station,
-	bSaveCtr := GVL.bEnergyConsCtrSaveTrigger,
-	bCtrType_0Elec_1Air := FALSE);
-	
-fb_1_SonicTech_Station(
-	stPimInOut:= stStation_LBA02PL_SBA02PL02,
-	sLineName:= 'BA02PL', 
-	sStationName:= 'BA02PL02', 
-	iMachineNumber:= 1, 
-	bIsHidden:= FALSE, 
-	sPrevStationName:= '',
-	stStationSettings := GVL.st_1_SonicTech_PimSettings);
-
-fb_1_SonicTech_SonictechUSW(
+        <ST><![CDATA[fb_1_SonicTech_SonictechUSW(
+	stLine:=stLine_BA02PL,
+	stStation:=stLine_BA02PL.stStation_BA02PL02,
+	stMachine:=stLine_BA02PL.stStation_BA02PL02.stMachine_1,
 	stDigitalInOut:= GVL_IO.st_1_SonicTech_WeldingMachine_IO, 
 	I_Fix := ,
 	I_SerialCom := fb_1_SonicTech_SonicTechCom,
@@ -425,43 +367,19 @@ GVL.st_Filler_B_Parameters.iRegisterReadAmount := 20;
 GVL.st_Filler_B_Parameters.iRegisterWriteAmount := 20;
 GVL.st_Filler_B_Parameters.sMachineIdenfier := 'BA02PL03';
 
-
-fb_Filler_B_Station(
-	stPimInOut:= stStation_LBA02PL_SBA02PL03,
-	sLineName:= 'BA02PL', 
-	sStationName:= 'BA02PL03', 
-	iMachineNumber:= 1, 
-	bIsHidden:= FALSE, 
-	stStationSettings := GVL.st_Filler_B_PimSettings);
-//S03
-//fb_Filler_B_Machine(stMachineModbusParams:=GVL.st_Filler_B_MachineSettings,
-					//stMachineWorkParams:=GVL.st_Filler_B_MachineParams,
-					//bNextMachineWork:= TRUE);
-//GVL.st_Filler_B_MachineParams.bPartsCount := TRUE;
-
-fb_Filler_B_Machine(stSlaveParms:=GVL.st_Filler_B_Parameters,bNextMachineWork := TRUE);]]></ST>
+fb_Filler_B_Machine(
+stLine:=stLine_BA02PL,
+stStation:=stLine_BA02PL.stStation_BA02PL03,
+stMachine:=stLine_BA02PL.stStation_BA02PL03.stMachine_1,
+stSlaveParms:=GVL.st_Filler_B_Parameters,bNextMachineWork := TRUE);]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_5_SonicTech" Id="{aaedd41b-4c6a-4af6-8ba2-f869272c70f3}">
       <Implementation>
-        <ST><![CDATA[//SonicTech 1
-fb_2_SonicTech_PulseCounter(
-	bImpulseSignal:= GVL_IO.b_2_SonicTech_EnergyConsumptionImp, 
-	rValuePerImpulse:= 0.001,
-	I_Sql := fb_2_SonicTech_Station,
-	bSaveCtr := GVL.bEnergyConsCtrSaveTrigger,
-	bCtrType_0Elec_1Air := FALSE);
-	
-fb_2_SonicTech_Station(
-	stPimInOut:= stStation_LBA02PL_SBA02PL04,
-	sLineName:= 'BA02PL', 
-	sStationName:= 'BA02PL04', 
-	iMachineNumber:= 1, 
-	bIsHidden:= FALSE, 
-	sPrevStationName:= '',
-	stStationSettings := GVL.st_2_SonicTech_PimSettings);
-
-fb_2_SonicTech_SonictechUSW(
+        <ST><![CDATA[fb_2_SonicTech_SonictechUSW(
+	stLine:=stLine_BA02PL,
+	stStation:=stLine_BA02PL.stStation_BA02PL04,
+	stMachine:=stLine_BA02PL.stStation_BA02PL04.stMachine_1,
 	stDigitalInOut:= GVL_IO.st_2_SonicTech_WeldingMachine_IO, 
 	I_Fix := ,
 	I_SerialCom := fb_2_SonicTech_SonicTechCom,
@@ -472,33 +390,18 @@ fb_2_SonicTech_SonicTechCom(stData:=GVL_IO.st_2_SonicTech_WeldMachineSerialData_
     </Action>
     <Action Name="ACT_6_UnderPressure_Tester" Id="{0f42a32e-adb5-4984-95ac-324a900398af}">
       <Implementation>
-        <ST><![CDATA[fb_UnderPressure_Tester_Station(
-	stPimInOut:= stStation_LBA02PL_SBA02PL05,
-	sLineName:= 'BA02PL', 
-	sStationName:= 'BA02PL05', 
-	iMachineNumber:= 1,
-	bIsHidden:= FALSE, 
-	stStationSettings := GVL.st_UnderPressure_Tester_PimSettings);
-fb_UnderPressure_Tester_Machine(stInOuts:=GVL_IO.stUnderPressureInOuts_V2,
-								stParams:=GVL.stUnderPressureTestParams,
-								stStatus:=GVL.stUnderPressureTestStatus);
-(*fb_UnderPressure_Tester_Machine(
-	stInOuts:=GVL_IO.stUnderPreserInOuts,
-	i_bEnable:=fbTransporterUnderpressure.bChamberWorkAllow,
-	i_nVaccumLevel:=st_UnderPressureTester_Params.i_nVaccumLevel,
-	i_tTestRelaxTime:=st_UnderPressureTester_Params.i_tTestRelaxTime,
-	i_tTestTime:=st_UnderPressureTester_Params.i_tTestTime,
-	o_bError:=,
-	o_bSaferyError:=,
-	o_bReady:=,
-	o_bBusy:=,
-	o_nVaccumAI:=,
-	o_sMessage:=
-	);
-	*)
+        <ST><![CDATA[
+fb_UnderPressure_Tester_Machine(
+	stLine:=stLine_BA02PL,
+	stStation:=stLine_BA02PL.stStation_BA02PL05,
+	stMachine:=stLine_BA02PL.stStation_BA02PL05.stMachine_1,
+	stInOuts:=GVL_IO.stUnderPressureInOuts_V2,
+	stParams:=GVL.stUnderPressureTestParams,
+	stStatus:=GVL.stUnderPressureTestStatus);
+
 fbTransporterUnderpressure(	stInOuts:=GVL_IO.stTransporterInOuts,
 							stStatus := GVL.stUnderPressureTestStatus,
-							bWorkAllow:=fb_UnderPressure_Tester_Station.bWorkPermitt,
+							bWorkAllow:=fb_UnderPressure_Tester_Machine.fbPIM.prWorkPermission,
 							bDorsClosed:=GVL_IO.stUnderPressureInOuts_V2.bLockSens,
 							);]]></ST>
       </Implementation>
@@ -516,21 +419,11 @@ GVL.st_Sticker_Parameters.iRegisterReadAmount := 20;
 GVL.st_Sticker_Parameters.iRegisterWriteAmount := 20;
 GVL.st_Sticker_Parameters.sMachineIdenfier := 'BA02PL06_M1';
 
-
-fb_Sticker_Station(
-	stPimInOut:= stStation_LBA02PL_SBA02PL06_M1,
-	sLineName:= 'BA02PL', 
-	sStationName:= 'BA02PL06', 
-	iMachineNumber:= 1, 
-	bIsHidden:= FALSE, 
-	stStationSettings := GVL.st_Sticker_PimSettings);
-//S01_M1
-(*fb_Sticker_Machine(stMachineModbusParams:=GVL.st_Sticker_MachineSettings,
-					stMachineWorkParams:=GVL.st_Sticker_MachineParams,
-					bNextMachineWork:= NOT GVL.st_Sticker_MachineSettings.stPimData.bError);
-GVL.st_Sticker_MachineParams.bPartsCount := FALSE;*)
-
-fb_Sticker_Machine(stSlaveParms:=GVL.st_Sticker_Parameters,bNextMachineWork :=fb_Laser_Machine.stPimCommunicationData.bWorkInProgress);]]></ST>
+fb_Sticker_Machine(
+stLine:=stLine_BA02PL,
+stStation:=stLine_BA02PL.stStation_BA02PL06,
+stMachine:=stLine_BA02PL.stStation_BA02PL06.stMachine_1,
+stSlaveParms:=GVL.st_Sticker_Parameters,bNextMachineWork :=fb_Laser_Machine.stPimCommunicationData.bWorkInProgress);]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_8_Laser" Id="{dfdb2487-bbf0-4474-a109-bc6a5d8e79f1}">
@@ -546,21 +439,11 @@ GVL.st_Laser_Parameters.iRegisterReadAmount := 20;
 GVL.st_Laser_Parameters.iRegisterWriteAmount := 20;
 GVL.st_Laser_Parameters.sMachineIdenfier := 'BA02PL06_M2';
 
-
-fb_Laser_Station(
-	stPimInOut:= stStation_LBA02PL_SBA02PL06_M2,
-	sLineName:= 'BA02PL', 
-	sStationName:= 'BA02PL06', 
-	iMachineNumber:= 2, 
-	bIsHidden:= FALSE, 
-	stStationSettings := GVL.st_Laser_PimSettings);
-//S01_M2
-(*fb_Laser_Machine(stMachineModbusParams:=GVL.st_Laser_MachineSettings,
-					stMachineWorkParams:=GVL.st_Laser_MachineParams,
-					bNextMachineWork:= TRUE);
-GVL.st_Laser_MachineParams.bPartsCount := TRUE;*)
-
-fb_Laser_Machine(stSlaveParms:=GVL.st_Laser_Parameters,bNextMachineWork := fb_Tunel_Machine.I_PimSystem.prWorkPermission,fbTCP_Send:=fb_Laser_TCP);
+fb_Laser_Machine(
+stLine:=stLine_BA02PL,
+stStation:=stLine_BA02PL.stStation_BA02PL06,
+stMachine:=stLine_BA02PL.stStation_BA02PL06.stMachine_2,
+stSlaveParms:=GVL.st_Laser_Parameters,bNextMachineWork := fbTableControl.fbPIM.prWorkPermission,fbTCP_Send:=fb_Laser_TCP);
 
 fb_Laser_TCP_Manual.bExecute;
 fb_Laser_TCP_Manual(sRemoteHostIP:='192.168.1.234',nRemotePort:=45678,sDataToSend:='OpenDoc,MERCEDES.bpd',sSuffix:=';;');
@@ -569,232 +452,215 @@ fb_Laser_TCP();]]></ST>
     </Action>
     <Action Name="ACT_9_Tunel" Id="{1c00eae3-0be1-4ab8-8ed3-070e2bcadbb0}">
       <Implementation>
-        <ST><![CDATA[fb_Tunel_Station(
-	stPimInOut:= stStation_LBA02PL_SBA02PL07,
-	sLineName:= 'BA02PL', 
-	sStationName:= 'BA02PL07', 
-	iMachineNumber:= 1, 
-	bIsHidden:= FALSE, 
-	sPrevStationName:= '',
-	stStationSettings := GVL.st_Tunel_Tester_PimSettings);
+        <ST><![CDATA[//fb_Tunel_Machine(
+//	stLine:=stLine_BA02PL,
+//	stStation:=stLine_BA02PL.stStation_BA02PL07,
+//	stMachine:=stLine_BA02PL.stStation_BA02PL07.stMachine_1,
+//	stInOuts:= GVL_IO.stTunelInOuts,
+//	stParams:=GVL.st_Tunel_Params);
+	
+	
+fbTableControl.arrStations[1]:=fbLoadingStation;
+fbTableControl.arrStations[3]:=fbWeighingStation;
+fbTableControl.arrStations[5]:=fbUnloadingStation;
+fbTableControl(fbTableAxis:=fbTableAxis,
+	stLine:=stLine_BA02PL,
+	stStation:=stLine_BA02PL.stStation_BA02PL07,
+	stMachine:=stLine_BA02PL.stStation_BA02PL07.stMachine_1,
+);
+		
+fbTableAxis(bInSafePosition:=TRUE);
 
-fb_Tunel_Machine(
-	stInOuts:= GVL_IO.stTunelInOuts,
-	stParams:=GVL.st_Tunel_Params);
+fbLoadingStation(fbTableControl:=fbTableControl, bSimulationOn:= FALSE, bGhostRunON :=FALSE, bWeighingInProgess:=fbWeighingStation.bWeighingInProgess);
+fbWeighingStation(fbTableControl:=fbTableControl, bSimulationOn:= FALSE, bGhostRunON :=FALSE, 
+bReleaseWeighing:= fbUnloadingStation.bReleaseWeighing AND fbLoadingStation.bReleaseWeighing AND fbTableAxis.prPositionValid );
+fbUnloadingStation(fbTableControl:=fbTableControl, bSimulationOn:= FALSE, bGhostRunON := FALSE, bWeighingInProgess:=fbWeighingStation.bWeighingInProgess);
+
+
 	]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_HP1" Id="{b558beca-8774-4c4b-ac2a-ae0d8d6b8234}">
       <Implementation>
-        <ST><![CDATA[
-//stStation_LBH0GPL_SBH0GPL01_M1.bPIMActive := stStation_LBH0GPL_SBH0GPL01_M2.bPIMActive := stStation_LBH0GPL_SBH0GPL01_M3.bPIMActive := FALSE;
-//stStation_LBH0GPL_SBH0GPL01_M1.bWorkBlock_PIM := stStation_LBH0GPL_SBH0GPL01_M2.bWorkBlock_PIM := stStation_LBH0GPL_SBH0GPL01_M3.bWorkBlock_PIM := FALSE;
-//stStation_LBH0GPL_SBH0GPL01_M1.bTestMode := stStation_LBH0GPL_SBH0GPL01_M2.bTestMode := stStation_LBH0GPL_SBH0GPL01_M3.bTestMode := FALSE;
+        <ST><![CDATA[fbHotPlate_G1_M1(
+	stLine:=stLine_BH0GPL,
+	stStation:=stLine_BH0GPL.stStation_BH0GPL01,
+	stMachine:=stLine_BH0GPL.stStation_BH0GPL01.stMachine_1,
+	bMarkingAsembled := FALSE, 
+	bELM := TRUE);
 
+fbHotPlate_G1_M2(
+	stLine:=stLine_BH0GPL,
+	stStation:=stLine_BH0GPL.stStation_BH0GPL01,
+	stMachine:=stLine_BH0GPL.stStation_BH0GPL01.stMachine_2,
+	bMarkingAsembled := FALSE, 
+	bELM := TRUE);
 
-fbSB0GPL01_M1_Station(
-	stPimInOut:= stStation_LBH0GPL_SBH0GPL01_M1,
-	sLineName:= 'BH0GPL', 
-	sStationName:= 'BH0GPL01', 
-	iMachineNumber:= 1, 
-	bIsHidden:= TRUE, 
-	sPrevStationName:= '',
-	stStationSettings := GVL.stS01_PimSettings );
-
-fbHotPlate_G1_M1(bMarkingAsembled := FALSE, bELM := TRUE);
-
-
-fbSB0GPL01_M2_Station(
-	stPimInOut:= stStation_LBH0GPL_SBH0GPL01_M2,
-	sLineName:= 'BH0GPL', 
-	sStationName:= 'BH0GPL01', 
-	iMachineNumber:= 2, 
-	bIsHidden:= TRUE, 
-	sPrevStationName:= '',
-	stStationSettings := GVL.stS01_PimSettings );
-	
-fbHotPlate_G1_M2(bMarkingAsembled := FALSE, bELM := TRUE);
-
-
-fbSB0GPL01_M3_Station(
-	stPimInOut:= stStation_LBH0GPL_SBH0GPL01_M3,
-	sLineName:= 'BH0GPL', 
-	sStationName:= 'BH0GPL01', 
-	iMachineNumber:= 3, 
-	bIsHidden:= FALSE, 
-	sPrevStationName:= '',
-	stStationSettings := GVL.stS01_PimSettings );	
-
-fbHotPlate_G1_M3(bMarkingAsembled := TRUE, bELM := TRUE);]]></ST>
+fbHotPlate_G1_M3(
+	stLine:=stLine_BH0GPL,
+	stStation:=stLine_BH0GPL.stStation_BH0GPL01,
+	stMachine:=stLine_BH0GPL.stStation_BH0GPL01.stMachine_3,
+	bMarkingAsembled := TRUE, 
+	bELM := TRUE);]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_HP2" Id="{fa91109f-5a80-452a-894c-7f81a4cace6a}">
       <Implementation>
-        <ST><![CDATA[(*
-stStation_LBH0HPL_SBH0HPL01_M1.bPIMActive := stStation_LBH0HPL_SBH0HPL01_M2.bPIMActive := stStation_LBH0HPL_SBH0HPL01_M3.bPIMActive := FALSE;
-stStation_LBH0HPL_SBH0HPL01_M1.bWorkBlock_PIM := stStation_LBH0HPL_SBH0HPL01_M2.bWorkBlock_PIM := stStation_LBH0HPL_SBH0HPL01_M3.bWorkBlock_PIM := FALSE;
-stStation_LBH0HPL_SBH0HPL01_M1.bTestMode := stStation_LBH0HPL_SBH0HPL01_M2.bTestMode := stStation_LBH0HPL_SBH0HPL01_M3.bTestMode := FALSE;
-*)
+        <ST><![CDATA[fbHotPlate_G2_M1(
+	stLine:=stLine_BH0HPL,
+	stStation:=stLine_BH0HPL.stStation_BH0HPL01,
+	stMachine:=stLine_BH0HPL.stStation_BH0HPL01.stMachine_1,
+	bMarkingAsembled := FALSE, 
+	bELM := TRUE);
 
-fbSB0HPL01_M1_Station(
-	stPimInOut:= stStation_LBH0HPL_SBH0HPL01_M1,
-	sLineName:= 'BH0HPL', 
-	sStationName:= 'BH0HPL01', 
-	iMachineNumber:= 1, 
-	bIsHidden:= TRUE, 
-	sPrevStationName:= '',
-	stStationSettings := GVL.stS01_PimSettings );
+fbHotPlate_G2_M2(
+	stLine:=stLine_BH0HPL,
+	stStation:=stLine_BH0HPL.stStation_BH0HPL01,
+	stMachine:=stLine_BH0HPL.stStation_BH0HPL01.stMachine_2,
+	bMarkingAsembled := FALSE, 
+	bELM := TRUE);
 
-fbHotPlate_G2_M1(bMarkingAsembled := FALSE, bELM := TRUE);
-
-
-fbSB0HPL01_M2_Station(
-	stPimInOut:= stStation_LBH0HPL_SBH0HPL01_M2,
-	sLineName:= 'BH0HPL', 
-	sStationName:= 'BH0HPL01', 
-	iMachineNumber:= 2, 
-	bIsHidden:= TRUE, 
-	sPrevStationName:= '',
-	stStationSettings := GVL.stS01_PimSettings );
-	
-fbHotPlate_G2_M2(bMarkingAsembled := FALSE, bELM := TRUE);
-
-
-fbSB0HPL01_M3_Station(
-	stPimInOut:= stStation_LBH0HPL_SBH0HPL01_M3,
-	sLineName:= 'BH0HPL', 
-	sStationName:= 'BH0HPL01', 
-	iMachineNumber:= 3, 
-	bIsHidden:= FALSE, 
-	sPrevStationName:= '',
-	stStationSettings := GVL.stS01_PimSettings );	
-
-fbHotPlate_G2_M3(bMarkingAsembled := TRUE, bELM := TRUE);]]></ST>
+fbHotPlate_G2_M3(
+	stLine:=stLine_BH0HPL,
+	stStation:=stLine_BH0HPL.stStation_BH0HPL01,
+	stMachine:=stLine_BH0HPL.stStation_BH0HPL01.stMachine_3,
+	bMarkingAsembled := TRUE, 
+	bELM := TRUE);]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_HP3" Id="{1683c73c-539a-452b-bfab-86df218ad688}">
       <Implementation>
-        <ST><![CDATA[
-//stStation_LBH0IPL_SBH0IPL01_M1.bPIMActive := stStation_LBH0IPL_SBH0IPL01_M2.bPIMActive := stStation_LBH0IPL_SBH0IPL01_M3.bPIMActive := FALSE;
-//stStation_LBH0IPL_SBH0IPL01_M1.bWorkBlock_PIM := stStation_LBH0IPL_SBH0IPL01_M2.bWorkBlock_PIM := stStation_LBH0IPL_SBH0IPL01_M3.bWorkBlock_PIM := FALSE;
-//stStation_LBH0IPL_SBH0IPL01_M1.bTestMode := stStation_LBH0IPL_SBH0IPL01_M2.bTestMode := stStation_LBH0IPL_SBH0IPL01_M3.bTestMode := FALSE;
+        <ST><![CDATA[fbHotPlate_G3_M1(
+	stLine:=stLine_BH0IPL,
+	stStation:=stLine_BH0IPL.stStation_BH0IPL01,
+	stMachine:=stLine_BH0IPL.stStation_BH0IPL01.stMachine_1,
+	bMarkingAsembled := FALSE, 
+	bELM := TRUE);
 
+fbHotPlate_G3_M2(
+	stLine:=stLine_BH0IPL,
+	stStation:=stLine_BH0IPL.stStation_BH0IPL01,
+	stMachine:=stLine_BH0IPL.stStation_BH0IPL01.stMachine_2,
+	bMarkingAsembled := FALSE, 
+	bELM := TRUE);
 
-fbSB0IPL01_M1_Station(
-	stPimInOut:= stStation_LBH0IPL_SBH0IPL01_M1,
-	sLineName:= 'BH0IPL', 
-	sStationName:= 'BH0IPL01', 
-	iMachineNumber:= 1, 
-	bIsHidden:= TRUE, 
-	sPrevStationName:= '',
-	stStationSettings := GVL.stS01_PimSettings );
-
-fbHotPlate_G3_M1(bMarkingAsembled := FALSE, bELM := TRUE);
-
-
-fbSB0IPL01_M2_Station(
-	stPimInOut:= stStation_LBH0IPL_SBH0IPL01_M2,
-	sLineName:= 'BH0IPL', 
-	sStationName:= 'BH0IPL01', 
-	iMachineNumber:= 2, 
-	bIsHidden:= TRUE, 
-	sPrevStationName:= '',
-	stStationSettings := GVL.stS01_PimSettings );
-	
-fbHotPlate_G3_M2(bMarkingAsembled := FALSE, bELM := TRUE);
-
-
-fbSB0IPL01_M3_Station(
-	stPimInOut:= stStation_LBH0IPL_SBH0IPL01_M3,
-	sLineName:= 'BH0IPL', 
-	sStationName:= 'BH0IPL01', 
-	iMachineNumber:= 3, 
-	bIsHidden:= FALSE, 
-	sPrevStationName:= '',
-	stStationSettings := GVL.stS01_PimSettings );	
-
-fbHotPlate_G3_M3(bMarkingAsembled := TRUE, bELM := TRUE);]]></ST>
+fbHotPlate_G3_M3(
+	stLine:=stLine_BH0IPL,
+	stStation:=stLine_BH0IPL.stStation_BH0IPL01,
+	stMachine:=stLine_BH0IPL.stStation_BH0IPL01.stMachine_3,
+	bMarkingAsembled := TRUE, 
+	bELM := TRUE);]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_HP4" Id="{eab0bf84-6583-4fc3-9d5e-4935ce5dbeb0}">
       <Implementation>
-        <ST><![CDATA[
-//stStation_LBH0IPL_SBH0IPL01_M1.bPIMActive := stStation_LBH0IPL_SBH0IPL01_M2.bPIMActive := stStation_LBH0IPL_SBH0IPL01_M3.bPIMActive := FALSE;
-//stStation_LBH0IPL_SBH0IPL01_M1.bWorkBlock_PIM := stStation_LBH0IPL_SBH0IPL01_M2.bWorkBlock_PIM := stStation_LBH0IPL_SBH0IPL01_M3.bWorkBlock_PIM := FALSE;
-//stStation_LBH0IPL_SBH0IPL01_M1.bTestMode := stStation_LBH0IPL_SBH0IPL01_M2.bTestMode := stStation_LBH0IPL_SBH0IPL01_M3.bTestMode := FALSE;
+        <ST><![CDATA[fbHotPlate_G4_M1(
+	stLine:=stLine_BH0JPL,
+	stStation:=stLine_BH0JPL.stStation_BH0JPL01,
+	stMachine:=stLine_BH0JPL.stStation_BH0JPL01.stMachine_1,
+	bMarkingAsembled := FALSE, 
+	bELM := TRUE);
 
+fbHotPlate_G4_M2(
+	stLine:=stLine_BH0JPL,
+	stStation:=stLine_BH0JPL.stStation_BH0JPL01,
+	stMachine:=stLine_BH0JPL.stStation_BH0JPL01.stMachine_2,
+	bMarkingAsembled := FALSE, 
+	bELM := TRUE);
 
-fbSB0JPL01_M1_Station(
-	stPimInOut:= stStation_LBH0JPL_SBH0JPL01_M1,
-	sLineName:= 'BH0JPL', 
-	sStationName:= 'BH0JPL01', 
-	iMachineNumber:= 1, 
-	bIsHidden:= TRUE, 
-	sPrevStationName:= '',
-	stStationSettings := GVL.stS01_PimSettings );
+fbHotPlate_G4_M3(
+	stLine:=stLine_BH0JPL,
+	stStation:=stLine_BH0JPL.stStation_BH0JPL01,
+	stMachine:=stLine_BH0JPL.stStation_BH0JPL01.stMachine_3,
+	bMarkingAsembled := TRUE, 
+	bELM := TRUE);]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_HP5" Id="{ec8e10e4-29b8-44ad-8997-93cbef4156e3}">
+      <Implementation>
+        <ST><![CDATA[fbHotPlate_G5_M1(
+	stLine:=stLine_BH0KPL,
+	stStation:=stLine_BH0KPL.stStation_BH0KPL01,
+	stMachine:=stLine_BH0KPL.stStation_BH0KPL01.stMachine_1,
+	bMarkingAsembled := FALSE, 
+	bELM := TRUE);
 
-fbHotPlate_G4_M1(bMarkingAsembled := FALSE, bELM := TRUE);
+fbHotPlate_G5_M2(
+	stLine:=stLine_BH0KPL,
+	stStation:=stLine_BH0KPL.stStation_BH0KPL01,
+	stMachine:=stLine_BH0KPL.stStation_BH0KPL01.stMachine_2,
+	bMarkingAsembled := FALSE, 
+	bELM := TRUE);
 
+fbHotPlate_G5_M3(
+	stLine:=stLine_BH0KPL,
+	stStation:=stLine_BH0KPL.stStation_BH0KPL01,
+	stMachine:=stLine_BH0KPL.stStation_BH0KPL01.stMachine_3,
+	bMarkingAsembled := TRUE, 
+	bELM := TRUE);]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_HP6" Id="{e903aabc-6bab-43b3-91c8-87827e1fec09}">
+      <Implementation>
+        <ST><![CDATA[fbHotPlate_G6_M1(
+	stLine:=stLine_BH0LPL,
+	stStation:=stLine_BH0LPL.stStation_BH0LPL01,
+	stMachine:=stLine_BH0LPL.stStation_BH0LPL01.stMachine_1,
+	bMarkingAsembled := FALSE, 
+	bELM := TRUE);
 
-fbSB0JPL01_M2_Station(
-	stPimInOut:= stStation_LBH0JPL_SBH0JPL01_M2,
-	sLineName:= 'BH0JPL', 
-	sStationName:= 'BH0JPL01', 
-	iMachineNumber:= 2, 
-	bIsHidden:= TRUE, 
-	sPrevStationName:= '',
-	stStationSettings := GVL.stS01_PimSettings );
-	
-fbHotPlate_G4_M2(bMarkingAsembled := FALSE, bELM := TRUE);
+fbHotPlate_G6_M2(
+	stLine:=stLine_BH0LPL,
+	stStation:=stLine_BH0LPL.stStation_BH0LPL01,
+	stMachine:=stLine_BH0LPL.stStation_BH0LPL01.stMachine_2,
+	bMarkingAsembled := FALSE, 
+	bELM := TRUE);
 
+fbHotPlate_G6_M3(
+	stLine:=stLine_BH0LPL,
+	stStation:=stLine_BH0LPL.stStation_BH0LPL01,
+	stMachine:=stLine_BH0LPL.stStation_BH0LPL01.stMachine_3,
+	bMarkingAsembled := TRUE, 
+	bELM := TRUE);]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ACT_HP7" Id="{20f2ce7c-4171-42fe-a3cf-f52a2bb8d3ca}">
+      <Implementation>
+        <ST><![CDATA[fbHotPlate_G7_M1(
+	stLine:=stLine_BH0MPL,
+	stStation:=stLine_BH0MPL.stStation_BH0MPL01,
+	stMachine:=stLine_BH0MPL.stStation_BH0MPL01.stMachine_1,
+	bMarkingAsembled := FALSE, 
+	bELM := TRUE);
 
-fbSB0JPL01_M3_Station(
-	stPimInOut:= stStation_LBH0JPL_SBH0JPL01_M3,
-	sLineName:= 'BH0JPL', 
-	sStationName:= 'BH0JPL01', 
-	iMachineNumber:= 3, 
-	bIsHidden:= FALSE, 
-	sPrevStationName:= '',
-	stStationSettings := GVL.stS01_PimSettings );	
+fbHotPlate_G7_M2(
+	stLine:=stLine_BH0MPL,
+	stStation:=stLine_BH0MPL.stStation_BH0MPL01,
+	stMachine:=stLine_BH0MPL.stStation_BH0MPL01.stMachine_2,
+	bMarkingAsembled := FALSE, 
+	bELM := TRUE);
 
-fbHotPlate_G4_M3(bMarkingAsembled := TRUE, bELM := TRUE);]]></ST>
+fbHotPlate_G7_M3(
+	stLine:=stLine_BH0MPL,
+	stStation:=stLine_BH0MPL.stStation_BH0MPL01,
+	stMachine:=stLine_BH0MPL.stStation_BH0MPL01.stMachine_3,
+	bMarkingAsembled := TRUE, 
+	bELM := TRUE);]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_S01" Id="{0c809d0b-1ff5-475a-9787-6af751e1c34a}">
       <Implementation>
-        <ST><![CDATA[fbS01_PulseCounter(
-	bImpulseSignal:= GVL_IO.bS01_EnergyConsumptionImp, 
-	rValuePerImpulse:= 0.001,
-	I_Sql := fbS01_Station,
-	bSaveCtr := GVL.bEnergyConsCtrSaveTrigger,
-	bCtrType_0Elec_1Air := FALSE);
-
-fbS01_Station(
-	stPimInOut:= stStation_LBS02PL_SBS02PL01,
-	sLineName:= 'BS02PL', 
-	sStationName:= 'BS02PL01', 
-	iMachineNumber:= 1, 
-	bIsHidden:= FALSE, 
-	sPrevStationName:= '',
-	stStationSettings := GVL.stS01_PimSettings );
-
-// Prasa ze zgrzewarki Sonictech
+        <ST><![CDATA[// Prasa ze zgrzewarki Sonictech
 fbS01_BearingPress(
+	stLine:=stLine_BS02PL,
+	stStation:=stLine_BS02PL.stStation_BS02PL01,
+	stMachine:=stLine_BS02PL.stStation_BS02PL01.stMachine_1,
 	stDigInOuts := GVL_IO.stS01_1_BearingPress_IO,
 	I_Fix := fbS01_KeyencePNVisSens,
 	stTestParams:= GVL.stS01_TestParams,
 	stMachineSettings:= GVL.stS01_PressSettings);
 	
-fbS01_KeyencePNVisSens(
-	bLock:= , 
-	bAuxOper:= , 
-	bRelease:= , 
-	bQReady=> , 
-	bQBusy=> , 
-	bQLocked=> , 
-	bQError=> , 
-	bQAlarm=> , 
-	nQErrorId=> , 
+fbS01_KeyencePNVisSens(I_Sonic:=fbS01_BearingPress,
 	stParams := );
 	
 IF bTrigger THEN
@@ -808,24 +674,12 @@ END_IF
     </Action>
     <Action Name="ACT_S02" Id="{754d7465-69c2-4378-847f-5ad8fd4c3719}">
       <Implementation>
-        <ST><![CDATA[fbS02_PulseCounter(
-	bImpulseSignal:= GVL_IO.bS02_EnergyConsumptionImp, 
-	rValuePerImpulse:= 0.001,
-	I_Sql := fbS02_Station,
-	bSaveCtr := GVL.bEnergyConsCtrSaveTrigger,
-	bCtrType_0Elec_1Air := FALSE);
-	
-fbS02_Station(
-	stPimInOut:= stStation_LBB02PL_SBB02PL01,
-	sLineName:= 'BB02PL', 
-	sStationName:= 'BB02PL01', 
-	iMachineNumber:= 1, 
-	bIsHidden:= FALSE, 
-	sPrevStationName:= '',
-	stStationSettings := GVL.stS02_PimSettings );
-	
+        <ST><![CDATA[
 // Prasa ze zgrzewarki Sonictech
 fbS02_BearingPress(
+	stLine:=stLine_BB02PL,
+	stStation:=stLine_BB02PL.stStation_BB02PL01,
+	stMachine:=stLine_BB02PL.stStation_BB02PL01.stMachine_1,
 	stDigInOuts := GVL_IO.stS02_1_BearingPress_IO,
 	I_Fix := 0,
 	stTestParams:= GVL.stS02_TestParams,
@@ -834,24 +688,13 @@ fbS02_BearingPress(
     </Action>
     <Action Name="ACT_S03" Id="{e5cb014d-3e27-4d23-8dcf-36cfd87e0f45}">
       <Implementation>
-        <ST><![CDATA[fbS03_PulseCounter(
-	bImpulseSignal:= GVL_IO.bS03_EnergyConsumptionImp, 
-	rValuePerImpulse:= 0.001,
-	I_Sql := fbS03_Station,
-	bSaveCtr := GVL.bEnergyConsCtrSaveTrigger,
-	bCtrType_0Elec_1Air := FALSE);
-	
-fbS03_Station(
-	stPimInOut:= stStation_LBO02PL_SBO02PL01,
-	sLineName:= 'BO02PL', 
-	sStationName:= 'BO02PL01', 
-	iMachineNumber:= 1, 
-	bIsHidden:= FALSE, 
-	sPrevStationName:= '',
-	stStationSettings := GVL.stS03_PimSettings );
+        <ST><![CDATA[
 
 // Prasa ze zgrzewarki Sonictech
 fbS03_BearingPress(
+	stLine:=stLine_BO02PL,
+	stStation:=stLine_BO02PL.stStation_BO02PL01,
+	stMachine:=stLine_BO02PL.stStation_BO02PL01.stMachine_1,
 	stDigInOuts := GVL_IO.stS03_1_BearingPress_IO,
 	I_Fix := 0,
 	stTestParams:= GVL.stS03_TestParams,
@@ -861,24 +704,11 @@ fbS03_BearingPress(
     </Action>
     <Action Name="ACT_S04" Id="{8a8f14d2-800d-43a9-8f66-2318539f4c4b}">
       <Implementation>
-        <ST><![CDATA[fbS04_PulseCounter(
-	bImpulseSignal:= GVL_IO.bS04_EnergyConsumptionImp, 
-	rValuePerImpulse:= 0.001,
-	I_Sql := fbS04_Station,
-	bSaveCtr := GVL.bEnergyConsCtrSaveTrigger,
-	bCtrType_0Elec_1Air := FALSE);
-	
-fbS04_Station(
-	stPimInOut:= stStation_LBO02PL_SBO02PL02,
-	sLineName:= 'BO02PL', 
-	sStationName:= 'BO02PL02', 
-	iMachineNumber:= 1, 
-	bIsHidden:= FALSE, 
-	sPrevStationName:= 'BO02PL01',
-	stStationSettings := GVL.stS04_PimSettings );
-
-// Prasa ze zgrzewarki Sonictech
+        <ST><![CDATA[// Prasa ze zgrzewarki Sonictech
 fbS04_BearingPress(
+	stLine:=stLine_BO02PL,
+	stStation:=stLine_BO02PL.stStation_BO02PL02,
+	stMachine:=stLine_BO02PL.stStation_BO02PL02.stMachine_1,
 	stDigInOuts := GVL_IO.stS04_1_BearingPress_IO,
 	I_Fix := 0,
 	stTestParams:= GVL.stS04_TestParams,
@@ -886,106 +716,27 @@ fbS04_BearingPress(
 ]]></ST>
       </Implementation>
     </Action>
-    <Action Name="ACT_SA_Komora" Id="{aac1221d-22c1-4f01-98d6-e3ee775ec8ae}">
-      <Implementation>
-        <ST><![CDATA[(*KomoraSC(
-	i_bAck				:= , 
-	i_bEnable			:= TRUE, 
-	i_nVaccumLevel		:= 13000, 
-	i_tTestRelaxTime	:= T#1S, 
-	i_tTestTime			:= T#1S, 
-	o_bError			=> , 
-	o_bSaferyError		=> , 
-	o_bReady			=> , 
-	o_bBusy				=> , 
-	o_nVaccumAI			=> , 
-	o_sMessage			=> );*)
-	
-]]></ST>
-      </Implementation>
-    </Action>
-    <Action Name="ACT_SA03" Id="{2955a4cd-b8c0-4b7b-acca-1cf2d437dc0b}">
-      <Implementation>
-        <ST><![CDATA[(*fbSA03_PulseCounter(
-	bImpulseSignal:= GVL_IO.bSxxA_EnergyConsumptionImp, 
-	rValuePerImpulse:= 0.001,
-	I_Sql := fbSA03_Station,
-	bSaveCtr := GVL.bEnergyConsCtrSaveTrigger,
-	bCtrType_0Elec_1Air := FALSE);
-	
-fbSA03_Station(
-	stPimInOut:= stStation_LBA02PL_SBA02PL03,
-	sLineName:= 'BA02PL', 
-	sStationName:= 'BA02PL03', 
-	iMachineNumber:= 1, 
-	bIsHidden:= FALSE, 
-	sPrevStationName:= 'BA02PL02',
-	stStationSettings := );
-
-*)]]></ST>
-      </Implementation>
-    </Action>
     <Action Name="ACT_SafetyBackupRestore" Id="{81820118-0f47-4fad-a12d-eb52320f5c8c}">
       <Implementation>
         <ST><![CDATA[//fbEL6910Backup(]]></ST>
       </Implementation>
     </Action>
-    <Action Name="ACT_SideAirMeasure" Id="{1c705fc0-0632-437b-bf44-6834525b271d}">
-      <Implementation>
-        <ST><![CDATA[//stStation_LBS02PL_SBS02PL01
-fbPreAssembyAir_PulseCounter(
-	bImpulseSignal:= GVL_IO.bCompressedAirFlowImpulsePreAssembly, 
-	rValuePerImpulse:= 0.03,
-	I_Sql := fbS01_Station,
-	bSaveCtr := GVL.bEnergyConsCtrSaveTrigger,
-	bCtrType_0Elec_1Air := TRUE);
-//stStation_LBA02PL_SBA02PL01_M1
-fbFillingLineAir_PulseCounter(
-	bImpulseSignal:= GVL_IO.bCompressedAirFlowImpulseFilling, 
-	rValuePerImpulse:= 0.03,
-	I_Sql := fb_Filler_A_Station,
-	bSaveCtr := GVL.bEnergyConsCtrSaveTrigger,
-	bCtrType_0Elec_1Air := TRUE);
-//stStation_LBH0JPL_SBH0JPL01_M1
-fbHotPlateAir_PulseCounter(
-	bImpulseSignal:= GVL_IO.bCompressedAirFlowImpulseHotPlate, 
-	rValuePerImpulse:= 0.03,
-	I_Sql := fbSB0JPL01_M1_Station,
-	bSaveCtr := GVL.bEnergyConsCtrSaveTrigger,
-	bCtrType_0Elec_1Air := TRUE);]]></ST>
-      </Implementation>
-    </Action>
-    <Action Name="ACT_WeighingTunnel" Id="{5e38a3e4-a5ca-4e14-ac89-eb5f90d1af2a}">
-      <Implementation>
-        <ST><![CDATA[//GVL.bWeighingTunelSim:=TRUE;
-bIBN := TRUE;
-
-fbTableControl.arrStations[1]:=fbLoadingStation;
-fbTableControl.arrStations[3]:=fbWeighingStation;
-fbTableControl.arrStations[5]:=fbUnloadingStation;
-fbTableControl(fbTableAxis:=fbTableAxis);
-		
-fbTableAxis(bInSafePosition:=TRUE);
-
-fbLoadingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim, bGhostRunON :=FALSE, bWeighingInProgess:=fbWeighingStation.bWeighingInProgess);
-fbWeighingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim, bGhostRunON :=FALSE, 
-bReleaseWeighing:= fbUnloadingStation.bReleaseWeighing AND fbLoadingStation.bReleaseWeighing AND fbTableAxis.prPositionValid );
-fbUnloadingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighingTunelSim, bGhostRunON := FALSE, bWeighingInProgess:=fbWeighingStation.bWeighingInProgess);
-
-]]></ST>
-      </Implementation>
-    </Action>
     <LineIds Name="MAIN">
-      <LineId Id="3" Count="5" />
-      <LineId Id="15" Count="16" />
+      <LineId Id="1029" Count="0" />
+      <LineId Id="3" Count="4" />
+      <LineId Id="17" Count="14" />
       <LineId Id="404" Count="0" />
       <LineId Id="32" Count="0" />
       <LineId Id="405" Count="0" />
-      <LineId Id="33" Count="18" />
-      <LineId Id="748" Count="0" />
-      <LineId Id="52" Count="6" />
+      <LineId Id="33" Count="16" />
+      <LineId Id="1143" Count="0" />
+      <LineId Id="50" Count="8" />
       <LineId Id="243" Count="0" />
-      <LineId Id="59" Count="23" />
+      <LineId Id="777" Count="0" />
+      <LineId Id="776" Count="0" />
+      <LineId Id="790" Count="0" />
+      <LineId Id="59" Count="3" />
+      <LineId Id="72" Count="10" />
       <LineId Id="578" Count="0" />
       <LineId Id="83" Count="0" />
       <LineId Id="2" Count="0" />
@@ -999,141 +750,169 @@ fbUnloadingStation(fbTableControl:=fbTableControl, bSimulationOn:= GVL.bWeighing
       <LineId Id="34" Count="1" />
       <LineId Id="27" Count="0" />
       <LineId Id="37" Count="2" />
-      <LineId Id="36" Count="0" />
-      <LineId Id="2" Count="9" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="12" Count="0" />
-      <LineId Id="1" Count="0" />
       <LineId Id="16" Count="0" />
       <LineId Id="15" Count="0" />
+      <LineId Id="42" Count="1" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="40" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_2_Cork">
       <LineId Id="20" Count="3" />
       <LineId Id="25" Count="4" />
-      <LineId Id="15" Count="3" />
-      <LineId Id="2" Count="10" />
+      <LineId Id="15" Count="0" />
       <LineId Id="1" Count="0" />
       <LineId Id="14" Count="0" />
       <LineId Id="13" Count="0" />
+      <LineId Id="32" Count="1" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="30" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_3_SonicTech">
-      <LineId Id="2" Count="22" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="26" Count="1" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="20" Count="4" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_4_Filler_B">
       <LineId Id="19" Count="3" />
       <LineId Id="24" Count="4" />
-      <LineId Id="15" Count="2" />
-      <LineId Id="2" Count="10" />
-      <LineId Id="1" Count="0" />
+      <LineId Id="15" Count="0" />
       <LineId Id="14" Count="0" />
       <LineId Id="13" Count="0" />
+      <LineId Id="31" Count="1" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="29" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_5_SonicTech">
-      <LineId Id="2" Count="22" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="26" Count="1" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="20" Count="4" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_6_UnderPressure_Tester">
-      <LineId Id="2" Count="27" />
+      <LineId Id="8" Count="1" />
+      <LineId Id="32" Count="1" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="25" Count="4" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_7_Sticker">
       <LineId Id="19" Count="3" />
       <LineId Id="24" Count="4" />
-      <LineId Id="15" Count="2" />
-      <LineId Id="2" Count="10" />
-      <LineId Id="1" Count="0" />
+      <LineId Id="15" Count="0" />
       <LineId Id="14" Count="0" />
       <LineId Id="13" Count="0" />
+      <LineId Id="31" Count="1" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="29" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_8_Laser">
       <LineId Id="19" Count="3" />
       <LineId Id="24" Count="4" />
-      <LineId Id="15" Count="2" />
-      <LineId Id="2" Count="10" />
-      <LineId Id="1" Count="0" />
+      <LineId Id="15" Count="0" />
       <LineId Id="14" Count="0" />
       <LineId Id="13" Count="0" />
+      <LineId Id="35" Count="1" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="33" Count="0" />
       <LineId Id="32" Count="0" />
       <LineId Id="30" Count="0" />
       <LineId Id="29" Count="0" />
       <LineId Id="31" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_9_Tunel">
-      <LineId Id="2" Count="11" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="12" Count="1" />
+      <LineId Id="17" Count="1" />
+      <LineId Id="23" Count="3" />
+      <LineId Id="40" Count="1" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="27" Count="7" />
+      <LineId Id="19" Count="0" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_HP1">
-      <LineId Id="2" Count="38" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="42" Count="2" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="45" Count="1" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="49" Count="1" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="56" Count="0" />
       <LineId Id="1" Count="0" />
+      <LineId Id="54" Count="1" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="57" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_HP2">
-      <LineId Id="2" Count="38" />
+      <LineId Id="41" Count="18" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_HP3">
-      <LineId Id="2" Count="38" />
+      <LineId Id="41" Count="18" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_HP4">
-      <LineId Id="2" Count="38" />
+      <LineId Id="41" Count="18" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_HP5">
+      <LineId Id="41" Count="18" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_HP6">
+      <LineId Id="41" Count="18" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.ACT_HP7">
+      <LineId Id="41" Count="18" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_S01">
-      <LineId Id="2" Count="14" />
-      <LineId Id="18" Count="18" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="65" Count="2" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="21" Count="5" />
+      <LineId Id="36" Count="0" />
       <LineId Id="38" Count="6" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_S02">
-      <LineId Id="2" Count="20" />
+      <LineId Id="16" Count="1" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="24" Count="1" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="20" Count="2" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_S03">
-      <LineId Id="2" Count="21" />
+      <LineId Id="16" Count="3" />
+      <LineId Id="25" Count="1" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="20" Count="3" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_S04">
-      <LineId Id="2" Count="21" />
-      <LineId Id="1" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.ACT_SA_Komora">
-      <LineId Id="2" Count="12" />
-      <LineId Id="1" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.ACT_SA03">
-      <LineId Id="2" Count="15" />
+      <LineId Id="18" Count="1" />
+      <LineId Id="25" Count="1" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="20" Count="3" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_SafetyBackupRestore">
       <LineId Id="1" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.ACT_SideAirMeasure">
-      <LineId Id="21" Count="0" />
-      <LineId Id="2" Count="4" />
-      <LineId Id="1" Count="0" />
-      <LineId Id="7" Count="0" />
-      <LineId Id="9" Count="4" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="16" Count="4" />
-      <LineId Id="15" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.ACT_WeighingTunnel">
-      <LineId Id="12" Count="0" />
-      <LineId Id="14" Count="1" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="16" Count="1" />
-      <LineId Id="1" Count="0" />
-      <LineId Id="5" Count="1" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="7" Count="0" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="19" Count="0" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="9" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

@@ -31,6 +31,7 @@ VAR
 	nActEvent: nTable_ErrorList;
 	bEmptyMode:BOOL;
 	bSafetyOK: BOOL;
+	bWorkInProgress:BOOL;
 END_VAR
 
 VAR CONSTANT
@@ -46,8 +47,9 @@ END_IF
 fbStepTON(IN:=fbStepTON.PT >T#0S);
 iLastStep := iWorkStep;
 
+bWorkInProgress := iWorkStep > WAIT_STEP AND iWorkStep < ERROR_STEP AND iWorkStep <> MANUAL_STEP;
 //Brak referencji - błąd pozycji
-IF bRefError AND iWorkStep > WAIT_STEP AND iWorkStep < ERROR_STEP AND iWorkStep <> MANUAL_STEP AND NOT __ISVALIDREF(fbTablePlace) THEN
+IF bRefError AND bWorkInProgress AND NOT __ISVALIDREF(fbTablePlace) THEN
 	mSetError(nTable_ErrorList.TablePositionError);	
 END_IF
 //bRotationRequest := FALSE;
@@ -220,8 +222,20 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="prWorkInProgress" Id="{ab877f53-59bf-40fb-a9ae-c93066983af3}">
+      <Declaration><![CDATA[PROPERTY prWorkInProgress : BOOL]]></Declaration>
+      <Get Name="Get" Id="{94a556df-d0bb-48cd-badf-718af8dc1592}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prWorkInProgress:=bWorkInProgress;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <LineIds Name="FB_BaseStation">
       <LineId Id="30" Count="5" />
+      <LineId Id="227" Count="0" />
       <LineId Id="153" Count="0" />
       <LineId Id="37" Count="2" />
       <LineId Id="9" Count="0" />
@@ -282,6 +296,9 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_BaseStation.prTableRotationRequest.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BaseStation.prWorkInProgress.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

@@ -11,49 +11,42 @@
 	bCompressedAirFlowImpulseHotPlate	 			AT %I* :BOOL;
 // Komunikacja RS485
 // S01
-	bS01_EnergyConsumptionImp 			AT %I* :BOOL;
-	stS01_1_BearingPress_IO				: stSonicPress_DigInOuts;
+	stS01_1_BearingPress_IO				: stSonicPress_DigInOuts_V3_1;
 	bS01_Trigger			 			AT %Q* :BOOL;
 	bS01_Result 						AT %I* :BOOL;
 	bS01_Ready	 						AT %I* :BOOL;
 	
 // S02	- 
-	bS02_EnergyConsumptionImp 			AT %I* :BOOL;
-	stS02_1_BearingPress_IO				: stSonicPress_DigInOuts;
+	stS02_1_BearingPress_IO				: stSonicPress_DigInOuts_V3_1;
 	
 // S03 - 
-	bS03_EnergyConsumptionImp 			AT %I* :BOOL;
-	stS03_1_BearingPress_IO				: stSonicPress_DigInOuts;
+	stS03_1_BearingPress_IO				: stSonicPress_DigInOuts_V3_1;
 	
 // S04 - 
-	bS04_EnergyConsumptionImp 			AT %I* :BOOL;
-	stS04_1_BearingPress_IO				: stSonicPress_DigInOuts;
+	stS04_1_BearingPress_IO				: stSonicPress_DigInOuts_V3_1;
 	
 	
 // Sxx Plug A - 
-	bSxxA_EnergyConsumptionImp 			AT %I* :BOOL;
-	stSxxA_1_PlugAWelder_IO				: stSonicTech_DigInOuts;
+	stSxxA_1_PlugAWelder_IO				: stSonicTech_DigInOuts_V3_1;
 	
 	
 // Sxx Plug B - 
-	bSxxB_EnergyConsumptionImp 			AT %I* :BOOL;
-	stSxxB_1_PlugAWelder_IO				: stSonicTech_DigInOuts;
+	stSxxB_1_PlugAWelder_IO				: stSonicTech_DigInOuts_V3_1;
 //	Bottle filling line
 		//S02
 	b_1_SonicTech_EnergyConsumptionImp 				AT %I* :BOOL;
-	st_1_SonicTech_WeldingMachine_IO				: stSonicTech_DigInOuts;
+	st_1_SonicTech_WeldingMachine_IO				: stSonicTech_DigInOuts_V3_1;
 	st_1_SonicTech_WeldMachineSerialData_IO			: stSerialComData;
 	//S04
 	b_2_SonicTech_EnergyConsumptionImp 				AT %I* :BOOL;
-	st_2_SonicTech_WeldingMachine_IO				: stSonicTech_DigInOuts;
+	st_2_SonicTech_WeldingMachine_IO				: stSonicTech_DigInOuts_V3_1;
 	st_2_SonicTech_WeldMachineSerialData_IO			: stSerialComData;
 	//S05
-	stUnderPreserInOuts 							: stUnderPressureTester;
-	stTransporterInOuts								: stTransporterInOuts;
-	stUnderPressureInOuts_V2						: stUnderPressureTesterInOuts_V2;
+	stUnderPreserInOuts 							: stUnderPressureTesterInOuts_V3_1;
+	stTransporterInOuts								: stTransporterInOuts_V3_1;
+	stUnderPressureInOuts_V2						: stUnderPressureTesterInOuts_V3_1;
 	//S07
-	stTunelInOuts									: stDetectionTunelInOuts;
-	
+	stTunelInOuts									: stDetectionTunelInOuts_V3_1;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

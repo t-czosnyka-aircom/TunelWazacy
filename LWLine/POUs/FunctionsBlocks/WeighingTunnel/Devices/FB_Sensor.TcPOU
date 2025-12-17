@@ -3,7 +3,7 @@
   <POU Name="FB_Sensor" Id="{b3b43494-dfbd-47ae-9555-8a34c9c3c813}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Sensor
 VAR_INPUT
-	bSensorSignal: BOOL;
+	bSensorSignal AT %I*: BOOL;
 	bRequestedState: BOOL;
 	bCheckState: BOOL;
 	uiErrorOnDelay_MS: UINT:=1000;
@@ -45,7 +45,7 @@ bCheckState:= FALSE;]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[prSensorError := ]]></ST>
+          <ST><![CDATA[prSensorError := prSensorOffError OR prSensorOnError;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -57,7 +57,7 @@ PROPERTY prSensorOffError : BOOL]]></Declaration>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[prSensorOffError := fbSensorErrorON_TON.Q;]]></ST>
+          <ST><![CDATA[prSensorOffError := fbSensorErrorOFF_TON.Q;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -92,7 +92,7 @@ PROPERTY prSensorOnError : BOOL]]></Declaration>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[prSensorOnError := prSensorOffError OR prSensorOnError;]]></ST>
+          <ST><![CDATA[prSensorOnError := fbSensorErrorON_TON.Q;]]></ST>
         </Implementation>
       </Get>
     </Property>

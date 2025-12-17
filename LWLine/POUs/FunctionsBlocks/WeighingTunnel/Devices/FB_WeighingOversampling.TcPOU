@@ -76,7 +76,7 @@ END_IF
 fbSingleMeasurementTimeout(IN:=bGetMeasurement AND NOT prForceIsStable AND iCycles = 0,PT:= T#5S);
 
 fbReqMeasurement(CLK:=bReqMeasurement);
-IF fbReqMeasurement.Q THEN
+IF bReqMeasurement AND NOT bGetMeasurement THEN
 	bGetMeasurement := TRUE;
 	bMeasurementError := FALSE;
 	bMeasurementReady := FALSE;
@@ -88,6 +88,7 @@ IF bGetMeasurement AND prForceIsStable THEN
 		rSingleMessResult := rSingleMess/iCycles;
 		bMeasurementReady := TRUE;
 		bGetMeasurement:= FALSE;
+		bReqMeasurement := FALSE;
 		iCycles :=0;
 		rSingleMess := 0.0;
 	END_IF
@@ -95,6 +96,7 @@ ELSIF bGetMeasurement AND NOT prForceIsStable AND iCycles > 0 OR fbSingleMeasure
 	bMeasurementError := TRUE;
 	bMeasurementReady := TRUE;
 	bGetMeasurement:= FALSE;
+	bReqMeasurement := FALSE;
 	iCycles :=0;
 	rSingleMess := 0.0;
 	rSingleMessResult := 0.0;
@@ -106,11 +108,15 @@ fbRunningAnalog(rIn:=rRunningMeasure,stMeasureScalingData:=stSettings.stScalling
 rSingleMeasurmentRes := fbSingleAnalog.rOutFiltered - rZeroValue;
 rRunningMeasurmentRes := fbRunningAnalog.rOutFiltered - rZeroValue;
 //HMI
-IF stSettings.bManualSingleMeasureRequest AND_THEN mGetMeasurement(1000) THEN
-	stSettings.bManualSingleMeasureRequest:=FALSE;
-END_IF
-IF stSettings.bTareRequest AND_THEN mTare() THEN
-	stSettings.bTareRequest:=FALSE;
+
+IF stSettings.bManualSingleMeasureRequest THEN
+	IF mGetMeasurement(1000) THEN
+		stSettings.bManualSingleMeasureRequest:=FALSE;
+	END_IF
+ELSIF stSettings.bTareRequest THEN
+	IF mTare() THEN
+		stSettings.bTareRequest:=FALSE;
+	END_IF
 END_IF
 
 ]]></ST>
@@ -129,7 +135,7 @@ END_VAR
 bReqMeasurement := TRUE;
 iReqCycles := iCycles;
 mGetMeasurement := FALSE;
-IF bMeasurementReady THEN
+IF bMeasurementReady AND NOT bGetMeasurement THEN
 	mGetMeasurement := TRUE;
 	bMeasurementReady := bReqMeasurement := FALSE;
 END_IF;
@@ -143,12 +149,14 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[mTare:=FALSE;
-rZeroValue := 0;
-IF mGetMeasurement(1000) THEN
-	IF NOT prSingleMeasurementError THEN
-		rZeroValue := prSingleMeasurement;
+IF NOT bGetMeasurement THEN
+	rZeroValue := 0;
+	IF mGetMeasurement(1000) THEN
+		IF NOT prSingleMeasurementError THEN
+			rZeroValue := prSingleMeasurement;
+		END_IF
+		mTare:=TRUE;
 	END_IF
-	mTare:=TRUE;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -224,18 +232,28 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="FB_WeighingOversampling">
-      <LineId Id="619" Count="48" />
+      <LineId Id="619" Count="43" />
+      <LineId Id="860" Count="0" />
+      <LineId Id="663" Count="4" />
       <LineId Id="775" Count="0" />
-      <LineId Id="668" Count="2" />
+      <LineId Id="668" Count="0" />
+      <LineId Id="859" Count="0" />
+      <LineId Id="669" Count="1" />
       <LineId Id="817" Count="0" />
       <LineId Id="671" Count="3" />
       <LineId Id="126" Count="0" />
       <LineId Id="681" Count="0" />
       <LineId Id="733" Count="0" />
       <LineId Id="680" Count="0" />
-      <LineId Id="683" Count="2" />
-      <LineId Id="687" Count="0" />
+      <LineId Id="865" Count="0" />
+      <LineId Id="683" Count="0" />
+      <LineId Id="861" Count="0" />
+      <LineId Id="684" Count="0" />
+      <LineId Id="862" Count="0" />
+      <LineId Id="685" Count="0" />
+      <LineId Id="863" Count="0" />
       <LineId Id="690" Count="0" />
+      <LineId Id="864" Count="0" />
       <LineId Id="689" Count="0" />
       <LineId Id="686" Count="0" />
       <LineId Id="682" Count="0" />
@@ -252,13 +270,14 @@ END_VAR
       <LineId Id="17" Count="0" />
     </LineIds>
     <LineIds Name="FB_WeighingOversampling.mTare">
-      <LineId Id="13" Count="0" />
-      <LineId Id="22" Count="0" />
-      <LineId Id="14" Count="0" />
+      <LineId Id="13" Count="1" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="30" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="16" Count="0" />
+      <LineId Id="32" Count="0" />
       <LineId Id="11" Count="0" />
     </LineIds>
     <LineIds Name="FB_WeighingOversampling.prForceIsStable.Get">
