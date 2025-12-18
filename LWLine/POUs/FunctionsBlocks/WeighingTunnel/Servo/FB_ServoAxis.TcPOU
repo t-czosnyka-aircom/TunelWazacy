@@ -38,7 +38,7 @@ VAR
 	//OLD
 	
 	bEnableMotion				: BOOL;		// When TRUE - try to enable axis, when FALSE disable power - safeState
-	bStandardSafetyDisable		: BOOL;     // Only safety reset required, No error
+	bControlledDisable			: BOOL;     // Only safety reset required, No error
 	McPower 					: MC_Power;
 	McReset 					: MC_Reset;
 	McStop	 					: MC_Stop;
@@ -64,8 +64,7 @@ VAR
 	fbFTRIG_BreakCtrlDone: F_TRIG;
 	bTooglePowerState: BOOL;
 	astErrorHistory: ARRAY [1..10] OF stErrorHistoryRow;
-	fbEnableDelay	:TON;
-	
+	fbEnableMotionRTRIG: R_TRIG;
 END_VAR
 VAR PERSISTENT
 	lrReferencePositionAtHomeSensor: LREAL:=-1.0;
@@ -80,6 +79,9 @@ END_VAR]]></Declaration>
       <ST><![CDATA[stInOuts.bQ_SafetyRun :=TRUE;
 stInOuts.bQ_SafetyErrorAck:=bSafetyReset;
 
+//Safety Signals
+bEnableMotion := stInOuts.bI_SS1_Release AND stInOuts.bI_STO_Release AND NOT stInOuts.bI_SS1_State AND NOT stInOuts.bI_STO_State;
+fbEnableMotionRTRIG(CLK:=bEnableMotion);
 
 // Read drive data
 stInOuts.stAxis_Data.ReadStatus();
@@ -178,7 +180,7 @@ IF stSettings.bEN_HW_LimitSwitches THEN
 		bLimitSwitchMax	:= NOT stInOuts.wI_DriveInfodata.9;	
 	END_IF
 END_IF
-McPower(Axis:=stInOuts.stAxis_Data, Enable:=, Enable_Positive:=NOT bLimitSwitchMax, Enable_Negative:= (NOT bLimitSwitchMin OR McHome.Active));
+McPower(Axis:=stInOuts.stAxis_Data, Enable_Positive:=NOT bLimitSwitchMax, Enable_Negative:= (NOT bLimitSwitchMin OR McHome.Active));
 
 // Error reset
 McReset(Axis:=stInOuts.stAxis_Data);
@@ -215,18 +217,11 @@ McTorqueCtrl(Axis := stInOuts.stAxis_Data, Relative := FALSE, ContinuousUpdate :
     <Action Name="ACT_AxisWorkSteps" Id="{24332e8c-4fda-4b2a-bd2c-6d7b94bd461c}">
       <Implementation>
         <ST><![CDATA[
-IF NOT bEnableMotion AND iWorkStep_Axis < 90 THEN //Safety Stop
-	IF bEmergencyStop AND prPositionValid AND bInSafePosition THEN
-		iWorkStep_Axis:=90;
-		bStandardSafetyDisable := TRUE;
-	ELSE
-		mNewEvent(nEvent := nAxis_ErrorList.STO_SignalActive, ErrorCode:= 0,bDisable:=TRUE);
-	END_IF
-	
-ELSIF NOT prMovementExternalInterlock AND prIsMoving AND iWorkStep_Axis < 90 AND FALSE  THEN
+IF NOT bEnableMotion AND iWorkStep_Axis < 90 AND prEnabled THEN //Safety Stop
+	mNewEvent(nEvent := nAxis_ErrorList.STO_SignalActive, ErrorCode:= 0,bDisable:=TRUE);	
+ELSIF NOT prMovementExternalInterlock AND prIsMoving AND iWorkStep_Axis < 90 THEN
 	mNewEvent(nEvent := nAxis_ErrorList.MovementInterlockLost, ErrorCode:= 0,bDisable:=FALSE);
 END_IF
-bEnableMotion := stInOuts.bI_SS1_Release AND stInOuts.bI_STO_Release;
 
 stSettings.rSlowSpeed_deg_s := LIMIT(1, stSettings.rSlowSpeed_deg_s, 50);
 stSettings.rFastSpeed_deg_s := LIMIT(50, stSettings.rFastSpeed_deg_s, 300);
@@ -236,7 +231,7 @@ stSettings.rAcceleration := LIMIT(100, stSettings.rAcceleration, 5000);
 CASE iWorkStep_Axis OF
 	0:	// Inicjalizacja
 		mCancelAllCommands();
-		bStandardSafetyDisable:=FALSE;
+		bControlledDisable:=FALSE;
 		iWorkStep_Axis := 1;
 		
 	1:	// Sprawdzenie parametrów pracy
@@ -244,8 +239,7 @@ CASE iWorkStep_Axis OF
 		iWorkStep_Axis := 5;
 		
 	5: 	// Sprawdzenie gotowości do załączenia
-		fbEnableDelay(PT:=T#3S,in:=bEnableMotion);
-		McPower.Enable := fbEnableDelay.Q;
+		McPower.Enable := bEnableMotion;
 		IF McPower.Status THEN
 			iWorkStep_Axis := 10;
 		ELSIF McPower.Error THEN
@@ -376,17 +370,8 @@ CASE iWorkStep_Axis OF
 			mNewEvent(nEvent := nAxis_ErrorList.CommandAborted, ErrorCode:= McMoveModulo.ErrorID,bDisable:=TRUE);
 		END_IF
 		
-	
-	90:	// Error
-		mCancelAllCommands();
-		//fbStepTON(IN:=bStandardSafetyDisable, PT:=T#10S); 
-		IF bStandardSafetyDisable AND stInOuts.bI_SS1_State AND stInOuts.bI_STO_State OR NOT bStandardSafetyDisable OR fbStepTON.Q  THEN
-			iWorkStep_Axis := 91;
-			fbStepTON(IN:=FALSE);
-		END_IF
-		
 
-	91: // Stop 		
+	90: // Stop 	
 		McStop.Execute := TRUE;
 		IF McStop.Done OR McStop.Error THEN
 			McStop.Execute := FALSE;
@@ -394,6 +379,7 @@ CASE iWorkStep_Axis OF
 		END_IF
 		
 	92: // Disable Power 
+		mCancelMoveCommands();	
 		McPower.Enable := FALSE;
 		IF NOT McPower.Status THEN
 			iWorkStep_Axis := 94;
@@ -414,7 +400,7 @@ CASE iWorkStep_Axis OF
 	94:	// Axis wait for reset
 		McReset.Execute := FALSE;
 		fbTON_WorkStepTimeout(IN:= FALSE);
-		IF bStandardSafetyDisable AND bEnableMotion THEN
+		IF bControlledDisable AND fbEnableMotionRTRIG.Q THEN
 			iWorkStep_Axis := 96;
 		END_IF
 	
@@ -424,6 +410,7 @@ CASE iWorkStep_Axis OF
 		ELSE
 			iWorkStep_Axis := 97;
 		END_IF
+
 		
 	96: // Perform Mc Reset
 		McReset.Execute := TRUE;
@@ -650,7 +637,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[bStandardSafetyDisable :=FALSE;
+        <ST><![CDATA[bControlledDisable :=FALSE;
 MEMMOVE(srcAddr:= ADR(astErrorHistory[1]), destAddr := ADR(astErrorHistory[2]), n:= 9* SIZEOF(astErrorHistory[1]));
 astErrorHistory[1].tTimeStamp := TIME();
 astErrorHistory[1].sDescription := TO_STRING(nEvent);
@@ -687,6 +674,20 @@ IF prIsReady AND prIsHomed AND lrReferencePositionAtHomeSensor >= 0 AND lrLastPo
 		mDirectHoming(prCurrentPositionModulo + (lrReferencePositionAtHomeSensor - lrLastPositionAtHomeSensor));
 	END_IF
 END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mRequestDisable" Id="{04f40c74-4a69-4d85-bf33-69ddaaeb12f1}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD mRequestDisable : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bEmergencyStop AND prPositionValid AND bInSafePosition AND iWorkStep_Axis < 90 THEN
+	iWorkStep_Axis:=92;
+	bControlledDisable := TRUE;
+	McPower.Enable := FALSE;
+END_IF
+mRequestDisable := iWorkStep_Axis =94 AND bControlledDisable;]]></ST>
       </Implementation>
     </Method>
     <Method Name="mSavePositionAtHomeSensor" Id="{3a59daed-c1be-449e-8865-4c1bfb4a7379}" FolderPath="Methods\">
@@ -791,7 +792,7 @@ PROPERTY prIsErrorActive : BOOL]]></Declaration>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[prIsErrorActive := stInOuts.stAxis_Data.Status.Error OR (iWorkStep_Axis >= 90 AND NOT bStandardSafetyDisable);]]></ST>
+          <ST><![CDATA[prIsErrorActive := stInOuts.stAxis_Data.Status.Error OR (iWorkStep_Axis >= 90 AND NOT bControlledDisable);]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -890,6 +891,9 @@ END_VAR
     <LineIds Name="FB_ServoAxis">
       <LineId Id="1093" Count="1" />
       <LineId Id="1243" Count="0" />
+      <LineId Id="1790" Count="0" />
+      <LineId Id="1789" Count="0" />
+      <LineId Id="1788" Count="0" />
       <LineId Id="1172" Count="0" />
       <LineId Id="953" Count="9" />
       <LineId Id="1319" Count="0" />
@@ -935,14 +939,9 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_ServoAxis.ACT_AxisWorkSteps">
       <LineId Id="9" Count="1" />
-      <LineId Id="440" Count="1" />
-      <LineId Id="446" Count="0" />
-      <LineId Id="443" Count="1" />
-      <LineId Id="442" Count="0" />
-      <LineId Id="11" Count="0" />
+      <LineId Id="444" Count="0" />
       <LineId Id="375" Count="1" />
       <LineId Id="12" Count="0" />
-      <LineId Id="377" Count="0" />
       <LineId Id="486" Count="0" />
       <LineId Id="483" Count="2" />
       <LineId Id="482" Count="0" />
@@ -952,7 +951,6 @@ END_VAR
       <LineId Id="18" Count="2" />
       <LineId Id="24" Count="0" />
       <LineId Id="26" Count="2" />
-      <LineId Id="453" Count="0" />
       <LineId Id="438" Count="0" />
       <LineId Id="33" Count="4" />
       <LineId Id="44" Count="1" />
@@ -1017,21 +1015,16 @@ END_VAR
       <LineId Id="314" Count="1" />
       <LineId Id="384" Count="1" />
       <LineId Id="316" Count="0" />
-      <LineId Id="296" Count="1" />
-      <LineId Id="190" Count="1" />
-      <LineId Id="487" Count="0" />
-      <LineId Id="456" Count="0" />
-      <LineId Id="459" Count="0" />
-      <LineId Id="488" Count="0" />
-      <LineId Id="462" Count="0" />
-      <LineId Id="457" Count="0" />
+      <LineId Id="296" Count="0" />
       <LineId Id="196" Count="0" />
       <LineId Id="425" Count="0" />
       <LineId Id="427" Count="1" />
       <LineId Id="439" Count="0" />
       <LineId Id="429" Count="1" />
       <LineId Id="426" Count="0" />
-      <LineId Id="419" Count="2" />
+      <LineId Id="419" Count="0" />
+      <LineId Id="493" Count="0" />
+      <LineId Id="420" Count="1" />
       <LineId Id="433" Count="0" />
       <LineId Id="436" Count="1" />
       <LineId Id="423" Count="0" />
@@ -1042,10 +1035,11 @@ END_VAR
       <LineId Id="403" Count="0" />
       <LineId Id="399" Count="0" />
       <LineId Id="240" Count="3" />
-      <LineId Id="448" Count="2" />
+      <LineId Id="494" Count="2" />
       <LineId Id="244" Count="1" />
       <LineId Id="262" Count="2" />
       <LineId Id="266" Count="1" />
+      <LineId Id="492" Count="0" />
       <LineId Id="404" Count="9" />
       <LineId Id="269" Count="0" />
       <LineId Id="414" Count="0" />
@@ -1131,6 +1125,10 @@ END_VAR
       <LineId Id="64" Count="0" />
       <LineId Id="52" Count="0" />
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ServoAxis.mRequestDisable">
+      <LineId Id="14" Count="4" />
+      <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_ServoAxis.mSavePositionAtHomeSensor">
       <LineId Id="6" Count="0" />

@@ -2,7 +2,7 @@
 <TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.68" ClassName="CFlbTermDef" SubType="9099">
 	<DataTypes>
 		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-002000000006}" IecBaseType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..5] OF BIT</Name>
+			<Name GUID="{18071995-0000-0000-0000-002000000006}" IecBaseType="true" BitType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..5] OF BIT</Name>
 			<BitSize>6</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000010}">BIT</BaseType>
 			<ArrayInfo>
@@ -56,7 +56,7 @@
 			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-002000000001}" IecBaseType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..0] OF BIT</Name>
+			<Name GUID="{18071995-0000-0000-0000-002000000001}" IecBaseType="true" BitType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..0] OF BIT</Name>
 			<BitSize>1</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000010}">BIT</BaseType>
 			<ArrayInfo>
@@ -520,11 +520,11 @@
 			<Name>HP7 Iner_OuterCup MC1 (ELM7222-9016)</Name>
 			<ImageId>1002</ImageId>
 			<Xml>
-				<TcDMDrive>
-					<SortId>18</SortId>
+				<TcDMDrive Disabled="true">
+					<SortId>19</SortId>
 					<DriveModuleType>14</DriveModuleType>
 					<TcLink ProtocalType="11">
-						<TcPrjPath>..\B02PL\LWLine.tsproj</TcPrjPath>
+						<TcPrjPath>..\TunelWazacy\LWLine.tsproj</TcPrjPath>
 						<IoItemPathName>TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP7_Iner_OuterCup (EK1914)^HP7 Iner_OuterCup MC1 (ELM7222-9016)</IoItemPathName>
 						<ItemId>238</ItemId>
 						<ObjectId>#x030200ee</ObjectId>
@@ -585,7 +585,7 @@
 						</Device>
 						<Channel ChnId="0">
 							<TcLink>
-								<TcPrjPath>..\B02PL\LWLine.tsproj</TcPrjPath>
+								<TcPrjPath>..\TunelWazacy\LWLine.tsproj</TcPrjPath>
 								<IoItemPathName>TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP7_Iner_OuterCup (EK1914)^HP7 Iner_OuterCup MC1 (ELM7222-9016)</IoItemPathName>
 								<NcItemPathName AxisType="1">TINC^NC-Task 1 SAF^Axes^Axis_G7_M1_Up</NcItemPathName>
 							</TcLink>
@@ -1270,7 +1270,7 @@
 						</Channel>
 						<Channel ChnId="1">
 							<TcLink>
-								<TcPrjPath>..\B02PL\LWLine.tsproj</TcPrjPath>
+								<TcPrjPath>..\TunelWazacy\LWLine.tsproj</TcPrjPath>
 								<IoItemPathName>TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP7_Iner_OuterCup (EK1914)^HP7 Iner_OuterCup MC1 (ELM7222-9016)</IoItemPathName>
 								<NcItemPathName AxisType="1">TINC^NC-Task 1 SAF^Axes^Axis_G7_M1_Dn</NcItemPathName>
 							</TcLink>
@@ -3489,7 +3489,7 @@ Bit 8 - 15 : reserved]]></Comment>
 					<ModuleIdent>1057498</ModuleIdent>
 					<Module Id="#x03090038" Type="SAFETY" Class="8922">
 						<Name>Module 1 (SAFETY)</Name>
-						<ImageId>414</ImageId>
+						<ImageId>409</ImageId>
 						<ModuleData>02000000da22100000003c000000000000000000000000000000000000000000</ModuleData>
 						<PdoIndex>6816</PdoIndex>
 						<PdoIndex>6817</PdoIndex>

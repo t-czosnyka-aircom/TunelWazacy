@@ -257,7 +257,10 @@ CASE iWorkStep OF
 		END_IF
 
 	70: //Drawer Unlock
-		fbDrawerLock.mOpen();
+		//ServoDisable
+		IF fbTableControl.mRequestServoDisable() THEN
+			fbDrawerLock.mOpen();
+		END_IF
 		IF NOT fbDrawerLock.prClosedAndLocked OR bSimulationON THEN
 			iWorkStep:=71;
 		ELSIF fbDrawerLock.prOpeningError THEN
@@ -414,7 +417,11 @@ fbTimeStats.rRowTime:=0;]]></ST>
       <LineId Id="2139" Count="1" />
       <LineId Id="1896" Count="13" />
       <LineId Id="2330" Count="0" />
-      <LineId Id="1917" Count="5" />
+      <LineId Id="1917" Count="4" />
+      <LineId Id="2523" Count="0" />
+      <LineId Id="2521" Count="0" />
+      <LineId Id="1922" Count="0" />
+      <LineId Id="2522" Count="0" />
       <LineId Id="1924" Count="12" />
       <LineId Id="2334" Count="0" />
       <LineId Id="2332" Count="0" />

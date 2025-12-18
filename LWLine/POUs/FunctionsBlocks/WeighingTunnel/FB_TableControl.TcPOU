@@ -397,6 +397,15 @@ END_VAR
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
+    <Method Name="mRequestServoDisable" Id="{c57df235-6686-48e9-bfb3-29ca8f411fbe}">
+      <Declaration><![CDATA[METHOD mRequestServoDisable : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mRequestServoDisable:=fbTableAxis.mRequestDisable();]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="prNextType" Id="{9b6a4cf6-adf7-4845-b89f-61b3d0260aed}">
       <Declaration><![CDATA[PROPERTY prNextType : nBottleTypes]]></Declaration>
       <Get Name="Get" Id="{560ddfbb-88c9-47ab-b19f-aa6d28e919d4}">
@@ -548,6 +557,9 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TableControl.mPartOK">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TableControl.mRequestServoDisable">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TableControl.prNextType.Get">

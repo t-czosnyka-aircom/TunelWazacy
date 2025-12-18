@@ -2,24 +2,6 @@
 <TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.68" ClassName="CFlbTermDef" SubType="9099">
 	<DataTypes>
 		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-00030000001E}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..29] OF BYTE</Name>
-			<BitSize>240</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>30</Elements>
-			</ArrayInfo>
-		</DataType>
-		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-000300000016}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..21] OF BYTE</Name>
-			<BitSize>176</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>22</Elements>
-			</ArrayInfo>
-		</DataType>
-		<DataType>
 			<Name GUID="{18071995-0000-0000-0000-002000000001}" IecBaseType="true" BitType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..0] OF BIT</Name>
 			<BitSize>1</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000010}">BIT</BaseType>
@@ -153,58 +135,16 @@
 				<Box Id="202" BoxType="9109" BoxFlags="#x00000020">
 					<Name>S01_CM1 (EL6652-0010)</Name>
 					<ImageId>1003</ImageId>
-					<EtherCAT SlaveType="5" AdsServerAddress="c0a80df004010000" FixedAdsServerNetId="true" PdiType="#x0008" ExecIo="true" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="39" FoeType="1" VendorId="#x00000002" ProductCode="#x19fc3052" RevisionNo="#x0012000a" InfoDataAddr="true" InfoDataNetId="true" OwnAddrExtern="true" RepeatSupport="true" TimeoutStateChange1="10000" TimeoutStateChange3="20000" TimeoutMailbox2="2000" GenerateOwnNetId="true" InitializeOwnNetId="true" CheckRevisionNoType="3" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL6652-0010 EtherNet/IP Adapter (Slave)" Desc="EL6652-0010" PortABoxInfo="#x01000092">
+					<EtherCAT SlaveType="5" AdsServerAddress="0a1400ef04cb0000" FixedAdsServerNetId="true" PdiType="#x0008" ExecIo="true" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="39" FoeType="1" VendorId="#x00000002" ProductCode="#x19fc3052" RevisionNo="#x0012000a" InfoDataAddr="true" InfoDataNetId="true" RepeatSupport="true" TimeoutStateChange1="10000" TimeoutStateChange3="20000" TimeoutMailbox2="2000" GenerateOwnNetId="true" InitializeOwnNetId="true" CheckRevisionNoType="3" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL6652-0010 EtherNet/IP Adapter (Slave)" Desc="EL6652-0010" PortABoxInfo="#x01000092">
 						<SyncMan>001000042600010001000000400000040004001026010000</SyncMan>
 						<SyncMan>001400042200010002000000400000040004001422010000</SyncMan>
-						<SyncMan>001832006400010003000000000000000000001864010000</SyncMan>
-						<SyncMan>002442002000010004000000000000000000002420010000</SyncMan>
+						<SyncMan>001800006400000003000000000000000000001864010000</SyncMan>
+						<SyncMan>002400002000000004000000000000000000002420010000</SyncMan>
 						<Fmmu>0000000000000000001800020100000001000000000000000000000000000000</Fmmu>
 						<Fmmu>0000000000000000002400010100000002000000000000000000000000000000</Fmmu>
 						<Fmmu>00000000000000000d0800010100000003000000000000000000000000000000</Fmmu>
 						<BootStrapData>0010000400140004</BootStrapData>
 						<SuName>Filling_S01_Filler_A</SuName>
-						<Pdo Name="Filler A (TC EtherNet/IP Slave)_In" Index="#x1a00" Flags="#x0001" SyncMan="3">
-							<Entry Name="Filler A (TC EtherNet/IP Slave)_State" Index="#x6000" Sub="#x01" Flags="#x00000100">
-								<Type>UINT</Type>
-							</Entry>
-							<Entry Name="Filler A (TC EtherNet/IP Slave) Connection 1 (Input/Output)_In" Index="#x6001" Sub="#x01" Flags="#x00000100">
-								<Type GUID="{18071995-0000-0000-0000-00030000001E}">ARRAY [0..29] OF BYTE</Type>
-							</Entry>
-						</Pdo>
-						<Pdo Name="Filler A (TC EtherNet/IP Slave)_Out" Index="#x1600" InOut="1" Flags="#x0001" SyncMan="2">
-							<Entry Name="Filler A (TC EtherNet/IP Slave)_Ctrl" Index="#x7000" Sub="#x01" Flags="#x00000100">
-								<Type>UINT</Type>
-							</Entry>
-							<Entry Name="Filler A (TC EtherNet/IP Slave) Connection 1 (Input/Output)_Out" Index="#x7001" Sub="#x01" Flags="#x00000100">
-								<Type GUID="{18071995-0000-0000-0000-000300000016}">ARRAY [0..21] OF BYTE</Type>
-							</Entry>
-						</Pdo>
-						<Pdo Name="Cork (TC EtherNet/IP Slave)_In" Index="#x1a01" Flags="#x0001" SyncMan="3">
-							<Entry Name="Cork (TC EtherNet/IP Slave)_State" Index="#x6010" Sub="#x01" Flags="#x00000100">
-								<Type>UINT</Type>
-							</Entry>
-							<Entry Name="Cork (TC EtherNet/IP Slave) Connection 1 (Input/Output)_In" Index="#x6011" Sub="#x01" Flags="#x00000100">
-								<Type GUID="{18071995-0000-0000-0000-00030000001E}">ARRAY [0..29] OF BYTE</Type>
-							</Entry>
-						</Pdo>
-						<Pdo Name="Cork (TC EtherNet/IP Slave)_Out" Index="#x1601" InOut="1" Flags="#x0001" SyncMan="2">
-							<Entry Name="Cork (TC EtherNet/IP Slave)_Ctrl" Index="#x7010" Sub="#x01" Flags="#x00000100">
-								<Type>UINT</Type>
-							</Entry>
-							<Entry Name="Cork (TC EtherNet/IP Slave) Connection 1 (Input/Output)_Out" Index="#x7011" Sub="#x01" Flags="#x00000100">
-								<Type GUID="{18071995-0000-0000-0000-000300000016}">ARRAY [0..21] OF BYTE</Type>
-							</Entry>
-						</Pdo>
-						<Pdo Name="ECatState" Index="#x1bff" Flags="#x0001" SyncMan="3">
-							<Entry Name="ECatState" Index="#xf101" Sub="#x01" Flags="#x00000100">
-								<Type>UINT</Type>
-							</Entry>
-						</Pdo>
-						<Pdo Name="ECatCtrl" Index="#x17ff" InOut="1" Flags="#x0001" SyncMan="2">
-							<Entry Name="ECatCtrl" Index="#xf201" Sub="#x01" Flags="#x00000100">
-								<Type>UINT</Type>
-							</Entry>
-						</Pdo>
 						<CoeProfile ProfileNo="5001"/>
 					</EtherCAT>
 				</Box>
@@ -1812,42 +1752,16 @@
 				<Box Id="203" BoxType="9109" BoxFlags="#x00000020">
 					<Name>S03_CM1 (EL6652-0010)</Name>
 					<ImageId>1003</ImageId>
-					<EtherCAT SlaveType="5" AdsServerAddress="c0a80df005010000" FixedAdsServerNetId="true" PdiType="#x0008" ExecIo="true" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="39" FoeType="1" VendorId="#x00000002" ProductCode="#x19fc3052" RevisionNo="#x0012000a" InfoDataAddr="true" InfoDataNetId="true" OwnAddrExtern="true" RepeatSupport="true" TimeoutStateChange1="10000" TimeoutStateChange3="20000" TimeoutMailbox2="2000" GenerateOwnNetId="true" InitializeOwnNetId="true" CheckRevisionNoType="3" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL6652-0010 EtherNet/IP Adapter (Slave)" Desc="EL6652-0010" PortABoxInfo="#x01000096">
+					<EtherCAT SlaveType="5" AdsServerAddress="0a1400ef04cc0000" FixedAdsServerNetId="true" PdiType="#x0008" ExecIo="true" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="39" FoeType="1" VendorId="#x00000002" ProductCode="#x19fc3052" RevisionNo="#x0012000a" InfoDataAddr="true" InfoDataNetId="true" RepeatSupport="true" TimeoutStateChange1="10000" TimeoutStateChange3="20000" TimeoutMailbox2="2000" GenerateOwnNetId="true" InitializeOwnNetId="true" CheckRevisionNoType="3" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL6652-0010 EtherNet/IP Adapter (Slave)" Desc="EL6652-0010" PortABoxInfo="#x01000096">
 						<SyncMan>001000042600010001000000400000040004001026010000</SyncMan>
 						<SyncMan>001400042200010002000000400000040004001422010000</SyncMan>
-						<SyncMan>00181a006400010003000000000000000000001864010000</SyncMan>
-						<SyncMan>002422002000010004000000000000000000002420010000</SyncMan>
+						<SyncMan>001800006400000003000000000000000000001864010000</SyncMan>
+						<SyncMan>002400002000000004000000000000000000002420010000</SyncMan>
 						<Fmmu>0000000000000000001800020100000001000000000000000000000000000000</Fmmu>
 						<Fmmu>0000000000000000002400010100000002000000000000000000000000000000</Fmmu>
 						<Fmmu>00000000000000000d0800010100000003000000000000000000000000000000</Fmmu>
 						<BootStrapData>0010000400140004</BootStrapData>
 						<SuName>Filling_S03_Filler_B</SuName>
-						<Pdo Name="Filler_B (TC EtherNet/IP Slave)_In" Index="#x1a00" Flags="#x0001" SyncMan="3">
-							<Entry Name="Filler_B (TC EtherNet/IP Slave)_State" Index="#x6000" Sub="#x01" Flags="#x00000100">
-								<Type>UINT</Type>
-							</Entry>
-							<Entry Name="Filler_B (TC EtherNet/IP Slave) Connection 1 (Input/Output)_In" Index="#x6001" Sub="#x01" Flags="#x00000100">
-								<Type GUID="{18071995-0000-0000-0000-00030000001E}">ARRAY [0..29] OF BYTE</Type>
-							</Entry>
-						</Pdo>
-						<Pdo Name="Filler_B (TC EtherNet/IP Slave)_Out" Index="#x1600" InOut="1" Flags="#x0001" SyncMan="2">
-							<Entry Name="Filler_B (TC EtherNet/IP Slave)_Ctrl" Index="#x7000" Sub="#x01" Flags="#x00000100">
-								<Type>UINT</Type>
-							</Entry>
-							<Entry Name="Filler_B (TC EtherNet/IP Slave) Connection 1 (Input/Output)_Out" Index="#x7001" Sub="#x01" Flags="#x00000100">
-								<Type GUID="{18071995-0000-0000-0000-000300000016}">ARRAY [0..21] OF BYTE</Type>
-							</Entry>
-						</Pdo>
-						<Pdo Name="ECatState" Index="#x1bff" Flags="#x0001" SyncMan="3">
-							<Entry Name="ECatState" Index="#xf101" Sub="#x01" Flags="#x00000100">
-								<Type>UINT</Type>
-							</Entry>
-						</Pdo>
-						<Pdo Name="ECatCtrl" Index="#x17ff" InOut="1" Flags="#x0001" SyncMan="2">
-							<Entry Name="ECatCtrl" Index="#xf201" Sub="#x01" Flags="#x00000100">
-								<Type>UINT</Type>
-							</Entry>
-						</Pdo>
 						<CoeProfile ProfileNo="5001"/>
 					</EtherCAT>
 				</Box>
@@ -4737,58 +4651,16 @@
 				<Box Id="204" BoxType="9109" BoxFlags="#x00000020">
 					<Name>S06_CM1 (EL6652-0010)</Name>
 					<ImageId>1003</ImageId>
-					<EtherCAT SlaveType="5" AdsServerAddress="c0a80df006010000" FixedAdsServerNetId="true" PdiType="#x0008" ExecIo="true" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="39" FoeType="1" VendorId="#x00000002" ProductCode="#x19fc3052" RevisionNo="#x0012000a" InfoDataAddr="true" InfoDataNetId="true" OwnAddrExtern="true" RepeatSupport="true" TimeoutStateChange1="10000" TimeoutStateChange3="20000" TimeoutMailbox2="2000" GenerateOwnNetId="true" InitializeOwnNetId="true" CheckRevisionNoType="3" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL6652-0010 EtherNet/IP Adapter (Slave)" Desc="EL6652-0010" PortABoxInfo="#x01000094">
+					<EtherCAT SlaveType="5" AdsServerAddress="0a1400ef04cd0000" FixedAdsServerNetId="true" PdiType="#x0008" ExecIo="true" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="39" FoeType="1" VendorId="#x00000002" ProductCode="#x19fc3052" RevisionNo="#x0012000a" InfoDataAddr="true" InfoDataNetId="true" RepeatSupport="true" TimeoutStateChange1="10000" TimeoutStateChange3="20000" TimeoutMailbox2="2000" GenerateOwnNetId="true" InitializeOwnNetId="true" CheckRevisionNoType="3" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL6652-0010 EtherNet/IP Adapter (Slave)" Desc="EL6652-0010" PortABoxInfo="#x01000094">
 						<SyncMan>001000042600010001000000400000040004001026010000</SyncMan>
 						<SyncMan>001400042200010002000000400000040004001422010000</SyncMan>
-						<SyncMan>001832006400010003000000000000000000001864010000</SyncMan>
-						<SyncMan>002442002000010004000000000000000000002420010000</SyncMan>
+						<SyncMan>001800006400000003000000000000000000001864010000</SyncMan>
+						<SyncMan>002400002000000004000000000000000000002420010000</SyncMan>
 						<Fmmu>0000000000000000001800020100000001000000000000000000000000000000</Fmmu>
 						<Fmmu>0000000000000000002400010100000002000000000000000000000000000000</Fmmu>
 						<Fmmu>00000000000000000d0800010100000003000000000000000000000000000000</Fmmu>
 						<BootStrapData>0010000400140004</BootStrapData>
 						<SuName>Filling_S06_Sticker</SuName>
-						<Pdo Name="Sticker (TC EtherNet/IP Slave)_In" Index="#x1a00" Flags="#x0001" SyncMan="3">
-							<Entry Name="Sticker (TC EtherNet/IP Slave)_State" Index="#x6000" Sub="#x01" Flags="#x00000100">
-								<Type>UINT</Type>
-							</Entry>
-							<Entry Name="Sticker (TC EtherNet/IP Slave) Connection 1 (Input/Output)_In" Index="#x6001" Sub="#x01" Flags="#x00000100">
-								<Type GUID="{18071995-0000-0000-0000-00030000001E}">ARRAY [0..29] OF BYTE</Type>
-							</Entry>
-						</Pdo>
-						<Pdo Name="Sticker (TC EtherNet/IP Slave)_Out" Index="#x1600" InOut="1" Flags="#x0001" SyncMan="2">
-							<Entry Name="Sticker (TC EtherNet/IP Slave)_Ctrl" Index="#x7000" Sub="#x01" Flags="#x00000100">
-								<Type>UINT</Type>
-							</Entry>
-							<Entry Name="Sticker (TC EtherNet/IP Slave) Connection 1 (Input/Output)_Out" Index="#x7001" Sub="#x01" Flags="#x00000100">
-								<Type GUID="{18071995-0000-0000-0000-000300000016}">ARRAY [0..21] OF BYTE</Type>
-							</Entry>
-						</Pdo>
-						<Pdo Name="Laser (TC EtherNet/IP Slave)_In" Index="#x1a01" Flags="#x0001" SyncMan="3">
-							<Entry Name="Laser (TC EtherNet/IP Slave)_State" Index="#x6010" Sub="#x01" Flags="#x00000100">
-								<Type>UINT</Type>
-							</Entry>
-							<Entry Name="Laser (TC EtherNet/IP Slave) Connection 1 (Input/Output)_In" Index="#x6011" Sub="#x01" Flags="#x00000100">
-								<Type GUID="{18071995-0000-0000-0000-00030000001E}">ARRAY [0..29] OF BYTE</Type>
-							</Entry>
-						</Pdo>
-						<Pdo Name="Laser (TC EtherNet/IP Slave)_Out" Index="#x1601" InOut="1" Flags="#x0001" SyncMan="2">
-							<Entry Name="Laser (TC EtherNet/IP Slave)_Ctrl" Index="#x7010" Sub="#x01" Flags="#x00000100">
-								<Type>UINT</Type>
-							</Entry>
-							<Entry Name="Laser (TC EtherNet/IP Slave) Connection 1 (Input/Output)_Out" Index="#x7011" Sub="#x01" Flags="#x00000100">
-								<Type GUID="{18071995-0000-0000-0000-000300000016}">ARRAY [0..21] OF BYTE</Type>
-							</Entry>
-						</Pdo>
-						<Pdo Name="ECatState" Index="#x1bff" Flags="#x0001" SyncMan="3">
-							<Entry Name="ECatState" Index="#xf101" Sub="#x01" Flags="#x00000100">
-								<Type>UINT</Type>
-							</Entry>
-						</Pdo>
-						<Pdo Name="ECatCtrl" Index="#x17ff" InOut="1" Flags="#x0001" SyncMan="2">
-							<Entry Name="ECatCtrl" Index="#xf201" Sub="#x01" Flags="#x00000100">
-								<Type>UINT</Type>
-							</Entry>
-						</Pdo>
 						<CoeProfile ProfileNo="5001"/>
 					</EtherCAT>
 				</Box>

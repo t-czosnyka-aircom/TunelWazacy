@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<safetyApplication Crc="2676389380" xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.5.0.0" Id="1ae623c2-6ef8-4a14-a077-996b65b51d7d" name="" mapState="false" mapDiag="false" groupOrderId="0" passificationAllowed="false" temporaryDeactivationAllowed="false" permamentDeactivationAllowed="false" xmlid="0" analogFBOutputReplacementValues="Zero" verifyAnalogFBInputsIfStart="false" userFbId="00000000-0000-0000-0000-000000000000" xmlns="http://schemas.microsoft.com/dsltools/SafetyApplicationLanguage">
+<safetyApplication Crc="2336680582" xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.5.0.0" Id="1ae623c2-6ef8-4a14-a077-996b65b51d7d" name="" mapState="false" mapDiag="false" groupOrderId="0" passificationAllowed="false" temporaryDeactivationAllowed="false" permamentDeactivationAllowed="false" xmlid="0" analogFBOutputReplacementValues="Zero" verifyAnalogFBInputsIfStart="false" userFbId="00000000-0000-0000-0000-000000000000" xmlns="http://schemas.microsoft.com/dsltools/SafetyApplicationLanguage">
   <networks>
     <safetyApplicationHasNetworks Id="ed7123e2-3804-4a78-8d21-0ab0c6c727ef">
       <Network Id="ab37a90d-2bee-4878-b74f-2c010cf800ef" name="Network1" networkName="Estop" intId="1" networkOrderId="0">
@@ -285,7 +285,13 @@
                   <metaInPort Id="eca2e3da-9f07-4548-ae4f-467148a3b25a" name="in_SS1_Signal" portName="in_SS1_Signal" portNum="1" objectIndex="0" varId="2" filter="3" portDataType="1" maxDeviation="0" resetTime="0" schematicVarId="e0db56f0-501c-448b-97b1-2c81c64e7bc2" />
                 </userFunctionBlockHasInPorts>
                 <userFunctionBlockHasInPorts Id="d40f2478-5ead-4817-8b27-8f0b3e7a06db">
-                  <metaInPort Id="fe572e64-fbee-4818-8cef-f4878ae96e46" name="in_STO_Signal" portName="in_STO_Signal" portNum="2" objectIndex="0" varId="3" filter="2" portDataType="1" maxDeviation="0" resetTime="0" schematicVarId="d9f722b7-d8d7-4b7e-86fc-39670dbf680a" />
+                  <metaInPort Id="fe572e64-fbee-4818-8cef-f4878ae96e46" name="in_STO_Signal" portName="in_STO_Signal" portNum="2" objectIndex="0" varId="3" filter="2" portDataType="1" maxDeviation="0" resetTime="0" schematicVarId="d9f722b7-d8d7-4b7e-86fc-39670dbf680a">
+                    <targetFunctionBlockPorts>
+                      <wiredLink Id="ecc3b8ce-ff0e-4877-9e33-2b06c4f21d5d">
+                        <outPortMoniker name="//Network3/FBAnd1/AndOut" />
+                      </wiredLink>
+                    </targetFunctionBlockPorts>
+                  </metaInPort>
                 </userFunctionBlockHasInPorts>
                 <userFunctionBlockHasInPorts Id="83e69131-db9e-410b-9e2b-37307cc83813">
                   <metaInPort Id="142e0387-d026-42d2-acdf-7e2f6e9ad411" name="in_ELM_SS1_State" portName="in_ELM_SS1_State" portNum="3" objectIndex="0" varId="3" filter="2" portDataType="1" maxDeviation="0" resetTime="0" schematicVarId="0eed21fc-5930-4cb1-a85b-1f0eb8a1e3b0" />
@@ -949,15 +955,6 @@
                     <functionBlockPort>
                       <fbPortUsageReferencesFunctionBlockPort Id="c040d4da-0ecf-4bec-bd71-58ed27dd8a75">
                         <inPortMoniker name="//Network5/FBAnd1/AndIn2" />
-                      </fbPortUsageReferencesFunctionBlockPort>
-                    </functionBlockPort>
-                  </fbPortUsage>
-                </variableUsagesHasUsages>
-                <variableUsagesHasUsages Id="0a65cb94-4365-4269-bddb-d32d21e554a6">
-                  <fbPortUsage Id="68088e60-cb27-4d4b-b602-fde6a47438b7">
-                    <functionBlockPort>
-                      <fbPortUsageReferencesFunctionBlockPort Id="25120940-5ded-4e8b-8864-3d2603d1e81d">
-                        <metaInPortMoniker name="//Network3/UserFunctionBlock2/in_STO_Signal" />
                       </fbPortUsageReferencesFunctionBlockPort>
                     </functionBlockPort>
                   </fbPortUsage>
