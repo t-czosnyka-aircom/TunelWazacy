@@ -53,11 +53,10 @@ CASE iWorkStep OF
 		iWorkStep:=10;
 	
 	10://Wait For Sensor ON
-		//Sprawdzenie czy sensor nie daje sygnału cały czas
 		IF __ISVALIDREF(fbTablePlace) THEN
 			IF fbLoadingSensor.prSensorOnOK AND fbTableControl.prWorkPermission AND_THEN fbTablePlace.mBottleBeforeWeighing(fbTableControl.prNextType) THEN
 				iWorkStep:= 20;
-			ELSIF fbLoadingSensor.prSensorOffOK AND fbTableControl.prWorkPermission AND fbTablePlace.prStateIsEmpty AND bEmptyMode THEN
+			ELSIF fbLoadingSensor.prSensorOffOK AND fbTableControl.prWorkPermission AND (fbTablePlace.prStateIsEmpty AND bEmptyMode OR fbTablePlace.prStateIsTare) THEN
 				iWorkStep:= 20;
 			END_IF
 		END_IF
@@ -113,7 +112,6 @@ END_CASE
       <LineId Id="431" Count="0" />
       <LineId Id="434" Count="0" />
       <LineId Id="184" Count="4" />
-      <LineId Id="311" Count="0" />
       <LineId Id="190" Count="2" />
       <LineId Id="513" Count="1" />
       <LineId Id="284" Count="0" />

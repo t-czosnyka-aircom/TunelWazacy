@@ -56,7 +56,7 @@ END_IF
 bIsEmpty:= NOT fbBottleSensor.bSensorSignal AND stSettings.iNOK_BottleCounter=0;
 
 
-bRotationInterlock:=fbDrawerLock.prClosedAndLocked AND fbPusherActuator.prInHomePosition AND fbWeighingActuator.prInHomePosition OR TRUE;
+bRotationInterlock:=fbDrawerLock.prClosedAndLocked AND fbPusherActuator.prInHomePosition AND fbWeighingActuator.prInHomePosition;
 
 
 fbWeighingActuator(stDigInOut:=stInOuts.stWeighingActuator, bI_Control_Ready:=prSafetyOk, bManualMode:=bManualModeActive, 
@@ -105,7 +105,7 @@ CASE iWorkStep OF
 
 	5: //HomePosition
 		fbTableControl.fbPIM.mSetNewMachineState(nMachineStates._0_Standby_NotReady);
-		IF fbWeighingActuator.mGoToHome(FALSE) AND fbPusherActuator.mGoToHome(FALSE) AND fbDrawerLock.prClosedAndLocked THEN
+		IF fbPusherActuator.mGoToHome(FALSE) AND_THEN fbWeighingActuator.mGoToHome(FALSE) AND  fbDrawerLock.prClosedAndLocked THEN
 			iWorkStep:=10;
 		ELSIF fbWeighingActuator.prGoToHomeError THEN
 			mSetError(nTable_ErrorList.WeighingActuatorError);
@@ -117,7 +117,7 @@ CASE iWorkStep OF
 	10: //Wait for Bottle - Table rotation
 		fbTableControl.fbPIM.mSetNewMachineState(nMachineStates._2_ReadyForNewOperation);
 		IF __ISVALIDREF(fbTablePlace) AND fbTableControl.prWorkPermission THEN
-			fbBottleSensor.bRequestedState := NOT fbTablePlace.prStateIsEmpty AND NOT fbTablePlace.prStateIsDrawer;
+			fbBottleSensor.bRequestedState := NOT fbTablePlace.prStateIsEmpty AND NOT fbTablePlace.prStateIsDrawer AND NOT fbTablePlace.prStateIsTare ;
 			fbBottleSensor.bCheckState := fbTableControl.prTableInPosition;
 			bRotationRequest :=  (fbTablePlace.prStateIsAfterWeighing AND fbBottleSensor.prSensorOnOK OR (fbTablePlace.prStateIsEmpty AND fbBottleSensor.prSensorOffOK)) AND NOT bDrawerUnlockRequest AND fbBottleDrawerSensor.prSensorOK;
 			IF fbTablePlace.prStateIsNOK AND fbBottleSensor.prSensorOnOK THEN
@@ -127,6 +127,8 @@ CASE iWorkStep OF
 			ELSIF (fbTablePlace.prStateIsBeforeWeighing OR fbTablePlace.prStateIsProcessing )AND fbBottleSensor.prSensorOnOK AND fbBottleDrawerSensor.prSensorOK 
 				 AND_THEN fbTableControl.fbPIM.mSetNewMachineState(nMachineStates._3_NewOperationStarted) THEN
 				iWorkStep:=20;
+			ELSIF  fbTablePlace.prStateIsTare AND fbBottleSensor.prSensorOK AND fbBottleDrawerSensor.prSensorOK  THEN
+				iWorkStep:=76;
 			ELSIF fbBottleSensor.prSensorError THEN
 				mSetError(nTable_ErrorList.WeighingSensorError);
 			END_IF
@@ -309,7 +311,22 @@ CASE iWorkStep OF
 		IF fbDrawerLock.prClosedAndLocked THEN
 			iWorkStep:=0;
 		END_IF
-
+		
+	76: //Tare Request - Weighing Actuator go to work
+		fbWeighingActuator.mGoToWork(FALSE);
+		IF fbWeighingActuator.prInWorkPosition THEN
+			iWorkStep:=77;
+		ELSIF fbWeighingActuator.prGoToWorkError THEN
+			mSetError(nTable_ErrorList.WeighingActuatorError);
+		END_IF
+		
+	77: //Tare
+		IF fbWeighing.mTare() THEN
+			IF __ISVALIDREF(fbTablePlace) AND_THEN fbTablePlace.mBottleEmpty() THEN
+				iWorkStep:=0;
+			END_IF
+		END_IF
+	
 		
 	80: //Manual Mode
 		fbTableControl.fbPIM.mSetNewMachineState(nMachineStates._1_InManualControl);
@@ -361,6 +378,7 @@ fbTimeStats.rRowTime:=0;]]></ST>
       <LineId Id="1809" Count="1" />
       <LineId Id="2268" Count="0" />
       <LineId Id="1811" Count="0" />
+      <LineId Id="2455" Count="1" />
       <LineId Id="2212" Count="1" />
       <LineId Id="1812" Count="0" />
       <LineId Id="1815" Count="6" />
@@ -413,7 +431,14 @@ fbTimeStats.rRowTime:=0;]]></ST>
       <LineId Id="2333" Count="0" />
       <LineId Id="2393" Count="0" />
       <LineId Id="1937" Count="4" />
-      <LineId Id="1982" Count="0" />
+      <LineId Id="2457" Count="1" />
+      <LineId Id="2469" Count="2" />
+      <LineId Id="2475" Count="1" />
+      <LineId Id="2460" Count="2" />
+      <LineId Id="2488" Count="0" />
+      <LineId Id="2491" Count="2" />
+      <LineId Id="2490" Count="0" />
+      <LineId Id="2466" Count="0" />
       <LineId Id="1943" Count="1" />
       <LineId Id="2241" Count="0" />
       <LineId Id="1945" Count="15" />

@@ -55,7 +55,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF stPlace.nState=nTableBottlePlaceState.Processing THEN
+        <ST><![CDATA[IF prStateIsProcessing THEN
 	stPlace.nState:=nTableBottlePlaceState.AfterWeighing;
 END_IF;
 mBottleAfterWeighing :=prStateIsAfterWeighing;]]></ST>
@@ -68,7 +68,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF stPlace.nState=nTableBottlePlaceState.Empty AND  nBottleType <> nBottleTypes.none THEN
+        <ST><![CDATA[IF prStateIsEmpty AND  nBottleType <> nBottleTypes.none THEN
 	stPlace.nState:=nTableBottlePlaceState.BeforeWeighing;
 	stPlace.nBottleType:=nBottleType;
 END_IF;
@@ -81,7 +81,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF stPlace.nState=nTableBottlePlaceState.NOK THEN
+        <ST><![CDATA[IF prStateIsNok THEN
 	stPlace.nState:=nTableBottlePlaceState.Drawer;
 END_IF;
 mBottleDrawer := prStateIsDrawer;
@@ -94,7 +94,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF stPlace.nState=nTableBottlePlaceState.Drawer OR  stPlace.nState=nTableBottlePlaceState.AfterWeighing THEN
+        <ST><![CDATA[IF prStateIsDrawer OR  prStateIsAfterWeighing  OR prStateIsTare THEN
 	stPlace.nState:=nTableBottlePlaceState.Empty;
 END_IF;
 mBottleEmpty := prStateIsEmpty;
@@ -107,7 +107,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF stPlace.nState=nTableBottlePlaceState.Processing THEN
+        <ST><![CDATA[IF prStateIsProcessing THEN
 	stPlace.nState:=nTableBottlePlaceState.NOK;
 END_IF;
 mBottleNOK := prStateIsNOK;
@@ -120,10 +120,23 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF stPlace.nState=nTableBottlePlaceState.BeforeWeighing THEN
+        <ST><![CDATA[IF prStateIsBeforeWeighing THEN
 	stPlace.nState:=nTableBottlePlaceState.Processing;
 END_IF;
 mBottleProcessing := stPlace.nState=nTableBottlePlaceState.Processing;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mBottleTare" Id="{f8ef4a5d-c4ba-47a2-8172-bcea1faf3417}">
+      <Declaration><![CDATA[METHOD mBottleTare : BOOL
+VAR_INPUT
+
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF prStateIsEmpty THEN
+	stPlace.nState:=nTableBottlePlaceState.Tare;
+END_IF;
+mBottleTare := prStateIsTare;]]></ST>
       </Implementation>
     </Method>
     <Method Name="mClearWorkingStation" Id="{596c1c0d-7109-4b79-96a8-9dcefd06f95c}">
@@ -284,6 +297,17 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="prStateIsTare" Id="{82446558-3544-4623-9d90-87e48767d493}">
+      <Declaration><![CDATA[PROPERTY prStateIsTare : BOOL]]></Declaration>
+      <Get Name="Get" Id="{9dcba566-5318-4dab-afe0-a3e22e42d5c4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[prStateIsTare := stPlace.nState = nTableBottlePlaceState.Tare;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="prTableInPosition" Id="{e89e4850-00f9-481f-8561-f2be797aad18}">
       <Declaration><![CDATA[PROPERTY prTableInPosition : BOOL]]></Declaration>
       <Get Name="Get" Id="{0b833c6d-0098-4be4-b16c-f8cbee68f653}">
@@ -400,6 +424,12 @@ END_VAR
       <LineId Id="5" Count="0" />
       <LineId Id="11" Count="0" />
     </LineIds>
+    <LineIds Name="FB_TablePlace.mBottleTare">
+      <LineId Id="12" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="18" Count="0" />
+    </LineIds>
     <LineIds Name="FB_TablePlace.mClearWorkingStation">
       <LineId Id="5" Count="0" />
     </LineIds>
@@ -443,6 +473,9 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.prStateIsProcessing.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TablePlace.prStateIsTare.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_TablePlace.prTableInPosition.Get">

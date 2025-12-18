@@ -63,12 +63,10 @@ END_VAR
 //SIM
 IF stInOuts.bQ_SafetyErrorAck THEN
 	mErrorReset();
-
-	
 END_IF
 fbPIM.stStation.bPimActive := FALSE;
 fbPIM.stStation.bTestMode := TRUE;
-
+/////
 bWorkPermission := fbPIM.prWorkPermission;
 stInOuts.bQ_SafetyRun := TRUE;
 stInOuts.bQ_SafetyErrorAck:= stInOuts.bI_SafetyReset_1 OR stInOuts.bI_SafetyReset_2;
@@ -238,6 +236,7 @@ CASE iWorkStep OF
 	
 	95: //Error reset
 		bError := FALSE;
+		nError := 	nTable_ErrorList.NoError;
 		IF NOT fbPIM.stStation.bPimActive THEN
 			fbPIM.mSetNewMachineState(nMachineStates._10_ServiceReset);
 		END_IF
@@ -366,10 +365,9 @@ ELSIF nEventClass = nMachineEventType.Message THEN
 ELSE
 	fbPIM.mSetNewMachineState(nMachineStates._7_ErrorOccurr);
 	fbPIM.mSetNewEvent(iErrorCode := UDINT_TO_INT(nEvent), nEventType := nEventClass,sMessage:=sMessageString,tMessageTime:=tMessageTime);
-	nError := 	nEvent;
 	iWorkStep := 90;
 END_IF
-]]></ST>
+nError := 	nEvent;]]></ST>
       </Implementation>
     </Method>
     <Method Name="mNewPart" Id="{f6d917a0-7ecc-494b-8d9b-5a0f1b0ae27f}">
@@ -469,7 +467,6 @@ END_VAR
       <LineId Id="1699" Count="0" />
       <LineId Id="2336" Count="0" />
       <LineId Id="2338" Count="1" />
-      <LineId Id="2400" Count="1" />
       <LineId Id="2337" Count="0" />
       <LineId Id="2402" Count="1" />
       <LineId Id="2273" Count="0" />
@@ -497,6 +494,7 @@ END_VAR
       <LineId Id="1848" Count="3" />
       <LineId Id="2278" Count="1" />
       <LineId Id="1852" Count="2" />
+      <LineId Id="2460" Count="0" />
       <LineId Id="2342" Count="0" />
       <LineId Id="2341" Count="0" />
       <LineId Id="2343" Count="0" />
@@ -538,7 +536,7 @@ END_VAR
       <LineId Id="8" Count="0" />
     </LineIds>
     <LineIds Name="FB_TableControl.mNewEvent">
-      <LineId Id="16" Count="8" />
+      <LineId Id="16" Count="7" />
       <LineId Id="33" Count="0" />
       <LineId Id="25" Count="0" />
       <LineId Id="2" Count="0" />
