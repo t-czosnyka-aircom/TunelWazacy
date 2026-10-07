@@ -1,26 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
   <POU Name="MAIN" Id="{086fc6ba-1790-4ec6-a004-db460bd84f28}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR	
 	{attribute 'OPC.UA.DA' := '0'}
-	fbSonicTechCom_1Part: fbSonictechSerialCom;
 	 
 	//  stStation_L{nazwa linii}_S{nazwa stanowiska}[_M{numer maszyny}]
 	//  Stanowisko S01
 	{attribute 'OPC.UA.DA' := '0'}
-	fbS01_BearingPress: fbSonicPress_V3_1;
+	fbS01_BearingPress: fbSonicPress_V4_1;
 	{attribute 'OPC.UA.DA' := '0'}
-	fbS01_KeyencePNVisSens: fbSealingCorkAssKeyencePN_V3_1;
+	fbS01_KeyencePNVisSens: fbSealingCorkAssKeyencePN_V4_1;
 	// 	Stanowisko S02 
 	{attribute 'OPC.UA.DA' := '0'}
-	fbS02_BearingPress: fbSonicPress_V3_1;
+	fbS02_BearingPress: fbSonicPress_V4_1;
 	// 	Stanowisko S03 
 	{attribute 'OPC.UA.DA' := '0'}
-	fbS03_BearingPress: fbSonicPress_V3_1;
+	fbS03_BearingPress: fbSonicPress_V4_1;
+	{attribute 'OPC.UA.DA' := '0'}
+	fbS03_CapFixture	: fbCapDetectionFixture_V4_1;
 	// 	Stanowisko S04
 	{attribute 'OPC.UA.DA' := '0'}
-	fbS04_BearingPress: fbSonicPress_V3_1;
+	fbS04_BearingPress: fbSonicPress_V4_1;
 	// HotPlate G1
 	{attribute 'OPC.UA.DA' := '0'}
 	fbHotPlate_G1_M1: fbHP_Control_V3_1;
@@ -73,13 +74,13 @@ VAR
 	// Dla całej linii
 	fbS_TONAirFlowAlarm:TON;
 	fbS_AirFlowAlarmTrigger:R_TRIG;
-
+	
 	fbIISReset:fbIIS_Restart;
 	bRestart_IIS: BOOL;
 	bRomErrorTableReset: BOOL;
 	fbTcWcfReset: fbTcAdsWcfHost_Restart;
 	bRestartTcWcf:BOOL;
-	
+	fbSonicModbus		: fbModbusCore;
 	bResetWcfAtStartup: BOOL;
 	bTrigger: BOOL;
 	//fbModbusTcpCore	: fbModTCP_Core;
@@ -93,22 +94,19 @@ VAR
 			fb_Cork_Machine : fbChiniseMachine_v3_1;
 		//ACT_3_SonicTech
 			{attribute 'OPC.UA.DA' := '0'}
-			fb_1_SonicTech_SonictechUSW		: fbSonictechUSWM_V3_1;
-			{attribute 'OPC.UA.DA' := '0'}
-			fb_1_SonicTech_SonicTechCom		: fbSonictechSerialCom;
+			fb_1_SonicTech_SonictechUSW		: fbSonictechUSWM_V4_1;
+			fbModbusCoreS02_S04				: fbModbusCore;
 		//ACT_4_Filler_B
 			{attribute 'OPC.UA.DA' := '0'}
 			fb_Filler_B_Machine : fbChiniseMachine_v3_1;
 		//ACT_5_SonicTech
 			{attribute 'OPC.UA.DA' := '0'}
-			fb_2_SonicTech_SonictechUSW: fbSonictechUSWM_V3_1;
-			{attribute 'OPC.UA.DA' := '0'}
-			fb_2_SonicTech_SonicTechCom: fbSonictechSerialCom;
+			fb_2_SonicTech_SonictechUSW: fbSonictechUSWM_V4_1;
 		//ACT_6_UnderPressure_Tester
 			{attribute 'OPC.UA.DA' := '0'}
-			fbTransporterUnderpressure	: fbTransporter_V3_1;
+			fbTransporterUnderpressure	: fbTransporter_V3_2;
 			{attribute 'OPC.UA.DA' := '0'}
-			fb_UnderPressure_Tester_Machine : fbUnderPresureTester_V3_1;
+			fb_UnderPressure_Tester_Machine : fbVacuumChamber_V3_2;
 		//ACT_7_Sticker
 			{attribute 'OPC.UA.DA' := '0'}
 			fb_Sticker_Machine : fbChiniseMachine_v3_1;
@@ -119,21 +117,27 @@ VAR
 			fb_Laser_TCP: FB_TCP_SendString;
 			{attribute 'OPC.UA.DA' := '0'}
 			fb_Laser_TCP_Manual: FB_TCP_SendStringManualTest;
-		//ACT_9_Tunel
-			{attribute 'OPC.UA.DA' := '0'}
-			fb_Tunel_Machine : fbDetectionTunel_V3_1;
-			{attribute 'OPC.UA.DA' := '0'}
-			fbTableControl: FB_TableControl;
-			fbLoadingStation: FB_LoadingStation;
-			fbWeighingStation: FB_WeighingStation;
-			fbUnloadingStation:  FB_UnloadingStation;
-			fbTableAxis:	FB_ServoAxis;
-	I_PimSystem: INT;
+	//ACT_9_Tunel
+	{attribute 'OPC.UA.DA' := '0'}
+	fbWeighingTunel				:FB_WeighingTunel;
+	fbVision					:fbIRaypleVision;
+	fbSmartCamera				:fbIRaypleSmartCamera;
+	stSmartCameraParams			:stIraypleSmartCameraParams;
+	{attribute 'OPC.UA.DA' := '0'}		
+	fbS01_EthDiagnose				: fbTerminalDiagnoser;
+	{attribute 'OPC.UA.DA' := '0'}
+	fbS03_EthDiagnose				: fbTerminalDiagnoser;
+	{attribute 'OPC.UA.DA' := '0'}
+	fbS06_EthDiagnose				: fbTerminalDiagnoser;
+	{attribute 'OPC.UA.DA' := '0'}
+	fbPressS01_ProfinetDiagnose		: fbTerminalDiagnoser;
+	{attribute 'OPC.UA.DA' := '0'}
+	fbS03Press_EthDiagnose			: fbTerminalDiagnoser;
 END_VAR
 VAR
 	//Filling Line
 	{attribute 'OPC.UA.DA' := '1'}
-	stLine_BA02PL				: stBA02PL_Line;
+	stLine_BA02PL				: stBA02PL_Line;{attribute 'OPC.UA.DA' := '1'}
 	//PreAssembly
 	{attribute 'OPC.UA.DA' := '1'}
 	stLine_BO02PL				: stBO02PL_Line;
@@ -164,12 +168,13 @@ VAR PERSISTENT
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[//B02PL_LineBackground();
+fbModbusCoreS02_S04(stSerialData:=GVL_IO.stSerialData_S02_S04);
 // ************* Elementy wspólne dla wszystkich stanowisk	*************
 PLC_BaseFunctions();
 SafetyBackupRestore();
 // Alarmowanie - tablica alarmów (GVL.fbErrorsHistoryTable) jest obsługiwana poprzez metody - funkcja nie musi być wywoływana
 GVL.bLogDataTrigger := GVL_Aircom.stAC_DT_Data.bNew_Second_IMP;
-
+fbSonicModbus(stSerialData:=GVL_IO.stSerialData_S02_S04);
 
 // Restart usługi odpowiadającej za wizualizację WWW
 fbIISReset(bExecute := bRestart_IIS);
@@ -204,7 +209,9 @@ ACT_4_Filler_B();
 ACT_5_SonicTech();
 ACT_6_UnderPressure_Tester();
 ACT_7_Sticker();
-ACT_9_Tunel();
+
+ACT_9_WeighingTunel();
+
 ACT_8_Laser();
 
 
@@ -235,7 +242,11 @@ sCurrentLanguage := VisuElems.CURRENTLANGUAGE;
 //Nowe liczneie
 //ACT_SideAirMeasure();
 // Kontrola etherCAT
-]]></ST>
+fbS01_EthDiagnose();
+fbS03_EthDiagnose();
+fbS06_EthDiagnose();
+fbPressS01_ProfinetDiagnose();
+fbS03Press_EthDiagnose();]]></ST>
     </Implementation>
     <Action Name="_OpisProgramu_Notatki" Id="{bbb9bf4d-965c-4b88-b42f-bdbd7436915e}">
       <Implementation>
@@ -300,7 +311,7 @@ Teksty do wyświetlenia w kompilatorze
     </Action>
     <Action Name="ACT_1_Filler_A" Id="{b7fb753d-3e55-4915-a3fc-d9881ca6ab71}">
       <Implementation>
-        <ST><![CDATA[GVL.st_Filler_A_Parameters.bPartsCount:= FALSE;
+        <ST><![CDATA[GVL.st_Filler_A_Parameters.bPartsCount:= TRUE;
 GVL.st_Filler_A_Parameters.iErrorOffset := 1000;
 GVL.st_Filler_A_Parameters.iPort:= 500;
 GVL.st_Filler_A_Parameters.iUnitId := 1;
@@ -348,10 +359,9 @@ stSlaveParms:=GVL.st_Cork_Parameters,bNextMachineWork := TRUE);]]></ST>
 	stMachine:=stLine_BA02PL.stStation_BA02PL02.stMachine_1,
 	stDigitalInOut:= GVL_IO.st_1_SonicTech_WeldingMachine_IO, 
 	I_Fix := ,
-	I_SerialCom := fb_1_SonicTech_SonicTechCom,
+	fbCoreModbus := fbModbusCoreS02_S04,
 	stMachineSettings:= GVL.st_1_SonicTech_USWelderSettings);
-
-fb_1_SonicTech_SonicTechCom(stData:=GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO,tTimeout:=T#1S);]]></ST>
+]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_4_Filler_B" Id="{aaddb840-7e4f-4536-87a2-37990ff186bb}">
@@ -382,10 +392,8 @@ stSlaveParms:=GVL.st_Filler_B_Parameters,bNextMachineWork := TRUE);]]></ST>
 	stMachine:=stLine_BA02PL.stStation_BA02PL04.stMachine_1,
 	stDigitalInOut:= GVL_IO.st_2_SonicTech_WeldingMachine_IO, 
 	I_Fix := ,
-	I_SerialCom := fb_2_SonicTech_SonicTechCom,
-	stMachineSettings:= GVL.st_2_SonicTech_USWelderSettings);
-
-fb_2_SonicTech_SonicTechCom(stData:=GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO,tTimeout:=T#1S);]]></ST>
+	fbCoreModbus := fbModbusCoreS02_S04,
+	stMachineSettings:= GVL.st_2_SonicTech_USWelderSettings);]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_6_UnderPressure_Tester" Id="{0f42a32e-adb5-4984-95ac-324a900398af}">
@@ -394,16 +402,10 @@ fb_2_SonicTech_SonicTechCom(stData:=GVL_IO.st_2_SonicTech_WeldMachineSerialData_
 fb_UnderPressure_Tester_Machine(
 	stLine:=stLine_BA02PL,
 	stStation:=stLine_BA02PL.stStation_BA02PL05,
-	stMachine:=stLine_BA02PL.stStation_BA02PL05.stMachine_1,
-	stInOuts:=GVL_IO.stUnderPressureInOuts_V2,
-	stParams:=GVL.stUnderPressureTestParams,
-	stStatus:=GVL.stUnderPressureTestStatus);
+	stMachine:=stLine_BA02PL.stStation_BA02PL05.stMachine_1);
 
 fbTransporterUnderpressure(	stInOuts:=GVL_IO.stTransporterInOuts,
-							stStatus := GVL.stUnderPressureTestStatus,
-							bWorkAllow:=fb_UnderPressure_Tester_Machine.fbPIM.prWorkPermission,
-							bDorsClosed:=GVL_IO.stUnderPressureInOuts_V2.bLockSens,
-							);]]></ST>
+							fbChamber:=fb_UnderPressure_Tester_Machine);]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_7_Sticker" Id="{2df22bce-c2bd-4bd2-82a2-c589103472bd}">
@@ -443,41 +445,25 @@ fb_Laser_Machine(
 stLine:=stLine_BA02PL,
 stStation:=stLine_BA02PL.stStation_BA02PL06,
 stMachine:=stLine_BA02PL.stStation_BA02PL06.stMachine_2,
-stSlaveParms:=GVL.st_Laser_Parameters,bNextMachineWork := fbTableControl.fbPIM.prWorkPermission,fbTCP_Send:=fb_Laser_TCP);
+stSlaveParms:=GVL.st_Laser_Parameters,bNextMachineWork := MAIN.fbWeighingTunel.fbTableControl.fbPIM.prWorkPermission,fbTCP_Send:=fb_Laser_TCP);
 
 fb_Laser_TCP_Manual.bExecute;
 fb_Laser_TCP_Manual(sRemoteHostIP:='192.168.1.234',nRemotePort:=45678,sDataToSend:='OpenDoc,MERCEDES.bpd',sSuffix:=';;');
 fb_Laser_TCP();]]></ST>
       </Implementation>
     </Action>
-    <Action Name="ACT_9_Tunel" Id="{1c00eae3-0be1-4ab8-8ed3-070e2bcadbb0}">
+    <Action Name="ACT_9_WeighingTunel" Id="{d3f28b01-ce2a-4348-8880-460cfab6a6c5}">
       <Implementation>
-        <ST><![CDATA[//fb_Tunel_Machine(
-//	stLine:=stLine_BA02PL,
-//	stStation:=stLine_BA02PL.stStation_BA02PL07,
-//	stMachine:=stLine_BA02PL.stStation_BA02PL07.stMachine_1,
-//	stInOuts:= GVL_IO.stTunelInOuts,
-//	stParams:=GVL.st_Tunel_Params);
-	
-	
-fbTableControl.arrStations[1]:=fbLoadingStation;
-fbTableControl.arrStations[3]:=fbWeighingStation;
-fbTableControl.arrStations[5]:=fbUnloadingStation;
-fbTableControl(fbTableAxis:=fbTableAxis,
-	stLine:=stLine_BA02PL,
-	stStation:=stLine_BA02PL.stStation_BA02PL07,
-	stMachine:=stLine_BA02PL.stStation_BA02PL07.stMachine_1,
-);
-		
-fbTableAxis(bInSafePosition:=TRUE);
+        <ST><![CDATA[
 
-fbLoadingStation(fbTableControl:=fbTableControl, bSimulationOn:= FALSE, bGhostRunON :=FALSE, bWeighingInProgess:=fbWeighingStation.bWeighingInProgess);
-fbWeighingStation(fbTableControl:=fbTableControl, bSimulationOn:= FALSE, bGhostRunON :=FALSE, 
-bReleaseWeighing:= fbUnloadingStation.bReleaseWeighing AND fbLoadingStation.bReleaseWeighing AND fbTableAxis.prPositionValid );
-fbUnloadingStation(fbTableControl:=fbTableControl, bSimulationOn:= FALSE, bGhostRunON := FALSE, bWeighingInProgess:=fbWeighingStation.bWeighingInProgess);
+fbSmartCamera.prManualMode:=fbWeighingTunel.fbWeighingStation.bManualModeActive;
 
-
-	]]></ST>
+fbSmartCamera(stParams:=stSmartCameraParams);
+fbWeighingTunel(	
+stLine:=stLine_BA02PL,
+stStation:=stLine_BA02PL.stStation_BA02PL07,
+stMachine:=stLine_BA02PL.stStation_BA02PL07.stMachine_1,
+fbVision:=fbSmartCamera);]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_HP1" Id="{b558beca-8774-4c4b-ac2a-ae0d8d6b8234}">
@@ -688,18 +674,17 @@ fbS02_BearingPress(
     </Action>
     <Action Name="ACT_S03" Id="{e5cb014d-3e27-4d23-8dcf-36cfd87e0f45}">
       <Implementation>
-        <ST><![CDATA[
-
-// Prasa ze zgrzewarki Sonictech
+        <ST><![CDATA[// Prasa ze zgrzewarki Sonictech
 fbS03_BearingPress(
 	stLine:=stLine_BO02PL,
 	stStation:=stLine_BO02PL.stStation_BO02PL01,
 	stMachine:=stLine_BO02PL.stStation_BO02PL01.stMachine_1,
 	stDigInOuts := GVL_IO.stS03_1_BearingPress_IO,
-	I_Fix := 0,
+	I_Fix := fbS03_CapFixture,
 	stTestParams:= GVL.stS03_TestParams,
 	stMachineSettings:= GVL.stS03_PressSettings);
-]]></ST>
+	
+fbS03_CapFixture(I_Sonic:=fbS03_BearingPress,stInOuts:=GVL_IO.stS03_CapFixture_IO);]]></ST>
       </Implementation>
     </Action>
     <Action Name="ACT_S04" Id="{8a8f14d2-800d-43a9-8f66-2318539f4c4b}">
@@ -723,13 +708,15 @@ fbS04_BearingPress(
     </Action>
     <LineIds Name="MAIN">
       <LineId Id="1029" Count="0" />
+      <LineId Id="1496" Count="0" />
       <LineId Id="3" Count="4" />
       <LineId Id="17" Count="14" />
       <LineId Id="404" Count="0" />
       <LineId Id="32" Count="0" />
       <LineId Id="405" Count="0" />
       <LineId Id="33" Count="16" />
-      <LineId Id="1143" Count="0" />
+      <LineId Id="1661" Count="1" />
+      <LineId Id="1659" Count="0" />
       <LineId Id="50" Count="8" />
       <LineId Id="243" Count="0" />
       <LineId Id="777" Count="0" />
@@ -739,7 +726,9 @@ fbS04_BearingPress(
       <LineId Id="72" Count="10" />
       <LineId Id="578" Count="0" />
       <LineId Id="83" Count="0" />
+      <LineId Id="1321" Count="2" />
       <LineId Id="2" Count="0" />
+      <LineId Id="1324" Count="0" />
     </LineIds>
     <LineIds Name="MAIN._OpisProgramu_Notatki">
       <LineId Id="2" Count="55" />
@@ -772,7 +761,7 @@ fbS04_BearingPress(
       <LineId Id="19" Count="0" />
       <LineId Id="26" Count="1" />
       <LineId Id="25" Count="0" />
-      <LineId Id="20" Count="4" />
+      <LineId Id="20" Count="3" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_4_Filler_B">
@@ -789,17 +778,14 @@ fbS04_BearingPress(
       <LineId Id="19" Count="0" />
       <LineId Id="26" Count="1" />
       <LineId Id="25" Count="0" />
-      <LineId Id="20" Count="4" />
-      <LineId Id="1" Count="0" />
+      <LineId Id="20" Count="3" />
     </LineIds>
     <LineIds Name="MAIN.ACT_6_UnderPressure_Tester">
       <LineId Id="8" Count="1" />
       <LineId Id="32" Count="1" />
       <LineId Id="31" Count="0" />
-      <LineId Id="30" Count="0" />
-      <LineId Id="10" Count="1" />
-      <LineId Id="25" Count="4" />
-      <LineId Id="1" Count="0" />
+      <LineId Id="25" Count="1" />
+      <LineId Id="34" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_7_Sticker">
       <LineId Id="19" Count="3" />
@@ -825,18 +811,13 @@ fbS04_BearingPress(
       <LineId Id="29" Count="0" />
       <LineId Id="31" Count="0" />
     </LineIds>
-    <LineIds Name="MAIN.ACT_9_Tunel">
-      <LineId Id="11" Count="0" />
-      <LineId Id="36" Count="1" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="12" Count="1" />
-      <LineId Id="17" Count="1" />
-      <LineId Id="23" Count="3" />
-      <LineId Id="40" Count="1" />
-      <LineId Id="39" Count="0" />
-      <LineId Id="38" Count="0" />
-      <LineId Id="27" Count="7" />
-      <LineId Id="19" Count="0" />
+    <LineIds Name="MAIN.ACT_9_WeighingTunel">
+      <LineId Id="2" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="3" Count="3" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_HP1">
@@ -898,10 +879,11 @@ fbS04_BearingPress(
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_S03">
-      <LineId Id="16" Count="3" />
+      <LineId Id="18" Count="1" />
       <LineId Id="25" Count="1" />
       <LineId Id="24" Count="0" />
       <LineId Id="20" Count="3" />
+      <LineId Id="27" Count="0" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ACT_S04">

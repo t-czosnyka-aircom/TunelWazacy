@@ -1,17 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
   <POU Name="BackgroundRS232" Id="{9a20473f-0d3f-4584-b429-33e10587a848}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM BackgroundRS232
 VAR
-
+	
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.fbSerialCom(RxBufferEL:=GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.RxBufferEL,TxBufferEL:=GVL_IO.st_1_SonicTech_WeldMachineSerialData_IO.TxBufferEL);
-GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.fbSerialCom(RxBufferEL:=GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.RxBufferEL,TxBufferEL:=GVL_IO.st_2_SonicTech_WeldMachineSerialData_IO.TxBufferEL);
-MAIN.fbWeighingStation.fbWeighing();]]></ST>
+      <ST><![CDATA[GVL_IO.stSerialData_S02_S04.fbSerialCom(RxBufferEL:=GVL_IO.stSerialData_S02_S04.RxBufferEL,TxBufferEL:=GVL_IO.stSerialData_S02_S04.TxBufferEL);
+MAIN.fbWeighingTunel.fbWeighingStation.fbWeighing();]]></ST>
     </Implementation>
     <LineIds Name="BackgroundRS232">
-      <LineId Id="22" Count="1" />
+      <LineId Id="23" Count="0" />
       <LineId Id="27" Count="0" />
     </LineIds>
   </POU>

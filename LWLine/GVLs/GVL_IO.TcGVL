@@ -11,19 +11,19 @@
 	bCompressedAirFlowImpulseHotPlate	 			AT %I* :BOOL;
 // Komunikacja RS485
 // S01
-	stS01_1_BearingPress_IO				: stSonicPress_DigInOuts_V3_1;
+	stS01_1_BearingPress_IO				: stSonicPress_DigInOuts_V4_1;
 	bS01_Trigger			 			AT %Q* :BOOL;
 	bS01_Result 						AT %I* :BOOL;
 	bS01_Ready	 						AT %I* :BOOL;
 	
 // S02	- 
-	stS02_1_BearingPress_IO				: stSonicPress_DigInOuts_V3_1;
+	stS02_1_BearingPress_IO				: stSonicPress_DigInOuts_V4_1;
 	
 // S03 - 
-	stS03_1_BearingPress_IO				: stSonicPress_DigInOuts_V3_1;
-	
+	stS03_1_BearingPress_IO				: stSonicPress_DigInOuts_V4_1;
+	stS03_CapFixture_IO					: stCapDetectionInOuts;
 // S04 - 
-	stS04_1_BearingPress_IO				: stSonicPress_DigInOuts_V3_1;
+	stS04_1_BearingPress_IO				: stSonicPress_DigInOuts_V4_1;
 	
 	
 // Sxx Plug A - 
@@ -35,18 +35,17 @@
 //	Bottle filling line
 		//S02
 	b_1_SonicTech_EnergyConsumptionImp 				AT %I* :BOOL;
-	st_1_SonicTech_WeldingMachine_IO				: stSonicTech_DigInOuts_V3_1;
-	st_1_SonicTech_WeldMachineSerialData_IO			: stSerialComData;
+	st_1_SonicTech_WeldingMachine_IO				: stSonicTech_DigInOuts_V4_1;
 	//S04
 	b_2_SonicTech_EnergyConsumptionImp 				AT %I* :BOOL;
-	st_2_SonicTech_WeldingMachine_IO				: stSonicTech_DigInOuts_V3_1;
-	st_2_SonicTech_WeldMachineSerialData_IO			: stSerialComData;
+	st_2_SonicTech_WeldingMachine_IO				: stSonicTech_DigInOuts_V4_1;
 	//S05
 	stUnderPreserInOuts 							: stUnderPressureTesterInOuts_V3_1;
-	stTransporterInOuts								: stTransporterInOuts_V3_1;
+	stTransporterInOuts								: stTransporterInOuts_V3_2;
 	stUnderPressureInOuts_V2						: stUnderPressureTesterInOuts_V3_1;
 	//S07
 	stTunelInOuts									: stDetectionTunelInOuts_V3_1;
+	stSerialData_S02_S04 				: stSerialComData;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

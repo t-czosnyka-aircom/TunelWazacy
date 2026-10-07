@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.68" ClassName="CNcSafTaskDef" SubType="0">
+<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.75" ClassName="CNcSafTaskDef" SubType="0">
 	<DataTypes>
 		<DataType>
 			<Name GUID="{18071995-0000-0000-0000-000000000035}" TcBaseType="true" HideType="true">UINTARR2</Name>
@@ -1425,7 +1425,7 @@ External Setpoint Generation:
 		</DataType>
 	</DataTypes>
 	<NC>
-		<SafTask Priority="4" CycleTime="20000" AmsPort="501" Affinity="#x00000004" IoAtBegin="true" SafTaskInfo="256">
+		<SafTask Priority="2" CycleTime="20000" AmsPort="501" IoAtBegin="true" SafTaskInfo="256">
 			<Name>NC-Task 1 SAF</Name>
 			<Vars VarGrpType="1" InsertType="1">
 				<Name>Inputs</Name>
@@ -1437,7 +1437,7 @@ External Setpoint Generation:
 				<Name>Image</Name>
 			</Image>
 		</SafTask>
-		<SvbTask Priority="8" CycleTime="100000" AmsPort="511" Affinity="#x00000004">
+		<SvbTask Priority="8" CycleTime="100000" AmsPort="511">
 			<Name>NC-Task 1 SVB</Name>
 		</SvbTask>
 		<AxisFolder Name="NestG1"/>
@@ -1517,7 +1517,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -1663,7 +1663,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -1809,7 +1809,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -1955,7 +1955,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -2101,7 +2101,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -2247,7 +2247,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -2393,7 +2393,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -2539,7 +2539,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -2685,7 +2685,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -2831,7 +2831,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -2977,7 +2977,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -3123,7 +3123,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -3269,7 +3269,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -3415,7 +3415,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -3561,7 +3561,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -3707,7 +3707,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -3853,7 +3853,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -3999,7 +3999,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -4145,7 +4145,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -4291,7 +4291,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -4437,7 +4437,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -4583,7 +4583,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="300.3902" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -4729,7 +4729,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -4875,7 +4875,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -5017,7 +5017,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -5158,7 +5158,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -5299,7 +5299,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -5440,7 +5440,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -5581,7 +5581,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -5722,7 +5722,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -5863,7 +5863,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -6004,7 +6004,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -6145,7 +6145,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -6286,7 +6286,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -6427,7 +6427,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -6568,7 +6568,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -6709,7 +6709,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -6850,7 +6850,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -6991,7 +6991,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -7132,7 +7132,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -7273,7 +7273,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -7414,7 +7414,7 @@ External Setpoint Generation:
 				</Vars>
 			</Encoder>
 			<Drive Name="Drive" DrvType="16">
-				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
 					<Analog VeloReferenz="492.1763" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 					<TimeComp TaskDelayCycles="1"/>
 				</DrvPara>
@@ -7490,10 +7490,153 @@ External Setpoint Generation:
 			</Vars>
 		</Axis>
 		<Axis Id="43" CreateSymbols="true" AxisType="1">
+			<Name>Axis_S05_UnderPress</Name>
+			<AxisPara>
+				<General UnitName="°"/>
+				<Dynamic Acceleration="699.879" Deceleration="699.879" Jerk="2099.64"/>
+				<Velo RefSearch="4.66586" RefSync="4.66586" SlowManual="23.3293" FastManual="139.9758" Fast="466.586" Maximum="466.586"/>
+				<OtherSettings AllowMotionCmdToSlave="true"/>
+			</AxisPara>
+			<Encoder Name="Enc" EncType="19">
+				<EncPara ScaleFactorNumerator="360" ScaleFactorDenominator="71303168" MaxCount="#xffffffff"/>
+				<Vars VarGrpType="1">
+					<Name>Inputs</Name>
+					<Var>
+						<Name>In</Name>
+						<Type GUID="{901C2423-655B-45CE-B7E3-21F174F0F99F}" Namespace="MC">NCENCODERSTRUCT_IN2B</Type>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataIn1</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataIn2</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataIn3</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataIn4</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataIn5</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataIn6</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataIn7</Name>
+							<Comment><![CDATA[Drive Velocity Actual Value
+]]></Comment>
+						</SubVar>
+					</Var>
+				</Vars>
+				<Vars VarGrpType="2">
+					<Name>Outputs</Name>
+					<Var>
+						<Name>Out</Name>
+						<Type GUID="{9CC50AB2-5D79-4869-A3C2-1FA7761BAFEA}" Namespace="MC">NCENCODERSTRUCT_OUT2</Type>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataOut1</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataOut2</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataOut3</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataOut4</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataOut5</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataOut6</Name>
+						</SubVar>
+					</Var>
+				</Vars>
+			</Encoder>
+			<Drive Name="Drive" DrvType="16">
+				<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
+					<Analog VeloReferenz="513.2446" VeloScale="32" TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
+					<TimeComp TaskDelayCycles="1"/>
+				</DrvPara>
+				<Vars VarGrpType="1">
+					<Name>Inputs</Name>
+					<Var>
+						<Name>In</Name>
+						<Type GUID="{F95C7C69-0C87-46C4-9559-1285CCA5B23A}" Namespace="MC">NCDRIVESTRUCT_IN2</Type>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataIn1</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataIn2</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataIn3</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataIn4</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataIn5</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataIn6</Name>
+						</SubVar>
+					</Var>
+				</Vars>
+				<Vars VarGrpType="2">
+					<Name>Outputs</Name>
+					<Var>
+						<Name>Out</Name>
+						<Type GUID="{644DC4BD-3D15-4DCB-94C7-24F3A5D579AA}" Namespace="MC">NCDRIVESTRUCT_OUT2</Type>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataOut1</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataOut2</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataOut3</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataOut4</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataOut5</Name>
+						</SubVar>
+						<SubVar TypeFormatIndex="2">
+							<Name>nDataOut6</Name>
+						</SubVar>
+					</Var>
+				</Vars>
+			</Drive>
+			<Controller Name="Ctrl" CtrType="1">
+				<CtrPara PriorControlFactor="1">
+					<PosDiffControl Range="50" Time="0.2"/>
+					<Observer BandWidth="20"/>
+				</CtrPara>
+			</Controller>
+			<Vars VarGrpType="1" InsertType="1">
+				<Name>Inputs</Name>
+				<Var>
+					<Name>FromPlc</Name>
+					<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+				</Var>
+			</Vars>
+			<Vars VarGrpType="2" InsertType="1">
+				<Name>Outputs</Name>
+				<Var>
+					<Name>ToPlc</Name>
+					<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+				</Var>
+			</Vars>
+		</Axis>
+		<Axis Id="44" CreateSymbols="true" AxisType="1">
 			<Name>Rotation</Name>
 			<AxisPara>
 				<General UnitName="°" UnitFlags="#x00000004"/>
-				<Dynamic Acceleration="200" Deceleration="200" Jerk="900.61"/>
+				<Dynamic Acceleration="483.228" Deceleration="483.228" Jerk="1449.684"/>
 				<Velo RefSearch="3.22152" RefSync="3.22152" SlowManual="16.1076" FastManual="96.6456" Fast="322.152" Maximum="322.152"/>
 				<OtherSettings AllowMotionCmdToSlave="true"/>
 			</AxisPara>
@@ -7634,760 +7777,6 @@ External Setpoint Generation:
 		</Axis>
 	</NC>
 	<Mappings>
-		<OwnerA Name="Axes^Axis_G1_M1_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Iner_OuterCup (EK1914)^HP1 Iner_OuterCup MC1 (ELM7212-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G1_M1_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Iner_OuterCup (EK1914)^HP1 Iner_OuterCup MC1 (ELM7212-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G1_M2_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Mug (EK1914)^HP1 Mug MC1 (ELM7212-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G1_M2_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Mug (EK1914)^HP1 Mug MC1 (ELM7212-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G1_M3_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Bayonet (EK1914)^HP1 Bayonet MC1 (ELM7212-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G1_M3_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP1_Bayonet (EK1914)^HP1 Bayonet MC1 (ELM7212-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G2_M1_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Iner_OuterCup (EK1914)^HP2 Iner_OuterCup MC1 (ELM7212-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G2_M1_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Iner_OuterCup (EK1914)^HP2 Iner_OuterCup MC1 (ELM7212-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G2_M2_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Mug (EK1914)^HP2 Mug MC1 (ELM7212-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G2_M2_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Mug (EK1914)^HP2 Mug MC1 (ELM7212-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G2_M3_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Bayonet (EK1914)^HP2 Bayonet MC1 (ELM7212-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G2_M3_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP2_Bayonet (EK1914)^HP2 Bayonet MC1 (ELM7212-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G3_M1_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Iner_OuterCup (EK1914)^HP3 Iner_OuterCup MC1 (ELM7212-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G3_M1_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Iner_OuterCup (EK1914)^HP3 Iner_OuterCup MC1 (ELM7212-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G3_M2_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Mug (EK1914)^HP3 Mug MC1 (ELM7212-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G3_M2_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Mug (EK1914)^HP3 Mug MC1 (ELM7212-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G3_M3_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Bayonet (EK1914)^HP3 Bayonet MC1 (ELM7212-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G3_M3_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP3_Bayonet (EK1914)^HP3 Bayonet MC1 (ELM7212-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G4_M1_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Iner_OuterCup (EK1914)^HP4 Iner_OuterCup MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G4_M1_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Iner_OuterCup (EK1914)^HP4 Iner_OuterCup MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G4_M2_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Mug (EK1914)^HP4 Mug MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G4_M2_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Mug (EK1914)^HP4 Mug MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G4_M3_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Bayonet (EK1914)^HP4 Bayonet MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G4_M3_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-B)^HP4_Bayonet (EK1914)^HP4 Bayonet MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G5_M1_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-C)^HP5_Iner_OuterCup (EK1914)^HP5 Iner_OuterCup MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G5_M1_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-C)^HP5_Iner_OuterCup (EK1914)^HP5 Iner_OuterCup MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G5_M2_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-C)^HP5_Mug (EK1914)^HP5 Mug MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G5_M2_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-C)^HP5_Mug (EK1914)^HP5 Mug MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G5_M3_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-C)^HP5_Bayonet (EK1914)^HP5 Bayonet MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G5_M3_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-C)^HP5_Bayonet (EK1914)^HP5 Bayonet MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G6_M1_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-C)^HP6_Iner_OuterCup (EK1914)^HP6 Iner_OuterCup MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G6_M1_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-C)^HP6_Iner_OuterCup (EK1914)^HP6 Iner_OuterCup MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G6_M2_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-C)^HP6_Mug (EK1914)^HP6 Mug MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G6_M2_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-C)^HP6_Mug (EK1914)^HP6 Mug MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G6_M3_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-C)^HP6_Bayonet (EK1914)^HP6 Bayonet MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G6_M3_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP_Switch (CU1128)^HP_Switch (CU1128-C)^HP6_Bayonet (EK1914)^HP6 Bayonet MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G7_M1_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP7_Iner_OuterCup (EK1914)^HP7 Iner_OuterCup MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G7_M1_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP7_Iner_OuterCup (EK1914)^HP7 Iner_OuterCup MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G7_M2_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP7_Mug (EK1914)^HP7 Mug MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G7_M2_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP7_Mug (EK1914)^HP7 Mug MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G7_M3_Dn">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP7_Bayonet (EK1914)^HP7 Bayonet MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 2^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 2^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 2^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 2^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 2^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 2^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 2^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
-		<OwnerA Name="Axes^Axis_G7_M3_Up">
-			<OwnerB Name="TIID^LAN1 (EtherCAT)^MainSwitch (CU1128)^HP7_Bayonet (EK1914)^HP7 Bayonet MC1 (ELM7222-9016)">
-				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
-				<Link VarA="Drive^Inputs^In^nDataIn3[0]" VarB="DRV Torque actual value Channel 1^Torque actual value"/>
-				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
-				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword" Size="8"/>
-				<Link VarA="Drive^Inputs^In^nState2" VarB="DRV Statusword Channel 1^Statusword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Drive^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl1" VarB="DRV Controlword Channel 1^Controlword" Size="8"/>
-				<Link VarA="Drive^Outputs^Out^nCtrl2" VarB="DRV Controlword Channel 1^Controlword" Size="8" OffsB="8"/>
-				<Link VarA="Drive^Outputs^Out^nDataOut1" VarB="DRV Target position Channel 1^Target position"/>
-				<Link VarA="Enc^Inputs^In^nDataIn1" VarB="FB Position Channel 1^Position"/>
-				<Link VarA="Enc^Inputs^In^nDcInputTime" VarB="InfoData^DcInputShift"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^InputToggle0" Size="1" OffsA="1"/>
-				<Link VarA="Enc^Inputs^In^nState4" VarB="WcState^WcState0" Size="1"/>
-			</OwnerB>
-		</OwnerA>
 		<OwnerA Name="Axes^Rotation">
 			<OwnerB Name="TIID^LAN1 (EtherCAT)^S07_RIO1 (EK1914)^S07_MC1 (ELM7222-9016)">
 				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 2^Following error actual value"/>
